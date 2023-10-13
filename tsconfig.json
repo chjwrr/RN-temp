@@ -1,3 +1,14 @@
 {
-  "extends": "@tsconfig/react-native/tsconfig.json"
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": true,   /* Skip type checking all .d.ts files. */
+    /* 配置基础地址 */
+    "baseUrl": ".",
+    /* 配置路径别名 */ 
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    } 
+  }
 }
