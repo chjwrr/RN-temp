@@ -5,7 +5,7 @@ import {
 export const styles = StyleSheet.create({
     mainView:{
         // flex:1,
-        backgroundColor:'red',
+        // backgroundColor:'red',
         justifyContent:'space-between',
         alignItems:'center',
         width:'100%',

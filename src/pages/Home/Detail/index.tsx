@@ -16,7 +16,7 @@ function Detail({navigation}:any): JSX.Element {
         <Text style={styles.title}>bottom</Text>
         <Button
         title="Go to Details"
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate('Tab')}
       />
      </View>
     </SafeAreaView>

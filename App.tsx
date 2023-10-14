@@ -1,6 +1,8 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import TabNavigator from '@/pages/TabNavigator'
+
+
 function App(): JSX.Element {
   return (
     <TabNavigator/>

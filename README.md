@@ -1,8 +1,10 @@
 
-侧边栏
-react-native-side-menu ：https://github.com/Kureev/react-native-side-menu
+
 #启动屏
 react-native-splash-screen ：https://github.com/crazycodeboy/react-native-splash-screen
+
+
+
 #loading框
 react-native-easy-toast：https://github.com/crazycodeboy/react-native-easy-toast
 https://github.com/magicismight/react-native-root-toast
@@ -120,7 +122,7 @@ https://github.com/zoontek/react-native-permissions
 react-native-storage
 realm
 
-
+字体   多语言
 
 
 
@@ -192,3 +194,6 @@ https://github.com/greatbsky/react-native-pull/wiki
 
 
 react-native-tooltip
+
+
+修改应用名称
