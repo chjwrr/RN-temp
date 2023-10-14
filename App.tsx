@@ -1,11 +1,17 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import TabNavigator from '@/pages/TabNavigator'
+import { RootSiblingParent } from 'react-native-root-siblings';
+import FlashMessage from "react-native-flash-message";
 
 
 function App(): JSX.Element {
   return (
-    <TabNavigator/>
+    <RootSiblingParent>
+      <TabNavigator/>
+      <FlashMessage position="top" />
+
+    </RootSiblingParent>
   );
 }
 

@@ -1,133 +1,301 @@
 
 
-#启动屏
+# 启动屏
 react-native-splash-screen ：https://github.com/crazycodeboy/react-native-splash-screen
-
-
-
-#loading框
-react-native-easy-toast：https://github.com/crazycodeboy/react-native-easy-toast
-https://github.com/magicismight/react-native-root-toast
-#输入框动画
+# 输入框动画
 react-native-textinput-effects：https://github.com/halilb/react-native-textinput-effects
-#加载中动画
+# 加载中动画
 react-native-spinkit：https://github.com/maxs15/react-native-spinkit
-#动画
-https://github.com/oblador/react-native-animatable
-#选择图片
-react-native-image-picker：https://github.com/react-native-image-picker/react-native-image-picker
-react-native-image-crop-picker：https://github.com/ivpusic/react-native-image-crop-picker
-#图片轮播
-https://github.com/meliorence/react-native-snap-carousel
-https://github.com/leecade/react-native-swiper
-#视频播放
+# 各种权限设置，权限判断
+https://github.com/zoontek/react-native-permissions
+# 视频压缩
+https://github.com/shahen94/react-native-video-processing
+# 视频播放
 https://github.com/react-native-video/react-native-video
-#滑动选项卡
+# 滑动选项卡 代码太老报错
 https://github.com/ptomasroos/react-native-scrollable-tab-view
-#下拉放大图片
+# 下拉放大图片
 https://github.com/lelandrichardson/react-native-parallax-view
-#弹出视图
+# 弹出视图
 https://github.com/instea/react-native-popup-menu
-#actionsheet
+# actionsheet 代码太老
 https://github.com/beefe/react-native-actionsheet
-#下拉选择
+# 下拉选择  代码太老
 https://github.com/alinz/react-native-dropdown
-#图片方法
+# 图片放大方法 代码太老
 https://github.com/oblador/react-native-lightbox
-#modal
+# modal  代码太老
 https://github.com/maxs15/react-native-modalbox
 https://github.com/magicismight/react-native-root-modal
-#毛玻璃
+# 毛玻璃
 https://github.com/Kureev/react-native-blur
-#音频
+# 音频
 https://github.com/zmxv/react-native-sound
-#进度条
-https://github.com/oblador/react-native-progress
-#分享
-react-native-share：https://react-native-share.github.io/react-native-share/docs/install
-#SVG
+# SVG 安装版本有问题
 https://github.com/software-mansion/react-native-svg
-#引导页
-https://github.com/FuYaoDe/react-native-app-intro
-#展示图片
-https://github.com/DylanVann/react-native-fast-image
-#展示图片显示毛玻璃效果
-https://github.com/mrousavy/react-native-blurhash
-#左滑删除
+# 进度条  安装svg 有问题
+https://github.com/oblador/react-native-progress
+# 左滑删除
 https://github.com/dancormier/react-native-swipeout
-#列表优化
+# 引导页 代码太老
+https://github.com/FuYaoDe/react-native-app-intro
+# 展示图片
+https://github.com/DylanVann/react-native-fast-image
+# 展示图片显示毛玻璃效果
+https://github.com/mrousavy/react-native-blurhash
+# 列表优化
 https://github.com/Flipkart/recyclerlistview
-#时间选取
+# 时间选取 代码太老
 https://github.com/xgfe/react-native-datepicker
-#折叠展开隐藏动画
+# 折叠展开隐藏动画
 https://github.com/oblador/react-native-collapsible
-#弹出对话框
+# 弹出对话框 代码太老
 https://github.com/jacklam718/react-native-modals
-#顶部提示框
-https://github.com/testshallpass/react-native-dropdownalert
-https://github.com/lucasferreira/react-native-flash-message#readme
-#slider
+# slider
 https://github.com/jeanregisser/react-native-slider
-#根组件插入组件
-https://github.com/magicismight/react-native-root-siblings
-#占位符
+# 占位符 代码太老
 https://github.com/tomzaku/react-native-shimmer-placeholder
-#富文本
-https://github.com/obipawan/react-native-hyperlink
-#文件处理
+# 文件处理
 https://github.com/itinance/react-native-fs
-#加载3D模型
-React Native 3D Model Viewer：https://github.com/BonnierNews/react-native-3d-model-view
-
-
-微信登录
-https://github.com/bashen1/react-native-mwechat
-
-
-支付宝支付
-https://github.com/452MJ/react-native-alipay-jerry
-
-支付宝登录 支付
-https://github.com/react-native-hero/alipay
-
-
-
-微信支付宝 支付
-https://github.com/yorkzero831/react-native-super-pay
-
-
-
-
-3.QQ 微博 微信 登录
-微信登录
-
-https://github.com/xiaoxinbo118/react-native-sns-share
-4.验证码倒计时功能
-
-6.瀑布流布局
-https://github.com/xudafeng/autoresponsive-react#readme
-https://github.com/manyuanrong/react-native-masonry-layout
-7.H5页面展示
-
-9.上传头像
-
-10.通知
-https://github.com/jpush/jpush-react-native/tree/dev
-
-12.导航条、tabbar 自定义
-https://github.com/react-navigation/react-navigation
-13.各种权限设置，权限判断
-https://github.com/zoontek/react-native-permissions
-14.本地存储
-react-native-storage
-realm
-
-字体   多语言
+# 引导提示
+react-native-tooltip
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# loading框
+https://github.com/magicismight/react-native-root-toast
+```
+import Toast from 'react-native-root-toast';
+Toast.show('This is a message', {
+    duration: Toast.durations.LONG,
+    position: Toast.positions.BOTTOM,
+    shadow: true,
+    animation: true,
+    hideOnPress: true,
+    delay: 0,
+    onShow: () => {
+        // calls on toast\`s appear animation start
+    },
+    onShown: () => {
+        // calls on toast\`s appear animation end.
+    },
+    onHide: () => {
+        // calls on toast\`s hide animation start.
+    },
+    onHidden: () => {
+        // calls on toast\`s hide animation end.
+    }
+});
+```
+
+
+# 动画
+https://github.com/oblador/react-native-animatable
+
+```
+import * as Animatable from 'react-native-animatable';
+<Animatable.Text animation="slideInDown" iterationCount={5} direction="alternate">Up and down you go</Animatable.Text>
+
+```
+
+# 选择图片
+react-native-image-picker：https://github.com/react-native-image-picker/react-native-image-picker
+```
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
+launchImageLibrary({mediaType:'photo'}, (response:any) => {
+console.log('Response = ', response);
+if (response.didCancel) {
+    console.log('User cancelled image picker');
+} else if (response.error) {
+    console.log('ImagePicker Error: ', response.error);
+} else if (response.customButton) {
+    Alert.alert('自定义按钮:' + response.customButton)
+} else {
+    const source = { uri: response.uri };
+    Alert.alert(JSON.stringify(source))
+    console.log("source:" + JSON.stringify(source))
+}
+});
+
+选择相机
+android 需要请求权限
+try {
+    const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+        title: "App Camera Permission",
+        message:"App needs access to your camera ",
+        buttonNeutral: "Ask Me Later",
+        buttonNegative: "Cancel",
+        buttonPositive: "OK"
+        }
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("Camera permission given");
+        launchCamera({mediaType:'photo'},(response:any) => {
+        console.log('Response = ', response);
+        if (response.didCancel) {
+            console.log('User cancelled image picker');
+        } else if (response.error) {
+            console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+            Alert.alert('自定义按钮:' + response.customButton)
+        } else {
+            const source = { uri: response.uri };
+            Alert.alert(JSON.stringify(source))
+            console.log("source:" + JSON.stringify(source))
+        }
+        })
+    } else {
+        console.log("Camera permission denied");
+    }
+    } catch (err) {
+    console.warn(err);
+    }
+
+```
+
+
+# 图片轮播
+react-native-reanimated-carousel
+
+```
+import Carousel from 'react-native-reanimated-carousel';
+
+const Image_1 = require('../../assets/images/nft_big_1.png')
+const Image_2 = require('../../assets/images/nft_big_2.png')
+const Image_3 = require('../../assets/images/nft_big_3.png')
+const Image_4 = require('../../assets/images/nft_big_4.png')
+const Image_5 = require('../../assets/images/nft_big_5.png')
+<Carousel
+loop
+width={200}
+height={284}
+autoPlay={true}
+data={[
+    Image_1,
+    Image_2,
+    Image_3,
+    Image_4,
+    Image_5
+    
+]}
+scrollAnimationDuration={1000}
+onSnapToItem={(index) => console.log('current index:', index)}
+renderItem={({ item,index }) => (
+    <View>
+    <Image style={{
+    width:200,
+    height:284
+    }} source={item} resizeMode='cover'/>
+</View>
+)}
+/>
+
+```
+
+# 分享
+react-native-share：https://react-native-share.github.io/react-native-share/docs/install
+
+```
+import Share from 'react-native-share';
+
+const url = 'https://awesome.contents.com/';
+const title = 'Awesome Contents';
+const message = 'Please check this out.';
+const icon = 'data:<data_type>/<file_extension>;base64,<base64_data>';
+const options = Platform.select({
+  default: {
+    title,
+    subject: title,
+    message: `${message} ${url}`,
+  },
+});
+
+Share.open(options);
+
+```
+
+
+
+
+# 顶部提示框
+https://github.com/lucasferreira/react-native-flash-message#readme
+
+```
+import FlashMessage,{ showMessage, hideMessage } from "react-native-flash-message";
+
+showMessage({
+message: "Hello World",
+description: "This is our second message",
+type: "success",
+});
+
+
+放到程序入口最下方
+<FlashMessage position="top" />
+
+```
+
+
+
+
+# 富文本
+https://github.com/obipawan/react-native-hyperlink
+```
+import Hyperlink from 'react-native-hyperlink'
+
+ <Hyperlink linkStyle={ { color: '#2980b9', fontSize: 20 } } onPress={(e:any)=>{
+          Alert.alert(e)
+        }}>
+    <Text style={ { fontSize: 15 } }>
+      Make clickable strings like https://github.com/obipawan/hyperlink stylable
+    </Text>
+  </Hyperlink>
+
+```
+
+# 本地存储
+https://react-native-async-storage.github.io/async-storage/docs/install/
+每个条目受到 WindowCursor 大小的限制，WindowCursor 是用于从 SQLite 读取数据的缓冲区。目前它的大小约为 2 MB
+```
+try {
+    await AsyncStorage.setItem('my-key', '12');
+} catch (e) {
+// saving error
+}
+
+try {
+    const value = await AsyncStorage.getItem('my-key');
+    console.log('value====',value)
+    if (value !== null) {
+    // value previously stored
+    }
+} catch (e) {
+    // error reading value
+}
+```
+# 上拉加载下拉刷新 
+https://github.com/greatbsky/react-native-pull/wiki
+
+lottie-react-native  +  react-native-pull  +  https://airbnb.io/lottie/#/
 
 
 # 运行
@@ -138,62 +306,49 @@ realm
 
 
 # 清理缓存
-npx react-native start --reset-cache在那之后跑npx react-native run-android或npx react-native run-ios
+cd android && ./gradlew clean && cd ..
+npx react-native start --reset-cache
+npx react-native run-android     npx react-native run-ios
 
 
 
 
-react-navigation 
-https://www.jianshu.com/p/40235aa95dd8
 
 
 
 
-调用 相机
-https://www.jianshu.com/p/7b67c7ef945d
 
 
 
+
+
+
+#加载3D模型
+React Native 3D Model Viewer：https://github.com/BonnierNews/react-native-3d-model-view
+微信登录
+https://github.com/bashen1/react-native-mwechat
+支付宝支付
+https://github.com/452MJ/react-native-alipay-jerry
+支付宝登录 支付
+https://github.com/react-native-hero/alipay
+微信支付宝 支付
+https://github.com/yorkzero831/react-native-super-pay
+3.QQ 微博 微信 登录
+https://github.com/xiaoxinbo118/react-native-sns-share
+4.验证码倒计时功能
+6.瀑布流布局
+7.H5页面展示
+9.上传头像
+10.通知
+https://github.com/jpush/jpush-react-native/tree/dev
+字体   多语言
 LayoutAnimation   Animated
-
-
-
 解决键盘挡住输入框问题
-
-
 防抖  节流
-
-
 redux
-
-
 axios  网络请求
-
 三方库
 https://www.jianshu.com/p/2cebe7b3fc12
-
-
-
-上啦加载下拉刷新  react-native-pull   react-native-gifted-listview
-
-
-
-
-react-native-toast
-
-
 键盘遮挡问题
-https://github.com/reactnativecn/react-native-inputscrollview
-https://github.com/wix/react-native-keyboard-aware-scrollview
-
-
-下拉-上拉-刷新
-https://github.com/FaridSafi/react-native-gifted-listview
-https://github.com/jsdf/react-native-refreshable-listview
-https://github.com/greatbsky/react-native-pull/wiki
-
-
-react-native-tooltip
-
-
 修改应用名称
+下载
