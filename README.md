@@ -39,8 +39,6 @@ https://github.com/oblador/react-native-progress
 https://github.com/dancormier/react-native-swipeout
 # 引导页 代码太老
 https://github.com/FuYaoDe/react-native-app-intro
-# 展示图片
-https://github.com/DylanVann/react-native-fast-image
 # 展示图片显示毛玻璃效果
 https://github.com/mrousavy/react-native-blurhash
 # 列表优化
@@ -59,7 +57,8 @@ https://github.com/tomzaku/react-native-shimmer-placeholder
 https://github.com/itinance/react-native-fs
 # 引导提示
 react-native-tooltip
-
+# 设备信息
+https://github.com/react-native-device-info/react-native-device-info
 
 
 
@@ -311,17 +310,73 @@ npx react-native start --reset-cache
 npx react-native run-android     npx react-native run-ios
 
 
+# LayoutAnimation   Animated
 
 
+# 防抖  节流
+lodash
+
+# redux
+https://redux.js.org/introduction/installation
 
 
+# 网络请求
+axios 
 
 
+# 监听键盘
+```
+  useEffect(()=>{
+
+    const keyboardDidShow = Keyboard.addListener('keyboardDidShow',(e:any)=>{
+      console.log('-e-',e)
+
+      if (Platform.OS == 'ios'){
+        console.log('--',e.startCoordinates.height)
+        // setInputBottom(e.startCoordinates.height)
+      }else {
+        console.log('--',e.endCoordinates.height)
+        // setInputBottom(0)
+      }
+    })
+    const keyboardDidHide = Keyboard.addListener('keyboardDidHide',()=>{
+      
+    })
+
+    return ()=>{
+      keyboardDidShow.remove()
+      keyboardDidHide.remove()
+    }
+  },[])
+```
+
+# 瀑布流布局
+https://github.com/axerjs/react-native-waterfall-flow
+
+# 文件管理
+https://github.com/alpha0010/react-native-file-access
 
 
+# 图片缓存
+https://github.com/georstat/react-native-image-cache
+```
+
+<CachedImage
+  source={prefetchImage}
+  style={{ height: 200, width: 200 }}
+  blurRadius={30} thumbnailSource的blur度
+  loadingImageComponent={ImagePlaceholder}  加载中的动画组件
+  thumbnailSource='https://img2.baidu.com/it/u=3219906533,2982923681&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=500' 加载中显示的图片
+  />
 
 
+预加载图片
+useEffect(() => {
+    CacheManager.prefetch(prefetchImage);
+    CacheManager.prefetch([prefetchImageTwo, prefetchImageThree]);
+  }, []);
 
+```
 
 #加载3D模型
 React Native 3D Model Viewer：https://github.com/BonnierNews/react-native-3d-model-view
@@ -335,20 +390,7 @@ https://github.com/react-native-hero/alipay
 https://github.com/yorkzero831/react-native-super-pay
 3.QQ 微博 微信 登录
 https://github.com/xiaoxinbo118/react-native-sns-share
-4.验证码倒计时功能
-6.瀑布流布局
-7.H5页面展示
-9.上传头像
 10.通知
 https://github.com/jpush/jpush-react-native/tree/dev
-字体   多语言
-LayoutAnimation   Animated
-解决键盘挡住输入框问题
-防抖  节流
-redux
-axios  网络请求
-三方库
-https://www.jianshu.com/p/2cebe7b3fc12
-键盘遮挡问题
 修改应用名称
 下载

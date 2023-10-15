@@ -12,7 +12,9 @@ import {
   Platform,
   RefreshControl,
   ScrollView,
-  TextInput
+  TextInput,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback
 } from 'react-native';
 import {styles} from './styles'
 import Toast from 'react-native-root-toast';
@@ -30,6 +32,8 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import Hyperlink from 'react-native-hyperlink'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { changeLanguage, useLanguage } from '@/redux/setting';
+import { useDispatch } from 'react-redux';
 
 
 
@@ -87,12 +91,22 @@ function Home({navigation}:any): JSX.Element {
   //   },[navigation])
 
 
-
+  const language = useLanguage()
+  const dispatch = useDispatch()
   return (
-    <SafeAreaView>
+    <SafeAreaView  style={{
+      flex: 1
+    }}>
+     
      <View style={styles.mainView}>
         <Text style={styles.title}>Home1</Text>
-        
+        <Text style={styles.title}>当前语言：{language}</Text>
+        <Button
+        title="修改语言"
+        onPress={() => {
+          dispatch(changeLanguage('zh-CN'))
+        }}
+      />
         <Button
         title="储存值"
         onPress={async() => {
@@ -258,15 +272,7 @@ function Home({navigation}:any): JSX.Element {
         });
         }}
       />
-      <TextInput  style={{
-        width:'100%',
-        height:44,
-        backgroundColor:'red'
-      }} placeholder='enter'/>
-
-      </View>
-
-
+     </View>
     </SafeAreaView>
   );
 }
