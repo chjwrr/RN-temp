@@ -412,7 +412,17 @@ import WaterfallFlow from 'react-native-waterfall-flow'
 
 
 #加载3D模型
-React Native 3D Model Viewer：https://github.com/BonnierNews/react-native-3d-model-view
+  const gltf = useGLTF("https://www.arweave.net/1Qi6CQm7jv35_2eDsqc3SraLaB_ngxdm_m1UVbKF8Us?ext=glb");
+
+https://docs.pmnd.rs/react-three-fiber/getting-started/installation#react-native
+
+
+https://zhuanlan.zhihu.com/p/615965916
+
+
+
+https://docs.pmnd.rs/react-three-fiber/tutorials/loading-models
+
 微信登录
 https://github.com/bashen1/react-native-mwechat
 支付宝支付
@@ -427,3 +437,16 @@ https://github.com/xiaoxinbo118/react-native-sns-share
 https://github.com/jpush/jpush-react-native/tree/dev
 修改应用名称
 下载
+
+
+
+
+
+https://doc.talkingdata.com/posts/848#IMPORT%20%26amp%3B%20%20%E5%BC%95%E7%94%A8
+https://github.com/yorkzero831/react-native-super-pay
+
+
+
+
+3D模型库
+https://www.cgtrader.com/items/1872992/download-page

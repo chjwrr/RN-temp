@@ -28,6 +28,10 @@
 	<array>
 		<string>whatsapp</string>
 		<string>mailto</string>
+		<string>weixin</string>
+		<string>wechat</string>
+  		<string>alipay</string>
+  		<string>alipays</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>

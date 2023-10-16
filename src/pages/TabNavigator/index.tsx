@@ -15,6 +15,7 @@ import ChangeScreen from '@/pages/Mine/Change'
 import { Text, View } from 'react-native';
 
 import FlowScreen from '@/pages/Flow'
+import TDModalScreen from '@/pages/TDModal'
 
 
 const Tab = createBottomTabNavigator();
@@ -29,6 +30,7 @@ function Tabs() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Mine" component={MineScreen} />
       <Tab.Screen name="Flow" component={FlowScreen} />
+      <Tab.Screen name="3dModal" component={TDModalScreen} />
     </Tab.Navigator>
   );
 }
