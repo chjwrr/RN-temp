@@ -378,6 +378,39 @@ useEffect(() => {
 
 ```
 
+# 瀑布流布局
+https://github.com/axerjs/react-native-waterfall-flow/tree/main
+```
+//@ts-nocheck  加在文件顶部
+
+
+import WaterfallFlow from 'react-native-waterfall-flow'
+
+
+ <WaterfallFlow
+        data={[1,2,3,4,5,6,7]}
+        numColumns={2}
+        renderItem={({ item, index, columnIndex })=>{
+          return <View style={{
+            height:item * 20,
+            margin:20,
+            backgroundColor:'#0f0',
+          }}>
+            <Text>title: {item}</Text>
+            <Text>index: {index}</Text>
+          </View>
+        }}
+        style={{ flex: 1 }}
+        contentContainerStyle={{ backgroundColor: '#f9f9f9' }}
+        ListHeaderComponent={<View />}
+        ListFooterComponent={<View/>}
+        ListEmptyComponent={<View/>}
+        initialNumToRender={10}
+        />
+
+```
+
+
 #加载3D模型
 React Native 3D Model Viewer：https://github.com/BonnierNews/react-native-3d-model-view
 微信登录

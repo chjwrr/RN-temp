@@ -14,6 +14,7 @@ import SettingScreen from '@/pages/Mine/Setting'
 import ChangeScreen from '@/pages/Mine/Change'
 import { Text, View } from 'react-native';
 
+import FlowScreen from '@/pages/Flow'
 
 
 const Tab = createBottomTabNavigator();
@@ -27,6 +28,7 @@ function Tabs() {
     }}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Mine" component={MineScreen} />
+      <Tab.Screen name="Flow" component={FlowScreen} />
     </Tab.Navigator>
   );
 }

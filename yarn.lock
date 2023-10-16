@@ -5920,6 +5920,11 @@ react-native-video@^6.0.0-alpha.8:
     keymirror "^0.1.1"
     prop-types "^15.7.2"
 
+react-native-waterfall-flow@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-waterfall-flow/-/react-native-waterfall-flow-1.1.5.tgz#f480cad514d21a4e849475c9bbefb473ae9c4c84"
+  integrity sha512-7ARV6G0ADXNhvX1uV3OjPOYBsvwth4CxonBqt4nNuXhuiTNq/MJyLCbUK9kPcGXNS+/2PksKwGjGcZbwwvplYw==
+
 react-native@0.72.5:
   version "0.72.5"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.72.5.tgz#2c343fa6f3ead362cf07376634a33a4078864357"
