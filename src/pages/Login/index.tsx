@@ -3,17 +3,17 @@ import React from 'react';
 import {
   SafeAreaView,
   Text,
-  View
+  View,
+  ImageBackground
 } from 'react-native';
 import {styles} from './styles'
+const BGImage = require('@/assets/images/loginbgi.png')
 
 function Login(): JSX.Element {
   return (
-    <SafeAreaView>
-     <View style={styles.mainView}>
-        <Text>Login</Text>
-     </View>
-    </SafeAreaView>
+    <ImageBackground source={BGImage} resizeMode="contain" style={styles.bgImage}>
+
+    </ImageBackground>
   );
 }
 

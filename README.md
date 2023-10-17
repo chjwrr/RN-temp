@@ -1,4 +1,4 @@
-
+https://js.design/f/y6BtF8?p=Vc9GVvs4Lp
 
 # 启动屏
 react-native-splash-screen ：https://github.com/crazycodeboy/react-native-splash-screen

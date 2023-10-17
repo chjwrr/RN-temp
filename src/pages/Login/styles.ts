@@ -1,13 +1,16 @@
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
 import {
     StyleSheet,
   } from 'react-native';
   
 export const styles = StyleSheet.create({
-    mainView:{
+    bgImage:{
         flex:1,
-        backgroundColor:'red',
-        justifyContent:'center',
-        alignItems:'center'
+    },
+    test:{
+       flex:1,
+       width:300,
+       height:500,
     }
 });
   

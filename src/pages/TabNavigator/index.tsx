@@ -16,7 +16,9 @@ import { Text, View } from 'react-native';
 
 import FlowScreen from '@/pages/Flow'
 import TDModalScreen from '@/pages/TDModal'
+import LoginScreen from '@/pages/Login'
 
+import SplashScreen from '@/pages/Splash'
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -40,6 +42,9 @@ function StackNav(){
     animation:'slide_from_right',
     headerTitleAlign:'center',
   }}>
+  <Stack.Screen options={{
+    headerShown:false
+  }} name="Splash" component={SplashScreen} />
   <Stack.Screen
       name="Tab"
       component={Tabs}
@@ -47,8 +52,9 @@ function StackNav(){
         headerShown: false,
       }}
     />
-    <Stack.Screen name="Detail" component={DetailScreen} />
-    <Stack.Screen name="Settings" component={SettingScreen} />
+    <Stack.Screen options={{
+      headerShown:false
+    }} name="Login" component={LoginScreen} />
   </Stack.Navigator>
 }
 

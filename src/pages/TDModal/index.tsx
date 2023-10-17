@@ -44,7 +44,7 @@ function Cube(props:any) {
 
 function TDModal(): JSX.Element {
   // const obj = useLoader(OBJLoader, require('../../assets/tdm.obj'))
-  const gltf = useLoader(GLTFLoader, '/src/pages/TDModal/1.gltf')
+  // const gltf = useLoader(GLTFLoader, '/src/pages/TDModal/1.gltf')
 
   return (
     <SafeAreaView style={{
@@ -57,7 +57,7 @@ function TDModal(): JSX.Element {
       <Cube />
       {/* <primitive object={obj} /> */}
       <directionalLight position={[0, 0, 5]} color="red" />
-      <primitive object={gltf.scene} />
+      {/* <primitive object={gltf.scene} /> */}
     </Canvas>
 
     </SafeAreaView>

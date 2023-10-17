@@ -1,5 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import settingReducer from './setting'
+import userInfoReducer from './userInfo'
+
 import { combineReducers } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useSelector, useDispatch } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -15,6 +17,7 @@ const persistConfig = {
 
 const reducer = combineReducers({
   setting:settingReducer,
+  userInfo:userInfoReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
