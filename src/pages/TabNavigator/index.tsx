@@ -4,21 +4,21 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import HomeScreen from '@/pages/Home'
-import DetailScreen from '@/pages/Home/Detail'
-import PostScreen from '@/pages/Home/Post'
-
-import MineScreen from '@/pages/Mine'
-import SettingScreen from '@/pages/Mine/Setting'
-import ChangeScreen from '@/pages/Mine/Change'
 import { Text, View } from 'react-native';
 
+import HomeScreen from '@/pages/Home'
+import MineScreen from '@/pages/Mine'
 import FlowScreen from '@/pages/Flow'
 import TDModalScreen from '@/pages/TDModal'
-import LoginScreen from '@/pages/Login'
 
+
+import LoginScreen from '@/pages/Login'
 import SplashScreen from '@/pages/Splash'
+import PhoneLoginScreen from '@/pages/PhoneLogin'
+import PhoneCodeScreen from '@/pages/PhoneCode'
+
+
+
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -37,24 +37,56 @@ function Tabs() {
   );
 }
 
+
+function SpalshStack(){
+  return <Stack.Navigator screenOptions={{
+    animation:'slide_from_right',
+    headerTitleAlign:'center',
+  }}>
+    <Stack.Screen options={{
+      headerShown:false
+    }} name="Splash" component={SplashScreen} />
+  </Stack.Navigator>
+}
+
+const routers:any[] = [
+  {
+    name:'Login',
+    component:LoginScreen
+  },
+  {
+    name:'PhoneLogin',
+    component:PhoneLoginScreen
+  },
+  {
+    name:'PhoneCode',
+    component:PhoneCodeScreen
+  },
+]
+
+
 function StackNav(){
   return <Stack.Navigator screenOptions={{
     animation:'slide_from_right',
     headerTitleAlign:'center',
   }}>
-  <Stack.Screen options={{
-    headerShown:false
-  }} name="Splash" component={SplashScreen} />
-  <Stack.Screen
+    <Stack.Screen options={{
+      headerShown:false
+    }} name="Splash" component={SplashScreen} />
+    {
+      routers.map((item:any)=>{
+        return <Stack.Screen key={item} options={{
+          headerShown:false
+        }} name={item.name} component={item.component} />
+      })
+    }
+    <Stack.Screen
       name="Tab"
       component={Tabs}
       options={{ 
         headerShown: false,
       }}
     />
-    <Stack.Screen options={{
-      headerShown:false
-    }} name="Login" component={LoginScreen} />
   </Stack.Navigator>
 }
 
@@ -75,7 +107,8 @@ function DrawerNavigator(params:any) {
 function TabNavigator(): JSX.Element {
   return (
     <NavigationContainer>
-      <DrawerNavigator/>
+      {/* <DrawerNavigator/> */}
+      <StackNav/>
     </NavigationContainer>
   );
 }

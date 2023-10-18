@@ -16,33 +16,21 @@ import {styles} from './styles'
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
 const AgreeSel = require('@/assets/images/agree.png')
-const ArrowRight = require('@/assets/images/arr_right.png')
 const ButtonImg = require('@/assets/images/buttonbg.png')
+const BackImg = require('@/assets/images/loginback.png')
 
 
-function Login(props:any): JSX.Element {
+
+function PhoneLogin(props:any): JSX.Element {
   const [userAccount,setUserAccount] = useState('')
-  const [userPsd,setUserPsd] = useState('')
   const [isAgree,setIsAgree] = useState(false)
   const [tips,setTips] = useState('')
 
   function onDisKeyboard(){
     Keyboard.dismiss()
   }
-  function onRegister(){
-    Keyboard.dismiss()
-    console.log('onRegister')
-  }
-  function onForgetPsd(){
-    Keyboard.dismiss()
-    console.log('onForgetPsd')
-  }
   function onUserAccountChange(e:any){
     setUserAccount(e.nativeEvent.text)
-    setTips('')
-  }
-  function onUserPsdChange(e:any){
-    setUserPsd(e.nativeEvent.text)
     setTips('')
   }
   function onAgree(){
@@ -54,69 +42,48 @@ function Login(props:any): JSX.Element {
   function onUserPrivacy(){
     
   }
-  function onLoginVerify(){
-    props.navigation.navigate('PhoneLogin')
-  }
-  function onLogin(){
+  function onGetCode(){
     if (!userAccount){
-      setTips('请输入手机号/用户名')
+      setTips('请输入手机号')
       return
     }
-    if (!userPsd){
-      setTips('请输入密码')
-      return
-    }
+    props.navigation.navigate('PhoneCode',{
+      phone:userAccount
+    })
+  }
+  function onBack(){
+    props.navigation.pop()
   }
 
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
       <TouchableWithoutFeedback style={styles.main} onPress={onDisKeyboard}>
         <SafeAreaView style={{flex:1}}>
+          <TouchableOpacity onPress={onBack}>
+            <Image source={BackImg} style={styles.bgckImg}/>
+          </TouchableOpacity>
           <View style={styles.mainContent}>
             <View>
-              <Text style={styles.title}>欢迎登录</Text>
-              <View style={styles.tipReg}>
-                <Text style={styles.tip}>还没有账号</Text>
-                <TouchableOpacity onPress={onRegister}>
-                  <Text style={styles.regist}>注册</Text>
-                </TouchableOpacity>
-              </View>
+              <Text style={styles.title}>手机号登录</Text>
               <View style={styles.inputView}>
+                <Text style={styles.phoneArea}>+86</Text>
                 <TextInput style={styles.input}
-                  placeholder='输入手机号/用户名'
+                  placeholder='请输入手机号'
                   value={userAccount}
                   onChange={onUserAccountChange}
                   underlineColorAndroid={'transparent'}
-                  
+                  keyboardType='number-pad'
                 />
               </View>
-              <View style={[styles.inputView,{marginTop:40}]}>
-                <TextInput style={styles.input}
-                  placeholder='输入密码'
-                  value={userPsd}
-                  onChange={onUserPsdChange}
-                  returnKeyType='done'
-                  underlineColorAndroid={'transparent'}
-                  secureTextEntry={true}
-                />
-              </View>
-              <View style={styles.forgetpsd}>
-                <Text style={styles.tips}>{tips}</Text>
-                <TouchableOpacity onPress={onForgetPsd}>
-                  <Text style={styles.forgetpsdtitle}>忘记密码</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.downView}>
-              <TouchableOpacity onPress={onLogin} style={styles.loginButtonvieew}>
+              <Text style={styles.tips}>{tips}</Text>
+
+              <TouchableOpacity onPress={onGetCode} style={styles.loginButtonvieew}>
                 <ImageBackground source={ButtonImg} style={styles.loginButton} resizeMode='cover'>
-                  <Text style={styles.logintitle}>登录</Text>
+                  <Text style={styles.logintitle}>获取验证码</Text>
                 </ImageBackground>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.verify} onPress={onLoginVerify}>
-                <Text style={styles.veifytitle}>验证码登录</Text>
-                <Image style={styles.arrow} source={ArrowRight}/>
-              </TouchableOpacity>
+            </View>
+            <View style={styles.downView}>
               <View style={styles.agreeView}>
                 <TouchableOpacity style={styles.agreeButton} onPress={onAgree}>
                   <Image style={styles.agreeImg} source={isAgree ? AgreeSel : AgreeDis}/>
@@ -140,4 +107,4 @@ function Login(props:any): JSX.Element {
   );
 }
 
-export default Login;
+export default PhoneLogin;

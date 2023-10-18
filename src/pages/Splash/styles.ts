@@ -51,7 +51,7 @@ export const styles = StyleSheet.create({
         alignItems:'center',
         paddingHorizontal:30,
         position:'absolute',
-        bottom:BOTTOM_HEIGHT + 20
+        bottom:BOTTOM_HEIGHT + 20,
     },
     nextImg:{
         width:50,

@@ -1,9 +1,14 @@
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
+import { SCREEN_HEIGHT, SCREEN_WIDTH, STATUSBAR_HEIGHT, STATUSBAR_SAFE_AREA_HEIGHT } from '@/utils';
 import {
     StyleSheet,
   } from 'react-native';
   
 export const styles = StyleSheet.create({
+    bgckImg:{
+        width:32,
+        height:32,
+        marginTop:STATUSBAR_SAFE_AREA_HEIGHT
+    },
     bgImage:{
         flex:1,
         paddingHorizontal:33,
@@ -16,47 +21,26 @@ export const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     title:{
-        marginTop:160,
+        marginTop:160 - 32 - STATUSBAR_SAFE_AREA_HEIGHT,
         color:'#261f31',
         fontSize:40,
         fontFamily: 'SmileySans-Oblique',
-    },
-    tipReg:{
-        flexDirection:'row',
-        marginTop:10,
-        marginBottom:70
-    },
-    tip:{
-        color:'#AFACB5',
-        fontSize:14,
-    },
-    regist:{
-        color:'#8E8A97',
-        fontSize:14,
-        marginLeft:10,
-        fontWeight:'600'
+        marginBottom:95
     },
     inputView:{
         width:'100%',
         height:40,
         borderBottomWidth:1,
-        borderBottomColor:'rgba(51, 51, 51, 0.05)'
+        borderBottomColor:'rgba(51, 51, 51, 0.05)',
+        flexDirection:'row',
+        alignItems:'center'
     },
     input:{
-        flex:1,
         color:'#AFACB5',
         fontSize:14,
-        paddingVertical:0
-    },
-    forgetpsd:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        marginTop:20
-    },
-    forgetpsdtitle:{
-        color:'#AFACB5',
-        fontSize:14,
-        fontWeight:'600'
+        paddingVertical:0,
+        height:0,
+        width:0
     },
     downView:{
         alignItems:'center',
@@ -92,20 +76,6 @@ export const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center'
     },
-    arrow:{
-        width:4,
-        height:7,
-        marginLeft:10
-    },
-    verify:{
-        flexDirection:'row',
-        marginBottom:20,
-        alignItems:'center'
-    },
-    veifytitle:{
-        color:'#AFACB5',
-        fontSize:14,
-    },
     loginButton:{
         width:310,
         height:52,
@@ -117,10 +87,27 @@ export const styles = StyleSheet.create({
         fontSize:14,
     },
     loginButtonvieew:{
-        marginBottom:70
+        marginTop:50
     },
-    tips:{
-        color:'#E33C64',
+    phonetip:{
+        color:'#4f4a58',
         fontSize:14,
+    },
+    codeView:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        marginTop:40
+    },
+    labCode:{
+        width:52,
+        height:52,
+        borderRadius:12,
+        backgroundColor:'rgba(109, 105, 250, 1)',
+        color:'#fff',
+        textAlign:'center',
+        lineHeight:52,
+        fontSize:28,
+        overflow:'hidden'
     }
 });

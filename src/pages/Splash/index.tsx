@@ -35,28 +35,32 @@ function Splash(props:any): JSX.Element {
       console.log('显示用户引导')
       setTimeout(() => {
         setShowGuid(true)
-      }, 1000);
+      }, 3000);
     }else {
       if (userInfo && userInfo.id){
         console.log('用户已经登录')
-        props.navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [
-              { name: 'Tab' },
-            ],
-          })
-        );
+        setTimeout(() => {
+          props.navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [
+                { name: 'Tab' },
+              ],
+            })
+          );
+        }, 3000);
       }else {
         console.log('用户没有登录')
-        props.navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [
-              { name: 'Login' },
-            ],
-          })
-        );
+        setTimeout(() => {
+          props.navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [
+                { name: 'Login' },
+              ],
+            })
+          );
+        }, 3000);
       }
     }
   },[])
@@ -96,7 +100,7 @@ function Splash(props:any): JSX.Element {
     }
   }
   return (
-    <ImageBackground source={BGImage} resizeMode="contain" style={styles.bgImage}>
+    <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
       {!showGuid && <Animatable.Image animation={fadeInscale} source={Logo} style={styles.logo}/>}
       {
         showGuid && <SafeAreaView style={{flex:1}}>

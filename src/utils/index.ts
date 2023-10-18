@@ -31,17 +31,19 @@ const isIPhoneX = (() => {
   if (Platform.OS === 'android') return false
 
   return (
-      (Platform.OS === 'ios' &&
-          ((height === X_HEIGHT && width === X_WIDTH) || (height === X_WIDTH && width === X_HEIGHT))) ||
+    (Platform.OS === 'ios' &&
+      ((height === X_HEIGHT && width === X_WIDTH) || (height === X_WIDTH && width === X_HEIGHT))) ||
       ((height === XSMAX_HEIGHT && width === XSMAX_WIDTH) ||
-          (height === XSMAX_WIDTH && width === XSMAX_HEIGHT) ||
-          (height === IPHONE12_H || height === IPHONE12_MAX || height === IPHONE12_MINI) ||
-          (height === IPHONE13_H || height === IPHONE13_MAX || height === IPHONE13_MINI) ||
-          (height === IPHONE14_H || height === IPHONE14_MAX || height === IPHONE14_MINI || height === IPHONE14_PLUS))
+      (height === XSMAX_WIDTH && width === XSMAX_HEIGHT) ||
+      (height === IPHONE12_H || height === IPHONE12_MAX || height === IPHONE12_MINI) ||
+      (height === IPHONE13_H || height === IPHONE13_MAX || height === IPHONE13_MINI) ||
+      (height === IPHONE14_H || height === IPHONE14_MAX || height === IPHONE14_MINI || height === IPHONE14_PLUS))
   )
 })()
   
 export const STATUSBAR_HEIGHT = Platform.OS === 'ios' ?(isIPhoneX?44:20):StatusBar.currentHeight || 32;
+export const STATUSBAR_SAFE_AREA_HEIGHT = Platform.OS === 'ios' ?10:StatusBar.currentHeight || 32;
+
 export const NAVIGATION_HEIGHT =  Platform.OS === 'ios' ?44:48
 export const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window')
 export const BOTTOM_HEIGHT =  Platform.OS === 'ios' ?(isIPhoneX?44:0):0
