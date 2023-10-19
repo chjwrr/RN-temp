@@ -37,7 +37,8 @@ export const styles = StyleSheet.create({
         borderBottomWidth:1,
         borderBottomColor:Colors.border,
         flexDirection:'row',
-        alignItems:'center'
+        alignItems:'center',
+        justifyContent:'space-between'
     },
     input:{
         flex:1,
@@ -48,36 +49,6 @@ export const styles = StyleSheet.create({
     downView:{
         alignItems:'center',
         paddingBottom:10
-    },
-    agreeView:{
-        flexDirection:'row',
-        alignItems:'center',
-    },
-    agreeTextView:{
-        flexDirection:'row',
-    },
-    agreeButton:{
-        width:30,
-        height:30,
-        alignItems:'center',
-        justifyContent:'center'
-    },
-    agreeImg:{
-        width:12,
-        height:12
-    },
-    agreeText:{
-        color:Colors.forbidBg,
-        fontSize:12,
-    },
-    agreeTextDis:{
-        color:Colors.bright,
-        fontSize:12,
-    },
-    agreeSelButton:{
-        marginHorizontal:5,
-        alignItems:'center',
-        justifyContent:'center'
     },
     loginButton:{
         width:310,
@@ -92,11 +63,6 @@ export const styles = StyleSheet.create({
     loginButtonvieew:{
         marginTop:50
     },
-    phoneArea:{
-        color:Colors.assist,
-        fontSize:14,
-        marginRight:10
-    },
     tips:{
         color:Colors.error,
         fontSize:14,
@@ -105,5 +71,15 @@ export const styles = StyleSheet.create({
     },
     centerView:{
       alignItems:'center'
-    }
+    },
+    codeButton:{
+        width:70,
+        height:20,
+        flexDirection:'row',
+        justifyContent:'flex-end'
+    },
+    codetitle:{
+        color:Colors.light,
+        fontSize:14,
+    },
 });

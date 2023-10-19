@@ -5,7 +5,7 @@ import {
   Text,
   View,
   ImageBackground,
-  TouchableWithoutFeedback,
+  LayoutAnimation,
   TextInput,
   Keyboard,
   TouchableOpacity,
@@ -16,7 +16,6 @@ import {styles} from './styles'
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
 const AgreeSel = require('@/assets/images/agree.png')
-const ButtonImg = require('@/assets/images/buttonbg.png')
 const BackImg = require('@/assets/images/loginback.png')
 
 
@@ -24,9 +23,24 @@ const BackImg = require('@/assets/images/loginback.png')
 function PhoneCode(props:any): JSX.Element {
   const [codeValue,setCodeValue] = useState('')
   const [isAgree,setIsAgree] = useState(false)
-  const [tips,setTips] = useState('')
   const inputRef = useRef<any>()
+  const [mainTop,setMainTop] = useState(0)
 
+  useEffect(()=>{
+    const keyboardDidShow = Keyboard.addListener('keyboardDidShow',(e:any)=>{
+      console.log('-e-',e)
+      LayoutAnimation.spring()
+      setMainTop(-100)
+    })
+    const keyboardDidHide = Keyboard.addListener('keyboardDidHide',()=>{
+      LayoutAnimation.spring()
+      setMainTop(0)
+    })
+    return ()=>{
+      keyboardDidShow.remove()
+      keyboardDidHide.remove()
+    }
+  },[])
 
   useEffect(()=>{
     setTimeout(() => {
@@ -68,10 +82,12 @@ function PhoneCode(props:any): JSX.Element {
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
       <TouchableOpacity activeOpacity={1} style={styles.main} onPress={onDisKeyboard}>
         <SafeAreaView style={{flex:1}}>
-          <TouchableOpacity onPress={onBack}>
+          <TouchableOpacity onPress={onBack} style={styles.backButton}>
             <Image source={BackImg} style={styles.bgckImg}/>
           </TouchableOpacity>
-          <View style={styles.mainContent}>
+          <View style={[styles.mainContent,{
+            marginTop:mainTop
+          }]}>
             <View>
               <Text style={styles.title}>输入验证码</Text>
               <View style={styles.inputView}>

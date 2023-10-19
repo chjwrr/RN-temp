@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   Text,
@@ -9,7 +9,8 @@ import {
   TextInput,
   Keyboard,
   TouchableOpacity,
-  Image
+  Image,
+  LayoutAnimation,
 } from 'react-native';
 import {styles} from './styles'
 
@@ -27,17 +28,35 @@ function Login(props:any): JSX.Element {
   const [userPsd,setUserPsd] = useState('')
   const [isAgree,setIsAgree] = useState(false)
   const [tips,setTips] = useState('')
+  const [mainTop,setMainTop] = useState(0)
+
+  useEffect(()=>{
+    const keyboardDidShow = Keyboard.addListener('keyboardDidShow',(e:any)=>{
+      console.log('-e-',e)
+      LayoutAnimation.spring()
+      setMainTop(-100)
+    })
+    const keyboardDidHide = Keyboard.addListener('keyboardDidHide',()=>{
+      LayoutAnimation.spring()
+      setMainTop(0)
+    })
+    return ()=>{
+      keyboardDidShow.remove()
+      keyboardDidHide.remove()
+    }
+  },[])
+
 
   function onDisKeyboard(){
     Keyboard.dismiss()
   }
   function onRegister(){
     Keyboard.dismiss()
-    console.log('onRegister')
+    props.navigation.navigate('Register')
   }
   function onForgetPsd(){
     Keyboard.dismiss()
-    console.log('onForgetPsd')
+    props.navigation.navigate('ForgetPsd')
   }
   function onUserAccountChange(e:any){
     setUserAccount(e.nativeEvent.text)
@@ -74,7 +93,9 @@ function Login(props:any): JSX.Element {
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
       <TouchableWithoutFeedback style={styles.main} onPress={onDisKeyboard}>
         <SafeAreaView style={{flex:1}}>
-          <View style={styles.mainContent}>
+          <View style={[styles.mainContent,{
+            marginTop:mainTop
+          }]}>
             <View>
               <Text style={styles.title}>欢迎登录</Text>
               <View style={styles.tipReg}>

@@ -1,0 +1,94 @@
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
+import Colors from '@/utils/colors';
+import {
+    StyleSheet,
+} from 'react-native';
+export const styles = StyleSheet.create({
+    backButton:{
+        width:32,
+        height:32,
+        marginLeft:23,
+    },
+    bgckImg:{
+        width:32,
+        height:32,
+    },
+    bgImage:{
+        flex:1,
+    },
+    topNameView:{
+        paddingHorizontal:33,
+    },
+    main:{
+        flex:1,
+    },
+    mainContent:{
+        flex:1,
+    },
+    title:{
+        marginTop:120 - 32,
+        color:Colors.title,
+        fontSize:40,
+        fontFamily: 'SmileySans-Oblique',
+    },
+    tipReg:{
+        flexDirection:'row',
+        marginTop:5,
+        marginBottom:10
+    },
+    agreeView:{
+        width:'100%',
+        alignItems:'center',
+    },
+    agreeText:{
+        color:Colors.forbidBg,
+        fontSize:12,
+    },
+    nametitle:{
+        fontSize:24,
+        color:Colors.bright,
+        fontFamily: 'SmileySans-Oblique',
+    },
+    nextButton:{
+        width:310,
+        height:52,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    nextButtonView:{
+        width:310,
+        height:52,
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius:26,
+        marginVertical:50
+    },
+    nextTitle:{
+        color:Colors.bright,
+        fontSize:14,
+        fontWeight:'500'
+    },
+    avatarbg:{
+        width:150,
+        height:150,
+        marginTop:50,
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius:75,
+        overflow:'hidden'
+    },
+    avatarImage:{
+        width:150,
+        height:150,
+    },
+    avatarIcon:{
+        width:80,
+        height:81,
+    },
+    avatarBottom:{
+        width:100,
+        height:20,
+        marginTop:5,
+        marginBottom:50
+    },
+})

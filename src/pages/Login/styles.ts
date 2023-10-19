@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     title:{
-        marginTop:160,
+        marginTop:120,
         color:Colors.title,
         fontSize:40,
         fontFamily: 'SmileySans-Oblique',

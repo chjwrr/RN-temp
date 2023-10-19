@@ -4,12 +4,14 @@ import {
     StyleSheet,
 } from 'react-native';
 export const styles = StyleSheet.create({
+    backButton:{
+        width:32,
+        height:32,
+        marginLeft:-10,
+    },
     bgckImg:{
         width:32,
         height:32,
-        marginTop:STATUSBAR_SAFE_AREA_HEIGHT,
-        position:'absolute',
-        left:-10,
     },
     bgImage:{
         flex:1,
@@ -23,7 +25,7 @@ export const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     title:{
-        marginTop:160,
+        marginTop:120 - 32,
         color:Colors.title,
         fontSize:40,
         fontFamily: 'SmileySans-Oblique',

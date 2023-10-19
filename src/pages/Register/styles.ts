@@ -1,4 +1,4 @@
-import { SCREEN_HEIGHT, SCREEN_WIDTH, STATUSBAR_HEIGHT, STATUSBAR_SAFE_AREA_HEIGHT } from '@/utils';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
 import Colors from '@/utils/colors';
 import {
     StyleSheet,
@@ -29,13 +29,28 @@ export const styles = StyleSheet.create({
         color:Colors.title,
         fontSize:40,
         fontFamily: 'SmileySans-Oblique',
-        marginBottom:95
+    },
+    tipReg:{
+        flexDirection:'row',
+        marginTop:5,
+        marginBottom:70
+    },
+    tip:{
+        color:Colors.light,
+        fontSize:14,
+    },
+    regist:{
+        color:Colors.forbidBg,
+        fontSize:14,
+        marginLeft:10,
+        fontWeight:'600'
     },
     inputView:{
         width:'100%',
         height:40,
         borderBottomWidth:1,
         borderBottomColor:Colors.border,
+        justifyContent:'space-between',
         flexDirection:'row',
         alignItems:'center'
     },
@@ -44,6 +59,16 @@ export const styles = StyleSheet.create({
         color:Colors.light,
         fontSize:14,
         paddingVertical:0
+    },
+    forgetpsd:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        marginTop:20
+    },
+    forgetpsdtitle:{
+        color:Colors.light,
+        fontSize:14,
+        fontWeight:'600'
     },
     downView:{
         alignItems:'center',
@@ -79,6 +104,20 @@ export const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center'
     },
+    arrow:{
+        width:4,
+        height:7,
+        marginLeft:10
+    },
+    verify:{
+        flexDirection:'row',
+        marginBottom:20,
+        alignItems:'center'
+    },
+    veifytitle:{
+        color:Colors.light,
+        fontSize:14,
+    },
     loginButton:{
         width:310,
         height:52,
@@ -90,20 +129,20 @@ export const styles = StyleSheet.create({
         fontSize:14,
     },
     loginButtonvieew:{
-        marginTop:50
-    },
-    phoneArea:{
-        color:Colors.assist,
-        fontSize:14,
-        marginRight:10
+        marginBottom:70
     },
     tips:{
         color:Colors.error,
         fontSize:14,
-        height:20,
-        marginTop:10
     },
-    centerView:{
-      alignItems:'center'
+    codeButton:{
+        width:70,
+        height:20,
+        flexDirection:'row',
+        justifyContent:'flex-end'
+    },
+    codetitle:{
+        color:Colors.light,
+        fontSize:14,
     }
 });

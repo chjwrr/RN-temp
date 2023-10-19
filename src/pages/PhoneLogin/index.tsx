@@ -64,7 +64,7 @@ function PhoneLogin(props:any): JSX.Element {
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
       <TouchableWithoutFeedback style={styles.main} onPress={onDisKeyboard}>
         <SafeAreaView style={{flex:1}}>
-          <TouchableOpacity onPress={onBack}>
+          <TouchableOpacity onPress={onBack} style={styles.backButton}>
             <Image source={BackImg} style={styles.bgckImg}/>
           </TouchableOpacity>
           <View style={styles.mainContent}>

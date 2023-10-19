@@ -38,14 +38,6 @@ import { useDispatch } from 'react-redux';
 
 
 
-const Image_1 = require('../../assets/images/nft_big_1.png')
-const Image_2 = require('../../assets/images/nft_big_2.png')
-const Image_3 = require('../../assets/images/nft_big_3.png')
-const Image_4 = require('../../assets/images/nft_big_4.png')
-const Image_5 = require('../../assets/images/nft_big_5.png')
-
-
-
 
 const url = 'https://awesome.contents.com/';
 const title = 'Awesome Contents';

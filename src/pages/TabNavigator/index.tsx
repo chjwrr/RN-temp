@@ -22,6 +22,10 @@ import LoginScreen from '@/pages/Login'
 import SplashScreen from '@/pages/Splash'
 import PhoneLoginScreen from '@/pages/PhoneLogin'
 import PhoneCodeScreen from '@/pages/PhoneCode'
+import ForgetPsdScreen from '@/pages/ForgetPsd'
+import RegisterScreen from '@/pages/Register'
+import ChooseSexScreen from '@/pages/ChooseSex'
+import ChooseAvatarScreen from '@/pages/ChooseAvatar'
 
 
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
@@ -63,6 +67,22 @@ const routers:any[] = [
     name:'PhoneCode',
     component:PhoneCodeScreen
   },
+  {
+    name:'ForgetPsd',
+    component:ForgetPsdScreen
+  },
+  {
+    name:'Register',
+    component:RegisterScreen
+  },
+  {
+    name:'ChooseSex',
+    component:ChooseSexScreen
+  },
+  {
+    name:'ChooseAvatar',
+    component:ChooseAvatarScreen
+  }
 ]
 
 

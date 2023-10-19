@@ -16,6 +16,7 @@ const Colors = {
   error:'#E33C64',                     // 错误
   light:'#AFACB5',                     // 浅色文字
   bright:'#6D69FA',                    // 亮色文字
+  bright_2:'rgba(109, 105, 250, 0.2)', // 亮色文字 透明度0.2
   white:'#fff',                        // 白色
   black:'#000',                        // 黑色
   border:'rgba(51, 51, 51, 0.05)',     // 边框
