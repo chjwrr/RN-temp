@@ -87,6 +87,7 @@ function Splash(props:any): JSX.Element {
   function onNext(){
     if (page != 2){
       scrollViewRef.current.scrollTo({x: (page + 1) * SCREEN_WIDTH, y: 0, animated: true})
+      setPage(page + 1)
     }else {
       dispatch(changeIsShowGuid(1))
       props.navigation.dispatch(
@@ -108,7 +109,8 @@ function Splash(props:any): JSX.Element {
           decelerationRate={0}
           scrollEventThrottle={400}
           onMomentumScrollEnd={(e:any)=>{
-            setPage(e.nativeEvent.contentOffset.x / SCREEN_WIDTH)
+            console.log('e.nativeEvent',Math.ceil(e.nativeEvent.contentOffset.x / SCREEN_WIDTH))
+            setPage(Math.ceil(e.nativeEvent.contentOffset.x / SCREEN_WIDTH))
           }}>
             <View style={styles.subView}>
               <Animatable.Image animation={fadeIn} source={Logo} style={styles.guidImg} resizeMode='cover'/>

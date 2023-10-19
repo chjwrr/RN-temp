@@ -74,7 +74,39 @@ https://github.com/react-native-device-info/react-native-device-info
 
 
 
+# loading 列表没有加载出来显示loaidng
+https://github.com/hasretozkan/react-native-fade-loading
+```
+import { FadeLoading } from 'react-native-fade-loading';
 
+<FadeLoading
+  style={{
+    width:'100%',
+    height:20,
+    marginVertical:5
+  }}
+  children={''}
+  primaryColor={''}
+  secondaryColor={''}
+  duration={0}
+  visible={false}
+  animated={false}
+/>
+
+<FadeLoading
+  style={{
+    width:40,
+    height:40,
+    marginVertical:5
+  }}
+  children={''}
+  primaryColor={'red'}
+  secondaryColor={'blue'}
+  duration={0}
+  visible={false}
+  animated={false}
+/>
+```
 
 
 # loading框
@@ -350,9 +382,6 @@ axios
   },[])
 ```
 
-# 瀑布流布局
-https://github.com/axerjs/react-native-waterfall-flow
-
 # 文件管理
 https://github.com/alpha0010/react-native-file-access
 
@@ -410,6 +439,16 @@ import WaterfallFlow from 'react-native-waterfall-flow'
 
 ```
 
+# 加载 lottie json  动画
+lottie-react-native
+https://github.com/lottie-react-native/lottie-react-native#lottie-react-native
+```
+import LottieView from "lottie-react-native";
+<LottieView source={require("../path/to/animation.json")} autoPlay loop />
+
+
+```
+
 
 #加载3D模型
   const gltf = useGLTF("https://www.arweave.net/1Qi6CQm7jv35_2eDsqc3SraLaB_ngxdm_m1UVbKF8Us?ext=glb");
@@ -450,3 +489,9 @@ https://github.com/yorkzero831/react-native-super-pay
 
 3D模型库
 https://www.cgtrader.com/items/1872992/download-page
+
+
+
+
+# TODO 
+## 1.登录等输入框，点击输入框的时候，可以动画向上渐变出一个标题

@@ -2247,6 +2247,15 @@
   dependencies:
     nanoid "^3.1.23"
 
+"@react-navigation/stack@^6.3.18":
+  version "6.3.18"
+  resolved "https://registry.npmmirror.com/@react-navigation/stack/-/stack-6.3.18.tgz#4e27bcec6d4edc2275cbb6164089db0d95888053"
+  integrity sha512-jAXneaLAs57xvyMFkebEyGCZDyz90KnaN7fM9f5Bu+Gx3KnoppdNfT4drpmN/f5f32L0eXS4aRAvuDrFT1mFfw==
+  dependencies:
+    "@react-navigation/elements" "^1.3.19"
+    color "^4.2.3"
+    warn-once "^0.1.0"
+
 "@react-spring/animated@~9.6.1":
   version "9.6.1"
   resolved "https://registry.yarnpkg.com/@react-spring/animated/-/animated-9.6.1.tgz#ccc626d847cbe346f5f8815d0928183c647eb425"
@@ -6356,7 +6365,7 @@ lottie-ios@^4.3.3:
 
 lottie-react-native@^6.3.1:
   version "6.3.1"
-  resolved "https://registry.yarnpkg.com/lottie-react-native/-/lottie-react-native-6.3.1.tgz#3ad152da79601e6a79ea811436a12a84fe1a4a72"
+  resolved "https://registry.npmmirror.com/lottie-react-native/-/lottie-react-native-6.3.1.tgz#3ad152da79601e6a79ea811436a12a84fe1a4a72"
   integrity sha512-M18nAVYeGMF//bhL27D2zuMcrFPH0jbD/deBvcWi0CCcfZf6LQfx45xt+cuDqwr5nh6dMm+ta8KfZJmkbNhtlg==
 
 lru-cache@^5.1.1:
@@ -7617,6 +7626,11 @@ react-native-animatable@^1.3.3:
   integrity sha512-2ckIxZQAsvWn25Ho+DK3d1mXIgj7tITkrS4pYDvx96WyOttSvzzFeQnM2od0+FUMzILbdHDsDEqZvnz1DYNQ1w==
   dependencies:
     prop-types "^15.7.2"
+
+react-native-fade-loading@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/react-native-fade-loading/-/react-native-fade-loading-1.0.1.tgz#8509cab2b7aa237d8a16a92422eb21a86d6e01af"
+  integrity sha512-HuvzNJvvM1pFQFCkMR1rXYlo0KZ2qnwy7m8ELQ6R5cLrfBuZjhK61Z1HYz1kNVWhsPx3p6knfff7AU1O9rbViw==
 
 react-native-fast-image@^8.6.3:
   version "8.6.3"

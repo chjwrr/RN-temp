@@ -244,7 +244,7 @@ function Home({navigation}:any): JSX.Element {
 
         <Button
         title="Go to Details"
-        onPress={() => navigation.navigate('Detail')}
+        onPress={() => navigation.navigate('Login')}
       />
 
 <Button

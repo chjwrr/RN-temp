@@ -1,8 +1,8 @@
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
+import Colors from '@/utils/colors';
 import {
     StyleSheet,
-  } from 'react-native';
-  
+} from 'react-native';
 export const styles = StyleSheet.create({
     bgImage:{
         flex:1,
@@ -17,21 +17,21 @@ export const styles = StyleSheet.create({
     },
     title:{
         marginTop:160,
-        color:'#261f31',
+        color:Colors.title,
         fontSize:40,
         fontFamily: 'SmileySans-Oblique',
     },
     tipReg:{
         flexDirection:'row',
-        marginTop:10,
+        marginTop:5,
         marginBottom:70
     },
     tip:{
-        color:'#AFACB5',
+        color:Colors.light,
         fontSize:14,
     },
     regist:{
-        color:'#8E8A97',
+        color:Colors.forbidBg,
         fontSize:14,
         marginLeft:10,
         fontWeight:'600'
@@ -40,11 +40,11 @@ export const styles = StyleSheet.create({
         width:'100%',
         height:40,
         borderBottomWidth:1,
-        borderBottomColor:'rgba(51, 51, 51, 0.05)'
+        borderBottomColor:Colors.border
     },
     input:{
         flex:1,
-        color:'#AFACB5',
+        color:Colors.light,
         fontSize:14,
         paddingVertical:0
     },
@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
         marginTop:20
     },
     forgetpsdtitle:{
-        color:'#AFACB5',
+        color:Colors.light,
         fontSize:14,
         fontWeight:'600'
     },
@@ -80,11 +80,11 @@ export const styles = StyleSheet.create({
         height:12
     },
     agreeText:{
-        color:'#8E8A97',
+        color:Colors.forbidBg,
         fontSize:12,
     },
     agreeTextDis:{
-        color:'#6D69FA',
+        color:Colors.bright,
         fontSize:12,
     },
     agreeSelButton:{
@@ -103,7 +103,7 @@ export const styles = StyleSheet.create({
         alignItems:'center'
     },
     veifytitle:{
-        color:'#AFACB5',
+        color:Colors.light,
         fontSize:14,
     },
     loginButton:{
@@ -113,14 +113,14 @@ export const styles = StyleSheet.create({
         alignItems:'center'
     },
     logintitle:{
-        color:'#fff',
+        color:Colors.white,
         fontSize:14,
     },
     loginButtonvieew:{
         marginBottom:70
     },
     tips:{
-        color:'#E33C64',
+        color:Colors.error,
         fontSize:14,
     }
 });

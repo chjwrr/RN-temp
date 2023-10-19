@@ -1,13 +1,15 @@
 import { SCREEN_HEIGHT, SCREEN_WIDTH, STATUSBAR_HEIGHT, STATUSBAR_SAFE_AREA_HEIGHT } from '@/utils';
+import Colors from '@/utils/colors';
 import {
     StyleSheet,
-  } from 'react-native';
-  
+} from 'react-native';
 export const styles = StyleSheet.create({
     bgckImg:{
         width:32,
         height:32,
-        marginTop:STATUSBAR_SAFE_AREA_HEIGHT
+        left:-10,
+        marginTop:STATUSBAR_SAFE_AREA_HEIGHT,
+        position:'absolute'
     },
     bgImage:{
         flex:1,
@@ -21,8 +23,8 @@ export const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     title:{
-        marginTop:160 - 32 - STATUSBAR_SAFE_AREA_HEIGHT,
-        color:'#261f31',
+        marginTop:160,
+        color:Colors.title,
         fontSize:40,
         fontFamily: 'SmileySans-Oblique',
         marginBottom:95
@@ -31,13 +33,13 @@ export const styles = StyleSheet.create({
         width:'100%',
         height:40,
         borderBottomWidth:1,
-        borderBottomColor:'rgba(51, 51, 51, 0.05)',
+        borderBottomColor:Colors.border,
         flexDirection:'row',
         alignItems:'center'
     },
     input:{
         flex:1,
-        color:'#AFACB5',
+        color:Colors.light,
         fontSize:14,
         paddingVertical:0
     },
@@ -63,11 +65,11 @@ export const styles = StyleSheet.create({
         height:12
     },
     agreeText:{
-        color:'#8E8A97',
+        color:Colors.forbidBg,
         fontSize:12,
     },
     agreeTextDis:{
-        color:'#6D69FA',
+        color:Colors.bright,
         fontSize:12,
     },
     agreeSelButton:{
@@ -82,21 +84,24 @@ export const styles = StyleSheet.create({
         alignItems:'center'
     },
     logintitle:{
-        color:'#fff',
+        color:Colors.white,
         fontSize:14,
     },
     loginButtonvieew:{
         marginTop:50
     },
     phoneArea:{
-        color:'rgba(79, 74, 88, 1)',
+        color:Colors.assist,
         fontSize:14,
         marginRight:10
     },
     tips:{
-        color:'#E33C64',
+        color:Colors.error,
         fontSize:14,
         height:20,
         marginTop:10
+    },
+    centerView:{
+      alignItems:'center'
     }
 });

@@ -1,4 +1,5 @@
 import { BOTTOM_HEIGHT, SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
+import Colors from '@/utils/colors';
 import {
     StyleSheet,
     Dimensions
@@ -30,12 +31,12 @@ export const styles = StyleSheet.create({
         paddingTop:20,
     },
     title:{
-        color:'#6d69fa',
+        color:Colors.bright,
         fontSize:40,
         fontFamily: 'SmileySans-Oblique',
     },
     des:{
-        color: 'rgba(38, 31, 49, 1)',
+        color: Colors.title,
         fontSize:16,
         lineHeight: 24,
         fontWeight: '400',

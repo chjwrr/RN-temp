@@ -12,6 +12,7 @@ import {
   Image
 } from 'react-native';
 import {styles} from './styles'
+import { isPhoneNumber } from '@/utils/common';
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -47,6 +48,10 @@ function PhoneLogin(props:any): JSX.Element {
       setTips('请输入手机号')
       return
     }
+    if (!isPhoneNumber(userAccount)){
+      setTips('手机号无效')
+      return
+    }
     props.navigation.navigate('PhoneCode',{
       phone:userAccount
     })
@@ -76,12 +81,14 @@ function PhoneLogin(props:any): JSX.Element {
                 />
               </View>
               <Text style={styles.tips}>{tips}</Text>
-
-              <TouchableOpacity onPress={onGetCode} style={styles.loginButtonvieew}>
-                <ImageBackground source={ButtonImg} style={styles.loginButton} resizeMode='cover'>
-                  <Text style={styles.logintitle}>获取验证码</Text>
-                </ImageBackground>
-              </TouchableOpacity>
+              <View style={styles.centerView}>
+                <TouchableOpacity onPress={onGetCode} style={styles.loginButtonvieew}>
+                  <ImageBackground source={ButtonImg} style={styles.loginButton} resizeMode='cover'>
+                    <Text style={styles.logintitle}>获取验证码</Text>
+                  </ImageBackground>
+                </TouchableOpacity>
+              </View>
+             
             </View>
             <View style={styles.downView}>
               <View style={styles.agreeView}>

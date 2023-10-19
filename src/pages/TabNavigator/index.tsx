@@ -1,10 +1,16 @@
 
 import React from 'react';
+import {
+  Animated
+} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Text, View } from 'react-native';
+
+
+
 
 import HomeScreen from '@/pages/Home'
 import MineScreen from '@/pages/Mine'
@@ -18,11 +24,17 @@ import PhoneLoginScreen from '@/pages/PhoneLogin'
 import PhoneCodeScreen from '@/pages/PhoneCode'
 
 
+import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
-const Stack = createNativeStackNavigator();
+// const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
+
+
+
+
 
 function Tabs() {
   return (
@@ -37,17 +49,6 @@ function Tabs() {
   );
 }
 
-
-function SpalshStack(){
-  return <Stack.Navigator screenOptions={{
-    animation:'slide_from_right',
-    headerTitleAlign:'center',
-  }}>
-    <Stack.Screen options={{
-      headerShown:false
-    }} name="Splash" component={SplashScreen} />
-  </Stack.Navigator>
-}
 
 const routers:any[] = [
   {
@@ -65,10 +66,28 @@ const routers:any[] = [
 ]
 
 
+const forFade = ({ current, next }:any) => {
+  const opacity = Animated.add(
+    current.progress,
+    next ? next.progress : 0
+  ).interpolate({
+    inputRange: [0, 1, 2],
+    outputRange: [0, 1, 0],
+  });
+
+  return {
+    leftButtonStyle: { opacity },
+    rightButtonStyle: { opacity },
+    titleStyle: { opacity },
+    backgroundStyle: { opacity },
+  };
+};
+
 function StackNav(){
   return <Stack.Navigator screenOptions={{
-    animation:'slide_from_right',
-    headerTitleAlign:'center',
+    // animation:'slide_from_right',
+    // headerTitleAlign:'center',
+    cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
   }}>
     <Stack.Screen options={{
       headerShown:false
@@ -83,7 +102,7 @@ function StackNav(){
     <Stack.Screen
       name="Tab"
       component={Tabs}
-      options={{ 
+      options={{
         headerShown: false,
       }}
     />

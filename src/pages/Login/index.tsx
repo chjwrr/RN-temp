@@ -20,6 +20,8 @@ const ArrowRight = require('@/assets/images/arr_right.png')
 const ButtonImg = require('@/assets/images/buttonbg.png')
 
 
+
+
 function Login(props:any): JSX.Element {
   const [userAccount,setUserAccount] = useState('')
   const [userPsd,setUserPsd] = useState('')
@@ -87,7 +89,6 @@ function Login(props:any): JSX.Element {
                   value={userAccount}
                   onChange={onUserAccountChange}
                   underlineColorAndroid={'transparent'}
-                  
                 />
               </View>
               <View style={[styles.inputView,{marginTop:40}]}>

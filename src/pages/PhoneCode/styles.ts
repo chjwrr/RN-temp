@@ -1,13 +1,15 @@
 import { SCREEN_HEIGHT, SCREEN_WIDTH, STATUSBAR_HEIGHT, STATUSBAR_SAFE_AREA_HEIGHT } from '@/utils';
+import Colors from '@/utils/colors';
 import {
     StyleSheet,
-  } from 'react-native';
-  
+} from 'react-native';
 export const styles = StyleSheet.create({
     bgckImg:{
         width:32,
         height:32,
-        marginTop:STATUSBAR_SAFE_AREA_HEIGHT
+        marginTop:STATUSBAR_SAFE_AREA_HEIGHT,
+        position:'absolute',
+        left:-10,
     },
     bgImage:{
         flex:1,
@@ -21,8 +23,8 @@ export const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     title:{
-        marginTop:160 - 32 - STATUSBAR_SAFE_AREA_HEIGHT,
-        color:'#261f31',
+        marginTop:160,
+        color:Colors.title,
         fontSize:40,
         fontFamily: 'SmileySans-Oblique',
         marginBottom:95
@@ -31,16 +33,21 @@ export const styles = StyleSheet.create({
         width:'100%',
         height:40,
         borderBottomWidth:1,
-        borderBottomColor:'rgba(51, 51, 51, 0.05)',
+        borderBottomColor:Colors.border,
         flexDirection:'row',
         alignItems:'center'
     },
     input:{
-        color:'#AFACB5',
+        color:Colors.white,
         fontSize:14,
         paddingVertical:0,
-        height:0,
-        width:0
+        height:52,
+        width:'100%',
+        // backgroundColor:'blue',
+        position:'absolute',
+        bottom:0,
+        zIndex:-1,
+        paddingBottom:60
     },
     downView:{
         alignItems:'center',
@@ -64,11 +71,11 @@ export const styles = StyleSheet.create({
         height:12
     },
     agreeText:{
-        color:'#8E8A97',
+        color:Colors.forbidBg,
         fontSize:12,
     },
     agreeTextDis:{
-        color:'#6D69FA',
+        color:Colors.bright,
         fontSize:12,
     },
     agreeSelButton:{
@@ -83,31 +90,34 @@ export const styles = StyleSheet.create({
         alignItems:'center'
     },
     logintitle:{
-        color:'#fff',
+        color:Colors.white,
         fontSize:14,
     },
     loginButtonvieew:{
         marginTop:50
     },
     phonetip:{
-        color:'#4f4a58',
+        color:Colors.assist,
         fontSize:14,
     },
     codeView:{
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
-        marginTop:40
+        marginTop:40,
     },
     labCode:{
         width:52,
         height:52,
         borderRadius:12,
-        backgroundColor:'rgba(109, 105, 250, 1)',
-        color:'#fff',
+        backgroundColor:Colors.bright,
+        color:Colors.white,
         textAlign:'center',
         lineHeight:52,
         fontSize:28,
         overflow:'hidden'
+    },
+    CodeMianView:{
+      // paddingBottom:30
     }
 });

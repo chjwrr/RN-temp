@@ -40,6 +40,10 @@ function PhoneCode(props:any): JSX.Element {
   function onChange(e:any){
     if (e.nativeEvent.text.length == 4){
       Keyboard.dismiss()
+
+      // 调用接口
+
+
     }
     setCodeValue(e.nativeEvent.text.slice(0,4))
   }
@@ -62,7 +66,7 @@ function PhoneCode(props:any): JSX.Element {
 
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
-      <TouchableWithoutFeedback style={styles.main} onPress={onDisKeyboard}>
+      <TouchableOpacity activeOpacity={1} style={styles.main} onPress={onDisKeyboard}>
         <SafeAreaView style={{flex:1}}>
           <TouchableOpacity onPress={onBack}>
             <Image source={BackImg} style={styles.bgckImg}/>
@@ -74,14 +78,16 @@ function PhoneCode(props:any): JSX.Element {
                 <Text style={styles.phonetip}>验证码已发送至 {props.route.params.phone}</Text>
               </View>
 
-              <TextInput ref={inputRef} style={styles.input} value={codeValue} onChange={onChange} keyboardType='number-pad'/>
-              
-              <TouchableOpacity activeOpacity={1} style={styles.codeView} onPress={onShowKeyboard}>
-                <Text style={styles.labCode}>{codeValue.slice(0,1)}</Text>
-                <Text style={styles.labCode}>{codeValue.slice(1,2)}</Text>
-                <Text style={styles.labCode}>{codeValue.slice(2,3)}</Text>
-                <Text style={styles.labCode}>{codeValue.slice(3,4)}</Text>
-              </TouchableOpacity>
+              <View style={styles.CodeMianView}>
+                <TouchableOpacity activeOpacity={1} style={styles.codeView} onPress={onShowKeyboard}>
+                  <Text style={styles.labCode}>{codeValue.slice(0,1)}</Text>
+                  <Text style={styles.labCode}>{codeValue.slice(1,2)}</Text>
+                  <Text style={styles.labCode}>{codeValue.slice(2,3)}</Text>
+                  <Text style={styles.labCode}>{codeValue.slice(3,4)}</Text>
+                </TouchableOpacity>
+                <TextInput ref={inputRef} style={styles.input} value={codeValue} onChange={onChange} keyboardType='number-pad'/>
+
+              </View>
               
             </View>
             <View style={styles.downView}>
@@ -103,7 +109,7 @@ function PhoneCode(props:any): JSX.Element {
             </View>
           </View>
         </SafeAreaView>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     </ImageBackground>
   );
 }
