@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
         width:32,
         height:32,
         marginLeft:-10,
+        marginTop:STATUSBAR_SAFE_AREA_HEIGHT
     },
     bgckImg:{
         width:32,
@@ -25,7 +26,7 @@ export const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     title:{
-        marginTop:120 - 32,
+        marginTop:120 - 32 - STATUSBAR_SAFE_AREA_HEIGHT,
         color:Colors.title,
         fontSize:40,
         fontFamily: 'SmileySans-Oblique',

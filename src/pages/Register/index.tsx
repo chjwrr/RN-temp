@@ -171,7 +171,7 @@ function Register(props:any): JSX.Element {
             <View>
               <Text style={styles.title}>你好！</Text>
               <View style={styles.tipReg}>
-                <Text style={styles.tip}>欢迎来到Cverselink，立即注册</Text>
+                <Text style={styles.tip}>欢迎来到 Cverselink，立即注册</Text>
               </View>
               <View style={[styles.inputView,{marginTop:10}]}>
                 <TextInput style={styles.input}

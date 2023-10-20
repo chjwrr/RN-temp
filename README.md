@@ -323,7 +323,7 @@ try {
     // error reading value
 }
 ```
-# 上拉加载下拉刷新 
+# 上拉加载下拉刷新
 https://github.com/greatbsky/react-native-pull/wiki
 
 lottie-react-native  +  react-native-pull  +  https://airbnb.io/lottie/#/
@@ -444,7 +444,7 @@ lottie-react-native
 https://github.com/lottie-react-native/lottie-react-native#lottie-react-native
 ```
 import LottieView from "lottie-react-native";
-<LottieView source={require("../path/to/animation.json")} autoPlay loop />
+<LottieView style={{width:100,height:100}} source={require("../path/to/animation.json")} autoPlay loop />
 
 
 ```

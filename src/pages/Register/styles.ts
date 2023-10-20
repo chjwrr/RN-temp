@@ -1,4 +1,4 @@
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
+import { SCREEN_HEIGHT, SCREEN_WIDTH, STATUSBAR_SAFE_AREA_HEIGHT } from '@/utils';
 import Colors from '@/utils/colors';
 import {
     StyleSheet,
@@ -8,6 +8,8 @@ export const styles = StyleSheet.create({
         width:32,
         height:32,
         marginLeft:-10,
+        marginTop:STATUSBAR_SAFE_AREA_HEIGHT
+
     },
     bgckImg:{
         width:32,
@@ -25,7 +27,7 @@ export const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     title:{
-        marginTop:120 - 32,
+        marginTop:120 - 32 - STATUSBAR_SAFE_AREA_HEIGHT,
         color:Colors.title,
         fontSize:40,
         fontFamily: 'SmileySans-Oblique',
@@ -58,7 +60,9 @@ export const styles = StyleSheet.create({
         flex:1,
         color:Colors.light,
         fontSize:14,
-        paddingVertical:0
+        paddingTop:0,
+        paddingBottom:0,
+        height:'100%'
     },
     forgetpsd:{
         flexDirection:'row',

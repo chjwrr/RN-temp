@@ -13,6 +13,7 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import {styles} from './styles'
+import * as Loading from '@/components/Loading'
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -73,7 +74,6 @@ function Login(props:any): JSX.Element {
 
   }
   function onUserPrivacy(){
-    
   }
   function onLoginVerify(){
     props.navigation.navigate('PhoneLogin')
@@ -87,6 +87,14 @@ function Login(props:any): JSX.Element {
       setTips('请输入密码')
       return
     }
+    Loading.show('正在登录...')
+    setTimeout(() => {
+      Loading.show('登录成功，正在跳转...')
+      setTimeout(() => {
+        Loading.hidden()
+      }, 2000);
+    }, 3000);
+
   }
 
   return (

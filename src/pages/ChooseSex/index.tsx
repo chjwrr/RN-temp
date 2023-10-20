@@ -53,28 +53,25 @@ function ChooseSex(props:any): JSX.Element {
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
       <SafeAreaView style={{
-                    flex: 0
-                }}></SafeAreaView>
+        flex: 0
+      }}></SafeAreaView>
       <SafeAreaView style={{flex:1}} >
         <TouchableOpacity onPress={onBack} style={styles.backButton}>
           <Image source={BackImg} style={styles.bgckImg}/>
         </TouchableOpacity>
-        <View style={styles.mainContent}>
-          <View>
+        <TouchableOpacity style={styles.mainContent} activeOpacity={1} onPress={()=>Keyboard.dismiss()}>
+          <View style={styles.mainContent}>
             <View style={styles.topNameView}>
               <Text style={styles.title}>Hi~!</Text>
               <View style={styles.tipReg}>
                 <Text style={styles.nametitle}>你叫什么名字？</Text>
               </View>
-             
-
-
               <View style={styles.nameView}>
                 <ImageBackground source={ButtonImg} resizeMode="cover" style={styles.nameBG}>
                   <TextInput
                     style={styles.nameInput}
                     value={name}
-                    onChange={onNameChange} 
+                    onChange={onNameChange}
                     underlineColorAndroid={'transparent'}
                     placeholder='请输入名字'
                     placeholderTextColor={Colors.white}
@@ -82,59 +79,50 @@ function ChooseSex(props:any): JSX.Element {
                 </ImageBackground>
                 <Image style={styles.nameIcon} source={name.length > 0 ? NameSelImg : NameNorImg}/>
               </View>
-
-
-
             </View>
-          </View>
-          <View style={styles.agreeView}>
-            <ImageBackground source={bottomBG} resizeMode="cover" style={styles.bottombg}>
-
-              <View style={{
-                flexDirection:'row'
-              }}>
-                <TouchableOpacity onPress={()=>setSex(0)}>
-                  <Image style={styles.sexImg} source={WomenIcon}/>
+            <View style={styles.agreeView}>
+              <ImageBackground source={bottomBG} resizeMode="cover" style={styles.bottombg}>
+                <View style={{
+                  flexDirection:'row'
+                }}>
+                  <TouchableOpacity onPress={()=>setSex(0)}>
+                    <Image style={styles.sexImg} source={WomenIcon}/>
+                  </TouchableOpacity>
+                  <View style={{
+                    width:50
+                  }}/>
+                  <TouchableOpacity onPress={()=>setSex(1)}>
+                    <Image style={styles.sexImg} source={MenIcon}/>
+                  </TouchableOpacity>
+                </View>
+                <TouchableOpacity onPress={onNext} style={[styles.nextButtonView,{
+                  backgroundColor:name.length > 0 ? 'transparent' : Colors.bright_2
+                }]}>
+                  {name.length > 0 ? <ImageBackground source={ButtonImg} style={styles.nextButton} resizeMode='cover'>
+                    <Text style={[styles.nextTitle,{
+                      color:'#fff'
+                    }]}>下一步</Text>
+                  </ImageBackground> : <Text style={styles.nextTitle}>下一步</Text>}
                 </TouchableOpacity>
                 <View style={{
-                  width:50
+                  height:'100%',
+                  width:'100%',
+                  backgroundColor:Colors.white
                 }}/>
-                <TouchableOpacity onPress={()=>setSex(1)}>
-                  <Image style={styles.sexImg} source={MenIcon}/>
-                </TouchableOpacity>
-              </View>
-
-              <TouchableOpacity onPress={onNext} style={[styles.nextButtonView,{
-                backgroundColor:name.length > 0 ? 'transparent' : Colors.bright_2
-              }]}>
-                {name.length > 0 ? <ImageBackground source={ButtonImg} style={styles.nextButton} resizeMode='cover'>
-                  <Text style={[styles.nextTitle,{
-                    color:'#fff'
-                  }]}>下一步</Text>
-                </ImageBackground> : <Text style={styles.nextTitle}>下一步</Text>}
-              </TouchableOpacity>
-
-
-
-
-
-              <TouchableOpacity onPress={onJumpNext}>
-                <Text style={styles.agreeText}>跳过</Text>
-              </TouchableOpacity>
-              <View style={{
-                height:'100%',
-                width:'100%',
-                backgroundColor:Colors.white
-              }}/>
-            </ImageBackground>
-          
+              </ImageBackground>
+            </View>
           </View>
+        </TouchableOpacity>
+        <View style={styles.jumpView}>
+          <TouchableOpacity onPress={onJumpNext}>
+            <Text style={styles.agreeText}>跳过</Text>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
       <SafeAreaView style={{
-                    backgroundColor: "white",
-                    flex: 0
-                }}></SafeAreaView>
+        backgroundColor: "white",
+        flex: 0
+      }}></SafeAreaView>
     </ImageBackground>
   );
 }

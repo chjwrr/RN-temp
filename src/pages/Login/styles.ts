@@ -46,7 +46,9 @@ export const styles = StyleSheet.create({
         flex:1,
         color:Colors.light,
         fontSize:14,
-        paddingVertical:0
+        paddingTop:0,
+        paddingBottom:0,
+        height:'100%'
     },
     forgetpsd:{
         flexDirection:'row',

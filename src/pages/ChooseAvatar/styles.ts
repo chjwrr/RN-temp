@@ -1,4 +1,4 @@
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
+import { BOTTOM_HEIGHT, SCREEN_HEIGHT, SCREEN_WIDTH, STATUSBAR_SAFE_AREA_HEIGHT } from '@/utils';
 import Colors from '@/utils/colors';
 import {
     StyleSheet,
@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
         width:32,
         height:32,
         marginLeft:23,
+        marginTop:STATUSBAR_SAFE_AREA_HEIGHT
     },
     bgckImg:{
         width:32,
@@ -26,7 +27,7 @@ export const styles = StyleSheet.create({
         flex:1,
     },
     title:{
-        marginTop:120 - 32,
+        marginTop:120 - 32 - STATUSBAR_SAFE_AREA_HEIGHT,
         color:Colors.title,
         fontSize:40,
         fontFamily: 'SmileySans-Oblique',
@@ -91,4 +92,11 @@ export const styles = StyleSheet.create({
         marginTop:5,
         marginBottom:50
     },
+    jumpView:{
+      position:'absolute',
+      bottom:BOTTOM_HEIGHT + 10,
+      flexDirection:'row',
+      justifyContent:'center',
+      width:'100%'
+    }
 })
