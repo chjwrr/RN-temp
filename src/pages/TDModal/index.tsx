@@ -38,28 +38,27 @@ function Cube(props:any) {
   )
 }
 
-// import TDM from './1.gltf'
-
-// console.log('vTDM==',TDM)
 
 function TDModal(): JSX.Element {
-  // const obj = useLoader(OBJLoader, require('../../assets/tdm.obj'))
-  // const gltf = useLoader(GLTFLoader, '/src/pages/TDModal/1.gltf')
+  const obj:any = useLoader(OBJLoader, '/d.obj',(loader:any)=>{
+
+  })
+  // const gltf = useLoader(GLTFLoader, './1.glft')
 
   return (
     <SafeAreaView style={{
       flex: 1
     }}>
-     
-     <Canvas>
-     <ambientLight />
-      <pointLight position={[10, 10, 10]} />
-      <Cube />
-      {/* <primitive object={obj} /> */}
-      <directionalLight position={[0, 0, 5]} color="red" />
-      {/* <primitive object={gltf.scene} /> */}
-    </Canvas>
 
+
+<primitive object={obj} />
+        {/* <primitive object={gltf.scene} /> */}
+
+      {/* <Canvas>
+        <ambientLight />
+
+        <primitive object={obj} />
+      </Canvas> */}
     </SafeAreaView>
   );
 }

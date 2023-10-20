@@ -85,31 +85,11 @@ const routers:any[] = [
   }
 ]
 
-
-const forFade = ({ current, next }:any) => {
-  const opacity = Animated.add(
-    current.progress,
-    next ? next.progress : 0
-  ).interpolate({
-    inputRange: [0, 1, 2],
-    outputRange: [0, 1, 0],
-  });
-
-  return {
-    leftButtonStyle: { opacity },
-    rightButtonStyle: { opacity },
-    titleStyle: { opacity },
-    backgroundStyle: { opacity },
-  };
-};
-
 function StackNav(){
   return <Stack.Navigator screenOptions={{
-    // animation:'slide_from_right',
-    // headerTitleAlign:'center',
     cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
   }}>
-    <Stack.Screen options={{
+    {/* <Stack.Screen options={{
       headerShown:false
     }} name="Splash" component={SplashScreen} />
     {
@@ -118,7 +98,7 @@ function StackNav(){
           headerShown:false
         }} name={item.name} component={item.component} />
       })
-    }
+    } */}
     <Stack.Screen
       name="Tab"
       component={Tabs}
