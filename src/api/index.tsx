@@ -2,8 +2,7 @@ import {
     useQuery,
     useMutation,
   } from '@tanstack/react-query'
-import { getRequest } from './axios'
-
+import * as HTTPS from './axios'
 
 
 /**
@@ -15,20 +14,19 @@ const mutation = useMutation({
 
 
   mutation.isLoading
-  mutation.isSuccess 
+  mutation.isSuccess
  */
 export function useSendTransaction(){
 function sendTransaction(params:any) {
     return new Promise(async() => {
-        
-        })
+      })
     }
     return useMutation(sendTransaction)
 }
 
 export function useIsMint(){
   async function fetchData(){
-    const isMining = await getRequest('')
+    const isMining = await HTTPS.get('')
     console.log('isMining===',isMining)
     return {
     }

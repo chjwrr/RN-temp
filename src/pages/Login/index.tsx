@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import {styles} from './styles'
 import * as Loading from '@/components/Loading'
+import * as HTTPS from '@/api/axios'
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
