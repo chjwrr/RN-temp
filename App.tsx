@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useEffect } from 'react';
 import TabNavigator from '@/pages/TabNavigator'
 import { RootSiblingParent } from 'react-native-root-siblings';
 import FlashMessage from "react-native-flash-message";
@@ -9,6 +9,8 @@ import {
   StatusBar
 } from 'react-native'
 import Provider from '@/provider'
+import * as SplashScreen from 'expo-splash-screen';
+SplashScreen.preventAutoHideAsync();
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -29,8 +31,12 @@ CacheManager.config = {
 };
 console.log('===',`${Dirs.CacheDir}/images_cache/`)
 
-
 function App(): JSX.Element {
+  useEffect(()=>{
+    setTimeout(async () => {
+      await SplashScreen.hideAsync();
+    }, 1000);
+  },[])
   return (
     <Provider>
       <StatusBar translucent={ true } backgroundColor="transparent" />

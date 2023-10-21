@@ -493,5 +493,11 @@ https://www.cgtrader.com/items/1872992/download-page
 
 
 
+
+
+https://github.com/KamranKhankhail/react-native-rive-splash-screen
+expo-splash-screen
+
+
 # TODO 
 ## 1.登录等输入框，点击输入框的时候，可以动画向上渐变出一个标题

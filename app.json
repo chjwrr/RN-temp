@@ -1,4 +1,11 @@
 {
   "name": "AwesomeProject",
-  "displayName": "AwesomeProject"
+  "displayName": "AwesomeProject",
+  "expo": {
+    "splash": {
+      "image": "./src/assets/images/splash.png",
+      "backgroundColor":"0f0",
+      "resizeMode": "cover"
+    }
+  }
 }
