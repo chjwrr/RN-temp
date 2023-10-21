@@ -1,7 +1,20 @@
 https://js.design/f/y6BtF8?p=Vc9GVvs4Lp
 
-# 启动屏
-react-native-splash-screen ：https://github.com/crazycodeboy/react-native-splash-screen
+# 运行
+`npx react-native run-android`
+
+# android 打包apk
+`cd android && ./gradlew assembleRelease`
+
+
+# 清理缓存
+cd android && ./gradlew clean && cd ..
+npx react-native start --reset-cache
+npx react-native run-android     npx react-native run-ios
+
+
+
+
 # 输入框动画
 react-native-textinput-effects：https://github.com/halilb/react-native-textinput-effects
 # 加载中动画
@@ -12,21 +25,14 @@ https://github.com/zoontek/react-native-permissions
 https://github.com/shahen94/react-native-video-processing
 # 视频播放
 https://github.com/react-native-video/react-native-video
-# 滑动选项卡 代码太老报错
-https://github.com/ptomasroos/react-native-scrollable-tab-view
 # 下拉放大图片
 https://github.com/lelandrichardson/react-native-parallax-view
 # 弹出视图
 https://github.com/instea/react-native-popup-menu
-# actionsheet 代码太老
-https://github.com/beefe/react-native-actionsheet
-# 下拉选择  代码太老
-https://github.com/alinz/react-native-dropdown
-# 图片放大方法 代码太老
-https://github.com/oblador/react-native-lightbox
-# modal  代码太老
-https://github.com/maxs15/react-native-modalbox
-https://github.com/magicismight/react-native-root-modal
+# actionsheet
+# 下拉选择
+# 图片放大方法
+# modal
 # 毛玻璃
 https://github.com/Kureev/react-native-blur
 # 音频
@@ -37,28 +43,27 @@ https://github.com/software-mansion/react-native-svg
 https://github.com/oblador/react-native-progress
 # 左滑删除
 https://github.com/dancormier/react-native-swipeout
-# 引导页 代码太老
-https://github.com/FuYaoDe/react-native-app-intro
 # 展示图片显示毛玻璃效果
 https://github.com/mrousavy/react-native-blurhash
 # 列表优化
 https://github.com/Flipkart/recyclerlistview
-# 时间选取 代码太老
-https://github.com/xgfe/react-native-datepicker
+# 时间选取
 # 折叠展开隐藏动画
 https://github.com/oblador/react-native-collapsible
-# 弹出对话框 代码太老
-https://github.com/jacklam718/react-native-modals
+# 弹出对话框
 # slider
 https://github.com/jeanregisser/react-native-slider
-# 占位符 代码太老
-https://github.com/tomzaku/react-native-shimmer-placeholder
 # 文件处理
 https://github.com/itinance/react-native-fs
 # 引导提示
-react-native-tooltip
+https://github.com/mohebifar/react-native-copilot
 # 设备信息
 https://github.com/react-native-device-info/react-native-device-info
+# 上拉加载下拉刷新
+# 文件管理
+https://github.com/alpha0010/react-native-file-access
+# 通知  极光
+https://github.com/jpush/jpush-react-native
 
 
 
@@ -109,7 +114,7 @@ import { FadeLoading } from 'react-native-fade-loading';
 ```
 
 
-# loading框
+# toast框
 https://github.com/magicismight/react-native-root-toast
 ```
 import Toast from 'react-native-root-toast';
@@ -303,58 +308,6 @@ import Hyperlink from 'react-native-hyperlink'
 
 ```
 
-# 本地存储
-https://react-native-async-storage.github.io/async-storage/docs/install/
-每个条目受到 WindowCursor 大小的限制，WindowCursor 是用于从 SQLite 读取数据的缓冲区。目前它的大小约为 2 MB
-```
-try {
-    await AsyncStorage.setItem('my-key', '12');
-} catch (e) {
-// saving error
-}
-
-try {
-    const value = await AsyncStorage.getItem('my-key');
-    console.log('value====',value)
-    if (value !== null) {
-    // value previously stored
-    }
-} catch (e) {
-    // error reading value
-}
-```
-# 上拉加载下拉刷新
-https://github.com/greatbsky/react-native-pull/wiki
-
-lottie-react-native  +  react-native-pull  +  https://airbnb.io/lottie/#/
-
-
-# 运行
-`npx react-native run-android`
-
-# android 打包apk
-`cd android && ./gradlew assembleRelease`
-
-
-# 清理缓存
-cd android && ./gradlew clean && cd ..
-npx react-native start --reset-cache
-npx react-native run-android     npx react-native run-ios
-
-
-# LayoutAnimation   Animated
-
-
-# 防抖  节流
-lodash
-
-# redux
-https://redux.js.org/introduction/installation
-
-
-# 网络请求
-axios 
-
 
 # 监听键盘
 ```
@@ -382,8 +335,6 @@ axios
   },[])
 ```
 
-# 文件管理
-https://github.com/alpha0010/react-native-file-access
 
 
 # 图片缓存
@@ -446,47 +397,32 @@ https://github.com/lottie-react-native/lottie-react-native#lottie-react-native
 import LottieView from "lottie-react-native";
 <LottieView style={{width:100,height:100}} source={require("../path/to/animation.json")} autoPlay loop />
 
-
 ```
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 待测试
+
 #加载3D模型
-  const gltf = useGLTF("https://www.arweave.net/1Qi6CQm7jv35_2eDsqc3SraLaB_ngxdm_m1UVbKF8Us?ext=glb");
-
+const gltf = useGLTF("https://www.arweave.net/1Qi6CQm7jv35_2eDsqc3SraLaB_ngxdm_m1UVbKF8Us?ext=glb");
 https://docs.pmnd.rs/react-three-fiber/getting-started/installation#react-native
-
-
 https://zhuanlan.zhihu.com/p/615965916
-
-
-
 https://docs.pmnd.rs/react-three-fiber/tutorials/loading-models
-
-微信登录
-https://github.com/bashen1/react-native-mwechat
-支付宝支付
-https://github.com/452MJ/react-native-alipay-jerry
-支付宝登录 支付
-https://github.com/react-native-hero/alipay
-微信支付宝 支付
-https://github.com/yorkzero831/react-native-super-pay
-3.QQ 微博 微信 登录
-https://github.com/xiaoxinbo118/react-native-sns-share
-10.通知
-https://github.com/jpush/jpush-react-native/tree/dev
-修改应用名称
-下载
-
-
-
-
-
-https://doc.talkingdata.com/posts/848#IMPORT%20%26amp%3B%20%20%E5%BC%95%E7%94%A8
-https://github.com/yorkzero831/react-native-super-pay
-
-
-
-
 3D模型库
 https://www.cgtrader.com/items/1872992/download-page
 
@@ -495,9 +431,40 @@ https://www.cgtrader.com/items/1872992/download-page
 
 
 
-https://github.com/KamranKhankhail/react-native-rive-splash-screen
-expo-splash-screen
+微信支付原生文档
+https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html
+
+
+
+支持微信登录、支付
+https://github.com/bashen1/react-native-mwechat
+
+
+
+
+
+
+支付宝原生文档
+https://opendocs.alipay.com/open/01bxlm
+
+支持支付宝登录、支付
+https://github.com/react-native-hero/alipay
+
+
+
+
+
+支持微信 支付宝支付
+https://github.com/yorkzero831/react-native-super-pay
+
+
+
+
+
+
 
 
 # TODO 
 ## 1.登录等输入框，点击输入框的时候，可以动画向上渐变出一个标题
+
+
