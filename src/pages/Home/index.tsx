@@ -167,12 +167,6 @@ function Home({navigation}:any): JSX.Element {
         }}
       />
 
-
-
-
-
-        <Animatable.Text animation="slideInDown" iterationCount={15} direction="alternate">Up and down you go</Animatable.Text>
-
         <Button
         title="选择相册"
         onPress={() => {
@@ -236,7 +230,7 @@ function Home({navigation}:any): JSX.Element {
 
         <Button
         title="Go to Details"
-        onPress={() => navigation.navigate('Login')}
+        onPress={() => navigation.navigate('Detail')}
       />
 
 <Button

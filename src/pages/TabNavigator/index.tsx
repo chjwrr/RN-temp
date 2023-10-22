@@ -1,8 +1,5 @@
 
 import React from 'react';
-import {
-  Animated
-} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -19,6 +16,8 @@ import { routers } from './routers';
 import CustomTabbar from '@/components/CustomTabbar';
 
 
+import DetailScreen from '@/pages/Home/Detail'
+
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 // const Stack = createNativeStackNavigator();
@@ -29,7 +28,7 @@ function Tabs() {
     <Tab.Navigator screenOptions={{
       headerTitleAlign:'center',
     }}
-    tabBar={(props:BottomTabBarProps)=><CustomTabbar {...props}/>}
+    // tabBar={(props:BottomTabBarProps)=><CustomTabbar {...props}/>}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Mine" component={MineScreen} options={{
@@ -46,7 +45,7 @@ function StackNav(){
   return <Stack.Navigator screenOptions={{
     cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
   }}>
-    {/* <Stack.Screen options={{
+    <Stack.Screen options={{
       headerShown:false
     }} name="Splash" component={SplashScreen} />
     {
@@ -55,7 +54,7 @@ function StackNav(){
           headerShown:false
         }} name={item.name} component={item.component} />
       })
-    } */}
+    }
     <Stack.Screen
       name="Tab"
       component={Tabs}
@@ -63,6 +62,12 @@ function StackNav(){
         headerShown: false,
       }}
     />
+<Stack.Screen options={{
+      // headerShown:false
+    }} name="Detail" component={DetailScreen} />
+
+
+
   </Stack.Navigator>
 }
 

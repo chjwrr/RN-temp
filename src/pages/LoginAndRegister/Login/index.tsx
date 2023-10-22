@@ -32,28 +32,27 @@ function Login(props:any): JSX.Element {
   const [tips,setTips] = useState('')
   const [mainTop,setMainTop] = useState(0)
 
-  useEffect(()=>{
-    const keyboardDidShow = Keyboard.addListener('keyboardDidShow',(e:any)=>{
-      console.log('-e-',e)
-      LayoutAnimation.spring()
-      setMainTop(-100)
-    })
-    const keyboardDidHide = Keyboard.addListener('keyboardDidHide',()=>{
-      LayoutAnimation.spring()
-      setMainTop(0)
-    })
-    return ()=>{
-      keyboardDidShow.remove()
-      keyboardDidHide.remove()
-    }
-  },[])
+  // useEffect(()=>{
+  //   const keyboardDidShow = Keyboard.addListener('keyboardDidShow',(e:any)=>{
+  //     console.log('-e-',e)
+  //     LayoutAnimation.spring()
+  //     setMainTop(-100)
+  //   })
+  //   const keyboardDidHide = Keyboard.addListener('keyboardDidHide',()=>{
+  //     LayoutAnimation.spring()
+  //     setMainTop(0)
+  //   })
+  //   return ()=>{
+  //     keyboardDidShow.remove()
+  //     keyboardDidHide.remove()
+  //   }
+  // },[])
 
 
   function onDisKeyboard(){
     Keyboard.dismiss()
   }
   function onRegister(){
-    Keyboard.dismiss()
     props.navigation.navigate('Register')
   }
   function onForgetPsd(){

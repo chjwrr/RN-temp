@@ -1,5 +1,9 @@
 https://js.design/f/y6BtF8?p=Vc9GVvs4Lp
 
+# 下载
+`yarn`
+`ios: npx pod-install`
+
 # 运行
 `npx react-native run-android`
 
@@ -25,14 +29,10 @@ https://github.com/zoontek/react-native-permissions
 https://github.com/shahen94/react-native-video-processing
 # 视频播放
 https://github.com/react-native-video/react-native-video
-# 下拉放大图片
-https://github.com/lelandrichardson/react-native-parallax-view
 # 弹出视图
 https://github.com/instea/react-native-popup-menu
 # actionsheet
 # 下拉选择
-# 图片放大方法
-# modal
 # 毛玻璃
 https://github.com/Kureev/react-native-blur
 # 音频
@@ -45,8 +45,6 @@ https://github.com/oblador/react-native-progress
 https://github.com/dancormier/react-native-swipeout
 # 展示图片显示毛玻璃效果
 https://github.com/mrousavy/react-native-blurhash
-# 列表优化
-https://github.com/Flipkart/recyclerlistview
 # 时间选取
 # 折叠展开隐藏动画
 https://github.com/oblador/react-native-collapsible
@@ -423,7 +421,8 @@ show(<View style={{
   })
 
 ```
-
+ # 键盘遮挡问题
+ react-native-keyboard-controller
 
 
 
@@ -490,6 +489,3 @@ https://github.com/yorkzero831/react-native-super-pay
 
 # TODO 
 ## 1.登录等输入框，点击输入框的时候，可以动画向上渐变出一个标题
-
-自定义tabbar
-底部向上弹框  中间弹出框

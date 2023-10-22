@@ -26,21 +26,21 @@ function PhoneCode(props:any): JSX.Element {
   const inputRef = useRef<any>()
   const [mainTop,setMainTop] = useState(0)
 
-  useEffect(()=>{
-    const keyboardDidShow = Keyboard.addListener('keyboardDidShow',(e:any)=>{
-      console.log('-e-',e)
-      LayoutAnimation.spring()
-      setMainTop(-100)
-    })
-    const keyboardDidHide = Keyboard.addListener('keyboardDidHide',()=>{
-      LayoutAnimation.spring()
-      setMainTop(0)
-    })
-    return ()=>{
-      keyboardDidShow.remove()
-      keyboardDidHide.remove()
-    }
-  },[])
+  // useEffect(()=>{
+  //   const keyboardDidShow = Keyboard.addListener('keyboardDidShow',(e:any)=>{
+  //     console.log('-e-',e)
+  //     LayoutAnimation.spring()
+  //     setMainTop(-100)
+  //   })
+  //   const keyboardDidHide = Keyboard.addListener('keyboardDidHide',()=>{
+  //     LayoutAnimation.spring()
+  //     setMainTop(0)
+  //   })
+  //   return ()=>{
+  //     keyboardDidShow.remove()
+  //     keyboardDidHide.remove()
+  //   }
+  // },[])
 
   useEffect(()=>{
     setTimeout(() => {

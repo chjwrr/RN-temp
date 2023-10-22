@@ -37,21 +37,21 @@ function Register(props:any): JSX.Element {
   const codeInterval = useRef<any>()
   const [mainTop,setMainTop] = useState(0)
 
-  useEffect(()=>{
-    const keyboardDidShow = Keyboard.addListener('keyboardDidShow',(e:any)=>{
-      console.log('-e-',e)
-      LayoutAnimation.spring()
-      setMainTop(-100)
-    })
-    const keyboardDidHide = Keyboard.addListener('keyboardDidHide',()=>{
-      LayoutAnimation.spring()
-      setMainTop(0)
-    })
-    return ()=>{
-      keyboardDidShow.remove()
-      keyboardDidHide.remove()
-    }
-  },[])
+  // useEffect(()=>{
+  //   const keyboardDidShow = Keyboard.addListener('keyboardDidShow',(e:any)=>{
+  //     console.log('-e-',e)
+  //     LayoutAnimation.spring()
+  //     setMainTop(-100)
+  //   })
+  //   const keyboardDidHide = Keyboard.addListener('keyboardDidHide',()=>{
+  //     LayoutAnimation.spring()
+  //     setMainTop(0)
+  //   })
+  //   return ()=>{
+  //     keyboardDidShow.remove()
+  //     keyboardDidHide.remove()
+  //   }
+  // },[])
   useEffect(()=>{
     return ()=>{
       codeInterval && codeInterval.current && clearInterval(codeInterval.current)
@@ -131,18 +131,6 @@ function Register(props:any): JSX.Element {
   }
 
   function onRegister(){
-    if (!userPsd){
-      setTips('请输入密码')
-      return
-    }
-    if (!userAgainPsd){
-      setTips('请再次输入密码')
-      return
-    }
-    if (userPsd != userAgainPsd){
-      setTips('两次输入密码不一致，请重新输入')
-      return
-    }
     if (!userAccount){
       setTips('请输入手机号')
       return
@@ -153,6 +141,18 @@ function Register(props:any): JSX.Element {
     }
     if (!userCode){
       setTips('请输入验证码')
+      return
+    }
+    if (!userPsd){
+      setTips('请输入密码')
+      return
+    }
+    if (!userAgainPsd){
+      setTips('请再次输入密码')
+      return
+    }
+    if (userPsd != userAgainPsd){
+      setTips('两次输入密码不一致，请重新输入')
       return
     }
     props.navigation.navigate('ChooseSex')
