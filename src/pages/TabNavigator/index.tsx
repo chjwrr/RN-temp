@@ -32,7 +32,9 @@ function Tabs() {
     tabBar={(props:BottomTabBarProps)=><CustomTabbar {...props}/>}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Mine" component={MineScreen} />
+      <Tab.Screen name="Mine" component={MineScreen} options={{
+        headerShown:false
+      }}/>
       <Tab.Screen name="Flow" component={FlowScreen} />
       <Tab.Screen name="3dModal" component={TDModalScreen} />
     </Tab.Navigator>
