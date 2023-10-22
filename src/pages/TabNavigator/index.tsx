@@ -4,31 +4,19 @@ import {
   Animated
 } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Text, View } from 'react-native';
+import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 
-
-
-
+import SplashScreen from '@/pages/Splash'
 import HomeScreen from '@/pages/Home'
 import MineScreen from '@/pages/Mine'
 import FlowScreen from '@/pages/Flow'
 import TDModalScreen from '@/pages/TDModal'
-
-
-import LoginScreen from '@/pages/Login'
-import SplashScreen from '@/pages/Splash'
-import PhoneLoginScreen from '@/pages/PhoneLogin'
-import PhoneCodeScreen from '@/pages/PhoneCode'
-import ForgetPsdScreen from '@/pages/ForgetPsd'
-import RegisterScreen from '@/pages/Register'
-import ChooseSexScreen from '@/pages/ChooseSex'
-import ChooseAvatarScreen from '@/pages/ChooseAvatar'
-
-
-import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
+import { routers } from './routers';
+import CustomTabbar from '@/components/CustomTabbar';
 
 
 const Tab = createBottomTabNavigator();
@@ -36,15 +24,13 @@ const Drawer = createDrawerNavigator();
 // const Stack = createNativeStackNavigator();
 const Stack = createStackNavigator();
 
-
-
-
-
 function Tabs() {
   return (
     <Tab.Navigator screenOptions={{
       headerTitleAlign:'center',
-    }}>
+    }}
+    tabBar={(props:BottomTabBarProps)=><CustomTabbar {...props}/>}
+    >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Mine" component={MineScreen} />
       <Tab.Screen name="Flow" component={FlowScreen} />
@@ -53,37 +39,6 @@ function Tabs() {
   );
 }
 
-
-const routers:any[] = [
-  {
-    name:'Login',
-    component:LoginScreen
-  },
-  {
-    name:'PhoneLogin',
-    component:PhoneLoginScreen
-  },
-  {
-    name:'PhoneCode',
-    component:PhoneCodeScreen
-  },
-  {
-    name:'ForgetPsd',
-    component:ForgetPsdScreen
-  },
-  {
-    name:'Register',
-    component:RegisterScreen
-  },
-  {
-    name:'ChooseSex',
-    component:ChooseSexScreen
-  },
-  {
-    name:'ChooseAvatar',
-    component:ChooseAvatarScreen
-  }
-]
 
 function StackNav(){
   return <Stack.Navigator screenOptions={{

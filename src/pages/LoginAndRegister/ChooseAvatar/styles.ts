@@ -94,7 +94,7 @@ export const styles = StyleSheet.create({
     },
     jumpView:{
       position:'absolute',
-      bottom:BOTTOM_HEIGHT + 10,
+      bottom:10,
       flexDirection:'row',
       justifyContent:'center',
       width:'100%'

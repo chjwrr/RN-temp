@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
     },
     downView:{
         alignItems:'center',
-        paddingBottom:10
+        // paddingBottom:10
     },
     agreeView:{
         flexDirection:'row',

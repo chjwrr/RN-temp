@@ -50,7 +50,6 @@ https://github.com/Flipkart/recyclerlistview
 # 时间选取
 # 折叠展开隐藏动画
 https://github.com/oblador/react-native-collapsible
-# 弹出对话框
 # slider
 https://github.com/jeanregisser/react-native-slider
 # 文件处理
@@ -399,6 +398,31 @@ import LottieView from "lottie-react-native";
 
 ```
 
+# 自定义弹出框
+```
+import { show, hidden } from '@/components/CoverModal'
+
+中间弹出
+show(<View style={{
+    width:'80%',
+    backgroundColor:'white',
+    height:200
+  }}>
+    <Text>modal</Text>
+  </View>)
+
+底部弹出
+show(<View style={{
+    width:'100%',
+    backgroundColor:'white',
+    height:200
+  }}>
+    <Text>modal</Text>
+  </View>,{
+    position:'bottom'
+  })
+
+```
 
 
 
@@ -467,4 +491,5 @@ https://github.com/yorkzero831/react-native-super-pay
 # TODO 
 ## 1.登录等输入框，点击输入框的时候，可以动画向上渐变出一个标题
 
-
+自定义tabbar
+底部向上弹框  中间弹出框

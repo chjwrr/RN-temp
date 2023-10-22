@@ -1,3 +1,4 @@
+import { LOADING_Z_INDEX } from '@/utils';
 import Colors from '@/utils/colors';
 import {
     StyleSheet,
@@ -13,7 +14,7 @@ export const styles = StyleSheet.create({
     left:0,
     right:0,
     bottom:0,
-    zIndex:100
+    zIndex:LOADING_Z_INDEX
   },
   msg:{
     fontSize:14,

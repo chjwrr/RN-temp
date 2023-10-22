@@ -118,6 +118,9 @@ function ChooseAvatar(props:any): JSX.Element {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
+      <SafeAreaView style={{
+        flex: 0
+      }}></SafeAreaView>
     </ImageBackground>
   );
 }

@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     },
     mainContent:{
         flex:1,
-        justifyContent:'space-between'
+        justifyContent:'space-between',
     },
     title:{
         marginTop:120 - 32 - STATUSBAR_SAFE_AREA_HEIGHT,
@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
         height:450,
         flex:1,
         alignItems:'center',
-        paddingTop:80
+        paddingTop:80,
     },
     sexImg:{
         width:120,
@@ -112,9 +112,9 @@ export const styles = StyleSheet.create({
     },
     jumpView:{
       position:'absolute',
-      bottom:BOTTOM_HEIGHT + 10,
+      bottom:10,
       flexDirection:'row',
       justifyContent:'center',
-      width:'100%'
+      width:'100%',
     }
 })

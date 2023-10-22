@@ -35,7 +35,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { changeLanguage, useLanguage } from '@/redux/setting';
 import { useDispatch } from 'react-redux';
 
-
+import { show, hidden } from '@/components/CoverModal'
 
 
 
@@ -264,6 +264,31 @@ function Home({navigation}:any): JSX.Element {
         });
         }}
       />
+      <Button
+        title="show modal"
+        onPress={() => {
+          show(<View style={{
+            width:'80%',
+            backgroundColor:'white',
+            height:200
+          }}>
+            <Text>modal</Text>
+          </View>)
+        }}/>
+
+<Button
+        title="show modal bottom"
+        onPress={() => {
+          show(<View style={{
+            width:'100%',
+            backgroundColor:'white',
+            height:200
+          }}>
+            <Text>modal</Text>
+          </View>,{
+            position:'bottom'
+          })
+        }}/>
      </View>
     </SafeAreaView>
   );
