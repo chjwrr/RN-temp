@@ -21,16 +21,12 @@ npx react-native run-android     npx react-native run-ios
 
 # 输入框动画
 react-native-textinput-effects：https://github.com/halilb/react-native-textinput-effects
-# 加载中动画
-react-native-spinkit：https://github.com/maxs15/react-native-spinkit
 # 各种权限设置，权限判断
 https://github.com/zoontek/react-native-permissions
 # 视频压缩
 https://github.com/shahen94/react-native-video-processing
 # 视频播放
 https://github.com/react-native-video/react-native-video
-# 弹出视图
-https://github.com/instea/react-native-popup-menu
 # actionsheet
 # 下拉选择
 # 毛玻璃
