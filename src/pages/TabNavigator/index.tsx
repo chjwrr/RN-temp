@@ -45,7 +45,7 @@ function StackNav(){
   return <Stack.Navigator screenOptions={{
     cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
   }}>
-    <Stack.Screen options={{
+    {/* <Stack.Screen options={{
       headerShown:false
     }} name="Splash" component={SplashScreen} />
     {
@@ -54,7 +54,7 @@ function StackNav(){
           headerShown:false
         }} name={item.name} component={item.component} />
       })
-    }
+    } */}
     <Stack.Screen
       name="Tab"
       component={Tabs}
