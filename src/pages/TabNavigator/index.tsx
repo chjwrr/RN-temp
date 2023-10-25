@@ -10,8 +10,14 @@ import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/
 import SplashScreen from '@/pages/Splash'
 import HomeScreen from '@/pages/Home'
 import MineScreen from '@/pages/Mine'
-import FlowScreen from '@/pages/Flow'
-import TDModalScreen from '@/pages/TDModal'
+import TicketScreen from '@/pages/Ticket'
+import EcologyScreen from '@/pages/Ecology'
+import PostScreen from '@/pages/Post'
+
+
+
+
+
 import { routers } from './routers';
 import CustomTabbar from '@/components/CustomTabbar';
 
@@ -26,16 +32,18 @@ const Stack = createStackNavigator();
 function Tabs() {
   return (
     <Tab.Navigator screenOptions={{
-      headerTitleAlign:'center',
+      headerTitleAlign:'center'
     }}
-    // tabBar={(props:BottomTabBarProps)=><CustomTabbar {...props}/>}
+    tabBar={(props:BottomTabBarProps)=><CustomTabbar {...props}/>}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Mine" component={MineScreen} options={{
-        headerShown:false
+      <Tab.Screen name="Home" component={HomeScreen} options={{
+        headerShown:false,
       }}/>
-      <Tab.Screen name="Flow" component={FlowScreen} />
-      <Tab.Screen name="3dModal" component={TDModalScreen} />
+      <Tab.Screen name="Ticket" component={TicketScreen} />
+      <Tab.Screen name="Post" component={PostScreen} />
+      <Tab.Screen name="Ecology" component={EcologyScreen} />
+      <Tab.Screen name="Mine" component={MineScreen} options={{
+      }}/>
     </Tab.Navigator>
   );
 }
@@ -62,7 +70,7 @@ function StackNav(){
         headerShown: false,
       }}
     />
-<Stack.Screen options={{
+    <Stack.Screen options={{
       // headerShown:false
     }} name="Detail" component={DetailScreen} />
 

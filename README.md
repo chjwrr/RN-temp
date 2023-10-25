@@ -421,10 +421,43 @@ show(<View style={{
  react-native-keyboard-controller
 
 
+# 修改语言
+```
+  const language = useLanguage()
+  const dispatch = useDispatch()
+  dispatch(changeLanguage('zh-CN'))
+```
+# 存取 读取值
+```
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+try {
+  await AsyncStorage.setItem('my-key', '12');
+} catch (e) {
+  // saving error
+}
 
+try {
+  const value = await AsyncStorage.getItem('my-key');
+  console.log('value====',value)
+  if (value !== null) {
+    // value previously stored
+  }
+} catch (e) {
+  // error reading value
+}
+```
 
+# 渐变
+```
+import LinearGradient from 'react-native-linear-gradient';
 
+<LinearGradient colors={['#0f0', '#00f', '#f00']} >
+  <Text>
+    Sign in with Facebook
+  </Text>
+</LinearGradient>
+```
 
 
 

@@ -20,5 +20,7 @@ const Colors = {
   white:'#fff',                        // 白色
   black:'#000',                        // 黑色
   border:'rgba(51, 51, 51, 0.05)',     // 边框
+  tabbar:'#CC81FF',                    // tabbar 选中
+  placeholder:'#666',                  // placeholder
 }
 export default Colors

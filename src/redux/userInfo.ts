@@ -7,18 +7,19 @@ const initialState:any = {
 }
 
 export function useUserInfo(){
-  return useSelector((state:RootState)=>state.setting.userInfo)
+  return useSelector((state:RootState)=>state.userInfo.userInfo)
 }
-const settingSlice = createSlice({
-  name: 'setting',
+const userInfoSlice = createSlice({
+  name: 'userInfo',
   initialState,
   reducers: {
     saveUserInfo: (state,action:PayloadAction<any>) => {
+      console.log('action.payload===',action.payload)
       state.userInfo = action.payload
     },
   }
 })
 
-export const { saveUserInfo } = settingSlice.actions
-export default settingSlice.reducer
+export const { saveUserInfo } = userInfoSlice.actions
+export default userInfoSlice.reducer
 

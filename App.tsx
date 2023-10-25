@@ -6,7 +6,8 @@ import FlashMessage from "react-native-flash-message";
 import {
   Platform,
   UIManager,
-  StatusBar
+  StatusBar,
+  View
 } from 'react-native'
 import Provider from '@/provider'
 import * as SplashScreen from 'expo-splash-screen';

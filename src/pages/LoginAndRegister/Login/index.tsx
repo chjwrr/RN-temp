@@ -15,6 +15,9 @@ import {
 import {styles} from './styles'
 import * as Loading from '@/components/Loading'
 import * as HTTPS from '@/api/axios'
+import { CommonActions } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { saveUserInfo } from '@/redux/userInfo';
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -30,6 +33,7 @@ function Login(props:any): JSX.Element {
   const [userPsd,setUserPsd] = useState('')
   const [isAgree,setIsAgree] = useState(false)
   const [tips,setTips] = useState('')
+  const dispatch = useDispatch()
 
   function onDisKeyboard(){
     Keyboard.dismiss()
@@ -74,6 +78,19 @@ function Login(props:any): JSX.Element {
       Loading.show('登录成功，正在跳转...')
       setTimeout(() => {
         Loading.hidden()
+
+        dispatch(saveUserInfo({uid:1}))
+
+
+        props.navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [
+              { name: 'Tab' },
+            ],
+          })
+        );
+
       }, 2000);
     }, 3000);
 

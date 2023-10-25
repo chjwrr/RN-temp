@@ -17,7 +17,7 @@ import WaterfallFlow from 'react-native-waterfall-flow'
 
 
 
-function Flow(): JSX.Element {
+function Ticket(): JSX.Element {
   return (
     <SafeAreaView style={{
       flex: 1
@@ -49,4 +49,4 @@ function Flow(): JSX.Element {
   );
 }
 
-export default Flow;
+export default Ticket;

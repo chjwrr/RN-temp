@@ -37,7 +37,8 @@ function Splash(props:any): JSX.Element {
         setShowGuid(true)
       }, 3000);
     }else {
-      if (userInfo && userInfo.id){
+      console.log('userInfo==',userInfo)
+      if (userInfo && userInfo.uid){
         console.log('用户已经登录')
         setTimeout(() => {
           props.navigation.dispatch(
