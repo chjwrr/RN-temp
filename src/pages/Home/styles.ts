@@ -54,7 +54,14 @@ export const styles = StyleSheet.create({
         flex:1,
         flexDirection:'row',
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+    },
+    tabButtonBg:{
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center',
+        width:75,
+        height:40
     },
     tabButtonTitle:{
         fontSize:14,

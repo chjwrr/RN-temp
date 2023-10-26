@@ -459,7 +459,8 @@ import LinearGradient from 'react-native-linear-gradient';
 </LinearGradient>
 ```
 
-
+# tab view
+react-native-pager-view  react-native-tab-view
 
 
 

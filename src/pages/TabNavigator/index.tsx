@@ -14,15 +14,9 @@ import TicketScreen from '@/pages/Ticket'
 import EcologyScreen from '@/pages/Ecology'
 import PostScreen from '@/pages/Post'
 
-
-
-
-
 import { routers } from './routers';
 import CustomTabbar from '@/components/CustomTabbar';
 
-
-import DetailScreen from '@/pages/Home/Detail'
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -70,11 +64,6 @@ function StackNav(){
         headerShown: false,
       }}
     />
-    <Stack.Screen options={{
-      // headerShown:false
-    }} name="Detail" component={DetailScreen} />
-
-
 
   </Stack.Navigator>
 }
