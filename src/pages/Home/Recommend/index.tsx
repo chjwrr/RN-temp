@@ -4,24 +4,23 @@ import {
   RefreshControl,
   Text,
   View,
-  Button,
   Image,
   ActivityIndicator,
-  GestureResponderEvent,
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
 import { SCREEN_WIDTH } from '@/utils';
 
 import WaterfallFlow from 'react-native-waterfall-flow'
-import { GestureTouchEvent, TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Colors from '@/utils/colors';
+import { useNavigation } from '@react-navigation/native';
 
 
 const focus_n = require('@/assets/images/collect.png')
 
 
-function Recommend(): JSX.Element {
+function Recommend(props:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
   const isCanLoadMore = useRef(false)
 
@@ -41,20 +40,23 @@ function Recommend(): JSX.Element {
     }, 2000);
   }
 
-  function onPress(){
-    console.log('onPress')
+
+  const navigation = useNavigation()
+  function onPress(columnIndex:number){
+    navigation.navigate('RecommendDetail',{
+      id:columnIndex
+    })
   }
 
   return (
     <View style={{flex:1}}>
-     
 
     <WaterfallFlow
       showsVerticalScrollIndicator={false}
       data={[1,2,3,4,5,6,7]}
       numColumns={2}
       renderItem={({ item, index, columnIndex })=>{
-        return <TouchableOpacity onPress={onPress} style={[styles.flowView,{
+        return <TouchableOpacity onPress={()=>onPress(columnIndex)} style={[styles.flowView,{
           marginVertical:2,
           marginRight:columnIndex == 0 ? 2 : 0,
           marginLeft:columnIndex == 0 ? 0 : 2

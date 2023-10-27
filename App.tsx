@@ -40,7 +40,7 @@ function App(): JSX.Element {
   },[])
   return (
     <Provider>
-      <StatusBar translucent={ true } backgroundColor="transparent" />
+      <StatusBar barStyle={'dark-content'} translucent={ true } backgroundColor="transparent" />
       <RootSiblingParent>
         <TabNavigator/>
         <FlashMessage position="top" />

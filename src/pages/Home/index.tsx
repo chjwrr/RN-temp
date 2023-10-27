@@ -18,7 +18,6 @@ import DesignScreen from './Design'
 import ShowScreen from './Show'
 import FocusOnScreen from './FocusOn'
 
-
 const BGImage = require('@/assets/images/homebg.png')
 const AccountImage = require('@/assets/images/account.png')
 const SearchImage = require('@/assets/images/search.png')
@@ -74,8 +73,6 @@ function Home({navigation}:any): JSX.Element {
             <Image style={styles.accounticon} source={AccountImage}/>
           </TouchableOpacity>
         </View>
-        
-
         <TabView
           lazy
           navigationState={{ index, routes }}
@@ -84,9 +81,6 @@ function Home({navigation}:any): JSX.Element {
           onIndexChange={setIndex}
           initialLayout={{ width: layout.width }}
         />
-
-
-        
       </View>
     </ImageBackground>
   );
@@ -116,29 +110,24 @@ const tabs:any[] = [
     icon_s:require('@/assets/images/home_tab_4_sel.png'),
     key:'FocusOn'
   },
-  
 ]
-function TopTabbar(props:any){  
+function TopTabbar(props:any){
   return <View style={styles.tabView}>
-  {
-    tabs.map((item:any,index:number)=>{
-      return <TouchableOpacity containerStyle={{flex:1}} style={[styles.tabButton]} key={item.title} onPress={()=>{
-        props.jumpTo(item.key)
-      }}>
-
-        <ImageBackground style={styles.tabButtonBg} source={props.navigationState.index == index ? item.icon_s : item.icon_n}>
-          <Text style={[styles.tabButtonTitle,{
-            fontSize:props.navigationState.index == index ? 16 : 14,
-            fontWeight:props.navigationState.index == index ? '600' : '400',
-          }]}>{item.title}</Text>
-        </ImageBackground>
-
-
-       
-      </TouchableOpacity>
-    })
-  }
-</View>
+    {
+      tabs.map((item:any,index:number)=>{
+        return <TouchableOpacity containerStyle={{flex:1}} style={[styles.tabButton]} key={item.title} onPress={()=>{
+          props.jumpTo(item.key)
+        }}>
+          <ImageBackground style={styles.tabButtonBg} source={props.navigationState.index == index ? item.icon_s : item.icon_n}>
+            <Text style={[styles.tabButtonTitle,{
+              fontSize:props.navigationState.index == index ? 16 : 14,
+              fontWeight:props.navigationState.index == index ? '600' : '400',
+            }]}>{item.title}</Text>
+          </ImageBackground>
+        </TouchableOpacity>
+      })
+    }
+  </View>
 }
 
 export default Home;

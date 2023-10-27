@@ -5,12 +5,12 @@ import {
 } from 'react-native';
 export const styles = StyleSheet.create({
   main:{
-   flex:1,
-   backgroundColor:'rgba(0,0,0,0.5)',
-   width:'100%',
-   height:'100%',
-   zIndex:COVER_MODAL_Z_INDEX,
-   position:'absolute'
+    flex:1,
+    backgroundColor:'rgba(0,0,0,0.5)',
+    width:'100%',
+    height:'100%',
+    zIndex:COVER_MODAL_Z_INDEX,
+    position:'absolute'
   },
   bgButton:{
     flex:1,

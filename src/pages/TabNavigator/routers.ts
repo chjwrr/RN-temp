@@ -5,6 +5,7 @@ import ForgetPsdScreen from '@/pages/LoginAndRegister/ForgetPsd'
 import RegisterScreen from '@/pages/LoginAndRegister/Register'
 import ChooseSexScreen from '@/pages/LoginAndRegister/ChooseSex'
 import ChooseAvatarScreen from '@/pages/LoginAndRegister/ChooseAvatar'
+import RecommendDetailScreen from '@/pages/Home/Recommend/RecommendDetail'
 
 
 export const routers:any[] = [
@@ -35,5 +36,9 @@ export const routers:any[] = [
     {
       name:'ChooseAvatar',
       component:ChooseAvatarScreen
-    }
+    },
+    {
+      name:'RecommendDetail',
+      component:RecommendDetailScreen
+    },
 ]
