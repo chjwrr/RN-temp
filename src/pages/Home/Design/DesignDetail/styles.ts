@@ -1,4 +1,4 @@
-import { NAVIGATION_HEIGHT, SCREEN_WIDTH, STATUSBAR_HEIGHT, SCREEN_HEIGHT } from '@/utils';
+import { NAVIGATION_HEIGHT, SCREEN_WIDTH, STATUSBAR_HEIGHT } from '@/utils';
 import Colors from '@/utils/colors';
 import {
   StyleSheet,
@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
     fontSize:16,
     color:Colors.assist,
     fontWeight:'600',
-    marginTop:6
+    marginTop:12
   },
   swiperView:{
     alignItems:'center',
@@ -123,7 +123,7 @@ export const styles = StyleSheet.create({
   },
   webDetailView:{
     width:'100%',
-    height:SCREEN_HEIGHT
+    height:1000
   },
   downView:{
     flexDirection:'row',

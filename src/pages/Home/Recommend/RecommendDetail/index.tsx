@@ -15,7 +15,8 @@ import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture
 import Share from 'react-native-share';
 import { WebView } from 'react-native-webview';
 import Carousel from 'react-native-reanimated-carousel';
-import { SCREEN_WIDTH } from '@/utils';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
+import * as _ from 'lodash'
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -27,6 +28,11 @@ const modalLineIcon = require('@/assets/images/tdbg.png')
 const buytopiconIcon = require('@/assets/images/buytopicon.png')
 const buylineIcon = require('@/assets/images/buyline.png')
 const buybgIcon = require('@/assets/images/buybg.png')
+const collectshopIcon = require('@/assets/images/collectshop.png')
+const collectedshopIcon = require('@/assets/images/collectedshop.png')
+const tdIcon = require('@/assets/images/td.png')
+const tmIcon = require('@/assets/images/tm.png')
+const jdIcon = require('@/assets/images/jd.png')
 
 
 
@@ -57,8 +63,14 @@ function RecommendDetail(props:any): JSX.Element {
 
   const bottomAnim = useRef(new Animated.Value(0)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [posButtonBottom,setPosButtonBottom] = useState(SCREEN_HEIGHT)
+  const [isAnimated,setIsAnimated] = useState(false)
+
 
   function onShowBuy(){
+    if (isAnimated){
+      return
+    }
     if (showBuy){
       Animated.parallel([
         Animated.timing(bottomAnim, {
@@ -71,11 +83,17 @@ function RecommendDetail(props:any): JSX.Element {
           duration:200,
           useNativeDriver: true,
         })
-      ]).start(()=>{})
+      ]).start(()=>{
+        setPosButtonBottom(SCREEN_HEIGHT)
+        setTimeout(() => {
+          setIsAnimated(false)
+        }, 200);
+      })
     }else {
+      setPosButtonBottom(0)
       Animated.parallel([
         Animated.timing(bottomAnim, {
-          toValue: -240,
+          toValue: -220,
           duration:200,
           useNativeDriver: true,
         }),
@@ -84,10 +102,16 @@ function RecommendDetail(props:any): JSX.Element {
           duration:200,
           useNativeDriver: true,
         })
-      ]).start(()=>{})
+      ]).start(()=>{
+        setTimeout(() => {
+          setIsAnimated(false)
+        }, 200);
+      })
     }
     setShowBuy(!showBuy)
+    setIsAnimated(true)
   }
+
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -127,14 +151,45 @@ function RecommendDetail(props:any): JSX.Element {
         <Animated.View style={[styles.showBuyView,{
             transform: [{translateY: bottomAnim}]
           }]}>
-
+            <View style={styles.showBuyLeftView}>
+            <View style={styles.showBuyLeftSubView}>
+                <Image style={styles.showBuyLeftIcon} source={tdIcon}/>
+                <Text style={styles.showBuyLeftName}>淘宝链接</Text>
+              </View>
+              <View style={styles.showBuyLeftSubView}>
+                <Image style={styles.showBuyLeftIcon} source={tmIcon}/>
+                <Text style={styles.showBuyLeftName}>天猫链接</Text>
+              </View>
+              <View style={styles.showBuyLeftSubView}>
+                <Image style={styles.showBuyLeftIcon} source={jdIcon}/>
+                <Text style={styles.showBuyLeftName}>京东链接</Text>
+              </View>
+            </View>
+            <Image style={styles.showBuyLine} source={buylineIcon}/>
+            <BuyModalRight/>
         </Animated.View>
         <Animated.View style={[styles.bgModal,{
-          opacity:fadeAnim
-        }]}/>
+          opacity:fadeAnim,
+          top:posButtonBottom
+        }]} onTouchStart={onShowBuy}/>
       </SafeAreaView>
     </ImageBackground>
   );
+}
+function BuyModalRight(){
+  const [collect,setCollect] = useState(false)
+  function onCollect(){
+    setCollect(!collect)
+  }
+  return <View style={styles.showBuyRightView}>
+        <Image style={styles.showBuyRightDownBg} source={buybgIcon}/>
+
+    <Image style={styles.showBuyRightIcon} source={buytopiconIcon}/>
+    <Text style={styles.showBuyRightName} numberOfLines={1} ellipsizeMode='tail'>店铺名称</Text>
+    <TouchableOpacity onPress={onCollect}>
+      <Image style={styles.showBuyRightDownIcon} source={collect ? collectedshopIcon : collectshopIcon}/>
+    </TouchableOpacity>
+  </View>
 }
 function ShopInfo(){
   const [focus,setFocus] = useState(false)
