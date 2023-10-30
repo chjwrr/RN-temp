@@ -1,4 +1,4 @@
-import { NAVIGATION_HEIGHT, SCREEN_WIDTH, STATUSBAR_HEIGHT } from '@/utils';
+import { BOTTOM_HEIGHT, NAVIGATION_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT, STATUSBAR_HEIGHT } from '@/utils';
 import Colors from '@/utils/colors';
 import {
   StyleSheet,
@@ -13,8 +13,13 @@ export const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     alignItems:'center',
-    marginTop:STATUSBAR_HEIGHT,
+    top:STATUSBAR_HEIGHT,
     paddingHorizontal:16,
+    position:'absolute',
+    zIndex:100
+  },
+  contentContainerStyle:{
+    marginTop:STATUSBAR_HEIGHT
   },
   backButton:{
     width:NAVIGATION_HEIGHT,
@@ -32,6 +37,10 @@ export const styles = StyleSheet.create({
   webView:{
     width:SCREEN_WIDTH,
     height:SCREEN_WIDTH
+  },
+  webDetailView:{
+    width:SCREEN_WIDTH,
+    height:SCREEN_HEIGHT
   },
   modalView:{
     alignItems:'center',
@@ -121,19 +130,16 @@ export const styles = StyleSheet.create({
   shopFocussel:{
     color:Colors.main
   },
-  webDetailView:{
-    width:'100%',
-    height:1000
-  },
   downView:{
     flexDirection:'row',
     position:'absolute',
-    height:66,
+    height:66+BOTTOM_HEIGHT,
     width:'100%',
     bottom:0,
     zIndex:10,
     alignItems:'center',
     padding:16,
+    paddingBottom:BOTTOM_HEIGHT + 16,
     backgroundColor:Colors.white
   },
   downViewItem:{
@@ -254,5 +260,112 @@ export const styles = StyleSheet.create({
     // flex:1,
     // width:'100%',
     // height:'100%',
+  },
+  detailInfo:{
+    width:'100%',
+    marginTop:16
+  },
+  detailTopBg:{
+    width:SCREEN_WIDTH,
+    height:SCREEN_WIDTH * 226 / 1377,
+    flexDirection:'row',
+    alignItems:'center',
+  },
+  detailLeftButton:{
+    width:SCREEN_WIDTH / 5 * 3,
+    height:'100%',
+    // backgroundColor:'red',
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  detailRightButton:{
+    width:SCREEN_WIDTH / 5 * 2,
+    height:'100%',
+    // backgroundColor:'blue',
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  detailTopTitle:{
+    fontSize:14,
+    color:Colors.label,
+    fontWeight:'600',
+    marginBottom:10
+  },
+  detailTopTitledis:{
+    fontSize:12,
+    color:Colors.label,
+    marginBottom:10
+  },
+  downImageView:{
+    width:290,
+    // height:420,
+    backgroundColor:'#fff',
+    borderRadius:10,
+    alignItems:'center',
+    paddingVertical:8,
+    overflow:'hidden'
+  },
+  downImageContent:{
+    width:274,
+    height:320,
+    backgroundColor:'rgba(109,105,250,0.2)',
+    borderRadius:8
+  },
+  downImageLineView:{
+    flexDirection:'row',
+    alignItems:'center',
+    width:'100%',
+    justifyContent:'center',
+    marginTop:10
+  },
+  downImageLine:{
+    width:278,
+    height:278 * 2 / 266
+  },
+  downlinecir:{
+    width:12,
+    height:12,
+    borderRadius:6,
+    backgroundColor:'rgba(0,0,0,0.5)',
+    left:-6,
+    position:'absolute'
+  },
+  downlinercir:{
+    width:12,
+    height:12,
+    borderRadius:6,
+    backgroundColor:'rgba(0,0,0,0.5)',
+    right:-6,
+    position:'absolute'
+  },
+  downImagebutton:{
+    backgroundColor:' rgba(109, 105, 250, 0.2)',
+    borderRadius:20,
+    borderWidth:1,
+    borderColor:'rgba(109, 105, 250, 1)',
+    height:40,
+    flexDirection:'row',
+    paddingLeft:10,
+    width:114,
+    alignItems:'center'
+  },
+  downImagebuttonSpa:{
+    marginLeft:12
+  },
+  downImagebuttonicon:{
+    width:18,
+    height:18,
+    marginRight:8
+  },
+  downImagebuttontitle:{
+    fontSize:14,
+    color:Colors.label,
+    fontWeight:'500'
+  },
+  downButtonView:{
+    flexDirection:'row',
+    justifyContent:'center',
+    marginTop:20,
+    marginBottom:12
   }
 });

@@ -80,7 +80,7 @@ android {
 
     namespace "com.awesomeproject"
     defaultConfig {
-        applicationId "com.awesomeproject"
+        applicationId "com.cverselink.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

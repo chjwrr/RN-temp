@@ -1,4 +1,4 @@
-import { NAVIGATION_HEIGHT, SCREEN_WIDTH, STATUSBAR_HEIGHT, SCREEN_HEIGHT } from '@/utils';
+import { NAVIGATION_HEIGHT, SCREEN_WIDTH, STATUSBAR_HEIGHT, SCREEN_HEIGHT, BOTTOM_HEIGHT } from '@/utils';
 import Colors from '@/utils/colors';
 import {
   StyleSheet,
@@ -13,8 +13,13 @@ export const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     alignItems:'center',
-    marginTop:STATUSBAR_HEIGHT,
+    top:STATUSBAR_HEIGHT,
     paddingHorizontal:16,
+    position:'absolute',
+    zIndex:100
+  },
+  contentContainerStyle:{
+    marginTop:STATUSBAR_HEIGHT
   },
   backButton:{
     width:NAVIGATION_HEIGHT,
@@ -128,12 +133,13 @@ export const styles = StyleSheet.create({
   downView:{
     flexDirection:'row',
     position:'absolute',
-    height:66,
+    height:66 + BOTTOM_HEIGHT,
     width:'100%',
     bottom:0,
     zIndex:10,
     alignItems:'center',
     padding:16,
+    paddingBottom:BOTTOM_HEIGHT + 16,
     backgroundColor:Colors.white
   },
   downViewItem:{
@@ -177,7 +183,7 @@ export const styles = StyleSheet.create({
     height:220,
     flex:1,
     position:'absolute',
-    bottom:-220,
+    bottom:-220 + BOTTOM_HEIGHT,
     left:0,
     right:0,
     zIndex:6,

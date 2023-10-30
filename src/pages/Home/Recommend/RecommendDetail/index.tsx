@@ -115,8 +115,7 @@ function RecommendDetail(props:any): JSX.Element {
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
-        <ScrollView style={{flex:1}}>
-          <View style={styles.navigationView}>
+        <View style={styles.navigationView}>
             <TouchableOpacity style={styles.backButton} onPress={onBack}>
               <Image style={styles.backIcon} source={BackIcon}/>
             </TouchableOpacity>
@@ -129,6 +128,8 @@ function RecommendDetail(props:any): JSX.Element {
               </TouchableOpacity>
             </View>
           </View>
+        <ScrollView style={{flex:1}} contentContainerStyle={styles.contentContainerStyle}>
+         
           {id == 0 ? <TDModalView/> : <SwiperView/>}
           <View style={styles.detailView}>
             <ShopInfo/>

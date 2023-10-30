@@ -8,12 +8,14 @@ import {
   Image,
   Platform,
   ScrollView,
-  Animated
+  TouchableOpacity
 } from 'react-native';
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Share from 'react-native-share';
 import { WebView } from 'react-native-webview';
 import { styles } from './styles'
+import { show, hidden } from '@/components/CoverModal'
+
+import { SCREEN_WIDTH } from '@/utils';
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
 const CollectIcon = require('@/assets/images/collectICON.png')
@@ -21,6 +23,17 @@ const shareIcon = require('@/assets/images/share.png')
 const downbgIcon = require('@/assets/images/downbg.png')
 const hdIcon = require('@/assets/images/hd.png')
 const modalLineIcon = require('@/assets/images/tdbg.png')
+
+const model_left_bgIcon = require('@/assets/images/model_left_bg.png')
+const model_right_bgIcon = require('@/assets/images/model_right_bg.png')
+const spebgIcon = require('@/assets/images/spebg.png')
+
+
+
+const download_nIcon = require('@/assets/images/download_n.png')
+const share_nIcon = require('@/assets/images/share_n.png')
+
+
 function DesignDetail(props:any): JSX.Element {
   const id = props.route.params.id
   const [showBuy,setShowBuy] = useState(false)
@@ -47,14 +60,14 @@ function DesignDetail(props:any): JSX.Element {
   }
 
 
-  function onShowBuy(){
+  function onShowDown(){
+    show(<DownImage/>)
   }
 
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
-        <ScrollView style={{flex:1}}>
-          <View style={styles.navigationView}>
+        <View style={styles.navigationView}>
             <TouchableOpacity style={styles.backButton} onPress={onBack}>
               <Image style={styles.backIcon} source={BackIcon}/>
             </TouchableOpacity>
@@ -67,10 +80,16 @@ function DesignDetail(props:any): JSX.Element {
               </TouchableOpacity>
             </View>
           </View>
+        <ScrollView style={{flex:1}} contentContainerStyle={styles.contentContainerStyle}>
+         
           <TDModalView/>
+          <DetailInfo/>
+
+
+
         </ScrollView>
         <View style={styles.downView}>
-          <TouchableOpacity containerStyle={styles.buttonContrianer} style={[styles.downViewItem,showBuy && styles.downViewItemSel]} onPress={onShowBuy}>
+          <TouchableOpacity containerStyle={styles.buttonContrianer} style={[styles.downViewItem,showBuy && styles.downViewItemSel]} onPress={onShowDown}>
             <Image style={styles.downIcon} source={downbgIcon}/>
             <Text style={[styles.downTitle, showBuy && styles.downTitleSel]}>下载图片</Text>
           </TouchableOpacity>
@@ -93,4 +112,42 @@ function TDModalView(){
   </View>
 }
 
+function DetailInfo(){
+  // model_right_bgIcon model_left_bgIcon
+  const [selectIndex,setSelectIndex] = useState(0)
+  return <View style={styles.detailInfo}>
+    <ImageBackground resizeMode='cover' source={selectIndex == 0 ? model_right_bgIcon : model_left_bgIcon} style={styles.detailTopBg}>
+      <TouchableOpacity style={selectIndex == 0 ? styles.detailLeftButton : styles.detailLeftButton} onPress={()=>setSelectIndex(0)}>
+        <Text style={selectIndex == 0 ? styles.detailTopTitle : styles.detailTopTitledis}>模型介绍</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={selectIndex != 0 ? styles.detailRightButton : styles.detailRightButton} onPress={()=>setSelectIndex(1)}>
+        <Text style={selectIndex != 0 ? styles.detailTopTitle : styles.detailTopTitledis}>制作公司介绍</Text>
+      </TouchableOpacity>
+    </ImageBackground>
+    <WebView
+      source={{ uri: 'https://www.baidu.com' }}
+      style={styles.webDetailView}
+    />
+  </View>
+}
+function DownImage(){
+  return <View style={styles.downImageView}>
+    <View style={styles.downImageContent}/>
+    <View style={styles.downImageLineView}>
+      <View style={styles.downlinecir}/>
+        <Image style={styles.downImageLine} source={spebgIcon}/>
+      <View style={styles.downlinercir}/>
+    </View>
+    <View style={styles.downButtonView}>
+      <TouchableOpacity style={styles.downImagebutton}>
+        <Image style={styles.downImagebuttonicon} source={download_nIcon}/>
+        <Text style={styles.downImagebuttontitle}>保存图片</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={[styles.downImagebutton,styles.downImagebuttonSpa]}>
+        <Image style={styles.downImagebuttonicon} source={share_nIcon}/>
+        <Text style={styles.downImagebuttontitle}>分享链接</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+}
 export default DesignDetail;
