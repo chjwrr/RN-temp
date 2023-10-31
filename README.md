@@ -463,7 +463,9 @@ import LinearGradient from 'react-native-linear-gradient';
 react-native-pager-view  react-native-tab-view
 
 
-
+# 侧滑删除、手势、侧边栏
+react-native-gesture-handler
+https://docs.swmansion.com/react-native-gesture-handler/docs/components/drawer-layout
 
 
 

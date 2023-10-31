@@ -8,10 +8,11 @@ import {
   Image,
   Platform,
   ScrollView,
-  Animated
+  Animated,
+  TouchableOpacity,
+  TouchableWithoutFeedback
 } from 'react-native';
 import {styles} from './styles'
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Share from 'react-native-share';
 import { WebView } from 'react-native-webview';
 import Carousel from 'react-native-reanimated-carousel';
@@ -71,6 +72,8 @@ function RecommendDetail(props:any): JSX.Element {
     if (isAnimated){
       return
     }
+    setShowBuy(!showBuy)
+    setIsAnimated(true)
     if (showBuy){
       Animated.parallel([
         Animated.timing(bottomAnim, {
@@ -108,8 +111,6 @@ function RecommendDetail(props:any): JSX.Element {
         }, 200);
       })
     }
-    setShowBuy(!showBuy)
-    setIsAnimated(true)
   }
 
   return (
@@ -140,11 +141,11 @@ function RecommendDetail(props:any): JSX.Element {
           </View>
         </ScrollView>
         <View style={styles.downView}>
-          <TouchableOpacity containerStyle={styles.buttonContrianer} style={[styles.downViewItem,showBuy && styles.downViewItemSel]} onPress={onShowBuy}>
+          <TouchableOpacity style={[styles.downViewItem,showBuy && styles.downViewItemSel]} onPress={onShowBuy}>
             <Image style={styles.downIcon} source={downbgIcon}/>
             <Text style={[styles.downTitle, showBuy && styles.downTitleSel]}>服饰购买</Text>
           </TouchableOpacity>
-          <TouchableOpacity containerStyle={styles.buttonContrianer} style={[styles.downViewItem,styles.downViewItemRight]}>
+          <TouchableOpacity style={[styles.downViewItem,styles.downViewItemRight]}>
             <Image style={styles.downIcon} source={hdIcon}/>
             <Text style={styles.downTitle}>联名合作</Text>
           </TouchableOpacity>
@@ -183,8 +184,7 @@ function BuyModalRight(){
     setCollect(!collect)
   }
   return <View style={styles.showBuyRightView}>
-        <Image style={styles.showBuyRightDownBg} source={buybgIcon}/>
-
+    <Image style={styles.showBuyRightDownBg} source={buybgIcon}/>
     <Image style={styles.showBuyRightIcon} source={buytopiconIcon}/>
     <Text style={styles.showBuyRightName} numberOfLines={1} ellipsizeMode='tail'>店铺名称</Text>
     <TouchableOpacity onPress={onCollect}>

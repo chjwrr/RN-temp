@@ -37,7 +37,10 @@ const share_nIcon = require('@/assets/images/share_n.png')
 function DesignDetail(props:any): JSX.Element {
   const id = props.route.params.id
   const [showBuy,setShowBuy] = useState(false)
+  const [scrollEnabled,setScrollEnabled] = useState(true)
 
+
+  
   function onBack(){
     props.navigation.goBack()
   }
@@ -80,20 +83,35 @@ function DesignDetail(props:any): JSX.Element {
               </TouchableOpacity>
             </View>
           </View>
-        <ScrollView style={{flex:1}} contentContainerStyle={styles.contentContainerStyle}>
+        <ScrollView style={{flex:1}} contentContainerStyle={styles.contentContainerStyle} scrollEnabled={scrollEnabled}>
          
-          <TDModalView/>
+          <View style={styles.modalView}>
+            <WebView
+              source={{ uri: Platform.OS == 'ios' ? 'https://nextjs-3d-modal-j2fc-git-main-chjwrr.vercel.app/' : 'http://test.yingxiong123.top/' }}
+              style={styles.webView}
+              onTouchStart={()=>{
+                setScrollEnabled(false)
+              }}
+              onTouchCancel={()=>{
+                setScrollEnabled(true)
+              }}
+              onTouchEnd={()=>{
+                setScrollEnabled(true)
+              }}
+            />
+            <Text style={styles.name}>模型名字</Text>
+          </View>
           <DetailInfo/>
 
 
 
         </ScrollView>
         <View style={styles.downView}>
-          <TouchableOpacity containerStyle={styles.buttonContrianer} style={[styles.downViewItem,showBuy && styles.downViewItemSel]} onPress={onShowDown}>
+          <TouchableOpacity style={[styles.downViewItem,showBuy && styles.downViewItemSel]} onPress={onShowDown}>
             <Image style={styles.downIcon} source={downbgIcon}/>
             <Text style={[styles.downTitle, showBuy && styles.downTitleSel]}>下载图片</Text>
           </TouchableOpacity>
-          <TouchableOpacity containerStyle={styles.buttonContrianer} style={[styles.downViewItem,styles.downViewItemRight]}>
+          <TouchableOpacity style={[styles.downViewItem,styles.downViewItemRight]}>
             <Image style={styles.downIcon} source={hdIcon}/>
             <Text style={styles.downTitle}>下载3D文件</Text>
           </TouchableOpacity>
@@ -101,15 +119,6 @@ function DesignDetail(props:any): JSX.Element {
       </SafeAreaView>
     </ImageBackground>
   );
-}
-function TDModalView(){
-  return <View style={styles.modalView}>
-    <WebView
-      source={{ uri: 'https://nextjs-3d-modal-j2fc-git-main-chjwrr.vercel.app/' }}
-      style={styles.webView}
-    />
-    <Text style={styles.name}>模型名字</Text>
-  </View>
 }
 
 function DetailInfo(){

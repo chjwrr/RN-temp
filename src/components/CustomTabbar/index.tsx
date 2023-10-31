@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import {
   Text,
   View,
-  Image
+  Image,
+  TouchableOpacity
 } from 'react-native';
 import {styles} from './styles'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Colors from '@/utils/colors';
 
 

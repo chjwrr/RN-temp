@@ -6,13 +6,13 @@ import {
   View,
   Image,
   ActivityIndicator,
+  TouchableOpacity
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
 import { SCREEN_WIDTH } from '@/utils';
 
 import WaterfallFlow from 'react-native-waterfall-flow'
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Colors from '@/utils/colors';
 import { useNavigation } from '@react-navigation/native';
 

@@ -7,6 +7,7 @@ import ChooseSexScreen from '@/pages/LoginAndRegister/ChooseSex'
 import ChooseAvatarScreen from '@/pages/LoginAndRegister/ChooseAvatar'
 import RecommendDetailScreen from '@/pages/Home/Recommend/RecommendDetail'
 import DesignDetailScreen from '@/pages/Home/Design/DesignDetail'
+import ShowDetailScreen from '@/pages/Home/Show/ShowDetail'
 
 
 export const routers:any[] = [
@@ -46,6 +47,9 @@ export const routers:any[] = [
       name:'DesignDetail',
       component:DesignDetailScreen
     },
-
+    {
+      name:'ShowDetail',
+      component:ShowDetailScreen
+    },
     
 ]

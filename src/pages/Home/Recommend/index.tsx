@@ -6,13 +6,13 @@ import {
   View,
   Image,
   ActivityIndicator,
+  TouchableOpacity
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
 import { SCREEN_WIDTH } from '@/utils';
 
 import WaterfallFlow from 'react-native-waterfall-flow'
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Colors from '@/utils/colors';
 import { useNavigation } from '@react-navigation/native';
 
@@ -68,7 +68,7 @@ function Recommend(props:any): JSX.Element {
               <View style={styles.flowIcon}/>
               <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>淘宝旗舰店</Text>
             </View>
-            <TouchableOpacity containerStyle={styles.focusButton}>
+            <TouchableOpacity style={styles.focusButton}>
               <Image style={styles.flowFocus} source={focus_n}/>
             </TouchableOpacity>
           </View>
@@ -97,13 +97,13 @@ function Recommend(props:any): JSX.Element {
         />
         <Text style={styles.topTitle}>穿越不同朝代</Text>
         <View style={styles.topItem}>
-          <TouchableOpacity containerStyle={styles.topItemSub}>
+          <TouchableOpacity style={styles.topItemSub}>
             <Text style={styles.topItemName}>唐</Text>
           </TouchableOpacity>
-          <TouchableOpacity containerStyle={[styles.topItemSub,styles.topItemSubSpa]}>
+          <TouchableOpacity style={[styles.topItemSub,styles.topItemSubSpa]}>
             <Text style={styles.topItemName}>宋</Text>
           </TouchableOpacity>
-          <TouchableOpacity containerStyle={styles.topItemSub}>
+          <TouchableOpacity style={styles.topItemSub}>
             <Text style={styles.topItemName}>元</Text>
           </TouchableOpacity>
         </View>

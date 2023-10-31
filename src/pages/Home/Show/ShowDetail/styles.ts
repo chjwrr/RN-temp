@@ -1,8 +1,8 @@
 import { NAVIGATION_HEIGHT, SCREEN_WIDTH, STATUSBAR_HEIGHT, SCREEN_HEIGHT, BOTTOM_HEIGHT } from '@/utils';
 import Colors from '@/utils/colors';
 import {
+  Platform,
   StyleSheet,
-  Platform
 } from 'react-native';
 export const styles = StyleSheet.create({
   bgView:{
@@ -13,26 +13,23 @@ export const styles = StyleSheet.create({
     height:NAVIGATION_HEIGHT,
     flexDirection:'row',
     justifyContent:'space-between',
-    alignItems:'center',
     top:STATUSBAR_HEIGHT,
     paddingHorizontal:16,
     position:'absolute',
-    zIndex:100
+    zIndex:100,
+    alignItems:'center'
   },
   contentContainerStyle:{
-    marginTop:Platform.OS === 'ios' ? NAVIGATION_HEIGHT : STATUSBAR_HEIGHT + NAVIGATION_HEIGHT
+    paddingTop:Platform.OS === 'ios' ? NAVIGATION_HEIGHT : STATUSBAR_HEIGHT + NAVIGATION_HEIGHT,
+    paddingHorizontal:16,
   },
   backButton:{
-    width:NAVIGATION_HEIGHT,
+    width:30,
     height:NAVIGATION_HEIGHT,
-    justifyContent:'center'
+    justifyContent:'center',
   },
   backIcon:{
     width:16,
-    height:16
-  },
-  collectIcon:{
-    width:18,
     height:16
   },
   webView:{
@@ -131,135 +128,145 @@ export const styles = StyleSheet.create({
     width:'100%',
     height:SCREEN_HEIGHT
   },
-  downView:{
-    flexDirection:'row',
-    position:'absolute',
-    height:66 + BOTTOM_HEIGHT,
-    width:'100%',
-    bottom:0,
-    zIndex:10,
+  focusButton:{
+    height:24,
+    justifyContent:'center',
     alignItems:'center',
-    padding:16,
-    paddingBottom:BOTTOM_HEIGHT + 16,
-    backgroundColor:Colors.white
-  },
-  downViewItem:{
-    height:44,
-    flex:1,
+    width:60,
+    borderRadius:12,
     borderWidth:1,
-    borderStyle:'solid',
-    borderColor:Colors.main,
-    backgroundColor: 'rgba(109, 105, 250, 0.2)',
-    borderRadius:4,
-    paddingHorizontal:8,
-    flexDirection:'row'
+    borderColor:'rgba(175, 172, 181, 1)',
+    marginRight:5
   },
-  downViewItemSel:{
-    backgroundColor:Colors.main
+  focusButtoned:{
+    borderWidth:0,
+    backgroundColor:Colors.buttonMain
   },
-  buttonContrianer:{
-    flex:1,
-    height:44,
+  focusTitle:{
+    fontSize:10,
+    color:Colors.light
   },
-  downViewItemRight:{
-    backgroundColor:'transparent',
-    marginLeft:8
-  },
-  downIcon:{
-    width:38,
-    height:38,
-  },
-  downTitle:{
-    fontSize:16,
-    color:Colors.label,
-    flex:1,
-    textAlign:'center',
-    lineHeight:44,
-    fontWeight:'600'
-  },
-  downTitleSel:{
+  focusTitleed:{
     color:Colors.white
   },
-  showBuyView:{
-    height:220,
-    flex:1,
-    position:'absolute',
-    bottom:-220 + BOTTOM_HEIGHT,
-    left:0,
-    right:0,
-    zIndex:6,
-    flexDirection:'row',
+  accounticon:{
+    width:34,
+    height:34,
+    marginRight:5
   },
-  showBuyLeftView:{
-    flex:3,
-    backgroundColor:Colors.white,
-    borderTopLeftRadius:12,
-    borderTopRightRadius:12,
-    paddingTop:30,
-    paddingLeft:40
-  },
-  showBuyLeftSubView:{
-    flexDirection:'row',
-    marginBottom:12,
-    alignItems:'center'
-  },
-  showBuyLeftIcon:{
-    width:30,
-    height:30,
-    marginRight:12
-  },
-  showBuyLeftName:{
+  accountTitle:{
     fontSize:14,
-    color:Colors.assist
+    color:Colors.title,
+    width:130
   },
-  showBuyLine:{
-    width:2,
-    height:208,
-    backgroundColor:'#fff',
-    marginTop:12
+  title:{
+    fontSize:16,
+    color:Colors.title,
+    width:'100%',
+    fontWeight:'600',
+    marginVertical:12
   },
-  showBuyRightView:{
-    flex:2,
-    backgroundColor:Colors.white,
+  des:{
+    fontSize:14,
+    color:Colors.title,
+  },
+  commonTitleVieew:{
+    flexDirection:'row',
     alignItems:'center',
-    paddingTop:30,
-    borderTopLeftRadius:12,
-    borderTopRightRadius:12
+    marginBottom:12
   },
-  showBuyRightIcon:{
+  commonTitle:{
+    fontSize:14,
+    color:Colors.title,
+  },
+  commonTitleMain:{
+    fontSize:14,
+    color:Colors.buttonMain,
+    marginHorizontal:5
+  },
+  line:{
+    width:'100%',
+    height:1,
+    backgroundColor:Colors.separation,
+    marginVertical:12
+  },
+  comView:{
+    flexDirection:'row',
+    width:'100%',
+  },
+  avatar:{
     width:44,
     height:44,
-    position:'absolute',
-    top:-22,
-    left:'44%'
+    borderRadius:22,
+    marginRight:10,
+    backgroundColor:'red'
   },
-  showBuyRightDownIcon:{
-    width:88,
-    height:88,
-    marginTop:16
+  comContent:{
+    flex:1,
   },
-  showBuyRightDownBg:{
-    width:292,
-    height:245,
-    position:'absolute',
-    right:-50,
-    top:0,
-    bottom:0,
+  comName:{
+    fontSize:14,
+    color:Colors.assist,
+    marginTop:5
   },
-  showBuyRightName:{
-    fontSize:12,
+  comFocusView:{
+    width:40,
+    marginLeft:10,
+    alignItems:'center'
+  },
+  collectIcon:{
+    width:18,
+    height:16
+  },
+  collectTitle:{
+    fontSize:14,
     color:Colors.assist,
   },
-  bgModal:{
-    position:'absolute',
-    zIndex:4,
-    top:0,
-    left:0,
-    right:0,
-    bottom:0,
-    backgroundColor:'rgba(0,0,0,0.4)',
-    // flex:1,
+  comFocusButton:{
+    width:30,
+    height:24,
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  comContentDes:{
+    fontSize:14,
+    color:Colors.title,
+    marginTop:5,
+    lineHeight:20
+  },
+  comLine:{
     // width:'100%',
-    // height:'100%',
+    flex:1,
+    height:1,
+    backgroundColor:Colors.separation,
+    marginVertical:16,
+    marginLeft:54
+  },
+  comMain:{
+  },
+  comDay:{
+    fontSize:14,
+    color:Colors.light,
+  },
+  comReplay:{
+    fontSize:14,
+    color:Colors.sub,
+    marginLeft:10
+  },
+  comRelayButton:{
+    marginTop:10,
+    flexDirection:'row',
+    justifyContent:'flex-end'
+  },
+  downView:{
+    height:54,
+    width:'100%',
+    backgroundColor:Colors.white,
+    paddingBottom:10
+  },
+  downViewCon:{
+    height:44,
+    width:'100%',
+    backgroundColor:'blue',
   }
 });

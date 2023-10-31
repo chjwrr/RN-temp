@@ -2,6 +2,7 @@ import { BOTTOM_HEIGHT, NAVIGATION_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT, STATUSBA
 import Colors from '@/utils/colors';
 import {
   StyleSheet,
+  Platform
 } from 'react-native';
 export const styles = StyleSheet.create({
   bgView:{
@@ -19,7 +20,7 @@ export const styles = StyleSheet.create({
     zIndex:100
   },
   contentContainerStyle:{
-    marginTop:STATUSBAR_HEIGHT
+    marginTop:Platform.OS === 'ios' ? NAVIGATION_HEIGHT : STATUSBAR_HEIGHT + NAVIGATION_HEIGHT
   },
   backButton:{
     width:NAVIGATION_HEIGHT,

@@ -7,11 +7,11 @@ import {
   View,
   TextInput,
   Image,
-  useWindowDimensions
+  useWindowDimensions,
+  TouchableOpacity
 } from 'react-native';
 import {styles} from './styles'
 import Colors from '@/utils/colors';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import RecommendScreen from './Recommend'
 import DesignScreen from './Design'
@@ -115,7 +115,7 @@ function TopTabbar(props:any){
   return <View style={styles.tabView}>
     {
       tabs.map((item:any,index:number)=>{
-        return <TouchableOpacity containerStyle={{flex:1}} style={[styles.tabButton]} key={item.title} onPress={()=>{
+        return <TouchableOpacity style={[styles.tabButton]} key={item.title} onPress={()=>{
           props.jumpTo(item.key)
         }}>
           <ImageBackground style={styles.tabButtonBg} source={props.navigationState.index == index ? item.icon_s : item.icon_n}>

@@ -22,5 +22,7 @@ const Colors = {
   border:'rgba(51, 51, 51, 0.05)',     // 边框
   tabbar:'#CC81FF',                    // tabbar 选中
   placeholder:'#666',                  // placeholder
+  buttonMain:'#6d69fa',                // 按钮选中
+
 }
 export default Colors
