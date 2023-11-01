@@ -7,11 +7,16 @@ import {
   ImageBackground,
   Image,
   Platform,
-  ScrollView,
+  Animated,
   FlatList,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  RefreshControl
+  RefreshControl,
+  TextInput,
+  KeyboardAvoidingView,
+  LayoutAnimation,
+  UIManager,
+  InteractionManager
 } from 'react-native';
 import {styles} from './styles'
 import Share from 'react-native-share';
@@ -20,12 +25,17 @@ import Carousel from 'react-native-reanimated-carousel';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
 import * as _ from 'lodash'
 import Colors from '@/utils/colors';
+import * as Animatable from 'react-native-animatable';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
 const shareIcon = require('@/assets/images/share.png')
 const accountIcon = require('@/assets/images/account.png')
 const collectIcon = require('@/assets/images/collect.png')
+const collectICON = require('@/assets/images/collectICON.png')
+const comiconIcon = require('@/assets/images/comicon.png')
+const stariconIcon = require('@/assets/images/staricon.png')
+const comicontIcon = require('@/assets/images/comicont.png')
 
 
 
@@ -71,6 +81,10 @@ function RecommendDetail(props:any): JSX.Element {
 
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
+       <KeyboardAvoidingView style={{ flex: 1 }}
+          behavior={Platform.select({ ios: "padding", default: undefined })}
+          keyboardVerticalOffset={0}
+          >
       <SafeAreaView style={{flex:1}}>
         <View style={styles.navigationView}>
           <View style={{flexDirection:"row",alignItems:'center'}}>
@@ -88,6 +102,7 @@ function RecommendDetail(props:any): JSX.Element {
           </View>
         </View>
         <FlatList
+          keyboardDismissMode={"onDrag"}
           contentContainerStyle={styles.contentContainerStyle}
           showsVerticalScrollIndicator={false}
           data={[1,2,3,4,5,6,7]}
@@ -126,13 +141,97 @@ function RecommendDetail(props:any): JSX.Element {
         />
         <DownInfo/>
       </SafeAreaView>
+      </KeyboardAvoidingView>
     </ImageBackground>
   );
 }
+
 function DownInfo(){
-  return <View style={styles.downView}>
+  const [rightWidth,setRightWidth] = useState(186)
+  const rightWidthAnim = useRef(new Animated.Value(0)).current;
+
+  function onFocus(){
+    // LayoutAnimation.configureNext({
+    //   duration:500,
+    //   create:{
+    //     delay:250,
+    //     type:LayoutAnimation.Types.spring,
+    //   },
+    //   update:{
+    //     delay:250,
+    //     type:LayoutAnimation.Types.linear,
+    //   },
+    //   delete:{
+    //     delay:250,
+    //     type:LayoutAnimation.Types.linear,
+    //   }
+    // })
+    // Animated.timing(rightWidthAnim, {
+    //   toValue: SCREEN_WIDTH,
+    //   duration:2000,
+    //   useNativeDriver: true,
+    // }).start(()=>{
+     
+    // })
+    // LayoutAnimation.linear()
+    // setRightWidth(0)
+    // setRightWidth(0)
+    // setTimeout(() => {
+      // setRightWidth(0)
+      // downRightRef.current.transitionTo({width:0})
+      setRightWidth(0)
+    // }, 2000);
+  }
+  function onBlur(){
+    setTimeout(() => {
+      // setRightWidth(186)
+      downRightRef.current.transitionTo({width:186})
+
+    }, 2000);
+    // Animated.timing(rightWidthAnim, {
+    //   toValue: 0,
+    //   duration:2000,
+    //   useNativeDriver: true,
+    // }).start(()=>{
+     
+    // })
+    // LayoutAnimation.linear()
+    // setRightWidth(186)
+    // LayoutAnimation.configureNext({
+    //   duration:500,
+    //   create:{
+    //     delay:250,
+    //     type:LayoutAnimation.Types.spring,
+    //   },
+    //   update:{
+    //     delay:250,
+    //     type:LayoutAnimation.Types.linear,
+    //   },
+    //   delete:{
+    //     delay:250,
+    //     type:LayoutAnimation.Types.linear,
+    //   }})
+    // setRightWidth(186)
+  }
+
+  const [fontSize,setfontSize] = useState(100)
+  const downRightRef = useRef<any>()
+  const downLeftRef = useRef<any>()
+
+  return <View style={[styles.downView]}>
     <View style={styles.downViewCon}>
-      
+      <Animatable.View ref={downLeftRef} style={[styles.comInputView]}>
+        <Image style={styles.downComIcon} source={comicontIcon}/>
+        <TextInput multiline={false} numberOfLines={1} style={styles.downInput} onFocus={onFocus} onBlur={onBlur}/>
+      </Animatable.View>
+      <Animatable.View ref={downRightRef} style={[styles.downRight,{width:rightWidth}]}>
+        <Image style={styles.downIcon} source={collectICON} resizeMode='contain'/>
+        <Text style={styles.downRightTitle}>点赞</Text>
+        <Image style={styles.downIcon} source={stariconIcon}/>
+        <Text style={styles.downRightTitle}>收藏</Text>
+        <Image style={styles.downIcon} source={comiconIcon}/>
+        <Text style={styles.downRightTitle}>评论</Text>
+      </Animatable.View>
     </View>
   </View>
 }

@@ -262,11 +262,55 @@ export const styles = StyleSheet.create({
     height:54,
     width:'100%',
     backgroundColor:Colors.white,
-    paddingBottom:10
+    justifyContent:'center'
   },
   downViewCon:{
     height:44,
     width:'100%',
-    backgroundColor:'blue',
+    flexDirection:'row',
+    justifyContent:'space-between',
+    paddingHorizontal:16,
+    alignItems:'center'
+  },
+  downIcon:{
+    width:24,
+    height:24,
+    marginRight:5,
+    marginLeft:10
+  },
+  downComIcon:{
+    width:16,
+    height:16,
+  },
+  comInputView:{
+    flexDirection:'row',
+    alignItems:'center',
+    height:44,
+    borderRadius:22,
+    backgroundColor:'rgba(247, 247, 255, 1)',
+    flex:1,
+    paddingHorizontal:10,
+    // width:SCREEN_WIDTH - 16 - 16 - 186,
+  },
+  downInput:{
+    flex:1,
+    backgroundColor:'red',
+    color:Colors.black,
+    fontSize:14,
+    paddingTop:0,
+    paddingBottom:0,
+    height:'100%',
+  },
+  downRight:{
+    flexDirection:'row',
+    alignItems:'center',
+    overflow:'hidden',
+    backgroundColor:'yellow',
+    justifyContent:'flex-end',
+    width:186
+  },
+  downRightTitle:{
+    color:Colors.label,
+    fontSize:12,
   }
 });
