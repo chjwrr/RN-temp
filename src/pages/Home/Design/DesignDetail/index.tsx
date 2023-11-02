@@ -102,8 +102,8 @@ function DesignDetail(props:any): JSX.Element {
           >
           <View style={styles.modalView}>
             <WebView
-              source={{uri:'www.baidu.com'}}
-              // source={{ uri: Platform.OS == 'ios' ? 'https://nextjs-3d-modal-j2fc-git-main-chjwrr.vercel.app/' : 'http://test.yingxiong123.top/' }}
+              // source={{uri:'www.baidu.com'}}
+              source={{ uri: Platform.OS == 'ios' ? 'https://nextjs-3d-modal-j2fc-git-main-chjwrr.vercel.app/' : 'http://test.yingxiong123.top/' }}
               style={styles.webView}
               onTouchStart={()=>{
                 setScrollEnabled(false)
