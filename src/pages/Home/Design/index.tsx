@@ -1,5 +1,5 @@
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   RefreshControl,
   Text,
@@ -11,7 +11,7 @@ import {
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
 import { SCREEN_WIDTH } from '@/utils';
-
+import { FadeLoading } from 'react-native-fade-loading';
 import WaterfallFlow from 'react-native-waterfall-flow'
 import Colors from '@/utils/colors';
 import { useNavigation } from '@react-navigation/native';
@@ -23,26 +23,48 @@ const focus_n = require('@/assets/images/collect.png')
 function Design(props:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
   const isCanLoadMore = useRef(false)
+  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation()
+  const [dataSource,setDataSource] = useState<any[]>([1,1,1,1])
+
+  useEffect(()=>{
+    setLoading(true)
+    setTimeout(() => {
+      setDataSource([{},{},{},{},{}])
+      setLoading(false)
+    }, 2000);
+  },[])
 
   function onRefresh(){
+    if (loading || refreshing){
+      return
+    }
     console.log('onRefresh')
-
+    setLoading(true)
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false)
+      setLoading(false)
+      setDataSource([{},{},{},{},{}])
     }, 2000);
   }
 
   function onEndReached(){
+    if (loading || refreshing){
+      return
+    }
     console.log('loading more')
+    setLoading(true)
     setTimeout(() => {
+      const temp = [...dataSource,{},{},{},{},{}]
+      setDataSource(temp)
       isCanLoadMore.current = true
+      setLoading(false)
     }, 2000);
   }
 
-
-  const navigation = useNavigation()
   function onPress(columnIndex:number){
+    //@ts-ignore
     navigation.navigate('DesignDetail',{
       id:columnIndex
     })
@@ -53,10 +75,18 @@ function Design(props:any): JSX.Element {
 
     <WaterfallFlow
       showsVerticalScrollIndicator={false}
-      data={[1,2,3,4,5,6,7]}
+      data={dataSource}
       numColumns={1}
       renderItem={({ item, index, columnIndex })=>{
-        return <TouchableOpacity onPress={()=>onPress(columnIndex)} style={[styles.flowView]}>
+        return item == 1 ? <FadeLoading
+        style={[styles.flowLoadingView]}
+        children={''}
+        primaryColor={''}
+        secondaryColor={''}
+        duration={0}
+        visible={true}
+        animated={true}
+      />: <TouchableOpacity onPress={()=>onPress(columnIndex)} style={[styles.flowView]}>
           <Text style={styles.modalName} numberOfLines={1} ellipsizeMode='tail'>模型{index}</Text>
           <Text style={styles.modalDes} numberOfLines={4} ellipsizeMode='tail'>模型介绍</Text>
         </TouchableOpacity>

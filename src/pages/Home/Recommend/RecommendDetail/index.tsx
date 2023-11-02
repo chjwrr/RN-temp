@@ -40,6 +40,7 @@ const jdIcon = require('@/assets/images/jd.png')
 function RecommendDetail(props:any): JSX.Element {
   const id = props.route.params.id
   const [showBuy,setShowBuy] = useState(false)
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   function onBack(){
     props.navigation.goBack()
@@ -116,7 +117,12 @@ function RecommendDetail(props:any): JSX.Element {
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
-        <View style={styles.navigationView}>
+        <Animated.View style={[styles.navigationView,{
+          backgroundColor:scrollY.interpolate({
+            inputRange: [0,88],
+            outputRange: ['transparent','#fff'],
+          })
+        }]}>
             <TouchableOpacity style={styles.backButton} onPress={onBack}>
               <Image style={styles.backIcon} source={BackIcon}/>
             </TouchableOpacity>
@@ -128,9 +134,17 @@ function RecommendDetail(props:any): JSX.Element {
                 <Image style={styles.backIcon} source={shareIcon}/>
               </TouchableOpacity>
             </View>
-          </View>
-        <ScrollView style={{flex:1}} contentContainerStyle={styles.contentContainerStyle}>
-         
+          </Animated.View>
+        <ScrollView
+          style={{flex:1}}
+          contentContainerStyle={styles.contentContainerStyle}
+          scrollEventThrottle={16}
+          onScroll={Animated.event([
+            {nativeEvent: {contentOffset: {y: scrollY}}}
+          ],{
+            useNativeDriver:false
+          })}
+        >
           {id == 0 ? <TDModalView/> : <SwiperView/>}
           <View style={styles.detailView}>
             <ShopInfo/>

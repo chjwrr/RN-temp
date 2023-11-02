@@ -8,7 +8,8 @@ import {
   Image,
   Platform,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  Animated
 } from 'react-native';
 import Share from 'react-native-share';
 import { WebView } from 'react-native-webview';
@@ -38,6 +39,7 @@ function DesignDetail(props:any): JSX.Element {
   const id = props.route.params.id
   const [showBuy,setShowBuy] = useState(false)
   const [scrollEnabled,setScrollEnabled] = useState(true)
+  const scrollY = useRef(new Animated.Value(0)).current;
 
 
   
@@ -70,7 +72,12 @@ function DesignDetail(props:any): JSX.Element {
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
-        <View style={styles.navigationView}>
+        <Animated.View style={[styles.navigationView,{
+          backgroundColor:scrollY.interpolate({
+            inputRange: [0,88],
+            outputRange: ['transparent','#fff'],
+          })
+        }]}>
             <TouchableOpacity style={styles.backButton} onPress={onBack}>
               <Image style={styles.backIcon} source={BackIcon}/>
             </TouchableOpacity>
@@ -82,12 +89,21 @@ function DesignDetail(props:any): JSX.Element {
                 <Image style={styles.backIcon} source={shareIcon}/>
               </TouchableOpacity>
             </View>
-          </View>
-        <ScrollView style={{flex:1}} contentContainerStyle={styles.contentContainerStyle} scrollEnabled={scrollEnabled}>
-         
+          </Animated.View>
+        <ScrollView style={{flex:1}}
+          contentContainerStyle={styles.contentContainerStyle}
+          scrollEnabled={scrollEnabled}
+          scrollEventThrottle={16}
+          onScroll={Animated.event([
+            {nativeEvent: {contentOffset: {y: scrollY}}}
+          ],{
+            useNativeDriver:false
+          })}
+          >
           <View style={styles.modalView}>
             <WebView
-              source={{ uri: Platform.OS == 'ios' ? 'https://nextjs-3d-modal-j2fc-git-main-chjwrr.vercel.app/' : 'http://test.yingxiong123.top/' }}
+              source={{uri:'www.baidu.com'}}
+              // source={{ uri: Platform.OS == 'ios' ? 'https://nextjs-3d-modal-j2fc-git-main-chjwrr.vercel.app/' : 'http://test.yingxiong123.top/' }}
               style={styles.webView}
               onTouchStart={()=>{
                 setScrollEnabled(false)
@@ -102,9 +118,6 @@ function DesignDetail(props:any): JSX.Element {
             <Text style={styles.name}>模型名字</Text>
           </View>
           <DetailInfo/>
-
-
-
         </ScrollView>
         <View style={styles.downView}>
           <TouchableOpacity style={[styles.downViewItem,showBuy && styles.downViewItemSel]} onPress={onShowDown}>

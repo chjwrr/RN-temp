@@ -17,6 +17,11 @@ export const styles = StyleSheet.create({
         borderRadius:5,
         padding:8
     },
+    flowLoadingView:{
+      height:260,
+      borderRadius:5,
+      padding:8
+    },
     flowViewIcon:{
         height:180,
         width:'100%',

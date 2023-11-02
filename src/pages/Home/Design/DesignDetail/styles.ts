@@ -10,14 +10,16 @@ export const styles = StyleSheet.create({
   },
   navigationView:{
     width:'100%',
-    height:NAVIGATION_HEIGHT,
+    height:NAVIGATION_HEIGHT + STATUSBAR_HEIGHT,
     flexDirection:'row',
     justifyContent:'space-between',
-    alignItems:'center',
-    top:STATUSBAR_HEIGHT,
+    // top:STATUSBAR_HEIGHT,
+    top:0,
+    paddingTop:STATUSBAR_HEIGHT,
     paddingHorizontal:16,
     position:'absolute',
-    zIndex:100
+    zIndex:100,
+    alignItems:'center'
   },
   contentContainerStyle:{
     marginTop:Platform.OS === 'ios' ? NAVIGATION_HEIGHT : STATUSBAR_HEIGHT + NAVIGATION_HEIGHT

@@ -17,6 +17,12 @@ export const styles = StyleSheet.create({
         borderRadius:5,
         padding:8
     },
+    flowLoadingView:{
+      width:'100%',
+      height:160,
+      borderRadius:5,
+      padding:8
+    },
     loadMoreView:{
         flexDirection:'row',
         justifyContent:'center',

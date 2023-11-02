@@ -41,7 +41,7 @@ const comicontIcon = require('@/assets/images/comicont.png')
 
 function RecommendDetail(props:any): JSX.Element {
   const id = props.route.params.id
-
+  const scrollY = useRef(new Animated.Value(0)).current;
   function onBack(){
     props.navigation.goBack()
   }
@@ -81,66 +81,77 @@ function RecommendDetail(props:any): JSX.Element {
 
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
-       <KeyboardAvoidingView style={{ flex: 1 }}
-          behavior={Platform.select({ ios: "padding", default: undefined })}
-          keyboardVerticalOffset={0}
-          >
-      <SafeAreaView style={{flex:1}}>
-        <View style={styles.navigationView}>
-          <View style={{flexDirection:"row",alignItems:'center'}}>
-            <TouchableOpacity style={styles.backButton} onPress={onBack}>
-              <Image style={styles.backIcon} source={BackIcon}/>
-            </TouchableOpacity>
-            <Image style={styles.accounticon} source={accountIcon}/>
-            <Text style={styles.accountTitle} numberOfLines={1} ellipsizeMode='tail'>用户名字用户名字用户名字用户名字用户名字</Text>
-          </View>
-          <View style={{flexDirection:"row",alignItems:'center'}}>
-            <FocusButton/>
-            <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPress={onShare}>
-              <Image style={styles.backIcon} source={shareIcon}/>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <FlatList
-          keyboardDismissMode={"onDrag"}
-          contentContainerStyle={styles.contentContainerStyle}
-          showsVerticalScrollIndicator={false}
-          data={[1,2,3,4,5,6,7]}
-          numColumns={1}
-          renderItem={({ item, index })=>{
-            return <CommonItem item={item} index={index}/>
-          }}
-          style={{ flex: 1 }}
-          ListHeaderComponent={<View style={{flex:1}}>
-            <SwiperView/>
-            <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'>标题</Text>
-            <Text style={styles.des}>内容</Text>
-            <View style={styles.line}/>
-            <View style={styles.commonTitleVieew}>
-              <Text style={styles.commonTitle}>共</Text>
-              <Text style={styles.commonTitleMain}>16</Text>
-              <Text style={styles.commonTitle}>条评论</Text>
+      <KeyboardAvoidingView style={{ flex: 1 }}
+        behavior={Platform.select({ ios: "padding", default: undefined })}
+        keyboardVerticalOffset={0}
+        >
+        <SafeAreaView style={{flex:1}}>
+          <Animated.View style={[styles.navigationView,{
+            backgroundColor:scrollY.interpolate({
+              inputRange: [0,88],
+              outputRange: ['transparent','#fff'],
+            })
+          }]}>
+            <View style={{flexDirection:"row",alignItems:'center'}}>
+              <TouchableOpacity style={styles.backButton} onPress={onBack}>
+                <Image style={styles.backIcon} source={BackIcon}/>
+              </TouchableOpacity>
+              <Image style={styles.accounticon} source={accountIcon}/>
+              <Text style={styles.accountTitle} numberOfLines={1} ellipsizeMode='tail'>用户名字用户名字用户名字用户名字用户名字</Text>
             </View>
-          </View>}
-          ListEmptyComponent={<View/>}
-          initialNumToRender={10}
-          keyExtractor={(item, index) => 'key' + index}
-          // onEndReached={() => {
-          //   if (isCanLoadMore) {
-          //     onEndReached();
-          //     isCanLoadMore.current = false;
-          //   }
-          // }}
-          // onContentSizeChange={() => {
-          //   isCanLoadMore.current = true;
-          // }}
-          // onEndReachedThreshold={0.01}
-          // refreshControl={
-          //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[Colors.main]}/>
-          // }
-        />
-        <DownInfo/>
-      </SafeAreaView>
+            <View style={{flexDirection:"row",alignItems:'center'}}>
+              <FocusButton/>
+              <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPress={onShare}>
+                <Image style={styles.backIcon} source={shareIcon}/>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
+          <FlatList
+            keyboardDismissMode={"onDrag"}
+            contentContainerStyle={styles.contentContainerStyle}
+            showsVerticalScrollIndicator={false}
+            data={[1,2,3,4,5,6,7]}
+            numColumns={1}
+            renderItem={({ item, index })=>{
+              return <CommonItem item={item} index={index}/>
+            }}
+            style={{ flex: 1 }}
+            ListHeaderComponent={<View style={{flex:1}}>
+              <SwiperView/>
+              <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'>标题</Text>
+              <Text style={styles.des}>内容</Text>
+              <View style={styles.line}/>
+              <View style={styles.commonTitleVieew}>
+                <Text style={styles.commonTitle}>共</Text>
+                <Text style={styles.commonTitleMain}>16</Text>
+                <Text style={styles.commonTitle}>条评论</Text>
+              </View>
+            </View>}
+            ListEmptyComponent={<View/>}
+            initialNumToRender={10}
+            keyExtractor={(item, index) => 'key' + index}
+            scrollEventThrottle={16}
+            onScroll={Animated.event([
+              {nativeEvent: {contentOffset: {y: scrollY}}}
+            ],{
+              useNativeDriver:false
+            })}
+            // onEndReached={() => {
+            //   if (isCanLoadMore) {
+            //     onEndReached();
+            //     isCanLoadMore.current = false;
+            //   }
+            // }}
+            // onContentSizeChange={() => {
+            //   isCanLoadMore.current = true;
+            // }}
+            // onEndReachedThreshold={0.01}
+            // refreshControl={
+            //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[Colors.main]}/>
+            // }
+          />
+          <DownInfo/>
+        </SafeAreaView>
       </KeyboardAvoidingView>
     </ImageBackground>
   );
@@ -176,18 +187,17 @@ function DownInfo(){
     // LayoutAnimation.linear()
     // setRightWidth(0)
     // setRightWidth(0)
+    setRightWidth(0)
     // setTimeout(() => {
-      // setRightWidth(0)
-      // downRightRef.current.transitionTo({width:0})
-      setRightWidth(0)
+    //   downRightRef.current.transitionTo({width:0})
     // }, 2000);
   }
   function onBlur(){
-    setTimeout(() => {
-      // setRightWidth(186)
-      downRightRef.current.transitionTo({width:186})
+    setRightWidth(186)
 
-    }, 2000);
+    // setTimeout(() => {
+    //   downRightRef.current.transitionTo({width:186})
+    // }, 2000);
     // Animated.timing(rightWidthAnim, {
     //   toValue: 0,
     //   duration:2000,
@@ -214,23 +224,37 @@ function DownInfo(){
     // setRightWidth(186)
   }
 
-  const [fontSize,setfontSize] = useState(100)
   const downRightRef = useRef<any>()
   const downLeftRef = useRef<any>()
+  const inputRef = useRef<any>()
+
+  function onCommon(){
+    inputRef && inputRef.current && inputRef.current.focus()
+  }
+  function onCollect(){
+  }
+  function onLike(){
+  }
 
   return <View style={[styles.downView]}>
     <View style={styles.downViewCon}>
       <Animatable.View ref={downLeftRef} style={[styles.comInputView]}>
         <Image style={styles.downComIcon} source={comicontIcon}/>
-        <TextInput multiline={false} numberOfLines={1} style={styles.downInput} onFocus={onFocus} onBlur={onBlur}/>
+        <TextInput ref={inputRef} multiline={false} numberOfLines={1} style={styles.downInput} onFocus={onFocus} onBlur={onBlur}/>
       </Animatable.View>
       <Animatable.View ref={downRightRef} style={[styles.downRight,{width:rightWidth}]}>
-        <Image style={styles.downIcon} source={collectICON} resizeMode='contain'/>
-        <Text style={styles.downRightTitle}>点赞</Text>
-        <Image style={styles.downIcon} source={stariconIcon}/>
-        <Text style={styles.downRightTitle}>收藏</Text>
-        <Image style={styles.downIcon} source={comiconIcon}/>
-        <Text style={styles.downRightTitle}>评论</Text>
+        <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPress={onLike}>
+          <Image style={styles.downIcon} source={collectICON} resizeMode='contain'/>
+          <Text style={styles.downRightTitle}>点赞</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPress={onCollect}>
+          <Image style={styles.downIcon} source={stariconIcon}/>
+          <Text style={styles.downRightTitle}>收藏</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPress={onCommon}>
+          <Image style={styles.downIcon} source={comiconIcon}/>
+          <Text style={styles.downRightTitle}>评论</Text>
+        </TouchableOpacity>
       </Animatable.View>
     </View>
   </View>
