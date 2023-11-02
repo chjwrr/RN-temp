@@ -14,13 +14,13 @@ import Colors from '@/utils/colors';
 const tabbars:any[] = [
   {
     title:'衣互',
-    icon:require('@/assets/images/Home_sel.png'),
+    icon:require('@/assets/images/Home_nor.png'),
     iconSel:require('@/assets/images/Home_sel.png'),
   },
   {
     title:'票儿',
     icon:require('@/assets/images/Ticket_nor.png'),
-    iconSel:require('@/assets/images/Ticket_nor.png')
+    iconSel:require('@/assets/images/Ticket_sel.png')
   },
   {
     title:'发布',
@@ -30,12 +30,12 @@ const tabbars:any[] = [
   {
     title:'生态',
     icon:require('@/assets/images/Ecology_nor.png'),
-    iconSel:require('@/assets/images/Ecology_nor.png')
+    iconSel:require('@/assets/images/Ecology_sel.png')
   },
   {
     title:'我的',
     icon:require('@/assets/images/Mine_nor.png'),
-    iconSel:require('@/assets/images/Mine_nor.png')
+    iconSel:require('@/assets/images/Mine_sel.png')
   },
 ]
 

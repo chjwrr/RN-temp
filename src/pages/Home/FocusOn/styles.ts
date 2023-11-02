@@ -1,19 +1,135 @@
+import { SCREEN_WIDTH } from '@/utils';
+import Colors from '@/utils/colors';
 import {
     StyleSheet,
   } from 'react-native';
   
 export const styles = StyleSheet.create({
-    mainView:{
-        // flex:1,
-        backgroundColor:'red',
+    scrollView:{
+        width:'100%',
+        height:78,
+    },
+    focusView:{
+        alignItems:'center',
+        width:70
+    },
+    focusAvatarView:{
+        width:44,
+        position:'relative'
+    },
+    focusAvtar:{
+        width:44,
+        height:44,
+        backgroundColor:'blue',
+        borderRadius:22
+    },
+    focusTipView:{
+        width:12,
+        height:12,
+        borderRadius:6,
+        backgroundColor:Colors.tipPoint,
+        position:'absolute',
+        right:0,
+        top:0,
+        zIndex:10
+    },
+    focusName:{
+        fontSize:12,
+        color:Colors.title,
+    },
+    flowLoadingView:{
+        height:414,
+    },
+    itemView:{
+
+    },
+    itemTopView:{
+        flexDirection:'row',
         justifyContent:'space-between',
+        height:44,
+        width:'100%'
+    },
+    itemAvatar:{
+        width:32,
+        height:32,
+        borderRadius:16,
+        backgroundColor:'blue',
+        marginRight:5
+    },
+    itemName:{
+        fontSize:14,
+        color:Colors.assist,
+        width:200,
+    },
+    shareButton:{
+        width:44,
+        height:44,
+        flexDirection:'row',
+        justifyContent:'flex-end',
+        alignItems:'center',
+    },
+    share:{
+        width:16,
+        height:16
+    },
+    itemScrollView:{
+        width:'100%',
+        height:320,
+    },
+    itemScrollPointView:{
+        flexDirection:'row',
+        justifyContent:'center',
         alignItems:'center',
         width:'100%',
-        height:'100%',
-        flexDirection:'column'
+        height:20
     },
-    title:{
-        color:'blue'
+    swiperTopView:{
+        width:SCREEN_WIDTH - 32,
+        flex:1,
+        backgroundColor: "blue",
+      },
+    scrollPointerView:{
+        width:4,
+        height:4,
+        borderRadius:2,
+        marginHorizontal:4
+    },
+    loadMoreView:{
+        flexDirection:'row',
+        justifyContent:'center',
+        height:30,
+        alignItems:'center'
+    },
+    loadMoreTitle:{
+        fontSize:12,
+        color:Colors.assist
+    },
+    itemTitle:{
+        width:'100%',
+        fontSize:16,
+        color:Colors.title,
+        fontWeight:'600',
+        height:20,
+    },
+    itemContent:{
+        height:30,   
+        flexDirection:'row',
+        justifyContent:'space-between',
+        width:'100%',
+        alignItems:'center',
+        marginBottom:10
+    },
+    iteemCCont:{
+        fontSize:14,
+        color:Colors.assist,
+        width:'60%'
+    },
+    itemShowMore:{
+        fontSize:14,
+        color:Colors.showMore,
+    },
+    speHeight:{
+        height:10
     }
 });
   

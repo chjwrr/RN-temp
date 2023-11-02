@@ -32,10 +32,10 @@ const BackIcon = require('@/assets/images/back_b.png')
 const shareIcon = require('@/assets/images/share.png')
 const accountIcon = require('@/assets/images/account.png')
 const collectIcon = require('@/assets/images/collect.png')
-const collectICON = require('@/assets/images/collectICON.png')
 const comiconIcon = require('@/assets/images/comicon.png')
 const stariconIcon = require('@/assets/images/staricon.png')
 const comicontIcon = require('@/assets/images/comicont.png')
+const likeiconIcon = require('@/assets/images/likeicon.png')
 
 
 
@@ -152,6 +152,7 @@ function RecommendDetail(props:any): JSX.Element {
           />
           <DownInfo/>
         </SafeAreaView>
+        <SafeAreaView style={{flex:0,backgroundColor:Colors.white}}></SafeAreaView>
       </KeyboardAvoidingView>
     </ImageBackground>
   );
@@ -244,7 +245,7 @@ function DownInfo(){
       </Animatable.View>
       <Animatable.View ref={downRightRef} style={[styles.downRight,{width:rightWidth}]}>
         <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPress={onLike}>
-          <Image style={styles.downIcon} source={collectICON} resizeMode='contain'/>
+          <Image style={styles.downIcon} source={likeiconIcon} resizeMode='contain'/>
           <Text style={styles.downRightTitle}>点赞</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPress={onCollect}>

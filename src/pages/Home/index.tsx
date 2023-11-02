@@ -74,6 +74,7 @@ function Home({navigation}:any): JSX.Element {
           </TouchableOpacity>
         </View>
         <TabView
+          swipeEnabled={false}
           lazy
           navigationState={{ index, routes }}
           renderScene={renderScene}

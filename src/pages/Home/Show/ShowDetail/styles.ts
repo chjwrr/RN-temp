@@ -296,7 +296,6 @@ export const styles = StyleSheet.create({
   },
   downInput:{
     flex:1,
-    backgroundColor:'red',
     color:Colors.black,
     fontSize:14,
     paddingTop:0,
@@ -307,7 +306,6 @@ export const styles = StyleSheet.create({
     flexDirection:'row',
     alignItems:'center',
     overflow:'hidden',
-    backgroundColor:'yellow',
     justifyContent:'flex-end',
     width:186
   },
