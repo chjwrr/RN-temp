@@ -74,12 +74,7 @@ export const styles = StyleSheet.create({
     nameInput:{
         width:'70%',
         height:'100%',
-        fontSize:24,
-        color:Colors.white,
-        fontFamily: 'SmileySans-Oblique',
         marginLeft:63,
-        paddingTop:0,
-        paddingBottom:0
     },
     bottombg:{
         width:'100%',

@@ -1,5 +1,5 @@
 const Colors = {
-  main:'#A6ABE2',                      //  主色值
+  main:'#C081FF',                      //  主色值
   sub:'#4e4e55',                       // 辅色
   title:'#261F31',                     // 标题正文
   assist:'#4F4A58',                    // 辅助文字

@@ -6,7 +6,6 @@ import {
   View,
   ImageBackground,
   TouchableWithoutFeedback,
-  TextInput,
   Keyboard,
   TouchableOpacity,
   Image,
@@ -15,6 +14,7 @@ import {
 import {styles} from './styles'
 import { CODE_COUNTDOWN_TIME, STATUSBAR_HEIGHT } from '@/utils';
 import { isPhoneNumber } from '@/utils/common';
+import CustomTextInput from '@/components/CustomTextInput';
 
 const BGImage = require('@/assets/images/registerbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -78,18 +78,6 @@ function Register(props:any): JSX.Element {
     if (codeTime != 60){
       return
     }
-    if (!userPsd){
-      setTips('请输入密码')
-      return
-    }
-    if (!userAgainPsd){
-      setTips('请再次输入密码')
-      return
-    }
-    if (userPsd != userAgainPsd){
-      setTips('两次输入密码不一致，请重新输入')
-      return
-    }
     if (!userAccount){
       setTips('请输入手机号')
       return
@@ -144,13 +132,13 @@ function Register(props:any): JSX.Element {
 
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
-      <TouchableWithoutFeedback style={styles.main} onPress={onDisKeyboard}>
+      <TouchableWithoutFeedback style={styles.main} onPressIn={onDisKeyboard}>
         <SafeAreaView style={{flex:1}}>
           <KeyboardAvoidingView style={{ flex: 1 }}
           behavior={'padding'}
           keyboardVerticalOffset={0}
           >
-            <TouchableOpacity onPress={onBack} style={styles.backButton}>
+            <TouchableOpacity onPressIn={onBack} style={styles.backButton}>
               <Image source={BackImg} style={styles.bgckImg}/>
             </TouchableOpacity>
             <View style={[styles.mainContent,{
@@ -160,67 +148,65 @@ function Register(props:any): JSX.Element {
                 <View style={styles.tipReg}>
                   <Text style={styles.tip}>欢迎来到 Cverselink，立即注册</Text>
                 </View>
-                <View style={[styles.inputView,{marginTop:10}]}>
-                  <TextInput style={styles.input}
-                    placeholder='请输入手机号'
-                    value={userAccount}
-                    onChange={onUserAccountChange}
-                    underlineColorAndroid={'transparent'}
-                    keyboardType='number-pad'
+                <CustomTextInput style={[styles.inputView,{marginTop:10}]}
+                  inputProps={{
+                    placeholder:'请输入手机号',
+                    value:userAccount,
+                    onChange:onUserAccountChange,
+                    keyboardType:'number-pad'
+                  }}
                   />
-                </View>
                 <View style={[styles.inputView,{marginTop:10}]}>
-                  <TextInput style={styles.input}
-                    placeholder='请输入验证码'
-                    value={userCode}
-                    onChange={onUserCodeChange}
-                    underlineColorAndroid={'transparent'}
-                    keyboardType='number-pad'
+                  <CustomTextInput style={{height:'100%',flex:1}}
+                    inputProps={{
+                      placeholder:'请输入验证码',
+                      value:userCode,
+                      onChange:onUserCodeChange,
+                      keyboardType:'number-pad'
+                    }}
                   />
-                  <TouchableOpacity style={styles.codeButton} onPress={onGetVerifyCode}>
+                  <TouchableOpacity style={styles.codeButton} onPressIn={onGetVerifyCode}>
                     <Text style={styles.codetitle}>{codeTime == CODE_COUNTDOWN_TIME ? '获取验证码' : codeTime + ' s'}</Text>
                   </TouchableOpacity>
                 </View>
-                <View style={[styles.inputView,{marginTop:10}]}>
-                  <TextInput style={styles.input}
-                    placeholder='请输入密码'
-                    value={userPsd}
-                    onChange={onUserPsdChange}
-                    underlineColorAndroid={'transparent'}
-                    secureTextEntry={true}
+                <CustomTextInput 
+                    style={[styles.inputView,{marginTop:10}]}
+                    inputProps={{
+                      placeholder:'请输入密码',
+                      value:userPsd,
+                      onChange:onUserPsdChange,
+                      underlineColorAndroid:'transparent',
+                      secureTextEntry:true
+                    }}
                   />
-                </View>
-                <View style={[styles.inputView,{marginTop:10}]}>
-                  <TextInput style={styles.input}
-                    placeholder='请再次输入密码'
-                    value={userAgainPsd}
-                    onChange={onUserAgaimPsdChange}
-                    underlineColorAndroid={'transparent'}
-                    secureTextEntry={true}
-                  />
-                </View>
-              
+                <CustomTextInput style={[styles.inputView,{marginTop:10}]}
+                  inputProps={{
+                    placeholder:'请再次输入密码',
+                    value:userAgainPsd,
+                    onChange:onUserAgaimPsdChange,
+                    underlineColorAndroid:'transparent',
+                    secureTextEntry:true
+                  }}
+                />
                 <Text style={styles.tips}>{tips}</Text>
-
-                
               </View>
               <View style={styles.downView}>
-                <TouchableOpacity onPress={onRegister} style={styles.loginButtonvieew}>
+                <TouchableOpacity onPressIn={onRegister} style={styles.loginButtonvieew}>
                   <ImageBackground source={ButtonImg} style={styles.loginButton} resizeMode='cover'>
                     <Text style={styles.logintitle}>注册</Text>
                   </ImageBackground>
                 </TouchableOpacity>
                 <View style={styles.agreeView}>
-                  <TouchableOpacity style={styles.agreeButton} onPress={onAgree}>
+                  <TouchableOpacity style={styles.agreeButton} onPressIn={onAgree}>
                     <Image style={styles.agreeImg} source={isAgree ? AgreeSel : AgreeDis}/>
                   </TouchableOpacity>
                   <View style={styles.agreeTextView}>
                     <Text style={styles.agreeText}>我已阅读并同意衣互</Text>
-                    <TouchableOpacity style={styles.agreeSelButton} onPress={onUserAgreement}>
+                    <TouchableOpacity style={styles.agreeSelButton} onPressIn={onUserAgreement}>
                       <Text style={styles.agreeTextDis}>用户协议</Text>
                     </TouchableOpacity>
                     <Text style={styles.agreeText}>和</Text>
-                    <TouchableOpacity style={styles.agreeSelButton} onPress={onUserPrivacy}>
+                    <TouchableOpacity style={styles.agreeSelButton} onPressIn={onUserPrivacy}>
                       <Text style={styles.agreeTextDis}>隐私政策</Text>
                     </TouchableOpacity>
                   </View>

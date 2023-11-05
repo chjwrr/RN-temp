@@ -65,11 +65,11 @@ function Home({navigation}:any): JSX.Element {
               value={searchValue}
               onChange={onSearchChange}
             />
-            <TouchableOpacity onPress={onSearch}>
+            <TouchableOpacity onPressIn={onSearch}>
               <Image style={styles.searchicon} source={SearchImage}/>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={onAccount}>
+          <TouchableOpacity onPressIn={onAccount}>
             <Image style={styles.accounticon} source={AccountImage}/>
           </TouchableOpacity>
         </View>
@@ -116,7 +116,7 @@ function TopTabbar(props:any){
   return <View style={styles.tabView}>
     {
       tabs.map((item:any,index:number)=>{
-        return <TouchableOpacity style={[styles.tabButton]} key={item.title} onPress={()=>{
+        return <TouchableOpacity style={[styles.tabButton]} key={item.title} onPressIn={()=>{
           props.jumpTo(item.key)
         }}>
           <ImageBackground style={styles.tabButtonBg} source={props.navigationState.index == index ? item.icon_s : item.icon_n}>

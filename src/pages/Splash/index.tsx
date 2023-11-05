@@ -152,7 +152,7 @@ function Splash(props:any): JSX.Element {
                 })
               }
             </View>
-            <TouchableWithoutFeedback onPress={onNext}>
+            <TouchableWithoutFeedback onPressIn={onNext}>
               <Image source={NextImg} style={styles.nextImg} resizeMode='cover'/>
             </TouchableWithoutFeedback>
             </View>

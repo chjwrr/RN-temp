@@ -78,14 +78,14 @@ function DesignDetail(props:any): JSX.Element {
             outputRange: ['transparent','#fff'],
           })
         }]}>
-            <TouchableOpacity style={styles.backButton} onPress={onBack}>
+            <TouchableOpacity style={styles.backButton} onPressIn={onBack}>
               <Image style={styles.backIcon} source={BackIcon}/>
             </TouchableOpacity>
             <View style={{flexDirection:"row"}}>
-              <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPress={onCollect}>
+              <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onCollect}>
                 <Image style={styles.collectIcon} source={CollectIcon}/>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPress={onShare}>
+              <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
                 <Image style={styles.backIcon} source={shareIcon}/>
               </TouchableOpacity>
             </View>
@@ -120,7 +120,7 @@ function DesignDetail(props:any): JSX.Element {
           <DetailInfo/>
         </ScrollView>
         <View style={styles.downView}>
-          <TouchableOpacity style={[styles.downViewItem,showBuy && styles.downViewItemSel]} onPress={onShowDown}>
+          <TouchableOpacity style={[styles.downViewItem,showBuy && styles.downViewItemSel]} onPressIn={onShowDown}>
             <Image style={styles.downIcon} source={downbgIcon}/>
             <Text style={[styles.downTitle, showBuy && styles.downTitleSel]}>下载图片</Text>
           </TouchableOpacity>
@@ -139,10 +139,10 @@ function DetailInfo(){
   const [selectIndex,setSelectIndex] = useState(0)
   return <View style={styles.detailInfo}>
     <ImageBackground resizeMode='cover' source={selectIndex == 0 ? model_right_bgIcon : model_left_bgIcon} style={styles.detailTopBg}>
-      <TouchableOpacity style={selectIndex == 0 ? styles.detailLeftButton : styles.detailLeftButton} onPress={()=>setSelectIndex(0)}>
+      <TouchableOpacity style={selectIndex == 0 ? styles.detailLeftButton : styles.detailLeftButton} onPressIn={()=>setSelectIndex(0)}>
         <Text style={selectIndex == 0 ? styles.detailTopTitle : styles.detailTopTitledis}>模型介绍</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={selectIndex != 0 ? styles.detailRightButton : styles.detailRightButton} onPress={()=>setSelectIndex(1)}>
+      <TouchableOpacity style={selectIndex != 0 ? styles.detailRightButton : styles.detailRightButton} onPressIn={()=>setSelectIndex(1)}>
         <Text style={selectIndex != 0 ? styles.detailTopTitle : styles.detailTopTitledis}>制作公司介绍</Text>
       </TouchableOpacity>
     </ImageBackground>

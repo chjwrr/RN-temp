@@ -1,5 +1,6 @@
 https://js.design/f/y6BtF8?p=Vc9GVvs4Lp
 
+
 # 下载
 `yarn`
 `ios: npx pod-install`
@@ -291,7 +292,7 @@ https://github.com/obipawan/react-native-hyperlink
 ```
 import Hyperlink from 'react-native-hyperlink'
 
- <Hyperlink linkStyle={ { color: '#2980b9', fontSize: 20 } } onPress={(e:any)=>{
+ <Hyperlink linkStyle={ { color: '#2980b9', fontSize: 20 } } onPressIn={(e:any)=>{
           Alert.alert(e)
         }}>
     <Text style={ { fontSize: 15 } }>
@@ -469,8 +470,76 @@ https://docs.swmansion.com/react-native-gesture-handler/docs/components/drawer-l
 
 
 
+#  下拉图片放大
+```
 
-LayoutAnimation
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  SafeAreaView,
+  View,
+  ScrollView,
+  Animated
+} from 'react-native';
+import {styles} from './styles'
+import { NAVIGATION_HEIGHT, SCREEN_WIDTH, STATUSBAR_HEIGHT } from '@/utils';
+
+const pageBg = require('@/assets/images/ticket_bg.png')
+
+const navHeight = STATUSBAR_HEIGHT + NAVIGATION_HEIGHT
+const imageWidth = SCREEN_WIDTH
+const imageHeight = SCREEN_WIDTH * 1200 / 750
+
+
+function Ticket(): JSX.Element {
+  const scrollY = useRef(new Animated.Value(0)).current;
+  return (
+    <View style={styles.mainView}>
+    <Animated.Image source={pageBg}
+      style={[{
+        width:imageWidth,
+        height:imageHeight,
+        position:'absolute',
+        top:0,
+        zIndex:2
+      },{
+        transform: [{
+          translateY: scrollY.interpolate({
+            inputRange: [-imageHeight, 0, imageHeight - navHeight, imageHeight],
+            outputRange: [imageHeight / 2, 0, -(imageHeight - navHeight), -(imageHeight - navHeight)],
+          })
+        }, {
+          scale: scrollY.interpolate({
+            inputRange: [-imageHeight, 0, imageHeight],
+            outputRange: [2, 1, 1],
+          })
+        }]
+      }]}
+    
+    />
+
+    <SafeAreaView style={{flex:1,width:'100%'}}>
+
+      <ScrollView style={{flex:1,width:'100%'}}
+      contentContainerStyle={{paddingTop:imageHeight}}
+      scrollEventThrottle={16}
+      onScroll={Animated.event([
+        {nativeEvent: {contentOffset: {y: scrollY}}}
+      ],{
+        useNativeDriver:false
+      })}
+      >
+        <View style={{width:'100%',height:600,backgroundColor:'red'}}/>
+      </ScrollView>
+    </SafeAreaView>
+  </View>
+  );
+}
+
+export default Ticket;
+
+```
+
+
 # 待测试
 
 #加载3D模型

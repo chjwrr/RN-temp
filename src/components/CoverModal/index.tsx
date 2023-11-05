@@ -91,7 +91,7 @@ function CoverModal({
     },{
       opacity: fadeAnim,
     }]}>
-      <TouchableOpacity activeOpacity={1} style={styles.bgButton} onPress={onClose}/>
+      <TouchableOpacity activeOpacity={1} style={styles.bgButton} onPressIn={onClose}/>
       <Animated.View style={[{
         width:'100%',
         alignItems:'center',

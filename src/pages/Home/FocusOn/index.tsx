@@ -72,8 +72,8 @@ function FocusOn(): JSX.Element {
         return item == 1 ? <FadeLoading
           style={[styles.flowLoadingView]}
           children={''}
-          primaryColor={''}
-          secondaryColor={''}
+          primaryColor={'#a6abe2'}
+          secondaryColor={'#b391e8'}
           duration={0}
           visible={true}
           animated={true}
@@ -146,7 +146,7 @@ function RenderItem({item,index}:any){
     <Text style={styles.itemTitle} numberOfLines={1} ellipsizeMode='tail'>标题</Text>
     <View style={styles.itemContent}>
       <Text style={styles.iteemCCont} numberOfLines={1} ellipsizeMode='tail'>内容内容内容内容内容内容内容内容内容</Text>
-      <TouchableOpacity onPress={onShowMore}>
+      <TouchableOpacity onPressIn={onShowMore}>
         <Text style={styles.itemShowMore}>查看全文</Text>
       </TouchableOpacity>
     </View>

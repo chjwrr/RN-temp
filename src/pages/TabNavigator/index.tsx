@@ -33,7 +33,9 @@ function Tabs() {
       <Tab.Screen name="Home" component={HomeScreen} options={{
         headerShown:false,
       }}/>
-      <Tab.Screen name="Ticket" component={TicketScreen} />
+      <Tab.Screen name="Ticket" component={TicketScreen} options={{
+        headerShown:false,
+      }}/>
       <Tab.Screen name="Post" component={PostScreen} />
       <Tab.Screen name="Ecology" component={EcologyScreen} />
       <Tab.Screen name="Mine" component={MineScreen} options={{

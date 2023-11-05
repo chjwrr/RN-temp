@@ -6,7 +6,6 @@ import {
   View,
   Image,
   ActivityIndicator,
-  TouchableOpacity
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
@@ -15,6 +14,7 @@ import { FadeLoading } from 'react-native-fade-loading';
 import WaterfallFlow from 'react-native-waterfall-flow'
 import Colors from '@/utils/colors';
 import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const focus_n = require('@/assets/images/collect.png')
@@ -86,8 +86,8 @@ function Show(props:any): JSX.Element {
           marginLeft:columnIndex == 0 ? 0 : 2
         }]}
         children={''}
-        primaryColor={''}
-        secondaryColor={''}
+        primaryColor={'#a6abe2'}
+        secondaryColor={'#b391e8'}
         duration={0}
         visible={true}
         animated={true}

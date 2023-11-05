@@ -15,6 +15,7 @@ import {
 import {styles} from './styles'
 import Colors from '@/utils/colors';
 import LinearGradient from 'react-native-linear-gradient';
+import CustomTextInput from '@/components/CustomTextInput';
 
 const BGImage = require('@/assets/images/registerbgi.png')
 const BackImg = require('@/assets/images/loginback.png')
@@ -56,10 +57,10 @@ function ChooseSex(props:any): JSX.Element {
         flex: 0
       }}></SafeAreaView>
       <SafeAreaView style={{flex:1}} >
-        <TouchableOpacity onPress={onBack} style={styles.backButton}>
+        <TouchableOpacity onPressIn={onBack} style={styles.backButton}>
           <Image source={BackImg} style={styles.bgckImg}/>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.mainContent} activeOpacity={1} onPress={()=>Keyboard.dismiss()}>
+        <TouchableOpacity style={styles.mainContent} activeOpacity={1} onPressIn={()=>Keyboard.dismiss()}>
           <View style={styles.mainContent}>
             <View style={styles.topNameView}>
               <Text style={styles.title}>Hi~!</Text>
@@ -68,13 +69,20 @@ function ChooseSex(props:any): JSX.Element {
               </View>
               <View style={styles.nameView}>
                 <ImageBackground source={ButtonImg} resizeMode="cover" style={styles.nameBG}>
-                  <TextInput
+                  <CustomTextInput
                     style={styles.nameInput}
-                    value={name}
-                    onChange={onNameChange}
-                    underlineColorAndroid={'transparent'}
-                    placeholder='请输入名字'
-                    placeholderTextColor={Colors.white}
+                    inputProps={{
+                      style:{
+                        fontSize:24,
+                        color:Colors.white,
+                        fontFamily: 'SmileySans-Oblique',
+                      },
+                      value:name,
+                      onChange:onNameChange,
+                      underlineColorAndroid:'transparent',
+                      placeholder:'请输入名字',
+                      placeholderTextColor:Colors.white
+                    }}
                   />
                 </ImageBackground>
                 <Image style={styles.nameIcon} source={name.length > 0 ? NameSelImg : NameNorImg}/>
@@ -85,17 +93,17 @@ function ChooseSex(props:any): JSX.Element {
                 <View style={{
                   flexDirection:'row'
                 }}>
-                  <TouchableOpacity onPress={()=>setSex(0)}>
+                  <TouchableOpacity onPressIn={()=>setSex(0)}>
                     <Image style={styles.sexImg} source={WomenIcon}/>
                   </TouchableOpacity>
                   <View style={{
                     width:50
                   }}/>
-                  <TouchableOpacity onPress={()=>setSex(1)}>
+                  <TouchableOpacity onPressIn={()=>setSex(1)}>
                     <Image style={styles.sexImg} source={MenIcon}/>
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPress={onNext} style={[styles.nextButtonView,{
+                <TouchableOpacity onPressIn={onNext} style={[styles.nextButtonView,{
                   backgroundColor:name.length > 0 ? 'transparent' : Colors.bright_2
                 }]}>
                   {name.length > 0 ? <ImageBackground source={ButtonImg} style={styles.nextButton} resizeMode='cover'>
@@ -114,7 +122,7 @@ function ChooseSex(props:any): JSX.Element {
           </View>
         </TouchableOpacity>
         <View style={styles.jumpView}>
-          <TouchableOpacity onPress={onJumpNext}>
+          <TouchableOpacity onPressIn={onJumpNext}>
             <Text style={styles.agreeText}>跳过</Text>
           </TouchableOpacity>
         </View>

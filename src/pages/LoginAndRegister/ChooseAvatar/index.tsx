@@ -18,6 +18,7 @@ import {styles} from './styles'
 import Colors from '@/utils/colors';
 import { launchImageLibrary} from 'react-native-image-picker';
 import { showMessage, hideMessage } from "react-native-flash-message";
+import { CommonActions } from '@react-navigation/native';
 
 const BGImage = require('@/assets/images/registerbgi.png')
 const BackImg = require('@/assets/images/loginback.png')
@@ -33,6 +34,14 @@ function ChooseAvatar(props:any): JSX.Element {
     props.navigation.pop()
   }
   function onJumpNext(){
+    props.navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          { name: 'Login' },
+        ],
+      })
+    );
   }
   function onNext(){
     onChangeAvator()
@@ -84,7 +93,7 @@ function ChooseAvatar(props:any): JSX.Element {
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
       <SafeAreaView style={{flex:1}} >
-        <TouchableOpacity onPress={onBack} style={styles.backButton}>
+        <TouchableOpacity onPressIn={onBack} style={styles.backButton}>
           <Image source={BackImg} style={styles.bgckImg}/>
         </TouchableOpacity>
         <View style={styles.mainContent}>
@@ -95,13 +104,13 @@ function ChooseAvatar(props:any): JSX.Element {
             </View>
           </View>
           <View style={styles.agreeView}>
-            <TouchableOpacity onPress={onChangeAvator}>
+            <TouchableOpacity onPressIn={onChangeAvator}>
               <ImageBackground source={Avatarbg} resizeMode="cover" style={styles.avatarbg}>
                 {avatorFile ? <Image style={styles.avatarImage} source={{uri:avatorFile}}/> : <Image style={styles.avatarIcon} source={Avataricon}/>}
               </ImageBackground>
             </TouchableOpacity>
             <Image style={styles.avatarBottom} source={AvatarBottom}/>
-            <TouchableOpacity onPress={onNext} style={[styles.nextButtonView,{
+            <TouchableOpacity onPressIn={onNext} style={[styles.nextButtonView,{
               backgroundColor:avatorFile.length > 0 ? 'transparent' : Colors.bright_2
             }]}>
               {avatorFile.length > 0 ? <ImageBackground source={ButtonImg} style={styles.nextButton} resizeMode='cover'>
@@ -113,7 +122,7 @@ function ChooseAvatar(props:any): JSX.Element {
           </View>
         </View>
         <View style={styles.jumpView}>
-          <TouchableOpacity onPress={onJumpNext}>
+          <TouchableOpacity onPressIn={onJumpNext}>
             <Text style={styles.agreeText}>跳过</Text>
           </TouchableOpacity>
         </View>

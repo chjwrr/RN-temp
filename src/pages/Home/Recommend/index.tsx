@@ -6,7 +6,6 @@ import {
   View,
   Image,
   ActivityIndicator,
-  TouchableOpacity
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
@@ -15,6 +14,7 @@ import WaterfallFlow from 'react-native-waterfall-flow'
 import Colors from '@/utils/colors';
 import { useNavigation } from '@react-navigation/native';
 import { FadeLoading } from 'react-native-fade-loading';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const focus_n = require('@/assets/images/collect.png')
@@ -86,8 +86,8 @@ function Recommend(props:any): JSX.Element {
             marginLeft:columnIndex == 0 ? 0 : 2,
           }]}
           children={''}
-          primaryColor={''}
-          secondaryColor={''}
+          primaryColor={'#a6abe2'}
+          secondaryColor={'#b391e8'}
           duration={0}
           visible={true}
           animated={true}
@@ -132,13 +132,13 @@ function Recommend(props:any): JSX.Element {
           />
           <Text style={styles.topTitle}>穿越不同朝代</Text>
           <View style={styles.topItem}>
-            <TouchableOpacity style={styles.topItemSub}>
+            <TouchableOpacity containerStyle={styles.topItemSub}>
               <Text style={styles.topItemName}>唐</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.topItemSub,styles.topItemSubSpa]}>
+            <TouchableOpacity containerStyle={[styles.topItemSub,styles.topItemSubSpa]}>
               <Text style={styles.topItemName}>宋</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.topItemSub}>
+            <TouchableOpacity containerStyle={styles.topItemSub}>
               <Text style={styles.topItemName}>元</Text>
             </TouchableOpacity>
           </View>

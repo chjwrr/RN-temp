@@ -56,14 +56,6 @@ export const styles = StyleSheet.create({
         flexDirection:'row',
         alignItems:'center'
     },
-    input:{
-        flex:1,
-        color:Colors.light,
-        fontSize:14,
-        paddingTop:0,
-        paddingBottom:0,
-        height:'100%'
-    },
     forgetpsd:{
         flexDirection:'row',
         justifyContent:'space-between',

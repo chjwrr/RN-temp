@@ -1,12 +1,11 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   Text,
   View,
   ImageBackground,
   TouchableWithoutFeedback,
-  TextInput,
   Keyboard,
   TouchableOpacity,
   Image,
@@ -18,6 +17,7 @@ import * as HTTPS from '@/api/axios'
 import { CommonActions } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { saveUserInfo } from '@/redux/userInfo';
+import CustomTextInput from '@/components/CustomTextInput';
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -57,7 +57,6 @@ function Login(props:any): JSX.Element {
     setIsAgree(!isAgree)
   }
   function onUserAgreement(){
-
   }
   function onUserPrivacy(){
   }
@@ -93,73 +92,71 @@ function Login(props:any): JSX.Element {
 
       }, 2000);
     }, 3000);
-
   }
 
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
-      <TouchableWithoutFeedback style={styles.main} onPress={onDisKeyboard}>
+      <TouchableWithoutFeedback style={styles.main} onPressIn={onDisKeyboard}>
         <SafeAreaView style={{flex:1}}>
-          <KeyboardAvoidingView style={{ flex: 1 }}
-          behavior={'padding'}
-          keyboardVerticalOffset={0}
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={'padding'}
+            keyboardVerticalOffset={0}
           >
-            <View style={[styles.mainContent,{
-            }]}>
+            <View style={[styles.mainContent]}>
               <View>
                 <Text style={styles.title}>欢迎登录</Text>
                 <View style={styles.tipReg}>
                   <Text style={styles.tip}>还没有账号</Text>
-                  <TouchableOpacity onPress={onRegister}>
+                  <TouchableOpacity onPressIn={onRegister}>
                     <Text style={styles.regist}>注册</Text>
                   </TouchableOpacity>
                 </View>
-                <View style={styles.inputView}>
-                  <TextInput style={styles.input}
-                    placeholder='输入手机号/用户名'
-                    value={userAccount}
-                    onChange={onUserAccountChange}
-                    underlineColorAndroid={'transparent'}
+                <CustomTextInput 
+                  style={styles.inputView}
+                  inputProps={{
+                    placeholder:'输入手机号/用户名',
+                    value:userAccount,
+                    onChange:onUserAccountChange,
+                  }} />
+                <CustomTextInput 
+                    style={[styles.inputView,{marginTop:40}]}
+                    inputProps={{
+                      placeholder:'输入密码',
+                      value:userPsd,
+                      onChange:onUserPsdChange,
+                      returnKeyType:'done',
+                      secureTextEntry:true
+                    }}
                   />
-                </View>
-                <View style={[styles.inputView,{marginTop:40}]}>
-                  <TextInput style={styles.input}
-                    placeholder='输入密码'
-                    value={userPsd}
-                    onChange={onUserPsdChange}
-                    returnKeyType='done'
-                    underlineColorAndroid={'transparent'}
-                    secureTextEntry={true}
-                  />
-                </View>
                 <View style={styles.forgetpsd}>
                   <Text style={styles.tips}>{tips}</Text>
-                  <TouchableOpacity onPress={onForgetPsd}>
+                  <TouchableOpacity onPressIn={onForgetPsd}>
                     <Text style={styles.forgetpsdtitle}>忘记密码</Text>
                   </TouchableOpacity>
                 </View>
               </View>
               <View style={styles.downView}>
-                <TouchableOpacity onPress={onLogin} style={styles.loginButtonvieew}>
+                <TouchableOpacity onPressIn={onLogin} style={styles.loginButtonvieew}>
                   <ImageBackground source={ButtonImg} style={styles.loginButton} resizeMode='cover'>
                     <Text style={styles.logintitle}>登录</Text>
                   </ImageBackground>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.verify} onPress={onLoginVerify}>
+                <TouchableOpacity style={styles.verify} onPressIn={onLoginVerify}>
                   <Text style={styles.veifytitle}>验证码登录</Text>
                   <Image style={styles.arrow} source={ArrowRight}/>
                 </TouchableOpacity>
                 <View style={styles.agreeView}>
-                  <TouchableOpacity style={styles.agreeButton} onPress={onAgree}>
+                  <TouchableOpacity style={styles.agreeButton} onPressIn={onAgree}>
                     <Image style={styles.agreeImg} source={isAgree ? AgreeSel : AgreeDis}/>
                   </TouchableOpacity>
                   <View style={styles.agreeTextView}>
                     <Text style={styles.agreeText}>我已阅读并同意衣互</Text>
-                    <TouchableOpacity style={styles.agreeSelButton} onPress={onUserAgreement}>
+                    <TouchableOpacity style={styles.agreeSelButton} onPressIn={onUserAgreement}>
                       <Text style={styles.agreeTextDis}>用户协议</Text>
                     </TouchableOpacity>
                     <Text style={styles.agreeText}>和</Text>
-                    <TouchableOpacity style={styles.agreeSelButton} onPress={onUserPrivacy}>
+                    <TouchableOpacity style={styles.agreeSelButton} onPressIn={onUserPrivacy}>
                       <Text style={styles.agreeTextDis}>隐私政策</Text>
                     </TouchableOpacity>
                   </View>

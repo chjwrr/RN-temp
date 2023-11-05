@@ -123,14 +123,14 @@ function RecommendDetail(props:any): JSX.Element {
             outputRange: ['transparent','#fff'],
           })
         }]}>
-            <TouchableOpacity style={styles.backButton} onPress={onBack}>
+            <TouchableOpacity style={styles.backButton} onPressIn={onBack}>
               <Image style={styles.backIcon} source={BackIcon}/>
             </TouchableOpacity>
             <View style={{flexDirection:"row"}}>
-              <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPress={onCollect}>
+              <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onCollect}>
                 <Image style={styles.collectIcon} source={CollectIcon}/>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPress={onShare}>
+              <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
                 <Image style={styles.backIcon} source={shareIcon}/>
               </TouchableOpacity>
             </View>
@@ -155,7 +155,7 @@ function RecommendDetail(props:any): JSX.Element {
           </View>
         </ScrollView>
         <View style={styles.downView}>
-          <TouchableOpacity style={[styles.downViewItem,showBuy && styles.downViewItemSel]} onPress={onShowBuy}>
+          <TouchableOpacity style={[styles.downViewItem,showBuy && styles.downViewItemSel]} onPressIn={onShowBuy}>
             <Image style={styles.downIcon} source={downbgIcon}/>
             <Text style={[styles.downTitle, showBuy && styles.downTitleSel]}>服饰购买</Text>
           </TouchableOpacity>
@@ -201,7 +201,7 @@ function BuyModalRight(){
     <Image style={styles.showBuyRightDownBg} source={buybgIcon}/>
     <Image style={styles.showBuyRightIcon} source={buytopiconIcon}/>
     <Text style={styles.showBuyRightName} numberOfLines={1} ellipsizeMode='tail'>店铺名称</Text>
-    <TouchableOpacity onPress={onCollect}>
+    <TouchableOpacity onPressIn={onCollect}>
       <Image style={styles.showBuyRightDownIcon} source={collect ? collectedshopIcon : collectshopIcon}/>
     </TouchableOpacity>
   </View>
@@ -219,7 +219,7 @@ function ShopInfo(){
         <Text style={styles.shopDes}>1.5万+收藏</Text>
       </View>
     </View>
-    <TouchableOpacity style={[styles.focusdis,focus && styles.focusSel]} onPress={onFocus}>
+    <TouchableOpacity style={[styles.focusdis,focus && styles.focusSel]} onPressIn={onFocus}>
       <Text style={[styles.shopFocus,focus && styles.shopFocussel]}>{focus ? '已关注' : '+ 关注'}</Text>
     </TouchableOpacity>
   </View>

@@ -26,6 +26,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
 import * as _ from 'lodash'
 import Colors from '@/utils/colors';
 import * as Animatable from 'react-native-animatable';
+import CustomTextInput from '@/components/CustomTextInput';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -93,7 +94,7 @@ function RecommendDetail(props:any): JSX.Element {
             })
           }]}>
             <View style={{flexDirection:"row",alignItems:'center'}}>
-              <TouchableOpacity style={styles.backButton} onPress={onBack}>
+              <TouchableOpacity style={styles.backButton} onPressIn={onBack}>
                 <Image style={styles.backIcon} source={BackIcon}/>
               </TouchableOpacity>
               <Image style={styles.accounticon} source={accountIcon}/>
@@ -101,13 +102,13 @@ function RecommendDetail(props:any): JSX.Element {
             </View>
             <View style={{flexDirection:"row",alignItems:'center'}}>
               <FocusButton/>
-              <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPress={onShare}>
+              <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
                 <Image style={styles.backIcon} source={shareIcon}/>
               </TouchableOpacity>
             </View>
           </Animated.View>
           <FlatList
-            keyboardDismissMode={"onDrag"}
+            keyboardDismissMode='on-drag'
             contentContainerStyle={styles.contentContainerStyle}
             showsVerticalScrollIndicator={false}
             data={[1,2,3,4,5,6,7]}
@@ -230,7 +231,8 @@ function DownInfo(){
   const inputRef = useRef<any>()
 
   function onCommon(){
-    inputRef && inputRef.current && inputRef.current.focus()
+    // inputRef && inputRef.current && inputRef.current.focus()
+    inputRef.current.onFocus()
   }
   function onCollect(){
   }
@@ -241,18 +243,28 @@ function DownInfo(){
     <View style={styles.downViewCon}>
       <Animatable.View ref={downLeftRef} style={[styles.comInputView]}>
         <Image style={styles.downComIcon} source={comicontIcon}/>
-        <TextInput ref={inputRef} multiline={false} numberOfLines={1} style={styles.downInput} onFocus={onFocus} onBlur={onBlur}/>
+        <CustomTextInput
+          ref={inputRef}
+          style={{height:'100%',flex:1}}
+          inputProps={{
+            multiline:false,
+            numberOfLines:1,
+            style:{color:Colors.black},
+            onFocus:onFocus,
+            onBlur:onBlur
+          }}
+         />
       </Animatable.View>
       <Animatable.View ref={downRightRef} style={[styles.downRight,{width:rightWidth}]}>
-        <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPress={onLike}>
+        <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPressIn={onLike}>
           <Image style={styles.downIcon} source={likeiconIcon} resizeMode='contain'/>
           <Text style={styles.downRightTitle}>点赞</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPress={onCollect}>
+        <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPressIn={onCollect}>
           <Image style={styles.downIcon} source={stariconIcon}/>
           <Text style={styles.downRightTitle}>收藏</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPress={onCommon}>
+        <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPressIn={onCommon}>
           <Image style={styles.downIcon} source={comiconIcon}/>
           <Text style={styles.downRightTitle}>评论</Text>
         </TouchableOpacity>
@@ -289,7 +301,7 @@ function FocusButton(){
   function onFocus(){
     setFocus(!focus)
   }
-  return <TouchableOpacity style={[styles.focusButton,focus && styles.focusButtoned]} onPress={onFocus}>
+  return <TouchableOpacity style={[styles.focusButton,focus && styles.focusButtoned]} onPressIn={onFocus}>
     <Text style={[styles.focusTitle,focus && styles.focusTitleed]}>{focus ? '已关注' : '关注'}</Text>
   </TouchableOpacity>
 }

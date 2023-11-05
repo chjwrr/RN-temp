@@ -6,8 +6,6 @@ import FlashMessage from "react-native-flash-message";
 import {
   Platform,
   UIManager,
-  StatusBar,
-  View
 } from 'react-native'
 import Provider from '@/provider'
 import * as SplashScreen from 'expo-splash-screen';
@@ -40,7 +38,6 @@ function App(): JSX.Element {
   },[])
   return (
     <Provider>
-      <StatusBar barStyle={'dark-content'} translucent={ true } backgroundColor="transparent" />
       <RootSiblingParent>
         <TabNavigator/>
         <FlashMessage position="top" />

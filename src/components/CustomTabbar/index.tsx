@@ -4,12 +4,12 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  StatusBar
 } from 'react-native';
 import {styles} from './styles'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import Colors from '@/utils/colors';
-
 
 const tabbars:any[] = [
   {
@@ -41,12 +41,15 @@ const tabbars:any[] = [
 
 export default function CustomTabbar(props:BottomTabBarProps): JSX.Element {
   return (
-    <View style={styles.main}>
+    <View style={[styles.main,{
+      backgroundColor:props.state.index == 1 ? Colors.black : Colors.white
+    }]}>
+      <StatusBar barStyle={props.state.index == 1 ? 'light-content' : 'dark-content'} translucent={ true } backgroundColor="transparent" />
+
       {props.state.routes.map((route:any, index:number) => {
         const { options } = props.descriptors[route.key];
 
         const isFocused = props.state.index === index;
-
         const onPress = () => {
           const event = props.navigation.emit({
             type: 'tabPress',
@@ -72,7 +75,7 @@ export default function CustomTabbar(props:BottomTabBarProps): JSX.Element {
             accessibilityRole="button"
             accessibilityState={isFocused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
-            onPress={onPress}
+            onPressIn={onPress}
             onLongPress={onLongPress}
             style={styles.tabbar}
           >

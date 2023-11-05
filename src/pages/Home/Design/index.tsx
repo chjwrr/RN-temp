@@ -4,9 +4,7 @@ import {
   RefreshControl,
   Text,
   View,
-  Image,
   ActivityIndicator,
-  TouchableOpacity
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
@@ -15,6 +13,7 @@ import { FadeLoading } from 'react-native-fade-loading';
 import WaterfallFlow from 'react-native-waterfall-flow'
 import Colors from '@/utils/colors';
 import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const focus_n = require('@/assets/images/collect.png')
@@ -81,8 +80,8 @@ function Design(props:any): JSX.Element {
         return item == 1 ? <FadeLoading
         style={[styles.flowLoadingView]}
         children={''}
-        primaryColor={''}
-        secondaryColor={''}
+        primaryColor={'#a6abe2'}
+        secondaryColor={'#b391e8'}
         duration={0}
         visible={true}
         animated={true}

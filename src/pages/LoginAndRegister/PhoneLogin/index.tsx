@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {styles} from './styles'
 import { isPhoneNumber } from '@/utils/common';
+import CustomTextInput from '@/components/CustomTextInput';
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -62,9 +63,9 @@ function PhoneLogin(props:any): JSX.Element {
 
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
-      <TouchableWithoutFeedback style={styles.main} onPress={onDisKeyboard}>
+      <TouchableWithoutFeedback style={styles.main} onPressIn={onDisKeyboard}>
         <SafeAreaView style={{flex:1}}>
-          <TouchableOpacity onPress={onBack} style={styles.backButton}>
+          <TouchableOpacity onPressIn={onBack} style={styles.backButton}>
             <Image source={BackImg} style={styles.bgckImg}/>
           </TouchableOpacity>
           <View style={styles.mainContent}>
@@ -72,17 +73,18 @@ function PhoneLogin(props:any): JSX.Element {
               <Text style={styles.title}>手机号登录</Text>
               <View style={styles.inputView}>
                 <Text style={styles.phoneArea}>+86</Text>
-                <TextInput style={styles.input}
-                  placeholder='请输入手机号'
-                  value={userAccount}
-                  onChange={onUserAccountChange}
-                  underlineColorAndroid={'transparent'}
-                  keyboardType='number-pad'
+                <CustomTextInput style={{height:'100%',flex:1}}
+                  inputProps={{
+                    placeholder:'请输入手机号',
+                    value:userAccount,
+                    onChange:onUserAccountChange,
+                    keyboardType:'number-pad'
+                  }}
                 />
               </View>
               <Text style={styles.tips}>{tips}</Text>
               <View style={styles.centerView}>
-                <TouchableOpacity onPress={onGetCode} style={styles.loginButtonvieew}>
+                <TouchableOpacity onPressIn={onGetCode} style={styles.loginButtonvieew}>
                   <ImageBackground source={ButtonImg} style={styles.loginButton} resizeMode='cover'>
                     <Text style={styles.logintitle}>获取验证码</Text>
                   </ImageBackground>
@@ -92,16 +94,16 @@ function PhoneLogin(props:any): JSX.Element {
             </View>
             <View style={styles.downView}>
               <View style={styles.agreeView}>
-                <TouchableOpacity style={styles.agreeButton} onPress={onAgree}>
+                <TouchableOpacity style={styles.agreeButton} onPressIn={onAgree}>
                   <Image style={styles.agreeImg} source={isAgree ? AgreeSel : AgreeDis}/>
                 </TouchableOpacity>
                 <View style={styles.agreeTextView}>
                   <Text style={styles.agreeText}>我已阅读并同意衣互</Text>
-                  <TouchableOpacity style={styles.agreeSelButton} onPress={onUserAgreement}>
+                  <TouchableOpacity style={styles.agreeSelButton} onPressIn={onUserAgreement}>
                     <Text style={styles.agreeTextDis}>用户协议</Text>
                   </TouchableOpacity>
                   <Text style={styles.agreeText}>和</Text>
-                  <TouchableOpacity style={styles.agreeSelButton} onPress={onUserPrivacy}>
+                  <TouchableOpacity style={styles.agreeSelButton} onPressIn={onUserPrivacy}>
                     <Text style={styles.agreeTextDis}>隐私政策</Text>
                   </TouchableOpacity>
                 </View>

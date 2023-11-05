@@ -15,6 +15,7 @@ import {
 import {styles} from './styles'
 import { isPhoneNumber } from '@/utils/common';
 import { CODE_COUNTDOWN_TIME } from '@/utils';
+import CustomTextInput from '@/components/CustomTextInput';
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const ButtonImg = require('@/assets/images/buttonbg.png')
@@ -131,61 +132,63 @@ function ForgetPsd(props:any): JSX.Element {
 
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
-      <TouchableWithoutFeedback style={styles.main} onPress={onDisKeyboard}>
+      <TouchableWithoutFeedback style={styles.main} onPressIn={onDisKeyboard}>
         <SafeAreaView style={{flex:1}}>
           <KeyboardAvoidingView style={{ flex: 1 }}
             behavior={'padding'}
             keyboardVerticalOffset={0}
             >
-            <TouchableOpacity onPress={onBack} style={styles.backButton}>
+            <TouchableOpacity onPressIn={onBack} style={styles.backButton}>
               <Image source={BackImg} style={styles.bgckImg}/>
             </TouchableOpacity>
             <View style={[styles.mainContent,{
             }]}>
               <View>
                 <Text style={styles.title}>忘记密码</Text>
-                <View style={[styles.inputView]}>
-                  <TextInput style={styles.input}
-                    placeholder='新的密码'
-                    value={userPsd}
-                    onChange={onUserPsdChange}
-                    underlineColorAndroid={'transparent'}
-                    secureTextEntry={true}
+                <CustomTextInput style={[styles.inputView]}
+                   inputProps={{
+                    placeholder:'新的密码',
+                    value:userPsd,
+                    onChange:onUserPsdChange,
+                    underlineColorAndroid:'transparent',
+                    secureTextEntry:true
+                   }}
                   />
-                </View>
+                <CustomTextInput style={[styles.inputView,{marginTop:10}]}
+                   inputProps={{
+                    placeholder:'再次确认密码',
+                    value:userAgainPsd,
+                    onChange:onUserAgaimPsdChange,
+                    underlineColorAndroid:'transparent',
+                    secureTextEntry:true
+                   }}
+                  />
+                <CustomTextInput style={[styles.inputView,{marginTop:10}]}
+                   inputProps={{
+                    placeholder:'手机号',
+                    value:userAccount,
+                    onChange:onUserAccountChange,
+                    underlineColorAndroid:'transparent',
+                    keyboardType:'number-pad'
+                   }}
+                  />
                 <View style={[styles.inputView,{marginTop:10}]}>
-                  <TextInput style={styles.input}
-                    placeholder='再次确认密码'
-                    value={userAgainPsd}
-                    onChange={onUserAgaimPsdChange}
-                    underlineColorAndroid={'transparent'}
-                    secureTextEntry={true}
+                  <CustomTextInput style={{height:'100%',flex:1}}
+                   inputProps={{
+                    placeholder:'验证码',
+                    value:userCode,
+                    onChange:onUserCodeChange,
+                    underlineColorAndroid:'transparent',
+                    keyboardType:'number-pad'
+                   }}
                   />
-                </View>
-                <View style={[styles.inputView,{marginTop:10}]}>
-                  <TextInput style={styles.input}
-                    placeholder='手机号'
-                    value={userAccount}
-                    onChange={onUserAccountChange}
-                    underlineColorAndroid={'transparent'}
-                    keyboardType='number-pad'
-                  />
-                </View>
-                <View style={[styles.inputView,{marginTop:10}]}>
-                  <TextInput style={styles.input}
-                    placeholder='验证码'
-                    value={userCode}
-                    onChange={onUserCodeChange}
-                    underlineColorAndroid={'transparent'}
-                    keyboardType='number-pad'
-                  />
-                  <TouchableOpacity style={styles.codeButton} onPress={onGetVerifyCode}>
+                  <TouchableOpacity style={styles.codeButton} onPressIn={onGetVerifyCode}>
                     <Text style={styles.codetitle}>{codeTime == CODE_COUNTDOWN_TIME ? '获取验证码' : codeTime + ' s'}</Text>
                   </TouchableOpacity>
                 </View>
                 <Text style={styles.tips}>{tips}</Text>
                 <View style={styles.centerView}>
-                  <TouchableOpacity onPress={onComplate} style={styles.loginButtonvieew}>
+                  <TouchableOpacity onPressIn={onComplate} style={styles.loginButtonvieew}>
                     <ImageBackground source={ButtonImg} style={styles.loginButton} resizeMode='cover'>
                       <Text style={styles.logintitle}>确认</Text>
                     </ImageBackground>
