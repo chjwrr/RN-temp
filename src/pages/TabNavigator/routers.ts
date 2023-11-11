@@ -51,5 +51,8 @@ export const routers:any[] = [
       name:'ShowDetail',
       component:ShowDetailScreen
     },
+
+
+    
     
 ]

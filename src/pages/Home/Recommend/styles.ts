@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
       height:260,
       borderRadius:5,
       padding:8
-  },
+    },
     flowViewIcon:{
         height:180,
         width:'100%',

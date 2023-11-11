@@ -3,31 +3,39 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   TouchableOpacity,
   View,
+  ActivityIndicator,
   ScrollView,
-  Animated,
   ImageBackground,
-  StatusBar,
+  RefreshControl,
   Text,
-  Image
+  Image,
+  SafeAreaView
 } from 'react-native';
 import {styles} from './styles'
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel from 'react-native-reanimated-carousel';
 import { SCREEN_WIDTH } from '@/utils';
 import Colors from '@/utils/colors';
+import WaterfallFlow from 'react-native-waterfall-flow'
+import { FadeLoading } from 'react-native-fade-loading';
+import * as Animatable from 'react-native-animatable';
+import { BlurView } from "@react-native-community/blur";
 
-const pageBg = require('@/assets/images/ticket_bgi.png')
 const centerBg = require('@/assets/images/ticket_downbg.png')
 
 const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
 const ticket_pro_ban_2 = require('@/assets/images/ticket_pro_ban_1.png')
 const topbanner = require('@/assets/images/ticket_banner.png')
-const ticket_line = require('@/assets/images/ticket_line.png')
+const ticket_line = require('@/assets/images/tdbg.png')
 
 const ticket_tj = require('@/assets/images/ticket_tj_ic.png')
 const ticket_dr = require('@/assets/images/ticket_dr_ic.png')
 const ticket_focus = require('@/assets/images/ticket_focus_ic.png')
 const ticket_play = require('@/assets/images/ticket_play_ic.png')
+const ticket_item_1 = require('@/assets/images/tick_icon_1.png')
+const ticket_item_2 = require('@/assets/images/tick_icon_2.png')
+const focus_n = require('@/assets/images/collwhi.png')
+
 
 const bannerList:any[] = [
   {
@@ -42,31 +50,176 @@ const bannerList:any[] = [
   }
 ]
 
-function Ticket(): JSX.Element {
+function Ticket({navigation}:any): JSX.Element {
+  const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [dataSource,setDataSource] = useState<any[]>([1,1,1,1])
+  const isCanLoadMore = useRef(false)
+  function onPress(columnIndex:number){
+
+  }
+
+  useEffect(()=>{
+    setLoading(true)
+    setTimeout(() => {
+      setDataSource([{},{},{},{},{}])
+      setLoading(false)
+    }, 2000);
+  },[])
+
+  function onRefresh(){
+    if (loading || refreshing){
+      return
+    }
+    console.log('onRefresh')
+    setLoading(true)
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false)
+      setLoading(false)
+      setDataSource([{},{},{},{},{}])
+    }, 2000);
+  }
+
+  function onEndReached(){
+    if (loading || refreshing){
+      return
+    }
+    console.log('loading more')
+    setLoading(true)
+    setTimeout(() => {
+      const temp = [...dataSource,{},{},{},{},{}]
+      setDataSource(temp)
+      isCanLoadMore.current = true
+      setLoading(false)
+    }, 2000);
+  }
+
+  const [showTab,setShowTab] = useState(false)
+  function onScroll(e:any){
+    if (e.nativeEvent.contentOffset.y < SCREEN_WIDTH * 640 / 750 + 100){
+      if (showTab){
+        setShowTab(false)
+      }
+    }
+    if (e.nativeEvent.contentOffset.y >= SCREEN_WIDTH * 640 / 750 + 100){
+      if (!showTab){
+        setShowTab(true)
+      }
+    }
+
+  }
+  const [currentType,setCurrentType] = useState(0)
+  function onChangeType(index:any){
+    setCurrentType(index)
+  }
+  const focusList:any[] = [1,2,3,4,5,6,7,8,9,0]
+
   return (
     <View style={styles.mainView}>
-      <ImageBackground style={styles.topbg} source={pageBg}>
-        <LinearGradient colors={['transparent', '#000']} style={styles.downOp}/>
-      </ImageBackground>
-      <ScrollView style={{flex:1}} scrollEventThrottle={16}>
-        <View style={styles.contentView}>
-          <TopCarousel/>
-          <View style={styles.bannerView}>
-            <Text style={styles.centerTitle}>来自票友推荐</Text>
-            {
-              bannerList.map((item:any,index:number)=>{
-                return <View key={index + 'banner'}>
-                  <Image style={styles.banner} source={item.banner}/>
-                  <View style={styles.bannerTitleView}>
-                    <Text style={styles.bannerTitle}>{item.title}</Text>
-                    <Text style={styles.bannerTitleDes}>{item.des}</Text>
-                  </View>
-                </View>
-              })
-            }
+      {showTab && <TopTabbar onChange={onChangeType} current={currentType}/>}
+      <WaterfallFlow
+        showsVerticalScrollIndicator={false}
+        data={dataSource}
+        numColumns={2}
+        renderItem={({ item, index, columnIndex })=>{
+          return item == 1 ? <FadeLoading
+          style={[styles.flowLoadingView,{
+            marginVertical:2,
+            marginRight:columnIndex == 0 ? 2 : 0,
+            marginLeft:columnIndex == 0 ? 0 : 2,
+          }]}
+          children={''}
+          primaryColor={'#a6abe2'}
+          secondaryColor={'#b391e8'}
+          duration={0}
+          visible={true}
+          animated={true}
+        />: <TouchableOpacity onPress={()=>onPress(columnIndex)} style={[styles.flowView,{
+            marginVertical:2,
+            marginRight:columnIndex == 0 ? 2 : 0,
+            marginLeft:columnIndex == 0 ? 0 : 2
+          }]}>
+            <ImageBackground source={ticket_item_1} style={styles.typeItem} resizeMode='cover'>
+              
+              <BlurView
+        style={styles.typeItemDownBlur}
+        blurType="light"
+        blurAmount={5}
+        reducedTransparencyFallbackColor="white"
+      />
+        <View  style={styles.typeItemDown}>
+          <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>名称</Text>
+          <View style={styles.flowViewSubView}>
+            <View style={{flexDirection:'row',alignItems:'center'}}>
+              {/* <View style={styles.flowIcon}/> */}
+              <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>名字</Text>
+            </View>
+            <TouchableOpacity style={styles.focusButton}>
+              <Image style={styles.flowFocus} source={focus_n}/>
+            </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
+                           </ImageBackground>
+          </TouchableOpacity>
+        }}
+        style={{ flex: 1 }}
+        ListHeaderComponent={
+          <View style={styles.contentView}>
+            <TopCarousel navigation={navigation}/>
+            <View style={styles.bannerView}>
+            {currentType != 0 && <View style={styles.scrollView}>
+              <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+              {
+                focusList.map((item:any,index:number)=>{
+                  return <View style={styles.focusView} key={index+'focus'}>
+                    <View style={styles.focusAvatarView}>
+                      <View style={styles.focusAvtar}/>
+                      <View style={styles.focusTipView}/>
+                    </View>
+                    <Text style={styles.focusName}>用户名字</Text>
+                  </View>
+                })
+              }
+              </ScrollView>
+            </View>}
+              <Text style={styles.centerTitle}>来自票友推荐</Text>
+              {
+                bannerList.map((item:any,index:number)=>{
+                  return <View key={index+'tickbanner'}>
+                    <Image style={styles.banner} source={item.banner}/>
+                    <View style={styles.bannerTitleView}>
+                      <Text style={styles.bannerTitle}>{item.title}</Text>
+                      <Text style={styles.bannerTitleDes}>{item.des}</Text>
+                    </View>
+                  </View>
+                })
+              }
+            </View>
+          </View>
+        }
+        ListFooterComponent={<View style={styles.loadMoreView}>
+          <Text style={styles.loadMoreTitle}>加载更多...</Text>
+          <ActivityIndicator size="small" color={Colors.main} />
+        </View>}
+        ListEmptyComponent={<View/>}
+        initialNumToRender={10}
+        onScroll={onScroll}
+        keyExtractor={(item, index) => 'key' + index}
+        onEndReached={() => {
+          if (isCanLoadMore) {
+            onEndReached();
+            isCanLoadMore.current = false;
+          }
+        }}
+        onContentSizeChange={() => {
+          isCanLoadMore.current = true;
+        }}
+        onEndReachedThreshold={0.01}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#fff']}/>
+        }
+      />
     </View>
   );
 }
@@ -76,12 +229,16 @@ const centerItems:any[] = [
   ticket_focus,
   ticket_play
 ]
-function TopCarousel(){
+function TopCarousel({navigation}:any){
   const [currentIndex,setCurrentIndex] = useState(0)
   const datas:any[] = [1,2,3,4,5]
+  function onJumpType(index:number){
+    navigation.navigate('TicketType',{
+      type:index
+    })
+  }
   return <View>
-            <LinearGradient colors={['#000', 'transparent']} style={styles.topOp}/>
-
+    <LinearGradient colors={['#000', 'transparent']} style={styles.topOp}/>
     <Carousel
       loop
       autoPlay={true}
@@ -97,7 +254,7 @@ function TopCarousel(){
     <View style={styles.pointView}>
       {
         datas.map((item:any,index:number)=>{
-          return <View style={[styles.point,{
+          return <View key={index+'tickban'} style={[styles.point,{
             backgroundColor:currentIndex == index ? Colors.buttonMain : '#CCCCCC'
           }]}/>
         })
@@ -108,16 +265,58 @@ function TopCarousel(){
       <View style={styles.centerItemView}>
         {
           centerItems.map((item:any,index:number)=>{
-            return <TouchableOpacity key={index+'centeritem'}>
+            return <TouchableOpacity key={index+'centeritem'} onPress={()=>onJumpType(index)}>
                 <Image style={[styles.centerItem,{
-                marginTop:(index == 0 || index == 3) ? -10 : 0
-              }]} source={item} />
+                  marginLeft:index == 0 ? 0 : -90
+                }]} source={item} />
             </TouchableOpacity>
           })
         }
       </View>
     </ImageBackground>
   </View>
+}
+
+const tabs:any[] = [
+  {
+    title:'推荐',
+    icon_n:require('@/assets/images/ticket_tj.png'),
+    icon_s:require('@/assets/images/ticket_tj_s.png'),
+  },
+  {
+    title:'达人',
+    icon_n:require('@/assets/images/ticket_sj.png'),
+    icon_s:require('@/assets/images/ticket_sj_s.png'),
+  },
+  {
+    title:'关注',
+    icon_n:require('@/assets/images/ticket_xc.png'),
+    icon_s:require('@/assets/images/ticket_xc_s.png'),
+  },
+  {
+    title:'玩圈',
+    icon_n:require('@/assets/images/ticket_gz.png'),
+    icon_s:require('@/assets/images/ticket_gz_s.png'),
+  },
+]
+function TopTabbar({onChange,current}:any){
+  return <Animatable.View animation='fadeInDown' style={[styles.navigationView,{opacity:0}]}>
+    {
+      tabs.map((item:any,index:number)=>{
+        return <TouchableOpacity style={[styles.tabButton]} key={item.title+'type'} onPressIn={()=>{
+          onChange(index)
+        }}>
+          <ImageBackground style={styles.tabButtonBg} source={current == index ? item.icon_s : item.icon_n}>
+            <Text style={{
+              fontSize:current == index ? 18 : 14,
+              fontWeight:current == index ? '600' : '400',
+              color:current == index ? Colors.white : Colors.light
+            }}>{item.title}</Text>
+          </ImageBackground>
+        </TouchableOpacity>
+      })
+    }
+  </Animatable.View>
 }
 
 export default Ticket;
