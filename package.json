@@ -24,6 +24,7 @@
     "@types/react-native-video": "^5.0.16",
     "@types/three": "^0.157.0",
     "axios": "^1.5.1",
+    "crypto-js": "^4.2.0",
     "expo": "^49.0.0",
     "expo-asset": "^8.10.1",
     "expo-gl": "^13.2.0",

@@ -1,3 +1,1 @@
-declare module '*.gltf'
-declare module '*.obj'
-declare module '*.glb'
+declare module 'crypto-js/sha256';

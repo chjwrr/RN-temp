@@ -3,6 +3,8 @@ import {
     useMutation,
   } from '@tanstack/react-query'
 import * as HTTPS from './axios'
+import { MY_USER_INFO } from './API'
+import { useUserInfo } from '@/redux/userInfo'
 
 
 /**
@@ -24,15 +26,16 @@ function sendTransaction(params:any) {
     return useMutation(sendTransaction)
 }
 
-export function useIsMint(){
+export function useUserInfomation(){
+  const userInfo = useUserInfo()
   async function fetchData(){
-    const isMining = await HTTPS.get('')
-    console.log('isMining===',isMining)
-    return {
-    }
+    const info:any = await HTTPS.post(MY_USER_INFO,{
+      "token":userInfo.token
+    })
+    return info
   }
-  return useQuery(["useIsMint"], fetchData, {
-    // enabled:!!chain.id && !!address && !!mintContranct,
+  return useQuery(["useUserInfomation" + userInfo.token], fetchData, {
+    enabled:!!userInfo.token
     // refetchInterval: config.refreshInterval,
   })
 }

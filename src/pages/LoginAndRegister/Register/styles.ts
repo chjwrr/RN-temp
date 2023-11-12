@@ -125,7 +125,7 @@ export const styles = StyleSheet.create({
         fontSize:14,
     },
     loginButtonvieew:{
-        marginBottom:70
+        marginBottom:70,
     },
     tips:{
         color:Colors.error,

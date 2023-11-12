@@ -14,8 +14,12 @@ import {
 } from 'react-native';
 import {styles} from './styles'
 import Colors from '@/utils/colors';
-import LinearGradient from 'react-native-linear-gradient';
 import CustomTextInput from '@/components/CustomTextInput';
+import * as HTTPS from '@/api/axios'
+import { MY_USER_INFO_UPDATE } from '@/api/API';
+import { useUserInfo } from '@/redux/userInfo';
+import LoadingButton from '@/components/LoadingButton';
+import { useUserInfomation } from '@/api';
 
 const BGImage = require('@/assets/images/registerbgi.png')
 const BackImg = require('@/assets/images/loginback.png')
@@ -32,7 +36,11 @@ const MenIcon = require('@/assets/images/menimg.png')
 
 function ChooseSex(props:any): JSX.Element {
   const [name,setName] = useState('')
-  const [sex,setSex] = useState(-1) // 0 = 女    1 = 男   -1 = 未知
+  const [sex,setSex] = useState(0) // 0 = 女    1 = 男
+  const userInfo = useUserInfo()
+  const [isLoading,setIsLoading] = useState(false)
+  const userInfomation = useUserInfomation()
+  console.log('vuserInfomation=====',userInfomation.data)
   function onNameChange(e:any){
     setName(e.nativeEvent.text)
   }
@@ -46,10 +54,24 @@ function ChooseSex(props:any): JSX.Element {
     if (name.length == 0){
       return
     }
-    props.navigation.navigate('ChooseAvatar',{
-      name,
-      sex
-    })
+
+    setIsLoading(true)
+    HTTPS.post(MY_USER_INFO_UPDATE,{
+      "token":userInfo.token,
+      'nickname': name, 
+      'gender': sex, 
+      // 'avatar': 'image_id', 
+      // 'province': '广东省',
+      // 'city': '深圳市', 
+      // 'birthday': 1699708371238, 
+      // 'email': 'xxx@163.com', 
+      // 'intro': 'test_intro', 
+    }).then((result:any)=>{
+      // props.navigation.navigate('ChooseAvatar')
+      userInfomation.refetch()
+    }).finally(()=>{
+      setIsLoading(false)
+    })   
   }
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
@@ -93,17 +115,17 @@ function ChooseSex(props:any): JSX.Element {
                 <View style={{
                   flexDirection:'row'
                 }}>
-                  <TouchableOpacity onPressIn={()=>setSex(0)}>
+                  <TouchableOpacity onPressIn={()=>setSex(0)} style={{backgroundColor:sex == 0 ? 'red' : 'transparent'}}>
                     <Image style={styles.sexImg} source={WomenIcon}/>
                   </TouchableOpacity>
                   <View style={{
                     width:50
                   }}/>
-                  <TouchableOpacity onPressIn={()=>setSex(1)}>
+                  <TouchableOpacity onPressIn={()=>setSex(1)} style={{backgroundColor:sex == 1 ? 'red' : 'transparent'}}>
                     <Image style={styles.sexImg} source={MenIcon}/>
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPressIn={onNext} style={[styles.nextButtonView,{
+                <LoadingButton isLoading={isLoading} onPressIn={onNext} style={[styles.nextButtonView,{
                   backgroundColor:name.length > 0 ? 'transparent' : Colors.bright_2
                 }]}>
                   {name.length > 0 ? <ImageBackground source={ButtonImg} style={styles.nextButton} resizeMode='cover'>
@@ -111,7 +133,7 @@ function ChooseSex(props:any): JSX.Element {
                       color:'#fff'
                     }]}>下一步</Text>
                   </ImageBackground> : <Text style={styles.nextTitle}>下一步</Text>}
-                </TouchableOpacity>
+                </LoadingButton>
                 <View style={{
                   height:'100%',
                   width:'100%',

@@ -18,6 +18,7 @@ import { CommonActions } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { saveUserInfo } from '@/redux/userInfo';
 import CustomTextInput from '@/components/CustomTextInput';
+import { USER_LOGIN } from '@/api/API';
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -65,22 +66,26 @@ function Login(props:any): JSX.Element {
   }
   function onLogin(){
     if (!userAccount){
-      setTips('请输入手机号/用户名')
+      setTips('请输入手机号')
       return
     }
     if (!userPsd){
       setTips('请输入密码')
       return
     }
+    if (!isAgree){
+      return
+    }
+
     Loading.show('正在登录...')
-    setTimeout(() => {
+    HTTPS.post(USER_LOGIN,{
+      phone:userAccount,
+      password:userPsd,
+      country:'86'
+    }).then((result:any)=>{
       Loading.show('登录成功，正在跳转...')
       setTimeout(() => {
-        Loading.hidden()
-
-        dispatch(saveUserInfo({uid:1}))
-
-
+        dispatch(saveUserInfo(result))
         props.navigation.dispatch(
           CommonActions.reset({
             index: 0,
@@ -89,9 +94,10 @@ function Login(props:any): JSX.Element {
             ],
           })
         );
-
-      }, 2000);
-    }, 3000);
+      },250)
+    }).finally(()=>{
+      Loading.hidden()
+    })
   }
 
   return (
@@ -115,7 +121,7 @@ function Login(props:any): JSX.Element {
                 <CustomTextInput 
                   style={styles.inputView}
                   inputProps={{
-                    placeholder:'输入手机号/用户名',
+                    placeholder:'输入手机号',
                     value:userAccount,
                     onChange:onUserAccountChange,
                   }} />

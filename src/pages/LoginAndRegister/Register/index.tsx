@@ -15,6 +15,12 @@ import {styles} from './styles'
 import { CODE_COUNTDOWN_TIME, STATUSBAR_HEIGHT } from '@/utils';
 import { isPhoneNumber } from '@/utils/common';
 import CustomTextInput from '@/components/CustomTextInput';
+import * as HTTPS from '@/api/axios'
+import LoadingComponent from '@/components/LoadingComponent';
+import LoadingButton from '@/components/LoadingButton';
+import { SEND_SMS_CODE, USER_LOGIN, USER_SIGN_UP } from '@/api/API';
+import { useDispatch } from 'react-redux';
+import { saveUserInfo } from '@/redux/userInfo';
 
 const BGImage = require('@/assets/images/registerbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -35,6 +41,8 @@ function Register(props:any): JSX.Element {
   const [userCode,seUserCode] = useState('')
   const [codeTime,setCodeTime] = useState(CODE_COUNTDOWN_TIME)
   const codeInterval = useRef<any>()
+  const [isLoading,setIsLoading] = useState(false)
+  const dispatch = useDispatch()
  
   useEffect(()=>{
     return ()=>{
@@ -75,7 +83,7 @@ function Register(props:any): JSX.Element {
 
 
   function onGetVerifyCode(){
-    if (codeTime != 60){
+    if (codeTime != CODE_COUNTDOWN_TIME){
       return
     }
     if (!userAccount){
@@ -87,19 +95,23 @@ function Register(props:any): JSX.Element {
       return
     }
 
-
-    setCodeTime(CODE_COUNTDOWN_TIME - 1)
-    let countDown = CODE_COUNTDOWN_TIME - 1
-    codeInterval.current = setInterval(()=>{
-      console.log('countDown',countDown)
-      if (countDown <= 0){
-        clearInterval(codeInterval.current)
-        setCodeTime(CODE_COUNTDOWN_TIME)
-        return
-      }
-      setCodeTime((pre:number)=>pre - 1)
-      countDown --
-    },1000)
+    HTTPS.post(SEND_SMS_CODE,{
+      'country': '86',
+       'phone': userAccount,
+    }).then((result:any)=>{
+      setCodeTime(CODE_COUNTDOWN_TIME - 1)
+      let countDown = CODE_COUNTDOWN_TIME - 1
+      codeInterval.current = setInterval(()=>{
+        if (countDown <= 0){
+          clearInterval(codeInterval.current)
+          setCodeTime(CODE_COUNTDOWN_TIME)
+          return
+        }
+        setCodeTime((pre:number)=>pre - 1)
+        countDown --
+      },1000)
+    }).finally(()=>{
+    })
   }
 
   function onRegister(){
@@ -127,7 +139,24 @@ function Register(props:any): JSX.Element {
       setTips('两次输入密码不一致，请重新输入')
       return
     }
-    props.navigation.navigate('ChooseSex')
+    if (!isAgree){
+      return
+    }
+    setIsLoading(true)
+    HTTPS.post(USER_SIGN_UP,{
+      'country': '86', 
+      'phone': userAccount,
+      'nickname': 'nick-'+userAccount, 
+      'password': userPsd, 
+      'code': userCode,
+    }).then((result:any)=>{
+      dispatch(saveUserInfo(result))
+      props.navigation.navigate('ChooseSex')
+
+    }).finally(()=>{
+      setIsLoading(false)
+    })
+
   }
 
   return (
@@ -191,11 +220,11 @@ function Register(props:any): JSX.Element {
                 <Text style={styles.tips}>{tips}</Text>
               </View>
               <View style={styles.downView}>
-                <TouchableOpacity onPressIn={onRegister} style={styles.loginButtonvieew}>
+                <LoadingButton isLoading={isLoading} onPressIn={onRegister} style={styles.loginButtonvieew}>
                   <ImageBackground source={ButtonImg} style={styles.loginButton} resizeMode='cover'>
                     <Text style={styles.logintitle}>注册</Text>
                   </ImageBackground>
-                </TouchableOpacity>
+                </LoadingButton>
                 <View style={styles.agreeView}>
                   <TouchableOpacity style={styles.agreeButton} onPressIn={onAgree}>
                     <Image style={styles.agreeImg} source={isAgree ? AgreeSel : AgreeDis}/>

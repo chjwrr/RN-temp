@@ -19,6 +19,11 @@ import Colors from '@/utils/colors';
 import { launchImageLibrary} from 'react-native-image-picker';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { CommonActions } from '@react-navigation/native';
+import { useUserInfo } from '@/redux/userInfo';
+import * as HTTPS from '@/api/axios'
+import LoadingButton from '@/components/LoadingButton';
+import { MY_USER_INFO_UPDATE } from '@/api/API';
+import { useUserInfomation } from '@/api';
 
 const BGImage = require('@/assets/images/registerbgi.png')
 const BackImg = require('@/assets/images/loginback.png')
@@ -30,6 +35,11 @@ const Avataricon = require('@/assets/images/avataricon.png')
 
 function ChooseAvatar(props:any): JSX.Element {
   const [avatorFile,setAvator] = useState('')
+  const userInfo = useUserInfo()
+  const [isLoading,setIsLoading] = useState(false)
+  const serInfomation = useUserInfomation()
+  console.log('serInfomation====',serInfomation.data)
+
   function onBack(){
     props.navigation.pop()
   }
@@ -38,13 +48,38 @@ function ChooseAvatar(props:any): JSX.Element {
       CommonActions.reset({
         index: 0,
         routes: [
-          { name: 'Login' },
+          { name: 'Tab' },
         ],
       })
     );
+    // props.navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 0,
+    //     routes: [
+    //       { name: 'Login' },
+    //     ],
+    //   })
+    // );
   }
   function onNext(){
-    onChangeAvator()
+    onJumpNext()
+    // if (avatorFile.length > 0){
+    //   setIsLoading(true)
+    //   HTTPS.post(MY_USER_INFO_UPDATE,{
+    //     "token":userInfo.token,
+    //     'avatar': 'image_id', 
+    //     // 'province': '广东省',
+    //     // 'city': '深圳市', 
+    //     // 'birthday': 1699708371238, 
+    //     // 'email': 'xxx@163.com', 
+    //     // 'intro': 'test_intro', 
+    //   }).then((result:any)=>{
+  
+      
+    //   }).finally(()=>{
+    //     setIsLoading(false)
+    //   })
+    // }
   }
   async function onChangeAvator(){
     if (Platform.OS == 'android'){
@@ -110,7 +145,7 @@ function ChooseAvatar(props:any): JSX.Element {
               </ImageBackground>
             </TouchableOpacity>
             <Image style={styles.avatarBottom} source={AvatarBottom}/>
-            <TouchableOpacity onPressIn={onNext} style={[styles.nextButtonView,{
+            <LoadingButton isLoading={isLoading} onPressIn={onNext} style={[styles.nextButtonView,{
               backgroundColor:avatorFile.length > 0 ? 'transparent' : Colors.bright_2
             }]}>
               {avatorFile.length > 0 ? <ImageBackground source={ButtonImg} style={styles.nextButton} resizeMode='cover'>
@@ -118,7 +153,7 @@ function ChooseAvatar(props:any): JSX.Element {
                   color:'#fff'
                 }]}>下一步</Text>
               </ImageBackground> : <Text style={styles.nextTitle}>从相册选取图片</Text>}
-            </TouchableOpacity>
+            </LoadingButton>
           </View>
         </View>
         <View style={styles.jumpView}>
