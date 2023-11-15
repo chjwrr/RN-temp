@@ -51,6 +51,7 @@ function PhoneCode(props:any): JSX.Element {
   function onDisKeyboard(){
     Keyboard.dismiss()
   }
+
   function onChange(e:any){
     if (e.nativeEvent.text.length == 4){
       Keyboard.dismiss()

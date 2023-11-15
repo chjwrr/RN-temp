@@ -22,7 +22,7 @@ import { CommonActions } from '@react-navigation/native';
 import { useUserInfo } from '@/redux/userInfo';
 import * as HTTPS from '@/api/axios'
 import LoadingButton from '@/components/LoadingButton';
-import { MY_USER_INFO_UPDATE } from '@/api/API';
+import { GET_MEDIA_ID, MY_USER_INFO_UPDATE } from '@/api/API';
 import { useUserInfomation } from '@/api';
 
 const BGImage = require('@/assets/images/registerbgi.png')
@@ -38,6 +38,7 @@ function ChooseAvatar(props:any): JSX.Element {
   const userInfo = useUserInfo()
   const [isLoading,setIsLoading] = useState(false)
   const serInfomation = useUserInfomation()
+  console.log('userInfo====',userInfo)
   console.log('serInfomation====',serInfomation.data)
 
   function onBack(){
@@ -62,24 +63,30 @@ function ChooseAvatar(props:any): JSX.Element {
     // );
   }
   function onNext(){
-    onJumpNext()
-    // if (avatorFile.length > 0){
-    //   setIsLoading(true)
-    //   HTTPS.post(MY_USER_INFO_UPDATE,{
-    //     "token":userInfo.token,
-    //     'avatar': 'image_id', 
-    //     // 'province': '广东省',
-    //     // 'city': '深圳市', 
-    //     // 'birthday': 1699708371238, 
-    //     // 'email': 'xxx@163.com', 
-    //     // 'intro': 'test_intro', 
-    //   }).then((result:any)=>{
-  
-      
-    //   }).finally(()=>{
-    //     setIsLoading(false)
-    //   })
-    // }
+    if (avatorFile.length > 0){
+      setIsLoading(true)
+      HTTPS.post(GET_MEDIA_ID,{
+        token:userInfo.token
+      }).then((res:any)=>{
+        HTTPS.upload(res.media_id,avatorFile).then((result:any)=>{
+          HTTPS.post(MY_USER_INFO_UPDATE,{
+            "token":userInfo.token,
+            'avatar': res.media_id,
+            // 'province': '广东省',
+            // 'city': '深圳市',
+            // 'birthday': 1699708371238,
+            // 'email': 'xxx@163.com',
+            // 'intro': 'test_intro',
+          }).then((result:any)=>{
+          }).finally(()=>{
+            setIsLoading(false)
+          })
+        }).catch(()=>{
+        })
+      }).catch((e:any)=>{
+        setIsLoading(false)
+      })
+    }
   }
   async function onChangeAvator(){
     if (Platform.OS == 'android'){
