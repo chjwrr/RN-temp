@@ -133,6 +133,9 @@ export async function upload(media_id:string,file:string,onProgress?:any) {
 
   formData.append('media_id',media_id)
 
+  console.log('formData==',formData)
+
+
   return new Promise((resolut,reject)=>{
     axios.post(UPLOAD_URL,formData,{
       headers:{

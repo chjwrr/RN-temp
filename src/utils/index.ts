@@ -54,3 +54,5 @@ export const CODE_COUNTDOWN_TIME = 60
 export const LOADING_Z_INDEX = 100
 
 export const COVER_MODAL_Z_INDEX = 99
+
+export const PAGE_SIZE = 20

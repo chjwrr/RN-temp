@@ -39,6 +39,8 @@ function ChooseSex(props:any): JSX.Element {
   const [sex,setSex] = useState(0) // 0 = 女    1 = 男
   const userInfo = useUserInfo()
   const [isLoading,setIsLoading] = useState(false)
+  const userInfomation = useUserInfomation()
+
   function onNameChange(e:any){
     setName(e.nativeEvent.text)
   }
@@ -65,6 +67,7 @@ function ChooseSex(props:any): JSX.Element {
       // 'email': 'xxx@163.com', 
       // 'intro': 'test_intro', 
     }).then((result:any)=>{
+      userInfomation.refetch()
       props.navigation.navigate('ChooseAvatar')
     }).finally(()=>{
       setIsLoading(false)

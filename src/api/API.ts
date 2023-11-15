@@ -28,6 +28,9 @@ export const ARTICLE_PUBLISH = 'article_publish'
 //读我的文章列表（分页）
 export const MY_ARTICLE_LIST = 'my_article_list'
 
+// 读文章评论列表（分页）
+export const ARTICLE_COMMENT_LIST = 'article_comment_list'
+
 //读我关注的人的文章列表（分页）
 export const FOLLOWING_ARTICLE_LIST = 'following_article_list'
 
@@ -147,3 +150,6 @@ export const MERCHANT_CLOTH_LIST = 'merchant_cloth_list'
 
 //读商家服饰详情
 export const MERCHANT_CLOTH_DETAIL = 'merchant_cloth_detail'
+
+//取系统当前时间 (不用登录可用)
+export const CURRENNT_TIME = 'current_time'

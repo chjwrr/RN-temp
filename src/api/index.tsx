@@ -3,8 +3,12 @@ import {
     useMutation,
   } from '@tanstack/react-query'
 import * as HTTPS from './axios'
-import { MY_USER_INFO } from './API'
 import { useUserInfo } from '@/redux/userInfo'
+import { 
+  MY_USER_INFO,
+  DESIGN_CIRCLE_CLOTH_LIST
+ } from './API'
+import { PAGE_SIZE } from '@/utils'
 
 
 /**

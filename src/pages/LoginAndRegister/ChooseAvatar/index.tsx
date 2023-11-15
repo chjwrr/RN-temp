@@ -37,9 +37,9 @@ function ChooseAvatar(props:any): JSX.Element {
   const [avatorFile,setAvator] = useState('')
   const userInfo = useUserInfo()
   const [isLoading,setIsLoading] = useState(false)
-  const serInfomation = useUserInfomation()
+  const userInfomation = useUserInfomation()
   console.log('userInfo====',userInfo)
-  console.log('serInfomation====',serInfomation.data)
+  console.log('serInfomation====',userInfomation.data)
 
   function onBack(){
     props.navigation.pop()
@@ -78,6 +78,15 @@ function ChooseAvatar(props:any): JSX.Element {
             // 'email': 'xxx@163.com',
             // 'intro': 'test_intro',
           }).then((result:any)=>{
+            userInfomation.refetch()
+            props.navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [
+                  { name: 'Tab' },
+                ],
+              })
+            );
           }).finally(()=>{
             setIsLoading(false)
           })
