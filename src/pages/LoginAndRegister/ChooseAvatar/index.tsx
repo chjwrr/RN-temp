@@ -62,7 +62,6 @@ function ChooseAvatar(props:any): JSX.Element {
     // );
   }
   function onNext(){
-    onJumpNext()
     // if (avatorFile.length > 0){
     //   setIsLoading(true)
     //   HTTPS.post(MY_USER_INFO_UPDATE,{

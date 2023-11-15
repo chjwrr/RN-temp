@@ -7,6 +7,9 @@ export const USER_SIGN_UP = 'user_signup'
 //手机号登录 （密码）
 export const USER_LOGIN = 'user_login'
 
+// 重置密码
+export const USER_PASSWORD_UPDATE = 'user_password_update'
+
 //写个人信息
 export const MY_USER_INFO_UPDATE = 'my_user_info_update'
 

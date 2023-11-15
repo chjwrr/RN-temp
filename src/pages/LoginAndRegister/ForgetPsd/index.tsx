@@ -16,6 +16,9 @@ import {styles} from './styles'
 import { isPhoneNumber } from '@/utils/common';
 import { CODE_COUNTDOWN_TIME } from '@/utils';
 import CustomTextInput from '@/components/CustomTextInput';
+import * as HTTPS from '@/api/axios'
+import { SEND_SMS_CODE, USER_PASSWORD_UPDATE } from '@/api/API';
+import LoadingButton from '@/components/LoadingButton';
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const ButtonImg = require('@/assets/images/buttonbg.png')
@@ -30,6 +33,7 @@ function ForgetPsd(props:any): JSX.Element {
   const [userCode,seUserCode] = useState('')
   const [codeTime,setCodeTime] = useState(CODE_COUNTDOWN_TIME)
   const codeInterval = useRef<any>()
+  const [isLoading,setIsLoading] = useState(false)
 
   useEffect(()=>{
     return ()=>{
@@ -85,19 +89,24 @@ function ForgetPsd(props:any): JSX.Element {
       return
     }
 
-
-    setCodeTime(CODE_COUNTDOWN_TIME - 1)
-    let countDown = CODE_COUNTDOWN_TIME - 1
-    codeInterval.current = setInterval(()=>{
-      console.log('countDown',countDown)
-      if (countDown <= 0){
-        clearInterval(codeInterval.current)
-        setCodeTime(CODE_COUNTDOWN_TIME)
-        return
-      }
-      setCodeTime((pre:number)=>pre - 1)
-      countDown --
-    },1000)
+    HTTPS.post(SEND_SMS_CODE,{
+      'country': '86',
+       'phone': userAccount,
+    }).then((result:any)=>{
+      setCodeTime(CODE_COUNTDOWN_TIME - 1)
+      let countDown = CODE_COUNTDOWN_TIME - 1
+      codeInterval.current = setInterval(()=>{
+        console.log('countDown',countDown)
+        if (countDown <= 0){
+          clearInterval(codeInterval.current)
+          setCodeTime(CODE_COUNTDOWN_TIME)
+          return
+        }
+        setCodeTime((pre:number)=>pre - 1)
+        countDown --
+      },1000)
+    }).finally(()=>{
+    })
   }
   function onComplate(){
     if (!userPsd){
@@ -124,10 +133,18 @@ function ForgetPsd(props:any): JSX.Element {
       setTips('请输入验证码')
       return
     }
-
-    console.log('忘记密码-')
-    onBack()
-
+    setIsLoading(true)
+    HTTPS.post(USER_PASSWORD_UPDATE,{
+      'country': '86', 
+      'phone': userAccount,
+      'password': userPsd, 
+      'new_password':userAgainPsd,
+      'code': userCode,
+    }).then((result:any)=>{
+      onBack()
+    }).finally(()=>{
+      setIsLoading(false)
+    })
   }
 
   return (
@@ -188,11 +205,11 @@ function ForgetPsd(props:any): JSX.Element {
                 </View>
                 <Text style={styles.tips}>{tips}</Text>
                 <View style={styles.centerView}>
-                  <TouchableOpacity onPressIn={onComplate} style={styles.loginButtonvieew}>
+                  <LoadingButton isLoading={isLoading} onPressIn={onComplate} style={styles.loginButtonvieew}>
                     <ImageBackground source={ButtonImg} style={styles.loginButton} resizeMode='cover'>
                       <Text style={styles.logintitle}>确认</Text>
                     </ImageBackground>
-                  </TouchableOpacity>
+                  </LoadingButton>
                 </View>
               </View>
             </View>

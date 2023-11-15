@@ -14,6 +14,9 @@ import {
 import {styles} from './styles'
 import { isPhoneNumber } from '@/utils/common';
 import CustomTextInput from '@/components/CustomTextInput';
+import * as HTTPS from '@/api/axios'
+import { SEND_SMS_CODE } from '@/api/API';
+import LoadingButton from '@/components/LoadingButton';
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -27,6 +30,7 @@ function PhoneLogin(props:any): JSX.Element {
   const [userAccount,setUserAccount] = useState('')
   const [isAgree,setIsAgree] = useState(false)
   const [tips,setTips] = useState('')
+  const [isLoading,setIsLoading] = useState(false)
 
   function onDisKeyboard(){
     Keyboard.dismiss()
@@ -53,9 +57,20 @@ function PhoneLogin(props:any): JSX.Element {
       setTips('手机号无效')
       return
     }
-    props.navigation.navigate('PhoneCode',{
-      phone:userAccount
+
+    setIsLoading(true)
+    HTTPS.post(SEND_SMS_CODE,{
+      'country': '86',
+      'phone': userAccount,
+    }).then((result:any)=>{
+      props.navigation.navigate('PhoneCode',{
+        phone:userAccount
+      })
+    }).finally(()=>{
+      setIsLoading(false)
     })
+
+
   }
   function onBack(){
     props.navigation.pop()
@@ -84,11 +99,11 @@ function PhoneLogin(props:any): JSX.Element {
               </View>
               <Text style={styles.tips}>{tips}</Text>
               <View style={styles.centerView}>
-                <TouchableOpacity onPressIn={onGetCode} style={styles.loginButtonvieew}>
+                <LoadingButton isLoading={isLoading} onPressIn={onGetCode} style={styles.loginButtonvieew}>
                   <ImageBackground source={ButtonImg} style={styles.loginButton} resizeMode='cover'>
                     <Text style={styles.logintitle}>获取验证码</Text>
                   </ImageBackground>
-                </TouchableOpacity>
+                </LoadingButton>
               </View>
              
             </View>

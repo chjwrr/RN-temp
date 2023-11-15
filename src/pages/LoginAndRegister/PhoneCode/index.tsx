@@ -12,6 +12,12 @@ import {
   Image
 } from 'react-native';
 import {styles} from './styles'
+import * as Loading from '@/components/Loading'
+import * as HTTPS from '@/api/axios'
+import { USER_LOGIN } from '@/api/API';
+import { useDispatch } from 'react-redux';
+import { saveUserInfo } from '@/redux/userInfo';
+import { CommonActions } from '@react-navigation/native';
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -24,8 +30,7 @@ function PhoneCode(props:any): JSX.Element {
   const [codeValue,setCodeValue] = useState('')
   const [isAgree,setIsAgree] = useState(false)
   const inputRef = useRef<any>()
-  const [mainTop,setMainTop] = useState(0)
-
+  const dispatch = useDispatch()
   // useEffect(()=>{
   //   const keyboardDidShow = Keyboard.addListener('keyboardDidShow',(e:any)=>{
   //     console.log('-e-',e)
@@ -54,10 +59,29 @@ function PhoneCode(props:any): JSX.Element {
   function onChange(e:any){
     if (e.nativeEvent.text.length == 4){
       Keyboard.dismiss()
-
       // 调用接口
-
-
+      Loading.show('正在登录...')
+      HTTPS.post(USER_LOGIN,{
+        phone:props.route.params.phone,
+        code:e.nativeEvent.text,
+        country:'86'
+      }).then((result:any)=>{
+        Loading.show('登录成功，正在跳转...')
+        setTimeout(() => {
+          Loading.hidden()
+          dispatch(saveUserInfo(result))
+          props.navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [
+                { name: 'Tab' },
+              ],
+            })
+          );
+        },300)
+      }).catch(()=>{
+        Loading.hidden()
+      })
     }
     setCodeValue(e.nativeEvent.text.slice(0,4))
   }
@@ -85,9 +109,7 @@ function PhoneCode(props:any): JSX.Element {
           <TouchableOpacity onPressIn={onBack} style={styles.backButton}>
             <Image source={BackImg} style={styles.bgckImg}/>
           </TouchableOpacity>
-          <View style={[styles.mainContent,{
-            marginTop:mainTop
-          }]}>
+          <View style={styles.mainContent}>
             <View>
               <Text style={styles.title}>输入验证码</Text>
               <View style={styles.inputView}>
