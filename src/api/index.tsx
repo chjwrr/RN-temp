@@ -32,7 +32,7 @@ export function useUserInfomation(){
     const info:any = await HTTPS.post(MY_USER_INFO,{
       "token":userInfo.token
     })
-    return info
+    return info.user_info
   }
   return useQuery(["useUserInfomation" + userInfo.token], fetchData, {
     enabled:!!userInfo.token

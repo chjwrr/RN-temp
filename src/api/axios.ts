@@ -1,12 +1,21 @@
 import axios from 'axios'
 import { showMessage } from 'react-native-flash-message';
 import sha256 from 'crypto-js/sha256';
+import { GET_MEDIA_ID } from './API';
 
 const instance = axios.create({})
 instance.defaults.timeout = 30000;
 // instance.defaults.baseURL = "http://119.45.143.198/yuanyiapi/"
 
-const BASE_URL = 'http://119.45.143.198/yuanyiapi/'
+const HTTP_URL = 'http://119.45.143.198/'
+const BASE_URL = HTTP_URL + 'yuanyiapi/'
+const UPLOAD_URL = BASE_URL + "upload"
+const IMAGE_URL = HTTP_URL + 'yuanyi-media/'
+
+
+export function getAvatarUrl(media_id:string){
+  return `${IMAGE_URL}${media_id}.jpg`
+}
 
 instance.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -77,8 +86,69 @@ export async function post(method:string,params:Record<string,any>,config?:any) 
     instance.post(BASE_URL,params,config).then((result:any)=>{
       // console.log('post result=',method,result)
       if (result.status == 200){
-        console.log('result.data==',result.data)
+        console.info('result.data==',method,result.data)
 
+        if (result.data && result.data.code == 0){
+          resolut(result.data)
+        }else {
+          reject(result.data.code)
+          showMessage({
+            message:  result.data.err_msg,
+            type: "danger",
+          });
+        }
+      }else {
+        reject()
+        showMessage({
+          message: "网络请求异常",
+          description: "请稍后再试~",
+          type: "danger",
+        });
+      }
+    }).catch((e:any)=>{
+      console.log('get e===',e);
+      reject(e)
+      showMessage({
+        message: "网络异常",
+        description: "请检查网络环境",
+        type: "danger",
+      });
+      throw e;
+    })
+  })
+}
+
+export async function upload(media_id:string,file:string,onProgress?:any) {
+
+  const formData = new FormData()
+
+  // data.map((item,index)=>{
+  let fileData = {
+    uri: file,
+    type: 'application/octet-stream',
+    name: media_id+'.jpg'
+  };
+  formData.append('file',fileData)
+  // })
+
+  formData.append('media_id',media_id)
+
+  return new Promise((resolut,reject)=>{
+    axios.post(UPLOAD_URL,formData,{
+      headers:{
+        'Content-Type': 'multipart/form-data'
+      },
+      onUploadProgress:({loaded, total, progress, bytes, estimated, rate, upload = true})=>{
+        console.log('loaded==',loaded)
+        console.log('total==',total)
+        console.log('progress==',progress)
+        if (total){
+          onProgress && onProgress(Math.floor(loaded / total * 100))
+        }
+      },
+    }).then((result:any)=>{
+      if (result.status == 200){
+        console.log('upload result.data==',result.data)
         if (result.data && result.data.code == 0){
           resolut(result.data)
         }else {
