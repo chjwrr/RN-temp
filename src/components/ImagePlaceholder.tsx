@@ -8,7 +8,7 @@ const ImagePlaceholder = () => {
     Animated.loop(
       Animated.timing(animated, {
         toValue: 1,
-        duration: 2000,
+        duration: 300,
         easing: Easing.bezier(0.3, 0.49, 0.71, 0.5),
         useNativeDriver: false,
       }),
@@ -34,11 +34,10 @@ const ImagePlaceholder = () => {
 
 const styles = StyleSheet.create({
   skeleton: {
-    width: 250,
-    height: 150,
+    width: '100%',
+    height: '100%',
     alignSelf: 'center',
     borderRadius: 6,
-    backgroundColor: '#EDF1F7',
   },
 });
 

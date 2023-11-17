@@ -15,34 +15,28 @@ import Share from 'react-native-share';
 import { WebView } from 'react-native-webview';
 import { styles } from './styles'
 import { show, hidden } from '@/components/CoverModal'
+import * as HTTPS from '@/api/axios'
+import { useDesignCircleClothDetail } from '@/api';
 
-import { SCREEN_WIDTH } from '@/utils';
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
 const CollectIcon = require('@/assets/images/collectICON.png')
 const shareIcon = require('@/assets/images/share.png')
 const downbgIcon = require('@/assets/images/downbg.png')
 const hdIcon = require('@/assets/images/hd.png')
-const modalLineIcon = require('@/assets/images/tdbg.png')
-
 const model_left_bgIcon = require('@/assets/images/model_left_bg.png')
 const model_right_bgIcon = require('@/assets/images/model_right_bg.png')
 const spebgIcon = require('@/assets/images/spebg.png')
-
-
-
 const download_nIcon = require('@/assets/images/download_n.png')
 const share_nIcon = require('@/assets/images/share_n.png')
 
 
 function DesignDetail(props:any): JSX.Element {
-  const id = props.route.params.id
   const [showBuy,setShowBuy] = useState(false)
   const [scrollEnabled,setScrollEnabled] = useState(true)
   const scrollY = useRef(new Animated.Value(0)).current;
+  const designCircleClothDetail = useDesignCircleClothDetail(props.route.params.id)
 
-
-  
   function onBack(){
     props.navigation.goBack()
   }
@@ -102,8 +96,8 @@ function DesignDetail(props:any): JSX.Element {
           >
           <View style={styles.modalView}>
             <WebView
-              // source={{uri:'www.baidu.com'}}
-              source={{ uri: Platform.OS == 'ios' ? 'https://nextjs-3d-modal-j2fc-git-main-chjwrr.vercel.app/' : 'http://test.yingxiong123.top/' }}
+              source={{uri:'https://www.baidu.com'}}
+              // source={{ uri: Platform.OS == 'ios' ? 'https://nextjs-3d-modal-j2fc-git-main-chjwrr.vercel.app/' : 'http://test.yingxiong123.top/' }}
               style={styles.webView}
               onTouchStart={()=>{
                 setScrollEnabled(false)
@@ -115,7 +109,7 @@ function DesignDetail(props:any): JSX.Element {
                 setScrollEnabled(true)
               }}
             />
-            <Text style={styles.name}>模型名字</Text>
+            <Text style={styles.name}>{designCircleClothDetail.data?.name}</Text>
           </View>
           <DetailInfo/>
         </ScrollView>

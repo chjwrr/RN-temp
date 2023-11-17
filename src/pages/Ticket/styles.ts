@@ -123,37 +123,46 @@ export const styles = StyleSheet.create({
     },
     flowLoadingView:{
         // width:'100%',
-        height:210,
+        height:270,
         borderRadius:5,
         padding:8
       },
     flowView:{
         width:'100%',
-        height:210,
+        height:270,
         // backgroundColor:Colors.white,
         borderRadius:5,
         // padding:8
     },
     typeItem:{
         width:'100%',
-        height:'100%',
+        height:180,
         justifyContent:'flex-end',
         backgroundColor:'#fff',
-        borderRadius:5,
-        overflow:'hidden'
+        borderTopLeftRadius:5,
+        borderTopRightRadius:5,
+        overflow:'hidden',
+        alignItems:'flex-start'
     },
     typeItemDownBlur:{
-        height:64,
-        width:'100%',
-        position:'absolute',
-        bottom:0,
-    },
+      height:64,
+      width:'100%',
+      position:'absolute',
+      bottom:0,
+  },
     typeItemDown:{
-        height:64,
+        height:90,
         width:'100%',
         paddingHorizontal:10,
         justifyContent:'center',
-        zIndex:2
+        zIndex:2,
+    },
+    typeItemDownbg:{
+      position:'absolute',
+      top:0,
+      bottom:0,
+      left:0,
+      right:0
     },
     loadMoreView:{
         flexDirection:'row',
@@ -168,13 +177,13 @@ export const styles = StyleSheet.create({
     flowViewTitle:{
         fontSize:14,
         color:Colors.white,
-        marginBottom:6
+        width:'60%',
     },
     flowViewSubView:{
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
-        width:'100%'
+        width:'100%',
     },
     flowIcon:{
         width:24,
@@ -186,7 +195,12 @@ export const styles = StyleSheet.create({
     flowName:{
         fontSize:10,
         color:Colors.white,
-        width:'70%'
+        width:'40%'
+    },
+    flowNameid:{
+      fontSize:12,
+      color:Colors.white,
+      marginBottom:5
     },
     flowFocus:{
         width:16,
@@ -230,5 +244,27 @@ export const styles = StyleSheet.create({
         width:'100%',
         height:78,
     },
+    moenyUni:{
+      fontSize:16,
+      color:Colors.white,
+      marginRight:5
+    },
+    moeny:{
+      fontSize:20,
+      color:Colors.white,
+    },
+    limmitbg:{
+      width:81,
+      height:18,
+      justifyContent:'center',
+      alignItems:'center',
+      position:'absolute',
+      left:0,
+      bottom:-1
+    },
+    limmittitle:{
+      fontSize:10,
+      color:Colors.white,
+    }
 });
 

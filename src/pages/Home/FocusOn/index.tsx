@@ -15,7 +15,11 @@ import { FadeLoading } from 'react-native-fade-loading';
 import { useNavigation } from '@react-navigation/native';
 import Colors from '@/utils/colors';
 import Carousel from 'react-native-reanimated-carousel';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
+import { PAGE_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
+import * as HTTPS from '@/api/axios'
+import { useUserInfo } from '@/redux/userInfo';
+import { FOLLOWING_ARTICLE_LIST } from '@/api/API';
+import { useMyFollowing } from '@/api';
 
 
 const ShareIcon = require('@/assets/images/share.png')
@@ -26,41 +30,58 @@ function FocusOn(): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [dataSource,setDataSource] = useState<any[]>([1,1,1])
   const focusList:any[] = [1,2,3,4,5,6,7,8,9,0]
-  useEffect(()=>{
+  const [page,setPage] = useState(0)
+  const [isLoadEnd,setIsLoadEnd] = useState(false)
+  const userInfo = useUserInfo()
+  const myFollowing = useMyFollowing()
+
+  function getData(currenPage:number){
     setLoading(true)
-    setTimeout(() => {
-      setDataSource([{},{},{},{},{},{},{},{},{},{}])
+    HTTPS.post(FOLLOWING_ARTICLE_LIST,{
+      "token":userInfo.token,
+      "limit":PAGE_SIZE,
+      offset:currenPage * PAGE_SIZE
+    }).then((result:any)=>{
+      console.log('result=',)
+      if (currenPage == 0){
+        setDataSource(result.following_article_list)
+      }else {
+        setDataSource([...dataSource,...result.following_article_list])
+      }
+      if (result.following_article_list.length < PAGE_SIZE){
+        setIsLoadEnd(true)
+      }else {
+        setIsLoadEnd(false)
+      }
+    }).finally(()=>{
+      setRefreshing(false)
       setLoading(false)
-    }, 2000);
-  },[])
+    })
+  }
+
+  useEffect(()=>{
+    getData(page)
+  },[page])
+
 
   function onRefresh(){
     if (loading || refreshing){
       return
     }
     console.log('onRefresh')
-    setLoading(true)
     setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false)
-      setLoading(false)
-      setDataSource([{},{},{},{},{},{},{},{},{},{}])
-    }, 2000);
+    setPage(0)
+    getData(0)
   }
 
   function onEndReached(){
-    if (loading || refreshing){
+    if (loading || refreshing || isLoadEnd){
       return
     }
     console.log('loading more')
-    setLoading(true)
-    setTimeout(() => {
-      const temp = [...dataSource,{},{},{},{},{},{},{},{},{},{}]
-      setDataSource(temp)
-      isCanLoadMore.current = true
-      setLoading(false)
-    }, 2000);
+    setPage((pre:number)=>pre + 1)
   }
+
 
   return (
     <FlatList
@@ -95,10 +116,10 @@ function FocusOn(): JSX.Element {
         </ScrollView>
       </View>}
       ListEmptyComponent={<View/>}
-      ListFooterComponent={<View style={styles.loadMoreView}>
+      ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
       <Text style={styles.loadMoreTitle}>加载更多...</Text>
         <ActivityIndicator size="small" color={Colors.main} />
-      </View>}
+      </View> : <View style={styles.loadMoreView}></View>}
       initialNumToRender={10}
       ItemSeparatorComponent={()=><View style={styles.speHeight}/>}
       keyExtractor={(item, index) => 'key' + index}

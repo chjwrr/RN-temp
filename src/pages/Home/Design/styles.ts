@@ -13,9 +13,16 @@ export const styles = StyleSheet.create({
     flowView:{
         width:'100%',
         height:160,
-        backgroundColor:'rgba(109,105,250,0.2)',
         borderRadius:5,
-        padding:8
+        padding:8,
+        overflow:'hidden'
+    },
+    itemImage:{
+      position:'absolute',
+      left:0,
+      right:0,
+      top:0,
+      bottom:0
     },
     flowLoadingView:{
       width:'100%',

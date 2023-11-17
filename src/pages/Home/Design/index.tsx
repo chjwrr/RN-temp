@@ -5,6 +5,7 @@ import {
   Text,
   View,
   ActivityIndicator,
+  ImageBackground,
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
@@ -17,7 +18,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as HTTPS from '@/api/axios'
 import { DESIGN_CIRCLE_CLOTH_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
-
+import {CachedImage} from '@georstat/react-native-image-cache'
+import ImagePlaceholder from '@/components/ImagePlaceholder';
 
 function Design(props:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
@@ -27,7 +29,6 @@ function Design(props:any): JSX.Element {
   const [dataSource,setDataSource] = useState<any[]>([1,1,1,1])
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
-
   const userInfo = useUserInfo()
 
 
@@ -38,7 +39,17 @@ function Design(props:any): JSX.Element {
       "limit":PAGE_SIZE,
       offset:currenPage * PAGE_SIZE
     }).then((result:any)=>{
-      console.log('result=',result)
+      console.log('result=',)
+      if (currenPage == 0){
+        setDataSource(result.design_circle_cloth_list)
+      }else {
+        setDataSource([...dataSource,...result.design_circle_cloth_list])
+      }
+      if (result.design_circle_cloth_list.length < PAGE_SIZE){
+        setIsLoadEnd(true)
+      }else {
+        setIsLoadEnd(false)
+      }
     }).finally(()=>{
       setRefreshing(false)
       setLoading(false)
@@ -57,7 +68,6 @@ function Design(props:any): JSX.Element {
     console.log('onRefresh')
     setRefreshing(true);
     setPage(0)
-    setIsLoadEnd(false)
     getData(0)
     // setTimeout(() => {
     //   setRefreshing(false)
@@ -74,10 +84,10 @@ function Design(props:any): JSX.Element {
     setPage((pre:number)=>pre + 1)
   }
 
-  function onPress(columnIndex:number){
+  function onPress(cloth_id:number){
     //@ts-ignore
     navigation.navigate('DesignDetail',{
-      id:columnIndex
+      id:cloth_id
     })
   }
 
@@ -96,9 +106,16 @@ function Design(props:any): JSX.Element {
           duration={0}
           visible={true}
           animated={true}
-        />: <TouchableOpacity onPress={()=>onPress(columnIndex)} style={[styles.flowView]}>
-            <Text style={styles.modalName} numberOfLines={1} ellipsizeMode='tail'>模型{index}</Text>
-            <Text style={styles.modalDes} numberOfLines={4} ellipsizeMode='tail'>模型介绍</Text>
+        /> : <TouchableOpacity onPress={()=>onPress(item.cloth_id)} style={[styles.flowView]}>
+            <CachedImage
+              resizeMode='cover'
+              source={HTTPS.getImageUrl(item.image)}
+              style={styles.itemImage}
+              blurRadius={30}
+              loadingImageComponent={ImagePlaceholder}
+              />
+            <Text style={styles.modalName} numberOfLines={1} ellipsizeMode='tail'>{item.name}</Text>
+            <Text style={styles.modalDes} numberOfLines={4} ellipsizeMode='tail'>{item.intro}</Text>
           </TouchableOpacity>
         }}
         style={{ flex: 1 }}
@@ -108,7 +125,7 @@ function Design(props:any): JSX.Element {
           width={SCREEN_WIDTH - 32}
           height={160}
           autoPlay={true}
-          data={[1,2,3,4,5]}
+          data={dataSource}
           scrollAnimationDuration={3000}
           onSnapToItem={(index) => {}}
           mode="parallax"

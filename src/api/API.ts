@@ -153,3 +153,6 @@ export const MERCHANT_CLOTH_DETAIL = 'merchant_cloth_detail'
 
 //取系统当前时间 (不用登录可用)
 export const CURRENNT_TIME = 'current_time'
+
+// 首页推荐
+export const RECOMMEND_MERCHANT_CLOTH_LIST = 'recommend_merchant_cloth_list'

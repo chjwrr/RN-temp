@@ -9,12 +9,15 @@ import {
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
-import { SCREEN_WIDTH } from '@/utils';
+import { PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
 import WaterfallFlow from 'react-native-waterfall-flow'
 import Colors from '@/utils/colors';
 import { useNavigation } from '@react-navigation/native';
 import { FadeLoading } from 'react-native-fade-loading';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useUserInfo } from '@/redux/userInfo';
+import * as HTTPS from '@/api/axios'
+import { RECOMMEND_MERCHANT_CLOTH_LIST } from '@/api/API';
 
 
 const focus_n = require('@/assets/images/collect.png')
@@ -26,6 +29,39 @@ function Recommend(props:any): JSX.Element {
   const [dataSource,setDataSource] = useState<any[]>([1,1,1,1])
   const isCanLoadMore = useRef(false)
   const navigation = useNavigation()
+  const [page,setPage] = useState(0)
+  const [isLoadEnd,setIsLoadEnd] = useState(false)
+  const userInfo = useUserInfo()
+
+  async function getData(currenPage:number){
+    setLoading(true)
+    HTTPS.post(RECOMMEND_MERCHANT_CLOTH_LIST,{
+      "token":userInfo.token,
+      "limit":PAGE_SIZE,
+      offset:currenPage * PAGE_SIZE
+    }).then((result:any)=>{
+      console.log('result=',)
+      if (currenPage == 0){
+        setDataSource(result.recommend_merchant_cloth_list)
+      }else {
+        setDataSource([...dataSource,...result.recommend_merchant_cloth_list])
+      }
+      if (result.recommend_merchant_cloth_list.length < PAGE_SIZE){
+        setIsLoadEnd(true)
+      }else {
+        setIsLoadEnd(false)
+      }
+    }).finally(()=>{
+      setRefreshing(false)
+      setLoading(false)
+    })
+  }
+
+  useEffect(()=>{
+    getData(page)
+  },[page])
+
+
 
   function onPress(columnIndex:number){
     // @ts-ignore
@@ -35,40 +71,22 @@ function Recommend(props:any): JSX.Element {
   }
 
 
-  useEffect(()=>{
-    setLoading(true)
-    setTimeout(() => {
-      setDataSource([{},{},{},{},{}])
-      setLoading(false)
-    }, 2000);
-  },[])
-
   function onRefresh(){
     if (loading || refreshing){
       return
     }
     console.log('onRefresh')
-    setLoading(true)
     setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false)
-      setLoading(false)
-      setDataSource([{},{},{},{},{}])
-    }, 2000);
+    setPage(0)
+    getData(0)
   }
 
   function onEndReached(){
-    if (loading || refreshing){
+    if (loading || refreshing || isLoadEnd){
       return
     }
     console.log('loading more')
-    setLoading(true)
-    setTimeout(() => {
-      const temp = [...dataSource,{},{},{},{},{}]
-      setDataSource(temp)
-      isCanLoadMore.current = true
-      setLoading(false)
-    }, 2000);
+    setPage((pre:number)=>pre + 1)
   }
 
   console.log('当前数据条数=',dataSource.length)
@@ -116,7 +134,7 @@ function Recommend(props:any): JSX.Element {
           width={SCREEN_WIDTH - 32}
           height={160}
           autoPlay={true}
-          data={[1,2,3,4,5]}
+          data={dataSource}
           scrollAnimationDuration={3000}
           onSnapToItem={(index) => {}}
           mode="parallax"
@@ -143,10 +161,10 @@ function Recommend(props:any): JSX.Element {
             </TouchableOpacity>
           </View>
         </View>}
-        ListFooterComponent={<View style={styles.loadMoreView}>
+        ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
           <Text style={styles.loadMoreTitle}>加载更多...</Text>
           <ActivityIndicator size="small" color={Colors.main} />
-        </View>}
+        </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}
         initialNumToRender={10}
         keyExtractor={(item, index) => 'key' + index}

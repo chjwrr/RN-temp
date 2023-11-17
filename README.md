@@ -460,6 +460,15 @@ import LinearGradient from 'react-native-linear-gradient';
 </LinearGradient>
 ```
 
+# 高斯模糊
+```
+<BlurView
+        style={styles.typeItemDownBlur}
+        blurType="light"
+        blurAmount={5}
+        reducedTransparencyFallbackColor="white"
+      />
+```
 # tab view
 react-native-pager-view  react-native-tab-view
 

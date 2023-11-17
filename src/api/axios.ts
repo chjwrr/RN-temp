@@ -13,7 +13,13 @@ const UPLOAD_URL = BASE_URL + "upload"
 const IMAGE_URL = HTTP_URL + 'yuanyi-media/'
 
 
-export function getAvatarUrl(media_id:string){
+export function getImageUrl(media_id:string){
+  if(!media_id){
+    return
+  }
+  if (media_id.includes('.')){
+    return `${IMAGE_URL}${media_id}`
+  }
   return `${IMAGE_URL}${media_id}.jpg`
 }
 

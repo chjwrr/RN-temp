@@ -46,7 +46,7 @@ function Mine(props:any): JSX.Element {
       </TouchableOpacity>
       <Text>用户名：{userInfomation.data?.nickname}</Text>
       <Text>手机号：{userInfomation.data?.phone}</Text>
-      <Image style={{width:100,height:100}} source={{uri:HTTPS.getAvatarUrl(userInfomation.data?.avatar)}}/>
+      <Image style={{width:100,height:100}} source={{uri:HTTPS.getImageUrl(userInfomation.data?.avatar)}}/>
     </View>
   );
 }
