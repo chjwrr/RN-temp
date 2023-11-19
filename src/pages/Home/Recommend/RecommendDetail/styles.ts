@@ -64,7 +64,6 @@ export const styles = StyleSheet.create({
     width:'100%',
     height:'100%',
     borderRadius:8,
-    backgroundColor: "blue",
   },
   sliderView:{
     backgroundColor:'rgba(109,105,250,0.2)',
@@ -263,5 +262,13 @@ export const styles = StyleSheet.create({
     // flex:1,
     // width:'100%',
     // height:'100%',
+  },
+  showBuyvLeftView:{
+    backgroundColor:Colors.white,
+    width:160,
+    paddingTop:30,
+    paddingLeft:30,
+    borderTopLeftRadius:12,
+    borderTopRightRadius:12
   }
 });

@@ -126,7 +126,7 @@ function PhoneCode(props:any): JSX.Element {
                 <TextInput ref={inputRef} style={styles.input} value={codeValue} onChange={onChange} keyboardType='number-pad'/>
               </View>
             </View>
-            <View style={styles.downView}>
+            {/* <View style={styles.downView}>
               <View style={styles.agreeView}>
                 <TouchableOpacity style={styles.agreeButton} onPressIn={onAgree}>
                   <Image style={styles.agreeImg} source={isAgree ? AgreeSel : AgreeDis}/>
@@ -142,7 +142,7 @@ function PhoneCode(props:any): JSX.Element {
                   </TouchableOpacity>
                 </View>
               </View>
-            </View>
+            </View> */}
           </View>
         </SafeAreaView>
       </TouchableOpacity>

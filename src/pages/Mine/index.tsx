@@ -20,19 +20,19 @@ function Mine(props:any): JSX.Element {
   const userInfo = useUserInfo()
   console.log('userInfomation===',userInfomation.data)
   function onLogout(){
-
+    dispatch(saveUserInfo({}))
+    props.navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          { name: 'Login' },
+        ],
+      })
+    );
     HTTPS.post(USER_LOGOUT,{
       token:userInfo.token
     }).then((res:any)=>{
-      dispatch(saveUserInfo({}))
-      props.navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [
-            { name: 'Login' },
-          ],
-        })
-      );
+     
     })
 
   }

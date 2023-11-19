@@ -21,6 +21,7 @@ import LoadingButton from '@/components/LoadingButton';
 import { SEND_SMS_CODE, USER_LOGIN, USER_SIGN_UP } from '@/api/API';
 import { useDispatch } from 'react-redux';
 import { saveUserInfo } from '@/redux/userInfo';
+import { showMessage } from 'react-native-flash-message';
 
 const BGImage = require('@/assets/images/registerbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -140,6 +141,10 @@ function Register(props:any): JSX.Element {
       return
     }
     if (!isAgree){
+      showMessage({
+        message: "请阅读并同意衣互 用户协议 和 隐私政策",
+        type: "info",
+      });
       return
     }
     setIsLoading(true)

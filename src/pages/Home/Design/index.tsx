@@ -6,6 +6,7 @@ import {
   View,
   ActivityIndicator,
   ImageBackground,
+  FlatList,
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
@@ -93,11 +94,11 @@ function Design(props:any): JSX.Element {
 
   return (
     <View style={{flex:1}}>
-      <WaterfallFlow
+      <FlatList
         showsVerticalScrollIndicator={false}
         data={dataSource}
         numColumns={1}
-        renderItem={({ item, index, columnIndex })=>{
+        renderItem={({ item, index })=>{
           return item == 1 ? <FadeLoading
           style={[styles.flowLoadingView]}
           children={''}
@@ -106,7 +107,7 @@ function Design(props:any): JSX.Element {
           duration={0}
           visible={true}
           animated={true}
-        /> : <TouchableOpacity onPress={()=>onPress(item.cloth_id)} style={[styles.flowView]}>
+        /> : <TouchableOpacity onPressIn={()=>onPress(item.cloth_id)} style={[styles.flowView]}>
             <CachedImage
               resizeMode='cover'
               source={HTTPS.getImageUrl(item.image)}

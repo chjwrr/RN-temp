@@ -17,6 +17,7 @@ import CustomTextInput from '@/components/CustomTextInput';
 import * as HTTPS from '@/api/axios'
 import { SEND_SMS_CODE } from '@/api/API';
 import LoadingButton from '@/components/LoadingButton';
+import { showMessage } from 'react-native-flash-message';
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -55,6 +56,13 @@ function PhoneLogin(props:any): JSX.Element {
     }
     if (!isPhoneNumber(userAccount)){
       setTips('手机号无效')
+      return
+    }
+    if (!isAgree){
+      showMessage({
+        message: "请阅读并同意衣互 用户协议 和 隐私政策",
+        type: "info",
+      });
       return
     }
 

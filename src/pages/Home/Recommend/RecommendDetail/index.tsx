@@ -18,6 +18,10 @@ import { WebView } from 'react-native-webview';
 import Carousel from 'react-native-reanimated-carousel';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
 import * as _ from 'lodash'
+import { useMerchantClothDetail } from '@/api';
+import {CachedImage} from '@georstat/react-native-image-cache'
+import ImagePlaceholder from '@/components/ImagePlaceholder';
+import * as HTTPS from '@/api/axios'
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -38,10 +42,9 @@ const jdIcon = require('@/assets/images/jd.png')
 
 
 function RecommendDetail(props:any): JSX.Element {
-  const id = props.route.params.id
   const [showBuy,setShowBuy] = useState(false)
   const scrollY = useRef(new Animated.Value(0)).current;
-
+  const clothDetail = useMerchantClothDetail(props.route.params.id)
   function onBack(){
     props.navigation.goBack()
   }
@@ -145,9 +148,10 @@ function RecommendDetail(props:any): JSX.Element {
             useNativeDriver:false
           })}
         >
-          {id == 0 ? <TDModalView/> : <SwiperView/>}
+          {/* {id == 0 ? <TDModalView/> : <SwiperView/>} */}
+          <SwiperView images={[clothDetail.data?.image]} name={clothDetail.data?.name}/>
           <View style={styles.detailView}>
-            <ShopInfo/>
+            <ShopInfo info={clothDetail.data}/>
             <WebView
               source={{ uri: 'https://www.baidu.com' }}
               style={styles.webDetailView}
@@ -167,8 +171,8 @@ function RecommendDetail(props:any): JSX.Element {
         <Animated.View style={[styles.showBuyView,{
             transform: [{translateY: bottomAnim}]
           }]}>
-            <View style={styles.showBuyLeftView}>
-            <View style={styles.showBuyLeftSubView}>
+            <View style={styles.showBuyvLeftView}>
+              <View style={styles.showBuyLeftSubView}>
                 <Image style={styles.showBuyLeftIcon} source={tdIcon}/>
                 <Text style={styles.showBuyLeftName}>淘宝链接</Text>
               </View>
@@ -206,7 +210,7 @@ function BuyModalRight(){
     </TouchableOpacity>
   </View>
 }
-function ShopInfo(){
+function ShopInfo({info}:any){
   const [focus,setFocus] = useState(false)
   function onFocus(){
     setFocus(!focus)
@@ -215,7 +219,7 @@ function ShopInfo(){
     <View style={{flexDirection:'row'}}>
       <View style={styles.shopIcon}/>
       <View>
-        <Text style={styles.shopName}>店铺名称</Text>
+        <Text style={styles.shopName}>{info?.name}</Text>
         <Text style={styles.shopDes}>1.5万+收藏</Text>
       </View>
     </View>
@@ -224,16 +228,15 @@ function ShopInfo(){
     </TouchableOpacity>
   </View>
 }
-function SwiperView(){
+function SwiperView({images,name}:{images:any[],name:any}){
   const [currentIndex,setCurrentIndex] = useState(0)
-  const data:any[] = [1,2,3,4,5,6]
   return <View style={styles.swiperView}>
     <Carousel
       loop
       width={SCREEN_WIDTH - 32}
       height={SCREEN_WIDTH + 20}
       // autoPlay={true}
-      data={data}
+      data={images}
       // scrollAnimationDuration={3000}
       onSnapToItem={(index) => setCurrentIndex(index)}
       // mode="parallax"
@@ -242,15 +245,19 @@ function SwiperView(){
       //   parallaxScrollingOffset: 40,
       // }}
       renderItem={({ item,index }) => (
-        <View style={styles.swiperTopView}>
-          <Text>{index}</Text>
-        </View>
+        <CachedImage
+        resizeMode='cover'
+        source={HTTPS.getImageUrl(item)}
+        style={styles.swiperTopView}
+        blurRadius={30}
+        loadingImageComponent={ImagePlaceholder}
+        />
       )}
       />
     <View style={styles.sliderView}>
-      <Text style={styles.sliderTitle}>{currentIndex + 1}/{data.length}</Text>
+      <Text style={styles.sliderTitle}>{currentIndex + 1}/{images.length}</Text>
     </View>
-    <Text style={styles.name}>服饰名字</Text>
+    <Text style={styles.name}>{name}</Text>
   </View>
 }
 function TDModalView(){

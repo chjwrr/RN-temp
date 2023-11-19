@@ -11,13 +11,14 @@ export const styles = StyleSheet.create({
         backgroundColor: "blue",
     },
     flowView:{
-        // width:'100%',
+        flex:1,
         height:260,
         backgroundColor:Colors.white,
         borderRadius:5,
         padding:8
     },
     flowLoadingView:{
+        flex:1,
       height:260,
       borderRadius:5,
       padding:8

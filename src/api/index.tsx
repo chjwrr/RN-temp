@@ -8,7 +8,8 @@ import {
   MY_USER_INFO,
   DESIGN_CIRCLE_CLOTH_LIST,
   DESIGN_CIRCLE_CLOTH_DETAIL,
-  MY_FOLLOWING
+  MY_FOLLOWING,
+  MERCHANT_CLOTH_DETAIL
  } from './API'
 import { PAGE_SIZE } from '@/utils'
 
@@ -70,6 +71,21 @@ export function useMyFollowing(){
     return info.my_following
   }
   return useQuery(["useMyFollowing", userInfo.token], fetchData, {
+    enabled:!!userInfo.token
+    // refetchInterval: config.refreshInterval,
+  })
+}
+
+export function useMerchantClothDetail(clothID:number | string){
+  const userInfo = useUserInfo()
+  async function fetchData(){
+    const info:any = await HTTPS.post(MERCHANT_CLOTH_DETAIL,{
+      "token":userInfo.token,
+      cloth_id:clothID
+    })
+    return info.merchant_cloth_detail
+  }
+  return useQuery(["useMerchantClothDetail", userInfo.token, clothID], fetchData, {
     enabled:!!userInfo.token
     // refetchInterval: config.refreshInterval,
   })

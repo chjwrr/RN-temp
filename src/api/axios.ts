@@ -15,7 +15,7 @@ const IMAGE_URL = HTTP_URL + 'yuanyi-media/'
 
 export function getImageUrl(media_id:string){
   if(!media_id){
-    return
+    return ''
   }
   if (media_id.includes('.')){
     return `${IMAGE_URL}${media_id}`

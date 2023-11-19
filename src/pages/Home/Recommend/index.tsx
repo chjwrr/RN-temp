@@ -6,6 +6,7 @@ import {
   View,
   Image,
   ActivityIndicator,
+  FlatList,
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
@@ -18,13 +19,15 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useUserInfo } from '@/redux/userInfo';
 import * as HTTPS from '@/api/axios'
 import { RECOMMEND_MERCHANT_CLOTH_LIST } from '@/api/API';
+import ImagePlaceholder from '@/components/ImagePlaceholder';
+import {CachedImage} from '@georstat/react-native-image-cache'
 
 
 const focus_n = require('@/assets/images/collect.png')
 
 
 function Recommend(props:any): JSX.Element {
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState(true);
   const [loading, setLoading] = useState(false);
   const [dataSource,setDataSource] = useState<any[]>([1,1,1,1])
   const isCanLoadMore = useRef(false)
@@ -40,7 +43,6 @@ function Recommend(props:any): JSX.Element {
       "limit":PAGE_SIZE,
       offset:currenPage * PAGE_SIZE
     }).then((result:any)=>{
-      console.log('result=',)
       if (currenPage == 0){
         setDataSource(result.recommend_merchant_cloth_list)
       }else {
@@ -63,10 +65,10 @@ function Recommend(props:any): JSX.Element {
 
 
 
-  function onPress(columnIndex:number){
+  function onPress(cloth_id:number){
     // @ts-ignore
     navigation.navigate('RecommendDetail',{
-      id:columnIndex
+      id:cloth_id
     })
   }
 
@@ -82,7 +84,7 @@ function Recommend(props:any): JSX.Element {
   }
 
   function onEndReached(){
-    if (loading || refreshing || isLoadEnd){
+    if (loading || refreshing || isLoadEnd || !isCanLoadMore.current){
       return
     }
     console.log('loading more')
@@ -91,17 +93,18 @@ function Recommend(props:any): JSX.Element {
 
   console.log('当前数据条数=',dataSource.length)
   return (
-    <View style={{flex:1}}>
-      <WaterfallFlow
+      <FlatList
         showsVerticalScrollIndicator={false}
         data={dataSource}
+        columnWrapperStyle={{justifyContent:'space-between'}}
         numColumns={2}
-        renderItem={({ item, index, columnIndex })=>{
-          return item == 1 ? <FadeLoading
+        renderItem={({ item, index })=>{
+          return <View style={{flex:1}}>
+            { item == 1 ? <FadeLoading
           style={[styles.flowLoadingView,{
             marginVertical:2,
-            marginRight:columnIndex == 0 ? 2 : 0,
-            marginLeft:columnIndex == 0 ? 0 : 2,
+            marginRight:index % 2 == 0 ? 2 : 0,
+            marginLeft:index % 2 == 0 ? 0 : 2,
           }]}
           children={''}
           primaryColor={'#a6abe2'}
@@ -109,13 +112,19 @@ function Recommend(props:any): JSX.Element {
           duration={0}
           visible={true}
           animated={true}
-        />: <TouchableOpacity onPress={()=>onPress(columnIndex)} style={[styles.flowView,{
+        /> : <TouchableOpacity onPressIn={()=>onPress(item.cloth_id)} style={[styles.flowView,{
             marginVertical:2,
-            marginRight:columnIndex == 0 ? 2 : 0,
-            marginLeft:columnIndex == 0 ? 0 : 2
+            marginRight:index % 2 == 0 ? 2 : 0,
+            marginLeft:index % 2 == 0 ? 0 : 2,
           }]}>
-            <View style={styles.flowViewIcon}/>
-            <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>服饰的名称</Text>
+            <CachedImage
+              resizeMode='cover'
+              source={HTTPS.getImageUrl(item.image)}
+              style={styles.flowViewIcon}
+              blurRadius={30}
+              loadingImageComponent={ImagePlaceholder}
+              />
+            <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.name}</Text>
             <View style={styles.flowViewSubView}>
               <View style={{flexDirection:'row'}}>
                 <View style={styles.flowIcon}/>
@@ -126,8 +135,10 @@ function Recommend(props:any): JSX.Element {
               </TouchableOpacity>
             </View>
           </TouchableOpacity>
+          }
+          </View>
         }}
-        style={{ flex: 1 }}
+        style={{ flex: 1,width:SCREEN_WIDTH - 32 }}
         ListHeaderComponent={<View style={{flex:1}}>
           <Carousel
           loop
@@ -175,14 +186,16 @@ function Recommend(props:any): JSX.Element {
           }
         }}
         onContentSizeChange={() => {
-          isCanLoadMore.current = true;
+          setTimeout(() => {
+            isCanLoadMore.current = true;
+
+          }, 1000);
         }}
         onEndReachedThreshold={0.01}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[Colors.main]}/>
         }
       />
-    </View>
   );
 }
 

@@ -6,6 +6,7 @@ import {
   View,
   Image,
   ActivityIndicator,
+  FlatList,
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
@@ -88,16 +89,17 @@ function Show(props:any): JSX.Element {
   return (
     <View style={{flex:1}}>
 
-    <WaterfallFlow
+    <FlatList
       showsVerticalScrollIndicator={false}
       data={dataSource}
       numColumns={2}
-      renderItem={({ item, index, columnIndex })=>{
+      columnWrapperStyle={{justifyContent:'space-between'}}
+      renderItem={({ item, index })=>{
         return item == 1 ? <FadeLoading
         style={[styles.flowLoadingView,{
           marginVertical:2,
-          marginRight:columnIndex == 0 ? 2 : 0,
-          marginLeft:columnIndex == 0 ? 0 : 2
+          marginRight:index % 2 == 0 ? 2 : 0,
+          marginLeft:index % 2 == 0 ? 0 : 2
         }]}
         children={''}
         primaryColor={'#a6abe2'}
@@ -105,10 +107,10 @@ function Show(props:any): JSX.Element {
         duration={0}
         visible={true}
         animated={true}
-      />: <TouchableOpacity onPress={()=>onPress(columnIndex)} style={[styles.flowView,{
+      />: <TouchableOpacity onPressIn={()=>onPress(index)} style={[styles.flowView,{
           marginVertical:2,
-          marginRight:columnIndex == 0 ? 2 : 0,
-          marginLeft:columnIndex == 0 ? 0 : 2
+          marginRight:index % 2 == 0 ? 2 : 0,
+          marginLeft:index % 2 == 0 ? 0 : 2
         }]}>
           <View style={styles.flowViewIcon}/>
           <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>标题</Text>
@@ -123,7 +125,7 @@ function Show(props:any): JSX.Element {
           </View>
         </TouchableOpacity>
       }}
-      style={{ flex: 1 }}
+      style={{ flex: 1, width:SCREEN_WIDTH - 32 }}
       ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
         <Text style={styles.loadMoreTitle}>加载更多...</Text>
         <ActivityIndicator size="small" color={Colors.main} />

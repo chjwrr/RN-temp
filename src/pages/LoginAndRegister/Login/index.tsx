@@ -19,6 +19,7 @@ import { useDispatch } from 'react-redux';
 import { saveUserInfo } from '@/redux/userInfo';
 import CustomTextInput from '@/components/CustomTextInput';
 import { USER_LOGIN } from '@/api/API';
+import { showMessage } from 'react-native-flash-message';
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -74,6 +75,10 @@ function Login(props:any): JSX.Element {
       return
     }
     if (!isAgree){
+      showMessage({
+        message: "请阅读并同意衣互 用户协议 和 隐私政策",
+        type: "info",
+      });
       return
     }
 

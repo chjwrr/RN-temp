@@ -45,6 +45,15 @@ export const styles = StyleSheet.create({
     width:16,
     height:16
   },
+  back1Icon:{
+    width:30,
+    height:30,
+    justifyContent:'center',
+    position:'absolute',
+    zIndex:5,
+    top:16,
+    left:16,
+  },
   collectIcon:{
     width:18,
     height:16
@@ -167,6 +176,161 @@ export const styles = StyleSheet.create({
   webView:{
     width:SCREEN_WIDTH - 32,
     height:400,
-    marginHorizontal:16
+    marginHorizontal:16,
+    marginTop:24
+  },
+  showBuyView:{
+    height:300,
+    backgroundColor:Colors.white,
+    flex:1,
+    position:'absolute',
+    bottom:-300,
+    left:0,
+    right:0,
+    zIndex:6,
+    padding:16
+  },
+  bgModal:{
+    position:'absolute',
+    zIndex:4,
+    top:0,
+    left:0,
+    right:0,
+    bottom:0,
+    backgroundColor:'rgba(0,0,0,0.4)',
+  },
+  buytitle:{
+    fontSize:16,
+    color:Colors.assist,
+    textAlign:'center'
+  },
+  topbg:{
+    width:SCREEN_WIDTH - 32,
+    height:(SCREEN_WIDTH - 32) * 510 / 375,
+    alignItems:'center',
+    justifyContent:'flex-end',
+  },
+  topItemImage:{
+    width:225 * (SCREEN_WIDTH - 32) / 375,
+    height:225 * (SCREEN_WIDTH - 32) / 375  * 298 / 225,
+    borderRadius:6,
+    borderWidth:1,
+    borderColor:'#6067FE'
+  },
+  priceView:{
+    flexDirection:'row',
+    alignItems:'flex-end',
+    justifyContent:'center',
+    marginBottom:'18%'
+  },
+  priceuni:{
+    fontSize:20,
+    color:Colors.white,
+  },
+  price:{
+    fontSize:40,
+    color:Colors.white,
+    marginBottom:-5
+  },
+  infoView:{
+    width:SCREEN_WIDTH - 32,
+    padding:12,
+    height: 88,
+    borderRadius: 8,
+    backgroundColor: 'rgba(109, 105, 250, 0.2)',
+    borderWidth: 1,
+    borderColor:'rgba(204, 204, 204, 1)',
+    marginTop:24 
+  },
+  name:{
+    fontSize:18,
+    fontWeight:'600',
+    marginBottom:12,
+    color:Colors.white,
+    marginTop:10
+  },
+  avatarsmal:{
+    width:18,
+    height:18,
+    marginRight:6,
+    borderRadius:9,
+    backgroundColor:'red'
+  },
+  avatarName:{
+    fontSize:10,
+    color:Colors.white,
+  },
+  limmitbg:{
+    width:81,
+    height:18,
+    justifyContent:'center',
+    alignItems:'center',
+    position:'absolute',
+    left:-1,
+    top:-9
+  },
+  limmittitle:{
+    fontSize:10,
+    color:Colors.white,
+  },
+  line:{
+    width:SCREEN_WIDTH - 32,
+    height:1,
+    backgroundColor:Colors.bright_2,
+    marginVertical:24
+  },
+  payView:{
+    paddingHorizontal:36
+  },
+  payImage:{
+    width:24,
+    height:24,
+    borderRadius:4,
+    backgroundColor:'red',
+    marginRight:10
+  },
+  checkicon:{
+    width:20,
+    height:20
+  },
+  payButtonVie:{
+    width:SCREEN_WIDTH - 32,
+    height:50,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    marginTop:5
+  },
+  payName:{
+    fontSize:14,
+    color:Colors.black
+  },
+  payButton:{
+    width:210,
+    height:42,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  payButtonTitle:{
+    fontSize:20,
+    color:Colors.white
+  },
+  payUnit:{
+    fontSize:20,
+    color:Colors.black,
+    marginRight:6
+  },
+  payPrice:{
+    fontSize:40,
+    color:Colors.black,
+    fontWeight:'600',
+    marginBottom:-5
+  },
+  payButtonVietop:{
+    height:10,
+    marginTop:50,
+    width:SCREEN_WIDTH,
+    marginLeft:-16
   }
+
 });

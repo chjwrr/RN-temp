@@ -6,7 +6,6 @@ import {
   Animated,
   Platform,
   ImageBackground,
-  RefreshControl,
   Text,
   Image,
   SafeAreaView,
@@ -14,7 +13,7 @@ import {
 } from 'react-native';
 import {styles} from './styles'
 import Share from 'react-native-share';
-
+import { WebView } from 'react-native-webview';
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel from 'react-native-reanimated-carousel';
 import { PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
@@ -49,6 +48,11 @@ function Ticket(props:any): JSX.Element {
   function onBack(){
     props.navigation.goBack()
   }
+  function onBuy(){
+    
+    props.navigation.navigate('TicketBannerDetailList')
+
+  }
   function onCollect(){
 
   }
@@ -68,7 +72,9 @@ function Ticket(props:any): JSX.Element {
   }
   return (
     <View style={styles.main}>
+      <Image style={styles.topImage} source={ticket_pro_ban_1}/>
       <LinearGradient colors={['#000', 'transparent']} style={styles.topOp}/>
+      <LinearGradient colors={['transparent','#000']} style={styles.bottomOp}/>
       <Animated.View style={[styles.navigationView,{
         backgroundColor:scrollY.interpolate({
           inputRange: [0,88],
@@ -87,11 +93,9 @@ function Ticket(props:any): JSX.Element {
           </TouchableOpacity>
         </View>
       </Animated.View>
-      <SafeAreaView style={{flex:1}}>
-        <ScrollView contentContainerStyle={{flex:1}}>
-          <Image style={styles.topImage} source={ticket_pro_ban_1}/>
-          <LinearGradient colors={['transparent','#000']} style={styles.bottomOp}/>
-
+      {/* <SafeAreaView style={{flex:1}}> */}
+      
+        <ScrollView contentContainerStyle={{flexGrow:1}}>
           <View style={styles.downContent}>
             <View style={styles.avatatView}>
               <Image source={ticketavatar} style={styles.avatar}/>
@@ -123,17 +127,21 @@ function Ticket(props:any): JSX.Element {
                 项目介绍项目介绍项目介绍项目介绍项目介绍项目介绍项目介绍项目介绍项目介绍项目介绍项目介绍项目介绍
               </Text>
               <Text style={styles.time}>2023-11-15</Text>
-              <TouchableOpacity style={{flexDirection:'row',justifyContent:'center',width:'100%'}}>
-                <ImageBackground style={styles.tabButtonBg} source={tabButtonBg}>
-                  <Text style={styles.buy}>点击购买</Text>
-                  <Image source={downbg} style={styles.buyicon}/>
-                </ImageBackground>
-              </TouchableOpacity>
             </View>
           </View>
-
+          <WebView
+          source={{uri:'https://www.baidu.com'}}
+          style={styles.webView}
+        />
         </ScrollView>
-      </SafeAreaView>
+
+        <TouchableOpacity style={styles.buyBtn} onPressIn={onBuy}>
+          <ImageBackground style={styles.tabButtonBg} source={tabButtonBg}>
+            <Text style={styles.buy}>点击购买</Text>
+            <Image source={downbg} style={styles.buyicon}/>
+          </ImageBackground>
+        </TouchableOpacity>
+      {/* </SafeAreaView> */}
     </View>
   );
 }

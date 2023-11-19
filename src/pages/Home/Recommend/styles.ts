@@ -1,3 +1,4 @@
+import { SCREEN_WIDTH } from '@/utils';
 import Colors from '@/utils/colors';
 import {
     StyleSheet,
@@ -5,28 +6,25 @@ import {
   
 export const styles = StyleSheet.create({
     swiperView:{
-        width:'100%',
+        flex:1,
         height:160,
         borderRadius:8,
         backgroundColor: "blue",
     },
     flowView:{
-        // width:'100%',
+        flex:1,
         height:260,
         backgroundColor:Colors.white,
         borderRadius:5,
         padding:8
     },
     flowLoadingView:{
-      // width:'100%',
+      flex:1,
       height:260,
       borderRadius:5,
-      padding:8
     },
     flowViewIcon:{
         height:180,
-        width:'100%',
-        backgroundColor:'blue',
         borderRadius:8,
     },
     flowViewTitle:{
@@ -76,8 +74,9 @@ export const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         marginBottom:12,
-        flex:1,
+        // flex:1,
         paddingHorizontal:8,
+        width:SCREEN_WIDTH - 32
     },
     topItemSub:{
         flex:1,
