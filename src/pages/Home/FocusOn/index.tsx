@@ -20,11 +20,12 @@ import * as HTTPS from '@/api/axios'
 import { useUserInfo } from '@/redux/userInfo';
 import { FOLLOWING_ARTICLE_LIST } from '@/api/API';
 import { useMyFollowing } from '@/api';
-
+import ImagePlaceholder from '@/components/ImagePlaceholder';
+import {CachedImage} from '@georstat/react-native-image-cache'
 
 const ShareIcon = require('@/assets/images/share.png')
 
-function FocusOn(): JSX.Element {
+function FocusOn({navigation,jumpTo}:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
   const isCanLoadMore = useRef(false)
   const [loading, setLoading] = useState(false);
@@ -68,6 +69,7 @@ function FocusOn(): JSX.Element {
     if (loading || refreshing){
       return
     }
+    myFollowing.refetch()
     console.log('onRefresh')
     setRefreshing(true);
     setPage(0)
@@ -98,7 +100,7 @@ function FocusOn(): JSX.Element {
           duration={0}
           visible={true}
           animated={true}
-        /> : <RenderItem item={item} index={index}/> 
+        /> : <RenderItem item={item} index={index} navigation={navigation}/> 
       }}
       ListHeaderComponent={<View style={styles.scrollView}>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -144,11 +146,9 @@ function FocusOn(): JSX.Element {
 }
 
 // 顶部44 + 图片300 + 点20  + 标题20 + 内容30  = 414
-function RenderItem({item,index}:any){
-  const navigation = useNavigation()
+function RenderItem({item,index,navigation}:any){
 
   function onShowMore(){
-    //@ts-ignore
     navigation.navigate('ShowDetail',{
       id:index
     })
@@ -163,10 +163,10 @@ function RenderItem({item,index}:any){
         <Image style={styles.share} source={ShareIcon}/>
       </TouchableOpacity>
     </View>
-    <SwiperView/>
-    <Text style={styles.itemTitle} numberOfLines={1} ellipsizeMode='tail'>标题</Text>
+    <SwiperView images={item.images}/>
+    {/* <Text style={styles.itemTitle} numberOfLines={1} ellipsizeMode='tail'>标题</Text> */}
     <View style={styles.itemContent}>
-      <Text style={styles.iteemCCont} numberOfLines={1} ellipsizeMode='tail'>内容内容内容内容内容内容内容内容内容</Text>
+      <Text style={styles.iteemCCont} numberOfLines={1} ellipsizeMode='tail'>{item.content}</Text>
       <TouchableOpacity onPressIn={onShowMore}>
         <Text style={styles.itemShowMore}>查看全文</Text>
       </TouchableOpacity>
@@ -174,9 +174,8 @@ function RenderItem({item,index}:any){
   </View>
 }
 
-function SwiperView(){
+function SwiperView({images}:any){
   const [currentIndex,setCurrentIndex] = useState(0)
-  const data:any[] = [1,2,3,4,5,6]
   return <View style={styles.itemScrollView}>
     <View style={{height:300,width:'100%'}}>
       <ScrollView 
@@ -189,17 +188,21 @@ function SwiperView(){
         }}
       >
         {
-          data.map((item:any,index:number)=>{
-          return <View style={styles.swiperTopView} key={index+'scrollitem'}>
-              <Text>{index}</Text>
-            </View>
+          images.map((item:any,index:number)=>{
+          return <CachedImage
+            resizeMode='cover'
+            source={HTTPS.getImageUrl(item)}
+            style={styles.swiperTopView}
+            blurRadius={30}
+            loadingImageComponent={ImagePlaceholder}
+            />
           })
         }
       </ScrollView>
     </View>
     <View style={styles.itemScrollPointView}>
         {
-          data.map((item:any,index:number)=>{
+          images.map((item:any,index:number)=>{
             return <View style={[styles.scrollPointerView,{
               backgroundColor:currentIndex == index ? Colors.buttonMain : '#CCCCCC'
             }]} key={index+'scrollPointer'}/>

@@ -21,17 +21,17 @@ import * as HTTPS from '@/api/axios'
 import { RECOMMEND_MERCHANT_CLOTH_LIST } from '@/api/API';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
+import { useHomeBanner } from '@/api';
 
 
-const focus_n = require('@/assets/images/collect.png')
+const focus_n = require('@/assets/images/unxingxing.png')
 
 
-function Recommend(props:any): JSX.Element {
+function Recommend({navigation,jumpTo}:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(true);
   const [loading, setLoading] = useState(false);
   const [dataSource,setDataSource] = useState<any[]>([1,1,1,1])
   const isCanLoadMore = useRef(false)
-  const navigation = useNavigation()
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const userInfo = useUserInfo()
@@ -66,7 +66,6 @@ function Recommend(props:any): JSX.Element {
 
 
   function onPress(cloth_id:number){
-    // @ts-ignore
     navigation.navigate('RecommendDetail',{
       id:cloth_id
     })
@@ -127,8 +126,14 @@ function Recommend(props:any): JSX.Element {
             <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.name}</Text>
             <View style={styles.flowViewSubView}>
               <View style={{flexDirection:'row'}}>
-                <View style={styles.flowIcon}/>
-                <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>淘宝旗舰店</Text>
+                <CachedImage
+                  resizeMode='cover'
+                  source={HTTPS.getImageUrl(item.merchant.logo)}
+                  style={styles.flowIcon}
+                  blurRadius={30}
+                  loadingImageComponent={ImagePlaceholder}
+                  />
+                <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>{item.merchant.name}</Text>
               </View>
               <TouchableOpacity style={styles.focusButton}>
                 <Image style={styles.flowFocus} source={focus_n}/>
@@ -139,39 +144,7 @@ function Recommend(props:any): JSX.Element {
           </View>
         }}
         style={{ flex: 1,width:SCREEN_WIDTH - 32 }}
-        ListHeaderComponent={<View style={{flex:1}}>
-          <Carousel
-          loop
-          width={SCREEN_WIDTH - 32}
-          height={160}
-          autoPlay={true}
-          data={dataSource}
-          scrollAnimationDuration={3000}
-          onSnapToItem={(index) => {}}
-          mode="parallax"
-          modeConfig={{
-            parallaxScrollingScale: 0.9,
-            parallaxScrollingOffset: 40,
-          }}
-          renderItem={({ item,index }) => (
-            <View style={styles.swiperView}>
-              <Text>{index}</Text>
-            </View>
-          )}
-          />
-          <Text style={styles.topTitle}>穿越不同朝代</Text>
-          <View style={styles.topItem}>
-            <TouchableOpacity containerStyle={styles.topItemSub}>
-              <Text style={styles.topItemName}>唐</Text>
-            </TouchableOpacity>
-            <TouchableOpacity containerStyle={[styles.topItemSub,styles.topItemSubSpa]}>
-              <Text style={styles.topItemName}>宋</Text>
-            </TouchableOpacity>
-            <TouchableOpacity containerStyle={styles.topItemSub}>
-              <Text style={styles.topItemName}>元</Text>
-            </TouchableOpacity>
-          </View>
-        </View>}
+        ListHeaderComponent={<HomeBanner/>}
         ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
           <Text style={styles.loadMoreTitle}>加载更多...</Text>
           <ActivityIndicator size="small" color={Colors.main} />
@@ -199,4 +172,44 @@ function Recommend(props:any): JSX.Element {
   );
 }
 
+function HomeBanner(){
+  const bannerInfo = useHomeBanner()
+  return <View style={{flex:1}}>
+    <Carousel
+    loop
+    width={SCREEN_WIDTH - 32}
+    height={160}
+    autoPlay={true}
+    data={bannerInfo.data}
+    scrollAnimationDuration={3000}
+    onSnapToItem={(index) => {}}
+    mode="parallax"
+    modeConfig={{
+      parallaxScrollingScale: 0.9,
+      parallaxScrollingOffset: 40,
+    }}
+    renderItem={({ item,index }:any) => (
+      <CachedImage
+        resizeMode='contain'
+        source={HTTPS.getImageUrl(item.image)}
+        style={styles.flowViewIcon}
+        blurRadius={30}
+        loadingImageComponent={ImagePlaceholder}
+        />
+    )}
+    />
+    <Text style={styles.topTitle}>穿越不同朝代</Text>
+    <View style={styles.topItem}>
+      <TouchableOpacity containerStyle={styles.topItemSub}>
+        <Text style={styles.topItemName}>唐</Text>
+      </TouchableOpacity>
+      <TouchableOpacity containerStyle={[styles.topItemSub,styles.topItemSubSpa]}>
+        <Text style={styles.topItemName}>宋</Text>
+      </TouchableOpacity>
+      <TouchableOpacity containerStyle={styles.topItemSub}>
+        <Text style={styles.topItemName}>元</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+}
 export default Recommend;

@@ -25,7 +25,7 @@ import * as HTTPS from '@/api/axios'
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
-const CollectIcon = require('@/assets/images/collectICON.png')
+const CollectIcon = require('@/assets/images/unxingxing.png')
 const shareIcon = require('@/assets/images/share.png')
 const downbgIcon = require('@/assets/images/downbg.png')
 const hdIcon = require('@/assets/images/hd.png')
@@ -219,7 +219,7 @@ function ShopInfo({info}:any){
     <View style={{flexDirection:'row'}}>
       <View style={styles.shopIcon}/>
       <View>
-        <Text style={styles.shopName}>{info?.name}</Text>
+        <Text style={styles.shopName}>商家名称</Text>
         <Text style={styles.shopDes}>1.5万+收藏</Text>
       </View>
     </View>

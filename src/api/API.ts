@@ -31,9 +31,6 @@ export const MY_ARTICLE_LIST = 'my_article_list'
 // 读文章评论列表（分页）
 export const ARTICLE_COMMENT_LIST = 'article_comment_list'
 
-//读我关注的人的文章列表（分页）
-export const FOLLOWING_ARTICLE_LIST = 'following_article_list'
-
 //文章评论
 export const ARTICLE_COMMENT = 'article_comment'
 
@@ -156,3 +153,17 @@ export const CURRENNT_TIME = 'current_time'
 
 // 首页推荐
 export const RECOMMEND_MERCHANT_CLOTH_LIST = 'recommend_merchant_cloth_list'
+
+// 首页banner
+export const HOME_BANNER = 'home_banner'
+
+// 票banner
+export const TICKET_BANNER = 'ticket_banner'
+
+// 首页秀场
+export const ARTICLE_LIST = 'article_list'
+
+// 首页关注
+export const FOLLOWING_ARTICLE_LIST = 'following_article_list'
+
+

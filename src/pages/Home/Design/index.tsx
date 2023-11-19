@@ -22,11 +22,10 @@ import { useUserInfo } from '@/redux/userInfo';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 
-function Design(props:any): JSX.Element {
+function Design({navigation,jumpTo}:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
   const isCanLoadMore = useRef(false)
   const [loading, setLoading] = useState(false);
-  const navigation = useNavigation()
   const [dataSource,setDataSource] = useState<any[]>([1,1,1,1])
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)

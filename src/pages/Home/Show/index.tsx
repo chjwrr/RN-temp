@@ -16,14 +16,17 @@ import WaterfallFlow from 'react-native-waterfall-flow'
 import Colors from '@/utils/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useUserInfo } from '@/redux/userInfo';
-import { FOLLOWING_ARTICLE_LIST } from '@/api/API';
+import { ARTICLE_LIKE, ARTICLE_LIST, FOLLOWING_ARTICLE_LIST } from '@/api/API';
 import * as HTTPS from '@/api/axios'
+import ImagePlaceholder from '@/components/ImagePlaceholder';
+import {CachedImage} from '@georstat/react-native-image-cache'
 
 
-const focus_n = require('@/assets/images/collect.png')
+const unlike = require('@/assets/images/unlike.png')
+const like = require('@/assets/images/like.png')
 
 
-function Show(props:any): JSX.Element {
+function Show({navigation,jumpTo}:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
   const isCanLoadMore = useRef(false)
   const [loading, setLoading] = useState(false);
@@ -34,18 +37,17 @@ function Show(props:any): JSX.Element {
 
   async function getData(currenPage:number){
     setLoading(true)
-    HTTPS.post(FOLLOWING_ARTICLE_LIST,{
+    HTTPS.post(ARTICLE_LIST,{
       "token":userInfo.token,
       "limit":PAGE_SIZE,
       offset:currenPage * PAGE_SIZE
     }).then((result:any)=>{
-      console.log('result=',)
       if (currenPage == 0){
-        setDataSource(result.following_article_list)
+        setDataSource(result.article_list)
       }else {
-        setDataSource([...dataSource,...result.following_article_list])
+        setDataSource([...dataSource,...result.article_list])
       }
-      if (result.following_article_list.length < PAGE_SIZE){
+      if (result.article_list.length < PAGE_SIZE){
         setIsLoadEnd(true)
       }else {
         setIsLoadEnd(false)
@@ -80,11 +82,7 @@ function Show(props:any): JSX.Element {
 
 
 
-  function onPress(columnIndex:number){
-    props.navigation.navigate('ShowDetail',{
-      id:columnIndex
-    })
-  }
+
 
   return (
     <View style={{flex:1}}>
@@ -95,7 +93,8 @@ function Show(props:any): JSX.Element {
       numColumns={2}
       columnWrapperStyle={{justifyContent:'space-between'}}
       renderItem={({ item, index })=>{
-        return item == 1 ? <FadeLoading
+        return  <View style={{flex:1}}>
+          {item == 1 ? <FadeLoading
         style={[styles.flowLoadingView,{
           marginVertical:2,
           marginRight:index % 2 == 0 ? 2 : 0,
@@ -107,23 +106,8 @@ function Show(props:any): JSX.Element {
         duration={0}
         visible={true}
         animated={true}
-      />: <TouchableOpacity onPressIn={()=>onPress(index)} style={[styles.flowView,{
-          marginVertical:2,
-          marginRight:index % 2 == 0 ? 2 : 0,
-          marginLeft:index % 2 == 0 ? 0 : 2
-        }]}>
-          <View style={styles.flowViewIcon}/>
-          <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>标题</Text>
-          <View style={styles.flowViewSubView}>
-            <View style={{flexDirection:'row'}}>
-              <View style={styles.flowIcon}/>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>内容</Text>
-            </View>
-            <TouchableOpacity style={styles.focusButton}>
-              <Image style={styles.flowFocus} source={focus_n}/>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
+      />: <RenderItem item={item} index={index} navigation={navigation}/>}
+        </View>
       }}
       style={{ flex: 1, width:SCREEN_WIDTH - 32 }}
       ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
@@ -150,5 +134,46 @@ function Show(props:any): JSX.Element {
     </View>
   );
 }
+function RenderItem({item,index,navigation}:any){
+  const userInfo = useUserInfo()
+  function onPress(){
+    navigation.navigate('ShowDetail',{
+      id:item.article_id,
+      uid:item.uid
+    })
+  }
+  function onLike(){
+    HTTPS.post(ARTICLE_LIKE,{
+      "token":userInfo.token,
+      article_id:item.article_id
+    }).then((result:any)=>{
+    }).finally(()=>{
+    })
 
+
+  }
+  return <TouchableOpacity onPressIn={onPress} style={[styles.flowView,{
+    marginVertical:2,
+    marginRight:index % 2 == 0 ? 2 : 0,
+    marginLeft:index % 2 == 0 ? 0 : 2
+  }]}>
+    <CachedImage
+      resizeMode='cover'
+      source={(item.images && item.images.length > 0) ? HTTPS.getImageUrl(item.images[0]) : ''}
+      style={styles.flowViewIcon}
+      blurRadius={30}
+      loadingImageComponent={ImagePlaceholder}
+      />
+    <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.content}</Text>
+    <View style={styles.flowViewSubView}>
+      <View style={{flexDirection:'row'}}>
+        <View style={styles.flowIcon}/>
+        <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>名字</Text>
+      </View>
+      <TouchableOpacity style={styles.focusButton} onPressIn={onLike}>
+        <Image style={styles.flowFocus} source={unlike}/>
+      </TouchableOpacity>
+    </View>
+  </TouchableOpacity>
+}
 export default Show;

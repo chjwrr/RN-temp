@@ -1,5 +1,5 @@
 
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import {
   SafeAreaView,
   ImageBackground,
@@ -21,13 +21,6 @@ import FocusOnScreen from './FocusOn'
 const BGImage = require('@/assets/images/homebg.png')
 const AccountImage = require('@/assets/images/account.png')
 const SearchImage = require('@/assets/images/search.png')
-
-const renderScene = SceneMap({
-  Recommend: RecommendScreen,
-  Design: DesignScreen,
-  Show: ShowScreen,
-  FocusOn: FocusOnScreen,
-});
 
 function Home({navigation}:any): JSX.Element {
 
@@ -51,6 +44,19 @@ function Home({navigation}:any): JSX.Element {
     { key: 'Show', title: 'Show' },
     { key: 'FocusOn', title: 'FocusOn' },
   ]
+
+  const renderScene = useCallback(({ route, jumpTo }:any) => {
+    switch (route.key) {
+      case 'Recommend':
+        return <RecommendScreen navigation={navigation} jumpTo={jumpTo}/>
+      case 'Design':
+        return <DesignScreen navigation={navigation} jumpTo={jumpTo} />;
+      case 'Show':
+        return <ShowScreen navigation={navigation} jumpTo={jumpTo} />;
+      case 'FocusOn':
+        return <FocusOnScreen navigation={navigation} jumpTo={jumpTo} />;
+    }
+  },[])
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <View style={{

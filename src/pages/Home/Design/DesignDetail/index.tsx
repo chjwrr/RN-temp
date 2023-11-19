@@ -20,7 +20,7 @@ import { useDesignCircleClothDetail } from '@/api';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
-const CollectIcon = require('@/assets/images/collectICON.png')
+const CollectIcon = require('@/assets/images/unxingxing.png')
 const shareIcon = require('@/assets/images/share.png')
 const downbgIcon = require('@/assets/images/downbg.png')
 const hdIcon = require('@/assets/images/hd.png')

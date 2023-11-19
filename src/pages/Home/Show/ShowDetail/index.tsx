@@ -1,5 +1,5 @@
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   SafeAreaView,
   Text,
@@ -27,22 +27,30 @@ import * as _ from 'lodash'
 import Colors from '@/utils/colors';
 import * as Animatable from 'react-native-animatable';
 import CustomTextInput from '@/components/CustomTextInput';
+import { useAaticleDetail, useMyFollowing } from '@/api';
+import { useUserInfo } from '@/redux/userInfo';
+import * as HTTPS from '@/api/axios'
+import { SNS_FOLLOW, SNS_UNFOLLOW } from '@/api/API';
+import ImagePlaceholder from '@/components/ImagePlaceholder';
+import {CachedImage} from '@georstat/react-native-image-cache'
+import { formatTime } from '@/utils/common';
+
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
 const shareIcon = require('@/assets/images/share.png')
 const accountIcon = require('@/assets/images/account.png')
-const collectIcon = require('@/assets/images/collect.png')
+const collectIcon = require('@/assets/images/unlike.png')
 const comiconIcon = require('@/assets/images/comicon.png')
 const stariconIcon = require('@/assets/images/staricon.png')
 const comicontIcon = require('@/assets/images/comicont.png')
-const likeiconIcon = require('@/assets/images/likeicon.png')
+const likeiconIcon = require('@/assets/images/like.png')
 
 
 
 function RecommendDetail(props:any): JSX.Element {
-  const id = props.route.params.id
   const scrollY = useRef(new Animated.Value(0)).current;
+  const detailInfo = useAaticleDetail(props.route.params.id)
   function onBack(){
     props.navigation.goBack()
   }
@@ -101,7 +109,7 @@ function RecommendDetail(props:any): JSX.Element {
               <Text style={styles.accountTitle} numberOfLines={1} ellipsizeMode='tail'>用户名字用户名字用户名字用户名字用户名字</Text>
             </View>
             <View style={{flexDirection:"row",alignItems:'center'}}>
-              <FocusButton/>
+              <FocusButton uid={props.route.params.uid}/>
               <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
                 <Image style={styles.backIcon} source={shareIcon}/>
               </TouchableOpacity>
@@ -111,20 +119,20 @@ function RecommendDetail(props:any): JSX.Element {
             keyboardDismissMode='on-drag'
             contentContainerStyle={styles.contentContainerStyle}
             showsVerticalScrollIndicator={false}
-            data={[1,2,3,4,5,6,7]}
+            data={detailInfo.data?.comment_list}
             numColumns={1}
             renderItem={({ item, index })=>{
               return <CommonItem item={item} index={index}/>
             }}
             style={{ flex: 1 }}
             ListHeaderComponent={<View style={{flex:1}}>
-              <SwiperView/>
-              <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'>标题</Text>
-              <Text style={styles.des}>内容</Text>
+              <SwiperView images={detailInfo.data?.images}/>
+              {/* <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'>标题</Text> */}
+              <Text style={styles.des}>{detailInfo.data?.content}</Text>
               <View style={styles.line}/>
               <View style={styles.commonTitleVieew}>
                 <Text style={styles.commonTitle}>共</Text>
-                <Text style={styles.commonTitleMain}>16</Text>
+                <Text style={styles.commonTitleMain}>{detailInfo.data?.comment_list?.length}</Text>
                 <Text style={styles.commonTitle}>条评论</Text>
               </View>
             </View>}
@@ -273,14 +281,15 @@ function DownInfo(){
   </View>
 }
 function CommonItem({item,index}:any){
+  console.log('item',item)
   return <View style={styles.comMain}>
     <View style={styles.comView}>
       <View style={styles.avatar}/>
       <View style={styles.comContent}>
         <Text style={styles.comName} numberOfLines={1} ellipsizeMode='tail'>昵称</Text>
-        <Text style={styles.comContentDes}>评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容</Text>
+        <Text style={styles.comContentDes}>{item.content}</Text>
         <View style={styles.comRelayButton}>
-          <Text style={styles.comDay}>6天前</Text>
+          <Text style={styles.comDay}>{formatTime(item.created_at)}</Text>
           <TouchableOpacity>
             <Text style={styles.comReplay}>回复</Text>
           </TouchableOpacity>
@@ -296,25 +305,59 @@ function CommonItem({item,index}:any){
     <View style={styles.comLine}/>
   </View>
 }
-function FocusButton(){
+function FocusButton({uid}:{uid:string}){
+  const userInfo = useUserInfo()
+  const myFollowing = useMyFollowing()
   const [focus,setFocus] = useState(false)
+  const [isLoading,setIsLoading] = useState(false)
+
+  useEffect(()=>{
+    if (myFollowing.data){
+      if (myFollowing.data.indexOf(uid) > -1){
+        setFocus(true)
+      }
+    }
+  },[myFollowing.isLoading])
+
+
   function onFocus(){
-    setFocus(!focus)
+    if (isLoading){
+      return
+    }
+    setIsLoading(true)
+    if (focus){
+      HTTPS.post(SNS_UNFOLLOW,{
+        "token":userInfo.token,
+        "to_uid":uid,
+      }).then((result:any)=>{
+        setFocus(!focus)
+      }).finally(()=>{
+        setIsLoading(false)
+      })
+    }else {
+      HTTPS.post(SNS_FOLLOW,{
+        "token":userInfo.token,
+        "to_uid":uid,
+      }).then((result:any)=>{
+        setFocus(!focus)
+      }).finally(()=>{
+        setIsLoading(false)
+      })
+    }
   }
   return <TouchableOpacity style={[styles.focusButton,focus && styles.focusButtoned]} onPressIn={onFocus}>
     <Text style={[styles.focusTitle,focus && styles.focusTitleed]}>{focus ? '已关注' : '关注'}</Text>
   </TouchableOpacity>
 }
-function SwiperView(){
+function SwiperView({images}:any){
   const [currentIndex,setCurrentIndex] = useState(0)
-  const data:any[] = [1,2,3,4,5,6]
   return <View style={styles.swiperView}>
     <Carousel
       loop
       width={SCREEN_WIDTH - 32}
       height={500}
       // autoPlay={true}
-      data={data}
+      data={images}
       // scrollAnimationDuration={3000}
       onSnapToItem={(index) => setCurrentIndex(index)}
       // mode="parallax"
@@ -322,14 +365,18 @@ function SwiperView(){
       //   parallaxScrollingScale: 0.9,
       //   parallaxScrollingOffset: 40,
       // }}
-      renderItem={({ item,index }) => (
-        <View style={styles.swiperTopView}>
-          <Text>{index}</Text>
-        </View>
+      renderItem={({ item,index }:any) => (
+        <CachedImage
+          resizeMode='cover'
+          source={HTTPS.getImageUrl(item)}
+          style={styles.swiperTopView}
+          blurRadius={30}
+          loadingImageComponent={ImagePlaceholder}
+          />
       )}
       />
     <View style={styles.sliderView}>
-      <Text style={styles.sliderTitle}>{currentIndex + 1}/{data.length}</Text>
+      <Text style={styles.sliderTitle}>{currentIndex + 1}/{images?.length}</Text>
     </View>
   </View>
 }

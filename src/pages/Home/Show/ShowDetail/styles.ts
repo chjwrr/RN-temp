@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
     width:'100%',
     height:'100%',
     borderRadius:8,
-    backgroundColor: "blue",
+    overflow:'hidden'
   },
   sliderView:{
     backgroundColor:'rgba(109,105,250,0.2)',
@@ -258,7 +258,7 @@ export const styles = StyleSheet.create({
   comRelayButton:{
     marginTop:10,
     flexDirection:'row',
-    justifyContent:'flex-end'
+    justifyContent:'flex-end',
   },
   downView:{
     height:54,

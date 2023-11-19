@@ -25,7 +25,6 @@ export const styles = StyleSheet.create({
     },
     flowViewIcon:{
         height:180,
-        width:'100%',
         backgroundColor:'blue',
         borderRadius:8,
     },

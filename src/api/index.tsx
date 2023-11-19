@@ -9,7 +9,10 @@ import {
   DESIGN_CIRCLE_CLOTH_LIST,
   DESIGN_CIRCLE_CLOTH_DETAIL,
   MY_FOLLOWING,
-  MERCHANT_CLOTH_DETAIL
+  MERCHANT_CLOTH_DETAIL,
+  HOME_BANNER,
+  TICKET_BANNER,
+  ARTICLE_DETAIL
  } from './API'
 import { PAGE_SIZE } from '@/utils'
 
@@ -90,3 +93,44 @@ export function useMerchantClothDetail(clothID:number | string){
     // refetchInterval: config.refreshInterval,
   })
 }
+export function useHomeBanner(){
+  const userInfo = useUserInfo()
+  async function fetchData(){
+    const info:any = await HTTPS.post(HOME_BANNER,{
+      "token":userInfo.token,
+    })
+    return info.banner_list
+  }
+  return useQuery(["useHomeBanner", userInfo.token], fetchData, {
+    enabled:!!userInfo.token
+    // refetchInterval: config.refreshInterval,
+  })
+}
+export function useTicketBanner(){
+  const userInfo = useUserInfo()
+  async function fetchData(){
+    const info:any = await HTTPS.post(TICKET_BANNER,{
+      "token":userInfo.token,
+    })
+    return info.banner_list
+  }
+  return useQuery(["useTicketBanner", userInfo.token], fetchData, {
+    enabled:!!userInfo.token
+    // refetchInterval: config.refreshInterval,
+  })
+}
+export function useAaticleDetail(article_id:any){
+  const userInfo = useUserInfo()
+  async function fetchData(){
+    const info:any = await HTTPS.post(ARTICLE_DETAIL,{
+      "token":userInfo.token,
+      article_id
+    })
+    return info.article_detail
+  }
+  return useQuery(["useAaticleDetail", userInfo.token, article_id], fetchData, {
+    enabled:!!userInfo.token
+    // refetchInterval: config.refreshInterval,
+  })
+}
+

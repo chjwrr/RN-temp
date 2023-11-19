@@ -26,6 +26,7 @@ import { GET_MASTER_LIST, TICKET_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
+import { useTicketBanner } from '@/api';
 
 const centerBg = require('@/assets/images/ticket_downbg.png')
 const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
@@ -295,7 +296,7 @@ const centerItems:any[] = [
 ]
 function TopCarousel({navigation,jumpTo,tabState}:any){
   const [currentIndex,setCurrentIndex] = useState(0)
-  const datas:any[] = [1,2,3,4,5]
+  const bannerInfo = useTicketBanner()
   function onChangeType(key:string,index:number){
     if (key != 'Recommend'){
       tabState(true,index)
@@ -309,16 +310,22 @@ function TopCarousel({navigation,jumpTo,tabState}:any){
       autoPlay={true}
       width={SCREEN_WIDTH}
       height={SCREEN_WIDTH * 640 / 750}
-      data={datas}
+      data={bannerInfo.data}
       scrollAnimationDuration={3000}
       onSnapToItem={(index) => {setCurrentIndex(index)}}
-      renderItem={({ item,index }) => (
-        <Image style={{width:'100%',height:'100%'}} source={topbanner}/>
+      renderItem={({ item,index }:any) => (
+        <CachedImage
+          resizeMode='cover'
+          source={HTTPS.getImageUrl(item.merchant.logo)}
+          style={styles.flowIcon}
+          blurRadius={30}
+          loadingImageComponent={ImagePlaceholder}
+          />
       )}
       />
     <View style={styles.pointView}>
       {
-        datas.map((item:any,index:number)=>{
+        bannerInfo.data?.map((item:any,index:number)=>{
           return <View key={index+'tickban'} style={[styles.point,{
             backgroundColor:currentIndex == index ? Colors.buttonMain : '#CCCCCC'
           }]}/>

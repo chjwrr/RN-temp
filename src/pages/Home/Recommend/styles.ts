@@ -41,8 +41,8 @@ export const styles = StyleSheet.create({
         width:16,
         height:16,
         marginRight:8,
-        borderRadius:88,
-        backgroundColor:'blue',
+        borderRadius:8,
+        overflow:'hidden'
     },
     flowName:{
         fontSize:10,
