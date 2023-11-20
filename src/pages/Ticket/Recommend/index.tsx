@@ -185,7 +185,7 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
               <Text style={styles.centerTitle}>来自票友推荐</Text>
               {
                 bannerList.map((item:any,index:number)=>{
-                  return <TouchableOpacity key={index+'tickbanner'} onPressIn={()=>{
+                  return <TouchableOpacity key={index+'tickbanner'} onPress={()=>{
                     onBannerPress(item)
                   }}>
                     <Image style={styles.banner} source={item.banner}/>

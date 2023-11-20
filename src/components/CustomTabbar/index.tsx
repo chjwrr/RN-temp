@@ -4,12 +4,12 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity,
   StatusBar
 } from 'react-native';
 import {styles} from './styles'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import Colors from '@/utils/colors';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const tabbars:any[] = [
   {

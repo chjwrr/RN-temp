@@ -592,6 +592,12 @@ https://github.com/yorkzero831/react-native-super-pay
 
 
 
+https://github.com/little-snow-fox/react-native-wechat-lib
+
+https://github.com/Hector-Chong/native-wechat
+
+https://github.com/uiwjs/react-native-alipay
+
 
 
 
