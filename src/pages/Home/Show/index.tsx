@@ -152,7 +152,7 @@ function RenderItem({item,index,navigation}:any){
 
 
   }
-  return <TouchableOpacity onPressIn={onPress} style={[styles.flowView,{
+  return <TouchableOpacity onPress={onPress} style={[styles.flowView,{
     marginVertical:2,
     marginRight:index % 2 == 0 ? 2 : 0,
     marginLeft:index % 2 == 0 ? 0 : 2

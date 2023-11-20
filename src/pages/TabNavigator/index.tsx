@@ -1,11 +1,11 @@
 
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Text, View } from 'react-native';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 
 import SplashScreen from '@/pages/Splash'
 import HomeScreen from '@/pages/Home'
@@ -16,7 +16,11 @@ import PostScreen from '@/pages/Post'
 
 import { routers } from './routers';
 import CustomTabbar from '@/components/CustomTabbar';
+// import { enableScreens } from 'react-native-screens'
+// import { enableLayoutAnimations } from 'react-native-reanimated';
+// enableLayoutAnimations(false);
 
+// enableScreens(false);
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -26,7 +30,7 @@ const Stack = createStackNavigator();
 function Tabs() {
   return (
     <Tab.Navigator screenOptions={{
-      headerTitleAlign:'center'
+      headerTitleAlign:'center',
     }}
     tabBar={(props:BottomTabBarProps)=><CustomTabbar {...props}/>}
     >
@@ -48,6 +52,7 @@ function Tabs() {
 function StackNav(){
   return <Stack.Navigator screenOptions={{
     cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
+    presentation:'transparentModal'
   }}>
     <Stack.Screen options={{
       headerShown:false
@@ -86,7 +91,7 @@ function DrawerNavigator(params:any) {
 
 function TabNavigator(): JSX.Element {
   return (
-    <NavigationContainer>
+    <NavigationContainer >
       {/* <DrawerNavigator/> */}
       <StackNav/>
     </NavigationContainer>

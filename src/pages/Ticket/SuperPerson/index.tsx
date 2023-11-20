@@ -228,7 +228,7 @@ function IenderItem({columnIndex,item}:any){
   function onPress(index:any){
 
   }
-  return <TouchableOpacity onPressIn={()=>onPress(columnIndex)} style={[styles.flowView2,{
+  return <TouchableOpacity onPress={()=>onPress(columnIndex)} style={[styles.flowView2,{
     marginVertical:2,
     marginRight:columnIndex == 0 ? 2 : 0,
     marginLeft:columnIndex == 0 ? 0 : 2

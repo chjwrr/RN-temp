@@ -56,7 +56,7 @@ const bannerList:any[] = [
     banner:ticket_pro_ban_2
   }
 ]
-function Ticket({navigation,tabState,jumpTo}:any): JSX.Element {
+function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [dataSource,setDataSource] = useState<any[]>([1,1,1,1])
@@ -65,10 +65,6 @@ function Ticket({navigation,tabState,jumpTo}:any): JSX.Element {
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const userInfo = useUserInfo()
 
-
-  function onPress(columnIndex:number){
-
-  }
   function getData(currenPage:number){
 
     // HTTPS.post(GET_MASTER_LIST,{
@@ -144,11 +140,6 @@ function Ticket({navigation,tabState,jumpTo}:any): JSX.Element {
   }
   const focusList:any[] = [1,2,3,4,5,6,7,8,9,0]
 
-  function onItemPress(item:any){
-    navigation.navigate('BuyTicket',{
-      id:item.ticket_id
-    })
-  }
   return (
     <View style={styles.mainView}>
       <FlatList
@@ -195,9 +186,7 @@ function Ticket({navigation,tabState,jumpTo}:any): JSX.Element {
               {
                 bannerList.map((item:any,index:number)=>{
                   return <TouchableOpacity key={index+'tickbanner'} onPressIn={()=>{
-                    navigation.navigate('TicketBannerDetail',{
-                      id:0
-                    })
+                    onBannerPress(item)
                   }}>
                     <Image style={styles.banner} source={item.banner}/>
                     <View style={styles.bannerTitleView}>
@@ -236,7 +225,7 @@ function Ticket({navigation,tabState,jumpTo}:any): JSX.Element {
   );
 }
 function RemmenntRenderItem({item,columnIndex,onPress}:any){
-  return <TouchableOpacity onPressIn={()=>onPress()} style={[styles.flowView,{
+  return <TouchableOpacity onPress={()=>onPress()} style={[styles.flowView,{
     marginVertical:2,
     marginRight:columnIndex == 0 ? 2 : 0,
     marginLeft:columnIndex == 0 ? 0 : 2

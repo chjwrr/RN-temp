@@ -111,7 +111,7 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
           duration={0}
           visible={true}
           animated={true}
-        /> : <TouchableOpacity onPressIn={()=>onPress(item.cloth_id)} style={[styles.flowView,{
+        /> : <TouchableOpacity onPress={()=>onPress(item.cloth_id)} style={[styles.flowView,{
             marginVertical:2,
             marginRight:index % 2 == 0 ? 2 : 0,
             marginLeft:index % 2 == 0 ? 0 : 2,

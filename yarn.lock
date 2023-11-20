@@ -2316,6 +2316,14 @@
   resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-2.0.0-alpha.2.tgz#cec8f767c084ca00fd262e5ef14ecfd8f93936e3"
   integrity sha512-xDPSBc4zBdNgW0oT9dc8jkTGntI3IS35xssTQmbVkVf8TCggV6R/omhPA3x5U3Bex4dO3DRxGePoizG+eM0jVw==
 
+"@react-navigation/material-top-tabs@^6.6.5":
+  version "6.6.5"
+  resolved "https://registry.npmmirror.com/@react-navigation/material-top-tabs/-/material-top-tabs-6.6.5.tgz#5cfc33e0d02f2dcd1a0654284704f4eef1d16697"
+  integrity sha512-ovKc+ltWYJwu3ju5sw1txBTMemlRM85/JceSrkqU++QnL9l0TAPiPxDlO+wJddR1iwi+P6zj5/+QkXR5Ku+trw==
+  dependencies:
+    color "^4.2.3"
+    warn-once "^0.1.0"
+
 "@react-navigation/native-stack@^7.0.0-alpha.5":
   version "7.0.0-alpha.5"
   resolved "https://registry.yarnpkg.com/@react-navigation/native-stack/-/native-stack-7.0.0-alpha.5.tgz#ee22af92c93489d585bea75ca5434cb699f08bbc"

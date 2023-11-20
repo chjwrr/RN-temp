@@ -52,7 +52,15 @@ function Home({navigation}:any): JSX.Element {
           if (index == 0){
             recommendShowTab = show
           }
-        }} />
+        }} onItemPress={(item:any)=>{
+          navigation.navigate('BuyTicket',{
+            id:item.ticket_id
+          })
+        }} onBannerPress={(item:any)=>{
+          navigation.navigate('TicketBannerDetail',{
+            id:0
+          })
+        }}/>
       case 'SuperPerson':
         return <SuperPersonScreen navigation={navigation} jumpTo={jumpTo} />;
       case 'FocusOn':

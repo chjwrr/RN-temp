@@ -106,7 +106,7 @@ function Design({navigation,jumpTo}:any): JSX.Element {
           duration={0}
           visible={true}
           animated={true}
-        /> : <TouchableOpacity onPressIn={()=>onPress(item.cloth_id)} style={[styles.flowView]}>
+        /> : <TouchableOpacity onPress={()=>onPress(item.cloth_id)} style={[styles.flowView]}>
             <CachedImage
               resizeMode='cover'
               source={HTTPS.getImageUrl(item.image)}
