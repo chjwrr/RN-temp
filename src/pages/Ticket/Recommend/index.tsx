@@ -15,7 +15,7 @@ import {
 import {styles} from './styles'
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel from 'react-native-reanimated-carousel';
-import { PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
+import { BLUR_HASH, PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
 import Colors from '@/utils/colors';
 import WaterfallFlow from 'react-native-waterfall-flow'
 import { FadeLoading } from 'react-native-fade-loading';
@@ -27,6 +27,7 @@ import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { useTicketBanner } from '@/api';
+import { Image as ExpoImage } from 'expo-image';
 
 const centerBg = require('@/assets/images/ticket_downbg.png')
 const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
@@ -231,12 +232,19 @@ function RemmenntRenderItem({item,columnIndex,onPress}:any){
     marginLeft:columnIndex == 0 ? 0 : 2
   }]}>
     <View style={styles.typeItem}>
-    <CachedImage
+    {/* <CachedImage
       resizeMode='cover'
       source={HTTPS.getImageUrl(item.image)}
       style={styles.typeItem}
       blurRadius={30}
       loadingImageComponent={ImagePlaceholder}
+      /> */}
+      <ExpoImage
+        style={styles.typeItem}
+        source={HTTPS.getImageUrl(item.image)}
+        placeholder={BLUR_HASH}
+        contentFit="cover"
+        transition={200}
       />
       <ImageBackground source={limmitBg} style={styles.limmitbg}>
         <Text style={styles.limmittitle}>限量:{item.total}份</Text>
@@ -303,13 +311,20 @@ function TopCarousel({navigation,jumpTo,tabState}:any){
       scrollAnimationDuration={3000}
       onSnapToItem={(index) => {setCurrentIndex(index)}}
       renderItem={({ item,index }:any) => (
-        <CachedImage
-          resizeMode='cover'
-          source={HTTPS.getImageUrl(item.merchant.logo)}
+        <ExpoImage
           style={styles.flowIcon}
-          blurRadius={30}
-          loadingImageComponent={ImagePlaceholder}
-          />
+          source={HTTPS.getImageUrl(item.merchant.logo)}
+          placeholder={BLUR_HASH}
+          contentFit="cover"
+          transition={200}
+        />
+        // <CachedImage
+        //   resizeMode='cover'
+        //   source={HTTPS.getImageUrl(item.merchant.logo)}
+        //   style={styles.flowIcon}
+        //   blurRadius={30}
+        //   loadingImageComponent={ImagePlaceholder}
+        //   />
       )}
       />
     <View style={styles.pointView}>

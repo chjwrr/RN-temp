@@ -18,7 +18,7 @@ import Share from 'react-native-share';
 import { WebView } from 'react-native-webview';
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel from 'react-native-reanimated-carousel';
-import { PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
+import { BLUR_HASH, PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
 import Colors from '@/utils/colors';
 import WaterfallFlow from 'react-native-waterfall-flow'
 import { FadeLoading } from 'react-native-fade-loading';
@@ -29,6 +29,7 @@ import { TICKET_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
+import { Image as ExpoImage } from 'expo-image';
 
 
 const BGImage = require('@/assets/images/homebg.png')
@@ -226,12 +227,19 @@ function RemmenntRenderItem({item,columnIndex}:any){
     marginLeft:columnIndex == 0 ? 0 : 2
   }]}>
     <View style={styles.typeItem}>
-    <CachedImage
+    {/* <CachedImage
       resizeMode='cover'
       source={HTTPS.getImageUrl(item.image)}
       style={styles.typeItem}
       blurRadius={30}
       loadingImageComponent={ImagePlaceholder}
+      /> */}
+      <ExpoImage
+        style={styles.typeItem}
+        source={HTTPS.getImageUrl(item.image)}
+        placeholder={BLUR_HASH}
+        contentFit="cover"
+        transition={200}
       />
       <ImageBackground source={limmitBg} style={styles.limmitbg}>
         <Text style={styles.limmittitle}>限量:{item.total}份</Text>

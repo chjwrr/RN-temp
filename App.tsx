@@ -28,7 +28,7 @@ CacheManager.config = {
   sourceAnimationDuration: 1000,
   thumbnailAnimationDuration: 1000,
 };
-console.log('===',`${Dirs.CacheDir}/images_cache/`)
+console.log('images_cache===',`${Dirs.CacheDir}/images_cache/`)
 
 function App(): JSX.Element {
   useEffect(()=>{

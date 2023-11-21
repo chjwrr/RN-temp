@@ -22,7 +22,7 @@ import {styles} from './styles'
 import Share from 'react-native-share';
 import { WebView } from 'react-native-webview';
 import Carousel from 'react-native-reanimated-carousel';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
+import { BLUR_HASH, SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
 import * as _ from 'lodash'
 import Colors from '@/utils/colors';
 import * as Animatable from 'react-native-animatable';
@@ -34,6 +34,7 @@ import { SNS_FOLLOW, SNS_UNFOLLOW } from '@/api/API';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { formatTime } from '@/utils/common';
+import { Image as ExpoImage } from 'expo-image';
 
 
 const BGImage = require('@/assets/images/homebg.png')
@@ -366,13 +367,20 @@ function SwiperView({images}:any){
       //   parallaxScrollingOffset: 40,
       // }}
       renderItem={({ item,index }:any) => (
-        <CachedImage
-          resizeMode='cover'
-          source={HTTPS.getImageUrl(item)}
+        <ExpoImage
           style={styles.swiperTopView}
-          blurRadius={30}
-          loadingImageComponent={ImagePlaceholder}
-          />
+          source={HTTPS.getImageUrl(item)}
+          placeholder={BLUR_HASH}
+          contentFit="cover"
+          transition={200}
+        />
+        // <CachedImage
+        //   resizeMode='cover'
+        //   source={HTTPS.getImageUrl(item)}
+        //   style={styles.swiperTopView}
+        //   blurRadius={30}
+        //   loadingImageComponent={ImagePlaceholder}
+        //   />
       )}
       />
     <View style={styles.sliderView}>

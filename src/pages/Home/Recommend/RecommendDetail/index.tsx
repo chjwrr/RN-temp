@@ -16,12 +16,13 @@ import {styles} from './styles'
 import Share from 'react-native-share';
 import { WebView } from 'react-native-webview';
 import Carousel from 'react-native-reanimated-carousel';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
+import { BLUR_HASH, SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
 import * as _ from 'lodash'
 import { useMerchantClothDetail } from '@/api';
-import {CachedImage} from '@georstat/react-native-image-cache'
+import {CacheManager, CachedImage} from '@georstat/react-native-image-cache'
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import * as HTTPS from '@/api/axios'
+import { Image as ExpoImage } from 'expo-image';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -38,7 +39,6 @@ const collectedshopIcon = require('@/assets/images/collectedshop.png')
 const tdIcon = require('@/assets/images/td.png')
 const tmIcon = require('@/assets/images/tm.png')
 const jdIcon = require('@/assets/images/jd.png')
-
 
 
 function RecommendDetail(props:any): JSX.Element {
@@ -229,6 +229,21 @@ function ShopInfo({info}:any){
   </View>
 }
 function SwiperView({images,name}:{images:any[],name:any}){
+
+
+  // ["e6e00edc-855a-11ee-bcb6-5785abdd6148.jpeg", "ef203694-855a-11ee-bcb6-5785abdd6148.jpeg", "e4cbdd56-855a-11ee-bcb6-5785abdd6148.jpeg"]
+  geta()
+  async function geta(){
+    const a = await CacheManager.getCacheSize();
+    console.log('aaa=',a)
+    const b = await CacheManager.isImageCached(HTTPS.getImageUrl('e6e00edc-855a-11ee-bcb6-5785abdd6148.jpeg'));
+    console.log('bbb=',b)
+
+  }
+
+
+
+
   const [currentIndex,setCurrentIndex] = useState(0)
   return <View style={styles.swiperView}>
     <Carousel
@@ -245,13 +260,23 @@ function SwiperView({images,name}:{images:any[],name:any}){
       //   parallaxScrollingOffset: 40,
       // }}
       renderItem={({ item,index }) => (
-        <CachedImage
-        resizeMode='cover'
-        source={HTTPS.getImageUrl(item)}
-        style={styles.swiperTopView}
-        blurRadius={30}
-        loadingImageComponent={ImagePlaceholder}
+        <ExpoImage
+          style={styles.swiperTopView}
+          source={HTTPS.getImageUrl(item)}
+          placeholder={BLUR_HASH}
+          contentFit="cover"
+          transition={200}
         />
+        // <Image style={styles.swiperTopView} source={{uri:HTTPS.getImageUrl(item)}}/>
+        // <CachedImage
+        // sourceAnimationDuration={100}
+        // thumbnailAnimationDuration={100}
+        // resizeMode='cover'
+        // source={HTTPS.getImageUrl(item)}
+        // style={styles.swiperTopView}
+        // blurRadius={30}
+        // loadingImageComponent={ImagePlaceholder}
+        // />
       )}
       />
     <View style={styles.sliderView}>

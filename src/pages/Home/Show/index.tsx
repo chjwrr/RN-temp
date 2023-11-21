@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
-import { PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
+import { BLUR_HASH, PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
 import { FadeLoading } from 'react-native-fade-loading';
 import WaterfallFlow from 'react-native-waterfall-flow'
 import Colors from '@/utils/colors';
@@ -20,6 +20,7 @@ import { ARTICLE_LIKE, ARTICLE_LIST, FOLLOWING_ARTICLE_LIST } from '@/api/API';
 import * as HTTPS from '@/api/axios'
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
+import { Image as ExpoImage } from 'expo-image';
 
 
 const unlike = require('@/assets/images/unlike.png')
@@ -157,12 +158,19 @@ function RenderItem({item,index,navigation}:any){
     marginRight:index % 2 == 0 ? 2 : 0,
     marginLeft:index % 2 == 0 ? 0 : 2
   }]}>
-    <CachedImage
+    {/* <CachedImage
       resizeMode='cover'
       source={(item.images && item.images.length > 0) ? HTTPS.getImageUrl(item.images[0]) : ''}
       style={styles.flowViewIcon}
       blurRadius={30}
       loadingImageComponent={ImagePlaceholder}
+      /> */}
+      <ExpoImage
+        style={styles.flowViewIcon}
+        source={(item.images && item.images.length > 0) ? HTTPS.getImageUrl(item.images[0]) : ''}
+        placeholder={BLUR_HASH}
+        contentFit="cover"
+        transition={200}
       />
     <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.content}</Text>
     <View style={styles.flowViewSubView}>

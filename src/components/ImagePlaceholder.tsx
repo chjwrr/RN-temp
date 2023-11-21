@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Animated, View, StyleSheet, Easing } from 'react-native';
+import { FadeLoading } from 'react-native-fade-loading';
+
 
 const ImagePlaceholder = () => {
   const [animated] = useState(new Animated.Value(0));
@@ -17,7 +19,8 @@ const ImagePlaceholder = () => {
 
   const backgroundColor = animated.interpolate({
     inputRange: [0, 0.5, 1],
-    outputRange: ['#EDF1F7', '#c7c9cc', '#EDF1F7'],
+    outputRange: ['#c5c7ca', '#929395', '#fff'],
+
   });
 
   useEffect(() => {
@@ -26,18 +29,28 @@ const ImagePlaceholder = () => {
   }, []);
 
   return (
-    <View>
-      <Animated.View style={[styles.skeleton, { backgroundColor }]} />
-    </View>
+    <FadeLoading
+      style={styles.skeleton}
+      children={''}
+      primaryColor={'#a6abe2'}
+      secondaryColor={'#b391e8'}
+      duration={0}
+      visible={true}
+      animated={true}
+    />
+    // <Animated.View style={[styles.skeleton, { backgroundColor }]} />
   );
 };
 
 const styles = StyleSheet.create({
   skeleton: {
-    width: '100%',
-    height: '100%',
-    alignSelf: 'center',
     borderRadius: 6,
+    position:'absolute',
+    top:0,
+    left:0,
+    right:0,
+    bottom:0,
+    zIndex:-1
   },
 });
 

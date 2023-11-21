@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
-import { PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
+import { BLUR_HASH, PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
 import WaterfallFlow from 'react-native-waterfall-flow'
 import Colors from '@/utils/colors';
 import { useNavigation } from '@react-navigation/native';
@@ -22,6 +22,7 @@ import { RECOMMEND_MERCHANT_CLOTH_LIST } from '@/api/API';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { useHomeBanner } from '@/api';
+import { Image as ExpoImage } from 'expo-image';
 
 
 const focus_n = require('@/assets/images/unxingxing.png')
@@ -116,22 +117,30 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
             marginRight:index % 2 == 0 ? 2 : 0,
             marginLeft:index % 2 == 0 ? 0 : 2,
           }]}>
-            <CachedImage
-              resizeMode='cover'
-              source={HTTPS.getImageUrl(item.image)}
+            <ExpoImage
               style={styles.flowViewIcon}
-              blurRadius={30}
-              loadingImageComponent={ImagePlaceholder}
-              />
+              source={HTTPS.getImageUrl(item.image)}
+              placeholder={BLUR_HASH}
+              contentFit="cover"
+              transition={200}
+            />
             <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.name}</Text>
             <View style={styles.flowViewSubView}>
               <View style={{flexDirection:'row'}}>
-                <CachedImage
+                {/* <CachedImage
                   resizeMode='cover'
                   source={HTTPS.getImageUrl(item.merchant.logo)}
                   style={styles.flowIcon}
                   blurRadius={30}
                   loadingImageComponent={ImagePlaceholder}
+                  sourceAnimationDuration={200}
+                  /> */}
+                  <ExpoImage
+                    style={styles.flowIcon}
+                    source={HTTPS.getImageUrl(item.merchant.logo)}
+                    placeholder={BLUR_HASH}
+                    contentFit="cover"
+                    transition={200}
                   />
                 <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>{item.merchant.name}</Text>
               </View>
@@ -189,13 +198,21 @@ function HomeBanner(){
       parallaxScrollingOffset: 40,
     }}
     renderItem={({ item,index }:any) => (
-      <CachedImage
-        resizeMode='contain'
-        source={HTTPS.getImageUrl(item.image)}
+      <ExpoImage
         style={styles.flowViewIcon}
-        blurRadius={30}
-        loadingImageComponent={ImagePlaceholder}
-        />
+        source={HTTPS.getImageUrl(item.image)}
+        placeholder={BLUR_HASH}
+        contentFit="cover"
+        transition={200}
+      />
+      // <CachedImage
+      //   resizeMode='contain'
+      //   source={HTTPS.getImageUrl(item.image)}
+      //   style={styles.flowViewIcon}
+      //   blurRadius={30}
+      //   loadingImageComponent={ImagePlaceholder}
+      //   sourceAnimationDuration={200}
+      //   />
     )}
     />
     <Text style={styles.topTitle}>穿越不同朝代</Text>

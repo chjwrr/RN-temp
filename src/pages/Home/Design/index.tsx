@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
-import { PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
+import { BLUR_HASH, PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
 import { FadeLoading } from 'react-native-fade-loading';
 import WaterfallFlow from 'react-native-waterfall-flow'
 import Colors from '@/utils/colors';
@@ -21,6 +21,7 @@ import { DESIGN_CIRCLE_CLOTH_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import ImagePlaceholder from '@/components/ImagePlaceholder';
+import { Image as ExpoImage } from 'expo-image';
 
 function Design({navigation,jumpTo}:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
@@ -107,13 +108,20 @@ function Design({navigation,jumpTo}:any): JSX.Element {
           visible={true}
           animated={true}
         /> : <TouchableOpacity onPress={()=>onPress(item.cloth_id)} style={[styles.flowView]}>
-            <CachedImage
+            {/* <CachedImage
               resizeMode='cover'
               source={HTTPS.getImageUrl(item.image)}
               style={styles.itemImage}
               blurRadius={30}
               loadingImageComponent={ImagePlaceholder}
-              />
+              /> */}
+            <ExpoImage
+              style={styles.itemImage}
+              source={HTTPS.getImageUrl(item.image)}
+              placeholder={BLUR_HASH}
+              contentFit="cover"
+              transition={200}
+            />
             <Text style={styles.modalName} numberOfLines={1} ellipsizeMode='tail'>{item.name}</Text>
             <Text style={styles.modalDes} numberOfLines={4} ellipsizeMode='tail'>{item.intro}</Text>
           </TouchableOpacity>

@@ -15,13 +15,14 @@ import { FadeLoading } from 'react-native-fade-loading';
 import { useNavigation } from '@react-navigation/native';
 import Colors from '@/utils/colors';
 import Carousel from 'react-native-reanimated-carousel';
-import { PAGE_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
+import { BLUR_HASH, PAGE_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
 import * as HTTPS from '@/api/axios'
 import { useUserInfo } from '@/redux/userInfo';
 import { FOLLOWING_ARTICLE_LIST } from '@/api/API';
 import { useMyFollowing } from '@/api';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
+import { Image as ExpoImage } from 'expo-image';
 
 const ShareIcon = require('@/assets/images/share.png')
 
@@ -189,13 +190,20 @@ function SwiperView({images}:any){
       >
         {
           images.map((item:any,index:number)=>{
-          return <CachedImage
-            resizeMode='cover'
-            source={HTTPS.getImageUrl(item)}
-            style={styles.swiperTopView}
-            blurRadius={30}
-            loadingImageComponent={ImagePlaceholder}
+            return <ExpoImage
+              style={styles.swiperTopView}
+              source={HTTPS.getImageUrl(item)}
+              placeholder={BLUR_HASH}
+              contentFit="cover"
+              transition={200}
             />
+          // return <CachedImage
+          //   resizeMode='cover'
+          //   source={HTTPS.getImageUrl(item)}
+          //   style={styles.swiperTopView}
+          //   blurRadius={30}
+          //   loadingImageComponent={ImagePlaceholder}
+          //   />
           })
         }
       </ScrollView>
