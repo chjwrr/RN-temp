@@ -299,20 +299,22 @@ export const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     alignItems:'center',
-    marginTop:5
+    marginTop:5,
   },
   payName:{
     fontSize:14,
     color:Colors.black
   },
+
   payButton:{
-    width:210,
-    height:42,
+    width:180,
+    height:36,
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
+    marginTop:10
   },
   payButtonTitle:{
-    fontSize:20,
+    fontSize:18,
     color:Colors.white
   },
   payUnit:{

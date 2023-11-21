@@ -27,10 +27,9 @@ import * as _ from 'lodash'
 import Colors from '@/utils/colors';
 import * as Animatable from 'react-native-animatable';
 import CustomTextInput from '@/components/CustomTextInput';
-import { useAaticleDetail, useMyFollowing } from '@/api';
 import { useUserInfo } from '@/redux/userInfo';
 import * as HTTPS from '@/api/axios'
-import { SNS_FOLLOW, SNS_UNFOLLOW } from '@/api/API';
+import { ARTICLE_DETAIL, SNS_FOLLOW, SNS_UNFOLLOW } from '@/api/API';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { formatTime } from '@/utils/common';
@@ -51,7 +50,19 @@ const likeiconIcon = require('@/assets/images/like.png')
 
 function RecommendDetail(props:any): JSX.Element {
   const scrollY = useRef(new Animated.Value(0)).current;
-  const detailInfo = useAaticleDetail(props.route.params.id)
+  const userInfo = useUserInfo()
+  const [detailInfo,setDetailInfo] = useState<any>({})
+
+  useEffect(()=>{
+    HTTPS.post(ARTICLE_DETAIL,{
+      "token":userInfo.token,
+      article_id:props.route.params.id
+    }).then((res:any)=>{
+      setDetailInfo(res.article_detail)
+    })
+  },[])
+
+
   function onBack(){
     props.navigation.goBack()
   }
@@ -120,20 +131,20 @@ function RecommendDetail(props:any): JSX.Element {
             keyboardDismissMode='on-drag'
             contentContainerStyle={styles.contentContainerStyle}
             showsVerticalScrollIndicator={false}
-            data={detailInfo.data?.comment_list}
+            data={detailInfo.comment_list}
             numColumns={1}
             renderItem={({ item, index })=>{
               return <CommonItem item={item} index={index}/>
             }}
             style={{ flex: 1 }}
             ListHeaderComponent={<View style={{flex:1}}>
-              <SwiperView images={detailInfo.data?.images}/>
+              <SwiperView images={detailInfo.images}/>
               {/* <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'>标题</Text> */}
-              <Text style={styles.des}>{detailInfo.data?.content}</Text>
+              <Text style={styles.des}>{detailInfo.content}</Text>
               <View style={styles.line}/>
               <View style={styles.commonTitleVieew}>
                 <Text style={styles.commonTitle}>共</Text>
-                <Text style={styles.commonTitleMain}>{detailInfo.data?.comment_list?.length}</Text>
+                <Text style={styles.commonTitleMain}>{detailInfo.comment_list?.length}</Text>
                 <Text style={styles.commonTitle}>条评论</Text>
               </View>
             </View>}
@@ -308,17 +319,17 @@ function CommonItem({item,index}:any){
 }
 function FocusButton({uid}:{uid:string}){
   const userInfo = useUserInfo()
-  const myFollowing = useMyFollowing()
+  // const myFollowing = useMyFollowing()
   const [focus,setFocus] = useState(false)
   const [isLoading,setIsLoading] = useState(false)
 
-  useEffect(()=>{
-    if (myFollowing.data){
-      if (myFollowing.data.indexOf(uid) > -1){
-        setFocus(true)
-      }
-    }
-  },[myFollowing.isLoading])
+  // useEffect(()=>{
+  //   if (myFollowing.data){
+  //     if (myFollowing.data.indexOf(uid) > -1){
+  //       setFocus(true)
+  //     }
+  //   }
+  // },[myFollowing.isLoading])
 
 
   function onFocus(){

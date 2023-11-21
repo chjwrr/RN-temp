@@ -18,8 +18,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import { BLUR_HASH, PAGE_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
 import * as HTTPS from '@/api/axios'
 import { useUserInfo } from '@/redux/userInfo';
-import { FOLLOWING_ARTICLE_LIST } from '@/api/API';
-import { useMyFollowing } from '@/api';
+import { FOLLOWING_ARTICLE_LIST, MY_FOLLOWING } from '@/api/API';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
@@ -35,7 +34,22 @@ function FocusOn({navigation,jumpTo}:any): JSX.Element {
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const userInfo = useUserInfo()
-  const myFollowing = useMyFollowing()
+  const [myFollowing,setMyFollowing] = useState<any[]>([])
+
+  useEffect(()=>{
+    getData(0)
+    getMyFollowing
+  },[])
+
+  function getMyFollowing(){
+    HTTPS.post(MY_FOLLOWING,{
+      "token":userInfo.token,
+    }).then((res:any)=>{
+      setMyFollowing(res.my_following)
+    }).finally(()=>{
+
+    })
+  }
 
   function getData(currenPage:number){
     setLoading(true)
@@ -55,25 +69,22 @@ function FocusOn({navigation,jumpTo}:any): JSX.Element {
       }else {
         setIsLoadEnd(false)
       }
+      setPage(currenPage)
+
     }).finally(()=>{
       setRefreshing(false)
       setLoading(false)
     })
   }
 
-  useEffect(()=>{
-    getData(page)
-  },[page])
-
 
   function onRefresh(){
     if (loading || refreshing){
       return
     }
-    myFollowing.refetch()
     console.log('onRefresh')
     setRefreshing(true);
-    setPage(0)
+    getMyFollowing()
     getData(0)
   }
 
@@ -82,7 +93,7 @@ function FocusOn({navigation,jumpTo}:any): JSX.Element {
       return
     }
     console.log('loading more')
-    setPage((pre:number)=>pre + 1)
+    getData(page + 1)
   }
 
 

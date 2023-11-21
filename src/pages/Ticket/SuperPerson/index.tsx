@@ -82,12 +82,6 @@ function Ticket({navigation}:any): JSX.Element {
     .finally(()=>{})
 
 
-
-
-
-
-
-
     setLoading(true)
     HTTPS.post(TICKET_LIST,{
       "token":userInfo.token,
@@ -105,6 +99,7 @@ function Ticket({navigation}:any): JSX.Element {
       }else {
         setIsLoadEnd(false)
       }
+      setPage(currenPage)
     }).finally(()=>{
       setRefreshing(false)
       setLoading(false)
@@ -112,8 +107,8 @@ function Ticket({navigation}:any): JSX.Element {
   }
 
   useEffect(()=>{
-    getData(page)
-  },[page])
+    getData(0)
+  },[])
 
 
   function onRefresh(){
@@ -122,7 +117,6 @@ function Ticket({navigation}:any): JSX.Element {
     }
     console.log('onRefresh')
     setRefreshing(true);
-    setPage(0)
     getData(0)
   }
 
@@ -131,7 +125,7 @@ function Ticket({navigation}:any): JSX.Element {
       return
     }
     console.log('loading more')
-    setPage((pre:number)=>pre + 1)
+    getData(page + 1)
   }
 
   const [currentType,setCurrentType] = useState(0)
@@ -199,10 +193,10 @@ function Ticket({navigation}:any): JSX.Element {
             </View>
           </View>
         }
-        ListFooterComponent={<View style={styles.loadMoreView}>
+        ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
           <Text style={styles.loadMoreTitle}>加载更多...</Text>
           <ActivityIndicator size="small" color={Colors.main} />
-        </View>}
+        </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}
         initialNumToRender={10}
         keyExtractor={(item, index) => 'key' + index}

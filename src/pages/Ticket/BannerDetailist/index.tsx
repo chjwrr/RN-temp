@@ -192,10 +192,10 @@ function Ticket(props:any): JSX.Element {
             <Text style={styles.title}>破妄明心</Text>
           </View>
         }
-        ListFooterComponent={<View style={styles.loadMoreView}>
+        ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
           <Text style={styles.loadMoreTitle}>加载更多...</Text>
           <ActivityIndicator size="small" color={Colors.main} />
-        </View>}
+        </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}
         initialNumToRender={10}
         keyExtractor={(item, index) => 'key' + index}

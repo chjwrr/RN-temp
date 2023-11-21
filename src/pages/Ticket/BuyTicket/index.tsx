@@ -16,7 +16,7 @@ import Share from 'react-native-share';
 import { WebView } from 'react-native-webview';
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel from 'react-native-reanimated-carousel';
-import { PAGE_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
+import { BLUR_HASH, PAGE_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
 import Colors from '@/utils/colors';
 import WaterfallFlow from 'react-native-waterfall-flow'
 import { FadeLoading } from 'react-native-fade-loading';
@@ -25,6 +25,7 @@ import { BlurView } from "@react-native-community/blur";
 import * as HTTPS from '@/api/axios'
 import { TICKET_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
+import { Image as ExpoImage } from 'expo-image';
 
 
 
@@ -51,7 +52,7 @@ const paybtnbg = require('@/assets/images/paybtnbg.png')
 
 function Ticket(props:any): JSX.Element {
   const scrollY = useRef(new Animated.Value(0)).current;
-
+  const info = props.route.params.info
 
   const bottomAnim = useRef(new Animated.Value(0)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -157,19 +158,25 @@ function Ticket(props:any): JSX.Element {
       <ScrollView contentContainerStyle={{flexGrow:1,alignItems:'center'}}>
 
         <ImageBackground source={topbg} style={styles.topbg} resizeMode='cover'>
-          <Image source={tick_icon_1} style={styles.topItemImage}/>
+          <ExpoImage
+            style={styles.topItemImage}
+            source={{uri:HTTPS.getImageUrl(info.image)}} 
+            placeholder={BLUR_HASH}
+            contentFit="cover"
+            transition={200}
+          />
           <View style={styles.priceView}>
             <Text style={styles.priceuni}>￥</Text>
-            <Text style={styles.price}>199</Text>
+            <Text style={styles.price}>{info.price}</Text>
           </View>
         </ImageBackground>
         <View style={styles.infoView}>
           <ImageBackground style={styles.limmitbg} source={limmitBg}>
-            <Text style={styles.limmittitle}>限量:200份</Text>
+            <Text style={styles.limmittitle}>限量:{info.remain}份</Text>
           </ImageBackground>
           <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-            <Text style={styles.name}>项目名称</Text>
-            <Text style={styles.name}>ID:000</Text>
+            <Text style={styles.name}>{info.name}</Text>
+            <Text style={styles.name}>ID:{info.ticket_id}</Text>
           </View>
           <View style={{flexDirection:'row',alignItems:'center'}}>
             <View style={styles.avatarsmal}/>
@@ -222,7 +229,7 @@ function Ticket(props:any): JSX.Element {
         <View style={styles.payButtonVie}>
           <View style={{flexDirection:'row',alignItems:'flex-end'}}>
             <Text style={styles.payUnit}>￥</Text>
-            <Text style={styles.payPrice}>199</Text>
+            <Text style={styles.payPrice}>{info.price}</Text>
           </View>
           <TouchableOpacity>
             <ImageBackground style={styles.payButton} source={paybtnbg}>

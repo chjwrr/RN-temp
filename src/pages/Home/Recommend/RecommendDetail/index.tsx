@@ -1,5 +1,5 @@
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   SafeAreaView,
   Text,
@@ -18,11 +18,12 @@ import { WebView } from 'react-native-webview';
 import Carousel from 'react-native-reanimated-carousel';
 import { BLUR_HASH, SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
 import * as _ from 'lodash'
-import { useMerchantClothDetail } from '@/api';
 import {CacheManager, CachedImage} from '@georstat/react-native-image-cache'
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import * as HTTPS from '@/api/axios'
 import { Image as ExpoImage } from 'expo-image';
+import { MERCHANT_CLOTH_DETAIL } from '@/api/API';
+import { useUserInfo } from '@/redux/userInfo';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -44,7 +45,21 @@ const jdIcon = require('@/assets/images/jd.png')
 function RecommendDetail(props:any): JSX.Element {
   const [showBuy,setShowBuy] = useState(false)
   const scrollY = useRef(new Animated.Value(0)).current;
-  const clothDetail = useMerchantClothDetail(props.route.params.id)
+  const userInfo = useUserInfo()
+  const [merchantClothInfo,setMerchantClothInfo] = useState<any>({})
+  useEffect(()=>{
+    HTTPS.post(MERCHANT_CLOTH_DETAIL,{
+      "token":userInfo.token,
+      cloth_id:props.route.params.id
+    }).then((res:any)=>{
+      setMerchantClothInfo(res.merchant_cloth_detail)
+    }).finally(()=>{
+
+    })
+    return 
+  },[])
+
+
   function onBack(){
     props.navigation.goBack()
   }
@@ -149,9 +164,9 @@ function RecommendDetail(props:any): JSX.Element {
           })}
         >
           {/* {id == 0 ? <TDModalView/> : <SwiperView/>} */}
-          <SwiperView images={[clothDetail.data?.image]} name={clothDetail.data?.name}/>
+          <SwiperView images={[merchantClothInfo.image]} name={merchantClothInfo.name}/>
           <View style={styles.detailView}>
-            <ShopInfo info={clothDetail.data}/>
+            <ShopInfo info={merchantClothInfo}/>
             <WebView
               source={{ uri: 'https://www.baidu.com' }}
               style={styles.webDetailView}

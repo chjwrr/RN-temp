@@ -51,6 +51,8 @@ function Design({navigation,jumpTo}:any): JSX.Element {
       }else {
         setIsLoadEnd(false)
       }
+      setPage(currenPage)
+
     }).finally(()=>{
       setRefreshing(false)
       setLoading(false)
@@ -58,9 +60,8 @@ function Design({navigation,jumpTo}:any): JSX.Element {
   }
 
   useEffect(()=>{
-    getData(page)
-  },[page])
-
+    getData(0)
+  },[])
 
   function onRefresh(){
     if (loading || refreshing){
@@ -68,7 +69,6 @@ function Design({navigation,jumpTo}:any): JSX.Element {
     }
     console.log('onRefresh')
     setRefreshing(true);
-    setPage(0)
     getData(0)
     // setTimeout(() => {
     //   setRefreshing(false)
@@ -82,11 +82,10 @@ function Design({navigation,jumpTo}:any): JSX.Element {
       return
     }
     console.log('loading more')
-    setPage((pre:number)=>pre + 1)
+    getData(page + 1)
   }
 
   function onPress(cloth_id:number){
-    //@ts-ignore
     navigation.navigate('DesignDetail',{
       id:cloth_id
     })

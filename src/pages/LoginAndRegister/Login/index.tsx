@@ -129,6 +129,7 @@ function Login(props:any): JSX.Element {
                     placeholder:'输入手机号',
                     value:userAccount,
                     onChange:onUserAccountChange,
+                    keyboardType:'number-pad'
                   }} />
                 <CustomTextInput 
                     style={[styles.inputView,{marginTop:40}]}

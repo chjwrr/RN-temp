@@ -22,11 +22,10 @@ import { FadeLoading } from 'react-native-fade-loading';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from "@react-native-community/blur";
 import * as HTTPS from '@/api/axios'
-import { GET_MASTER_LIST, TICKET_LIST } from '@/api/API';
+import { GET_MASTER_LIST, TICKET_BANNER, TICKET_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
-import { useTicketBanner } from '@/api';
 import { Image as ExpoImage } from 'expo-image';
 
 const centerBg = require('@/assets/images/ticket_downbg.png')
@@ -67,17 +66,6 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
   const userInfo = useUserInfo()
 
   function getData(currenPage:number){
-
-    // HTTPS.post(GET_MASTER_LIST,{
-    //   "token":userInfo.token,
-    //   "limit":PAGE_SIZE,
-    //   offset:currenPage * PAGE_SIZE
-    // })
-    // .then((result:any)=>{
-      
-    // })
-    // .finally(()=>{})
-
     setLoading(true)
     HTTPS.post(TICKET_LIST,{
       "token":userInfo.token,
@@ -95,6 +83,7 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
       }else {
         setIsLoadEnd(false)
       }
+      setPage(currenPage)
     }).finally(()=>{
       setRefreshing(false)
       setLoading(false)
@@ -102,8 +91,8 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
   }
 
   useEffect(()=>{
-    getData(page)
-  },[page])
+    getData(0)
+  },[])
 
 
   function onRefresh(){
@@ -112,7 +101,6 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
     }
     console.log('onRefresh')
     setRefreshing(true);
-    setPage(0)
     getData(0)
   }
 
@@ -121,7 +109,7 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
       return
     }
     console.log('loading more')
-    setPage((pre:number)=>pre + 1)
+    getData(page + 1)
   }
 
   function onScroll(e:any){
@@ -161,7 +149,11 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
           duration={0}
           visible={true}
           animated={true}
-        />: <RemmenntRenderItem item={item} columnIndex={index} onPress={()=>onItemPress(item)}/>
+        />: <RemmenntRenderItem item={item} columnIndex={index} onPress={()=>{
+          navigation.navigate('BuyTicket',{
+            info:item
+          })
+        }}/>
         }}
         style={{ flex: 1 }}
         ListHeaderComponent={
@@ -200,10 +192,10 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
             </View>
           </View>
         }
-        ListFooterComponent={<View style={styles.loadMoreView}>
+        ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
           <Text style={styles.loadMoreTitle}>加载更多...</Text>
           <ActivityIndicator size="small" color={Colors.main} />
-        </View>}
+        </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}
         initialNumToRender={10}
         onScroll={onScroll}
@@ -293,7 +285,21 @@ const centerItems:any[] = [
 ]
 function TopCarousel({navigation,jumpTo,tabState}:any){
   const [currentIndex,setCurrentIndex] = useState(0)
-  const bannerInfo = useTicketBanner()
+  const userInfo = useUserInfo()
+  const [bannerList,setBannerList] = useState<any[]>([])
+
+  useEffect(()=>{
+    HTTPS.post(TICKET_BANNER,{
+      "token":userInfo.token,
+    }).then((res:any)=>{
+      setBannerList(res.banner_list)
+    }).finally(()=>{
+
+    })
+  },[])
+
+
+
   function onChangeType(key:string,index:number){
     if (key != 'Recommend'){
       tabState(true,index)
@@ -307,7 +313,7 @@ function TopCarousel({navigation,jumpTo,tabState}:any){
       autoPlay={true}
       width={SCREEN_WIDTH}
       height={SCREEN_WIDTH * 640 / 750}
-      data={bannerInfo.data}
+      data={bannerList}
       scrollAnimationDuration={3000}
       onSnapToItem={(index) => {setCurrentIndex(index)}}
       renderItem={({ item,index }:any) => (
@@ -329,7 +335,7 @@ function TopCarousel({navigation,jumpTo,tabState}:any){
       />
     <View style={styles.pointView}>
       {
-        bannerInfo.data?.map((item:any,index:number)=>{
+        bannerList.map((item:any,index:number)=>{
           return <View key={index+'tickban'} style={[styles.point,{
             backgroundColor:currentIndex == index ? Colors.buttonMain : '#CCCCCC'
           }]}/>

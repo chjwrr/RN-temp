@@ -18,10 +18,9 @@ import { FadeLoading } from 'react-native-fade-loading';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useUserInfo } from '@/redux/userInfo';
 import * as HTTPS from '@/api/axios'
-import { RECOMMEND_MERCHANT_CLOTH_LIST } from '@/api/API';
+import { HOME_BANNER, RECOMMEND_MERCHANT_CLOTH_LIST } from '@/api/API';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
-import { useHomeBanner } from '@/api';
 import { Image as ExpoImage } from 'expo-image';
 
 
@@ -54,6 +53,7 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
       }else {
         setIsLoadEnd(false)
       }
+      setPage(currenPage)
     }).finally(()=>{
       setRefreshing(false)
       setLoading(false)
@@ -61,9 +61,8 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
   }
 
   useEffect(()=>{
-    getData(page)
-  },[page])
-
+    getData(0)
+  },[])
 
 
   function onPress(cloth_id:number){
@@ -79,7 +78,6 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
     }
     console.log('onRefresh')
     setRefreshing(true);
-    setPage(0)
     getData(0)
   }
 
@@ -88,10 +86,11 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
       return
     }
     console.log('loading more')
-    setPage((pre:number)=>pre + 1)
+    setPage(page + 1)
   }
 
   console.log('当前数据条数=',dataSource.length)
+
   return (
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -182,14 +181,25 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
 }
 
 function HomeBanner(){
-  const bannerInfo = useHomeBanner()
+  const userInfo = useUserInfo()
+  const [bannerList,setBannerList] = useState<any[]>([])
+  useEffect(()=>{
+    HTTPS.post(HOME_BANNER,{
+      "token":userInfo.token,
+    }).then((res:any)=>{
+      setBannerList(res.banner_list)
+    }).finally(()=>{
+
+    })
+  },[])
+
   return <View style={{flex:1}}>
     <Carousel
     loop
     width={SCREEN_WIDTH - 32}
     height={160}
     autoPlay={true}
-    data={bannerInfo.data}
+    data={bannerList}
     scrollAnimationDuration={3000}
     onSnapToItem={(index) => {}}
     mode="parallax"

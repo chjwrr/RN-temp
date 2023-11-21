@@ -1,5 +1,5 @@
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   SafeAreaView,
   Text,
@@ -16,7 +16,8 @@ import { WebView } from 'react-native-webview';
 import { styles } from './styles'
 import { show, hidden } from '@/components/CoverModal'
 import * as HTTPS from '@/api/axios'
-import { useDesignCircleClothDetail } from '@/api';
+import { DESIGN_CIRCLE_CLOTH_DETAIL } from '@/api/API';
+import { useUserInfo } from '@/redux/userInfo';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -35,7 +36,19 @@ function DesignDetail(props:any): JSX.Element {
   const [showBuy,setShowBuy] = useState(false)
   const [scrollEnabled,setScrollEnabled] = useState(true)
   const scrollY = useRef(new Animated.Value(0)).current;
-  const designCircleClothDetail = useDesignCircleClothDetail(props.route.params.id)
+  const userInfo = useUserInfo()
+  const [clothDetail,setClothDetail] = useState<any>({})
+
+  useEffect(()=>{
+    HTTPS.post(DESIGN_CIRCLE_CLOTH_DETAIL,{
+      "token":userInfo.token,
+      cloth_id:props.route.params.id
+    }).then((res:any)=>{
+      setClothDetail(res.design_circle_cloth_detail)
+    }).finally(()=>{
+
+    })
+  },[])
 
   function onBack(){
     props.navigation.goBack()
@@ -96,8 +109,8 @@ function DesignDetail(props:any): JSX.Element {
           >
           <View style={styles.modalView}>
             <WebView
-              source={{uri:'https://www.baidu.com'}}
-              // source={{ uri: Platform.OS == 'ios' ? 'https://nextjs-3d-modal-j2fc-git-main-chjwrr.vercel.app/' : 'http://test.yingxiong123.top/' }}
+              // source={{uri:'https://www.baidu.com'}}
+              source={{ uri: Platform.OS == 'ios' ? 'https://nextjs-3d-modal-j2fc-git-main-chjwrr.vercel.app/' : 'http://test.yingxiong123.top/' }}
               style={styles.webView}
               onTouchStart={()=>{
                 setScrollEnabled(false)
@@ -109,7 +122,7 @@ function DesignDetail(props:any): JSX.Element {
                 setScrollEnabled(true)
               }}
             />
-            <Text style={styles.name}>{designCircleClothDetail.data?.name}</Text>
+            <Text style={styles.name}>{clothDetail.name}</Text>
           </View>
           <DetailInfo/>
         </ScrollView>
