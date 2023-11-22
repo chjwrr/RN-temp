@@ -25,8 +25,8 @@ CacheManager.config = {
   cacheLimit: 0,
   maxRetries: 3 /* optional, if not provided defaults to 0 */,
   retryDelay: 3000 /* in milliseconds, optional, if not provided defaults to 0 */,
-  sourceAnimationDuration: 1000,
-  thumbnailAnimationDuration: 1000,
+  sourceAnimationDuration: 200,
+  thumbnailAnimationDuration: 200,
 };
 console.log('images_cache===',`${Dirs.CacheDir}/images_cache/`)
 

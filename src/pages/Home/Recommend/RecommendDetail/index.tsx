@@ -24,6 +24,7 @@ import * as HTTPS from '@/api/axios'
 import { Image as ExpoImage } from 'expo-image';
 import { MERCHANT_CLOTH_DETAIL } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
+import { savePicture } from '@/utils/common';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -132,6 +133,11 @@ function RecommendDetail(props:any): JSX.Element {
     }
   }
 
+  function onJoin(){
+    // if (merchantClothInfo.image){
+    //   savePicture(HTTPS.getImageUrl(merchantClothInfo.image))
+    // }
+  }
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -178,7 +184,7 @@ function RecommendDetail(props:any): JSX.Element {
             <Image style={styles.downIcon} source={downbgIcon}/>
             <Text style={[styles.downTitle, showBuy && styles.downTitleSel]}>服饰购买</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.downViewItem,styles.downViewItemRight]}>
+          <TouchableOpacity style={[styles.downViewItem,styles.downViewItemRight]} onPressIn={onJoin}>
             <Image style={styles.downIcon} source={hdIcon}/>
             <Text style={styles.downTitle}>联名合作</Text>
           </TouchableOpacity>
@@ -244,21 +250,6 @@ function ShopInfo({info}:any){
   </View>
 }
 function SwiperView({images,name}:{images:any[],name:any}){
-
-
-  // ["e6e00edc-855a-11ee-bcb6-5785abdd6148.jpeg", "ef203694-855a-11ee-bcb6-5785abdd6148.jpeg", "e4cbdd56-855a-11ee-bcb6-5785abdd6148.jpeg"]
-  geta()
-  async function geta(){
-    const a = await CacheManager.getCacheSize();
-    console.log('aaa=',a)
-    const b = await CacheManager.isImageCached(HTTPS.getImageUrl('e6e00edc-855a-11ee-bcb6-5785abdd6148.jpeg'));
-    console.log('bbb=',b)
-
-  }
-
-
-
-
   const [currentIndex,setCurrentIndex] = useState(0)
   return <View style={styles.swiperView}>
     <Carousel
@@ -275,23 +266,25 @@ function SwiperView({images,name}:{images:any[],name:any}){
       //   parallaxScrollingOffset: 40,
       // }}
       renderItem={({ item,index }) => (
-        <ExpoImage
-          style={styles.swiperTopView}
-          source={HTTPS.getImageUrl(item)}
-          placeholder={BLUR_HASH}
-          contentFit="cover"
-          transition={200}
-        />
-        // <Image style={styles.swiperTopView} source={{uri:HTTPS.getImageUrl(item)}}/>
-        // <CachedImage
-        // sourceAnimationDuration={100}
-        // thumbnailAnimationDuration={100}
-        // resizeMode='cover'
-        // source={HTTPS.getImageUrl(item)}
-        // style={styles.swiperTopView}
-        // blurRadius={30}
-        // loadingImageComponent={ImagePlaceholder}
+        // <ExpoImage
+        //   style={styles.swiperTopView}
+        //   source={HTTPS.getImageUrl(item)}
+        //   placeholder={BLUR_HASH}
+        //   contentFit="cover"
+        //   transition={200}
+        //   onLoad={(e:any)=>{
+        //     console.log('eeee==',e)
+        //   }}
         // />
+        <CachedImage
+        sourceAnimationDuration={100}
+        thumbnailAnimationDuration={100}
+        resizeMode='cover'
+        source={HTTPS.getImageUrl(item)}
+        style={styles.swiperTopView}
+        blurRadius={30}
+        loadingImageComponent={ImagePlaceholder}
+        />
       )}
       />
     <View style={styles.sliderView}>

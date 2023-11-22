@@ -123,6 +123,14 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
               contentFit="cover"
               transition={200}
             />
+            {/* <CachedImage
+              resizeMode='cover'
+              source={HTTPS.getImageUrl(item.image)}
+              style={styles.flowViewIcon}
+              blurRadius={30}
+              loadingImageComponent={ImagePlaceholder}
+              sourceAnimationDuration={200}
+              /> */}
             <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.name}</Text>
             <View style={styles.flowViewSubView}>
               <View style={{flexDirection:'row'}}>
