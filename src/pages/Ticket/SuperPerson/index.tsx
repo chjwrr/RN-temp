@@ -15,7 +15,7 @@ import {
 import {styles} from './styles'
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel from 'react-native-reanimated-carousel';
-import { PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
+import { BLUR_HASH, PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
 import Colors from '@/utils/colors';
 import WaterfallFlow from 'react-native-waterfall-flow'
 import { FadeLoading } from 'react-native-fade-loading';
@@ -26,6 +26,7 @@ import { GET_MASTER_LIST, TICKET_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
+import { Image as ExpoImage } from 'expo-image';
 
 const centerBg = require('@/assets/images/ticket_downbg.png')
 const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
@@ -40,7 +41,7 @@ const ticket_item_1 = require('@/assets/images/tick_icon_1.png')
 const ticket_item_2 = require('@/assets/images/tick_icon_2.png')
 const focus_n = require('@/assets/images/collwhi.png')
 const limmitBg = require('@/assets/images/limmitBg.png')
-const downBg = require('@/assets/images/ticketitembg.png')
+const downBg = require('@/assets/images/ticket_downbgperson.png')
 
 
 const bannerList:any[] = [
@@ -154,44 +155,36 @@ function Ticket({navigation}:any): JSX.Element {
           duration={0}
           visible={true}
           animated={true}
-        />: <IenderItem item={item} columnIndex={index}/>
+        />: <RemmenntRenderItem item={item} columnIndex={index} onPress={()=>{
+          navigation.navigate('TicketBannerDetailList',{
+            info:item
+          })
+        }}/>
         }}
         style={{ flex: 1 }}
         ListHeaderComponent={
-          <View style={styles.contentView}>
             <View style={styles.bannerView}>
-            <View style={styles.scrollView}>
-              <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-              {
-                focusList.map((item:any,index:number)=>{
-                  return <View style={styles.focusView} key={index+'focus'}>
-                    <View style={styles.focusAvatarView}>
-                      <View style={styles.focusAvtar}/>
-                      <View style={styles.focusTipView}/>
-                    </View>
-                    <Text style={styles.focusName}>用户名字</Text>
-                  </View>
-                })
-              }
-              </ScrollView>
+              <Text style={styles.centerTitle}>达人推荐</Text>
+              <View style={styles.scrollView}>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                {
+                  focusList.map((item:any,index:number)=>{
+                    return <TouchableOpacity style={styles.focusView} key={index+'focus'} onPress={()=>{
+                      navigation.navigate('SuperPersonDetail',{
+                        id:0
+                      })
+                    }}>
+                      <View style={styles.focusAvatarView}>
+                        <View style={styles.focusAvtar}/>
+                        <View style={styles.focusTipView}/>
+                      </View>
+                      <Text style={styles.focusName}>用户名字</Text>
+                    </TouchableOpacity>
+                  })
+                }
+                </ScrollView>
+              </View>
             </View>
-              {
-                bannerList.map((item:any,index:number)=>{
-                  return <TouchableOpacity key={index+'tickbanner'} onPressIn={()=>{
-                    navigation.navigate('TicketBannerDetail',{
-                      id:0
-                    })
-                  }}>
-                    <Image style={styles.banner} source={item.banner}/>
-                    <View style={styles.bannerTitleView}>
-                      <Text style={styles.bannerTitle}>{item.title}</Text>
-                      <Text style={styles.bannerTitleDes}>{item.des}</Text>
-                    </View>
-                  </TouchableOpacity>
-                })
-              }
-            </View>
-          </View>
         }
         ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
           <Text style={styles.loadMoreTitle}>加载更多...</Text>
@@ -218,38 +211,49 @@ function Ticket({navigation}:any): JSX.Element {
   );
 }
 
-function IenderItem({columnIndex,item}:any){
-  function onPress(index:any){
-
-  }
-  return <TouchableOpacity onPress={()=>onPress(columnIndex)} style={[styles.flowView2,{
+function RemmenntRenderItem({item,columnIndex,onPress}:any){
+  return <TouchableOpacity onPress={onPress} style={[styles.flowView,{
     marginVertical:2,
     marginRight:columnIndex == 0 ? 2 : 0,
     marginLeft:columnIndex == 0 ? 0 : 2
   }]}>
-    <ImageBackground source={ticket_item_1} style={styles.typeItem} resizeMode='cover'>
-      <BlurView
-        style={styles.typeItemDownBlur}
-        blurType="light"
-        blurAmount={5}
-        reducedTransparencyFallbackColor="white"
-        />
-        <View  style={styles.typeItemDown2}>
-          <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>名称</Text>
-          <View style={styles.flowViewSubView}>
-            <View style={{flexDirection:'row',alignItems:'center'}}>
-              {/* <View style={styles.flowIcon}/> */}
-              <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>名字</Text>
-            </View>
-            <TouchableOpacity style={styles.focusButton}>
-              <Image style={styles.flowFocus} source={focus_n}/>
-            </TouchableOpacity>
-          </View>
-        </View>
+    <View style={styles.typeItem}>
+    {/* <CachedImage
+      resizeMode='cover'
+      source={HTTPS.getImageUrl(item.image)}
+      style={styles.typeItem}
+      blurRadius={30}
+      loadingImageComponent={ImagePlaceholder}
+      /> */}
+      <ExpoImage
+        style={styles.typeItem}
+        source={HTTPS.getImageUrl(item.image)}
+        placeholder={BLUR_HASH}
+        contentFit="cover"
+        transition={200}
+      />
+      <ImageBackground source={limmitBg} style={styles.limmitbg}>
+        <Text style={styles.limmittitle}>限量:{item.total}份</Text>
       </ImageBackground>
+    </View>
+    <View style={styles.typeItemDown}>
+      {/* <Image style={styles.typeItemDownbg} source={downBg} resizeMode='cover'/> */}
+      <LinearGradient colors={['rgba(64,14,179,0.6)', 'transparent']} style={styles.typeItemDownbg}/>
+      <View style={styles.flowViewSubView}>
+        <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.intro}</Text>
+        <TouchableOpacity style={styles.focusButton}>
+          <Image style={styles.flowFocus} source={focus_n}/>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.flowViewSubView}>
+        <View style={{flexDirection:'row',alignItems:'center'}}>
+          <View style={styles.flowIcon}/>
+          <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>名字</Text>
+        </View>
+      </View>
+    </View>
   </TouchableOpacity>
 }
-
 const centerItems:any[] = [
   ticket_tj,
   ticket_dr,

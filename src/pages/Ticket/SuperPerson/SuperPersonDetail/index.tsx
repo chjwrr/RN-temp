@@ -1,0 +1,154 @@
+
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  TouchableOpacity,
+  View,
+  Animated,
+  Platform,
+  FlatList,
+  Text,
+  Image,
+  RefreshControl,
+  ScrollView,
+  ImageBackground,
+  ActivityIndicator
+} from 'react-native';
+import {styles} from './styles'
+import Share from 'react-native-share';
+import { WebView } from 'react-native-webview';
+import LinearGradient from 'react-native-linear-gradient';
+import Carousel from 'react-native-reanimated-carousel';
+import { BLUR_HASH, PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
+import Colors from '@/utils/colors';
+import WaterfallFlow from 'react-native-waterfall-flow'
+import { FadeLoading } from 'react-native-fade-loading';
+import * as Animatable from 'react-native-animatable';
+import { BlurView } from "@react-native-community/blur";
+import * as HTTPS from '@/api/axios'
+import { TICKET_LIST } from '@/api/API';
+import { useUserInfo } from '@/redux/userInfo';
+import ImagePlaceholder from '@/components/ImagePlaceholder';
+import {CachedImage} from '@georstat/react-native-image-cache'
+import { Image as ExpoImage } from 'expo-image';
+
+
+const BGImage = require('@/assets/images/homebg.png')
+const BackIcon = require('@/assets/images/back_w.png')
+const CollectIcon = require('@/assets/images/collwhi.png')
+const shareIcon = require('@/assets/images/share_w.png')
+const pertopbg = require('@/assets/images/pertopbg.png')
+const ticketavatar = require('@/assets/images/ticketavatar.png')
+const numbg = require('@/assets/images/numbg.png')
+const tabButtonBg = require('@/assets/images/buttonbg.png')
+const downbg = require('@/assets/images/downbg.png')
+const focus_n = require('@/assets/images/collwhi.png')
+const limmitBg = require('@/assets/images/limmitBg.png')
+const downBg = require('@/assets/images/ticketitembg.png')
+
+
+
+
+
+function Ticket(props:any): JSX.Element {
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [dataSource,setDataSource] = useState<any[]>([1,1,1,1])
+  const isCanLoadMore = useRef(false)
+  const [page,setPage] = useState(0)
+  const [isLoadEnd,setIsLoadEnd] = useState(false)
+  const userInfo = useUserInfo()
+
+  function onBack(){
+    props.navigation.goBack()
+  }
+  function onCollect(){
+
+  }
+  function onShare(){
+    const url = 'https://awesome.contents.com/';
+    const title = 'Awesome Contents';
+    const message = 'Please check this out.';
+    const icon = 'data:<data_type>/<file_extension>;base64,<base64_data>';
+    const options = Platform.select({
+      default: {
+        title,
+        subject: title,
+        message: `${message} ${url}`,
+      },
+    });
+    Share.open(options);
+  }
+  return (
+    <View style={styles.main}>
+      <Image style={styles.topImage} source={pertopbg}/>
+      <LinearGradient colors={['#000', 'transparent']} style={styles.topOp}/>
+      <LinearGradient colors={['transparent','#000']} style={styles.bottomOp}/>
+      <Animated.View style={[styles.navigationView,{
+        backgroundColor:scrollY.interpolate({
+          inputRange: [0,88],
+          outputRange: ['transparent','#fff'],
+        })
+      }]}>
+        <TouchableOpacity style={styles.backButton} onPressIn={onBack}>
+          <Image style={styles.backIcon} source={BackIcon}/>
+        </TouchableOpacity>
+        <View style={{flexDirection:"row"}}>
+          <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onCollect}>
+            <Image style={styles.collectIcon} source={CollectIcon}/>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
+            <Image style={styles.backIcon} source={shareIcon}/>
+          </TouchableOpacity>
+        </View>
+      </Animated.View>
+      <ScrollView style={{flex:1}} contentContainerStyle={styles.scrollView}>
+        <TopInfo/>
+      </ScrollView>
+    </View>
+  );
+}
+function TopInfo(){
+  return <View style={styles.topView}>
+    <View style={styles.infoView}>
+      <View style={styles.avatar}/>
+      <View>
+        <Text style={styles.name}>名字</Text>
+        <Text style={styles.des}>衣互号：1</Text>
+        <Text style={styles.des}>IP属地：北京</Text>
+      </View>
+    </View>
+    <View style={styles.infoView}>
+      <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearView}>
+        <Text style={styles.desinfo}>金牛座</Text>
+      </LinearGradient>
+      <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearView}>
+        <Text style={styles.desinfo}>**爱好者</Text>
+      </LinearGradient>
+    </View>
+    <View style={styles.numberView}>
+      <View style={styles.numItem}>
+        <Text style={styles.number}>200</Text>
+        <Text style={styles.numberdes}>动态</Text>
+      </View>
+      <View style={styles.numItem}>
+        <Text style={styles.number}>200</Text>
+        <Text style={styles.numberdes}>关注</Text>
+      </View>
+      <View style={styles.numItem}>
+        <Text style={styles.number}>200</Text>
+        <Text style={styles.numberdes}>粉丝</Text>
+      </View>
+      <View style={styles.infoView}>
+        <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearVienumw}>
+          <Text style={styles.numberdestitle}>+关注</Text>
+        </LinearGradient>
+        <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearVienumw}>
+          <Text style={styles.numberdestitle}>发消息</Text>
+        </LinearGradient>
+      </View>
+    </View>
+  </View>
+}
+
+export default Ticket;

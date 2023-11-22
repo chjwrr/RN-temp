@@ -243,7 +243,9 @@ function RemmenntRenderItem({item,columnIndex,onPress}:any){
       </ImageBackground>
     </View>
     <View style={styles.typeItemDown}>
-      <Image style={styles.typeItemDownbg} source={downBg} resizeMode='cover'/>
+      {/* <Image style={styles.typeItemDownbg} source={downBg} resizeMode='cover'/> */}
+      <LinearGradient colors={['rgba(64,14,179,0.6)', 'transparent']} style={styles.typeItemDownbg}/>
+
       <View style={styles.flowViewSubView}>
         <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.intro}</Text>
         <TouchableOpacity style={styles.focusButton}>

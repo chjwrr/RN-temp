@@ -134,9 +134,9 @@ function RecommendDetail(props:any): JSX.Element {
   }
 
   function onJoin(){
-    // if (merchantClothInfo.image){
-    //   savePicture(HTTPS.getImageUrl(merchantClothInfo.image))
-    // }
+    if (merchantClothInfo.image){
+      savePicture(HTTPS.getImageUrl(merchantClothInfo.image))
+    }
   }
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>

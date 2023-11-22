@@ -11,6 +11,7 @@ import ShowDetailScreen from '@/pages/Home/Show/ShowDetail'
 import TicketBannerDetailScreen from '@/pages/Ticket/BannerDetail'
 import TicketBannerDetailListScreen from '@/pages/Ticket/BannerDetailist'
 import BuyTicketScreen from '@/pages/Ticket/BuyTicket'
+import SuperPersonDetailScreen from '@/pages/Ticket/SuperPerson/SuperPersonDetail'
 
 
 export const routers:any[] = [
@@ -65,6 +66,10 @@ export const routers:any[] = [
     {
       name:'BuyTicket',
       component:BuyTicketScreen
+    },
+    {
+      name:'SuperPersonDetail',
+      component:SuperPersonDetailScreen
     },
     
     

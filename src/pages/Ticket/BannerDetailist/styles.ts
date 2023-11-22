@@ -205,6 +205,9 @@ export const styles = StyleSheet.create({
         paddingHorizontal:10,
         justifyContent:'center',
         zIndex:2,
+        borderWidth:1,
+        borderTopWidth:0,
+        borderColor:'rgba(64,14,179,0.6)'
     },
     typeItemDownbg:{
       position:'absolute',

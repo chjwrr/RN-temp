@@ -7,7 +7,8 @@ import {
 export const styles = StyleSheet.create({
     mainView:{
         flex:1,
-        backgroundColor:Colors.black
+        backgroundColor:Colors.black,
+        paddingHorizontal:16
     },
     topbg:{
         width:SCREEN_WIDTH,
@@ -37,7 +38,7 @@ export const styles = StyleSheet.create({
         flex:1,
     },
     bannerView:{
-        paddingHorizontal:16,
+        flex:1,
         marginTop:STATUSBAR_HEIGHT + NAVIGATION_HEIGHT + 20,
     },
     centerbg:{
@@ -48,7 +49,8 @@ export const styles = StyleSheet.create({
     centerTitle:{
         fontSize:16,
         color:'#fff',
-        marginBottom:10
+        marginBottom:10,
+        marginLeft:16
     },
     banner:{
         width:SCREEN_WIDTH - 32,
@@ -123,7 +125,7 @@ export const styles = StyleSheet.create({
     },
     flowLoadingView:{
         // width:'100%',
-        height:270,
+        height:250,
         flex:1,
         borderRadius:5,
         padding:8
@@ -131,15 +133,7 @@ export const styles = StyleSheet.create({
     flowView:{
         // width:'100%',
         flex:1,
-        height:270,
-        // backgroundColor:Colors.white,
-        borderRadius:5,
-        // padding:8
-    },
-    flowView2:{
-        // width:'100%',
-        flex:1,
-        height:180,
+        height:250,
         // backgroundColor:Colors.white,
         borderRadius:5,
         // padding:8
@@ -168,11 +162,13 @@ export const styles = StyleSheet.create({
     zIndex:2,
 },
     typeItemDown:{
-        height:90,
+        height:70,
         width:'100%',
         paddingHorizontal:10,
-        justifyContent:'center',
-        zIndex:2,
+        // justifyContent:'center',
+        borderWidth:1,
+        borderTopWidth:0,
+        borderColor:'rgba(64,14,179,0.6)'
     },
     typeItemDownbg:{
       position:'absolute',
