@@ -90,6 +90,8 @@ function Home({navigation}:any): JSX.Element {
           setIndex(index)
           if (index == 0){
             setShowTab(recommendShowTab)
+          }else {
+            setShowTab(true)
           }
         }}
         initialLayout={{ width: layout.width }}

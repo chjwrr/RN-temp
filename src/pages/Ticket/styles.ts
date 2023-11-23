@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
         zIndex:10,
         top:0,
         backgroundColor:Colors.black,
+        opacity:0,
         overflow:'hidden'
     },
     tabButton:{

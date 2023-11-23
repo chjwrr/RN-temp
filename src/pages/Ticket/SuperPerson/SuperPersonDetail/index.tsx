@@ -32,12 +32,12 @@ import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
 
 
-const BGImage = require('@/assets/images/homebg.png')
+const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_1.png')
 const BackIcon = require('@/assets/images/back_w.png')
 const CollectIcon = require('@/assets/images/collwhi.png')
 const shareIcon = require('@/assets/images/share_w.png')
 const pertopbg = require('@/assets/images/pertopbg.png')
-const ticketavatar = require('@/assets/images/ticketavatar.png')
+const tick_icon_2 = require('@/assets/images/tick_icon_2.png')
 const numbg = require('@/assets/images/numbg.png')
 const tabButtonBg = require('@/assets/images/buttonbg.png')
 const downbg = require('@/assets/images/downbg.png')
@@ -58,6 +58,9 @@ function Ticket(props:any): JSX.Element {
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const userInfo = useUserInfo()
+
+
+  const recommonList = [1,2,3,4,5,6,7,8]
 
   function onBack(){
     props.navigation.goBack()
@@ -87,7 +90,7 @@ function Ticket(props:any): JSX.Element {
       <Animated.View style={[styles.navigationView,{
         backgroundColor:scrollY.interpolate({
           inputRange: [0,88],
-          outputRange: ['transparent','#fff'],
+          outputRange: ['transparent','#000'],
         })
       }]}>
         <TouchableOpacity style={styles.backButton} onPressIn={onBack}>
@@ -102,8 +105,72 @@ function Ticket(props:any): JSX.Element {
           </TouchableOpacity>
         </View>
       </Animated.View>
-      <ScrollView style={{flex:1}} contentContainerStyle={styles.scrollView}>
+      <ScrollView style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+        onScroll={Animated.event([
+          {nativeEvent: {contentOffset: {y: scrollY}}}
+        ],{
+          useNativeDriver:false
+        })}>
         <TopInfo/>
+        <View style={styles.line}/>
+        <Text style={styles.title}>系列作品</Text>
+        {
+          [1,2].map((item:any,index:number)=>{
+            return <View style={styles.bannerView} key={index+'spdb'}>
+              <ExpoImage
+                style={styles.banner}
+                source={tick_icon_2}
+                placeholder={BLUR_HASH}
+                contentFit="cover"
+                transition={200}
+              />
+            </View>
+          })
+        }
+        <Text style={[styles.title,{marginTop:32}]}>热门推荐</Text>
+        <View style={styles.scrollView}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {
+            recommonList.map((item:any,index:number)=>{
+              return <TouchableOpacity style={[styles.recmmonItem,{
+                marginRight:index == recommonList.length - 1 ? 0 : 8
+              }]} key={index+'spdr'} onPress={()=>{
+                props.navigation.navigate('SuperPersonDetail',{
+                  id:0
+                })
+              }}>
+                <ExpoImage
+                  style={styles.focusAvatarView}
+                  source={ticket_pro_ban_1}
+                  placeholder={BLUR_HASH}
+                  contentFit="cover"
+                  transition={200}
+                />
+                <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearsellView}>
+                  <Text style={styles.numberdestitle}>热卖中</Text>
+                </LinearGradient>
+                <Text numberOfLines={1} ellipsizeMode='tail' style={styles.itemName}>项目01</Text>
+                <Text style={styles.itemID}>ID:01</Text>
+              </TouchableOpacity>
+            })
+          }
+          </ScrollView>
+        </View>
+        {
+          [1,2].map((item:any,index:number)=>{
+            return <View style={styles.bannerView} key={index+'spdb'}>
+              <ExpoImage
+                style={styles.banner}
+                source={tick_icon_2}
+                placeholder={BLUR_HASH}
+                contentFit="cover"
+                transition={200}
+              />
+            </View>
+          })
+        }
       </ScrollView>
     </View>
   );

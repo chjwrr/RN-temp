@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
         // zIndex:2
     },
     navigationView:{
-        width:'100%',
+        width:SCREEN_WIDTH,
         height:NAVIGATION_HEIGHT + STATUSBAR_HEIGHT,
         flexDirection:'row',
         justifyContent:'space-between',
@@ -65,15 +65,18 @@ export const styles = StyleSheet.create({
         position:'absolute',
         zIndex:10,
         top:0,
+        paddingHorizontal:16,
         backgroundColor:Colors.black
     },
     scrollView:{
-        paddingTop:NAVIGATION_HEIGHT + STATUSBAR_HEIGHT + 10,
         flex:1,
-        width:SCREEN_WIDTH - 32,
+        marginBottom:12
+        // width:SCREEN_WIDTH - 32,
     },
     topView:{
         marginLeft:14,
+        marginTop:NAVIGATION_HEIGHT + STATUSBAR_HEIGHT + 10,
+
     },
     infoView:{
         flexDirection:'row',
@@ -141,5 +144,60 @@ export const styles = StyleSheet.create({
         fontSize:12,
         color:Colors.white,
     },
+    title:{
+      fontSize:16,
+      fontWeight:'600',
+      color:Colors.white,
+    },
+    line:{
+      width:'100%',
+      height:1,
+      backgroundColor:'rgba(255,255,255,0.3)',
+      marginVertical:16
+    },
+    bannerView:{
+      width:'100%',
+      height:150,
+      borderRadius:8,
+      overflow:'hidden',
+      marginTop:8
+    },
+    banner:{
+      width:'100%',
+      height:150,
+    },
+    recmmonItem:{
+      width:86,
+      marginRight:8,
+      marginTop:12
+    },
+    focusAvatarView:{
+      width:86,
+      height:86,
+      borderRadius:12,
+      overflow:'hidden',
+    },
+    itemName:{
+      fontSize:10,
+      color:Colors.white,
+      marginTop:5
+    },
+    itemID:{
+      fontSize:10,
+      color:Colors.white,
+      marginTop:2
+    },
+    linearsellView:{
+      height:20,
+      justifyContent:'center',
+      alignItems:'center',
+      // width:60,
+      paddingHorizontal:5,
+      borderRadius:10,
+      position:'absolute',
+      top:60,
+      right:5
+
+    }
 });
 
