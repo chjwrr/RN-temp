@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import {
   SafeAreaView,
   Text,
@@ -22,13 +22,14 @@ import {CacheManager, CachedImage} from '@georstat/react-native-image-cache'
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import * as HTTPS from '@/api/axios'
 import { Image as ExpoImage } from 'expo-image';
-import { MERCHANT_CLOTH_DETAIL } from '@/api/API';
+import { MERCHANT_CLOTH_DETAIL, MERCHANT_FOLLOW, MERCHANT_UNFOLLOW,  MERCHANT_CLOTH_UNCOLLECT , MERCHANT_CLOTH_COLLECT } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import { savePicture } from '@/utils/common';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
-const CollectIcon = require('@/assets/images/unxingxing.png')
+const CollectIcon = require('@/assets/images/unlike.png')
+const CollectSIcon = require('@/assets/images/like.png')
 const shareIcon = require('@/assets/images/share.png')
 const downbgIcon = require('@/assets/images/downbg.png')
 const hdIcon = require('@/assets/images/hd.png')
@@ -65,13 +66,22 @@ function RecommendDetail(props:any): JSX.Element {
     props.navigation.goBack()
   }
   function onCollect(){
-
+    HTTPS.post(merchantClothInfo.is_collect ? MERCHANT_CLOTH_UNCOLLECT : MERCHANT_CLOTH_COLLECT,{
+      "token":userInfo.token,
+      "cloth_id":merchantClothInfo.cloth_id,
+    }).then((result:any)=>{
+      setMerchantClothInfo({
+        ...merchantClothInfo,
+        is_collect:!merchantClothInfo.is_collect
+      })
+      props.route.params.onCollectChange && props.route.params.onCollectChange(!merchantClothInfo.is_collect)
+    }).finally(()=>{
+    })
   }
   function onShare(){
-    const url = 'https://awesome.contents.com/';
-    const title = 'Awesome Contents';
-    const message = 'Please check this out.';
-    const icon = 'data:<data_type>/<file_extension>;base64,<base64_data>';
+    const url = HTTPS.getImageUrl(merchantClothInfo.image)
+    const title = 'Cverselink';
+    const message = '';
     const options = Platform.select({
       default: {
         title,
@@ -134,10 +144,11 @@ function RecommendDetail(props:any): JSX.Element {
   }
 
   function onJoin(){
-    if (merchantClothInfo.image){
-      savePicture(HTTPS.getImageUrl(merchantClothInfo.image))
-    }
+    // if (merchantClothInfo.image){
+    //   savePicture(HTTPS.getImageUrl(merchantClothInfo.image))
+    // }
   }
+
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -152,7 +163,7 @@ function RecommendDetail(props:any): JSX.Element {
             </TouchableOpacity>
             <View style={{flexDirection:"row"}}>
               <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onCollect}>
-                <Image style={styles.collectIcon} source={CollectIcon}/>
+                <Image style={styles.collectIcon} source={merchantClothInfo.is_collect ? CollectSIcon : CollectIcon}/>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
                 <Image style={styles.backIcon} source={shareIcon}/>
@@ -172,7 +183,9 @@ function RecommendDetail(props:any): JSX.Element {
           {/* {id == 0 ? <TDModalView/> : <SwiperView/>} */}
           <SwiperView images={[merchantClothInfo.image]} name={merchantClothInfo.name}/>
           <View style={styles.detailView}>
-            <ShopInfo info={merchantClothInfo}/>
+            <ShopInfo info={merchantClothInfo} onChange={(info:any)=>{
+              setMerchantClothInfo(info)
+            }}/>
             <WebView
               source={{ uri: 'https://www.baidu.com' }}
               style={styles.webDetailView}
@@ -207,7 +220,9 @@ function RecommendDetail(props:any): JSX.Element {
               </View>
             </View>
             <Image style={styles.showBuyLine} source={buylineIcon}/>
-            <BuyModalRight/>
+            <BuyModalRight info={merchantClothInfo} onChange={(info:any)=>{
+              setMerchantClothInfo(info)
+            }}/>
         </Animated.View>
         <Animated.View style={[styles.bgModal,{
           opacity:fadeAnim,
@@ -217,31 +232,72 @@ function RecommendDetail(props:any): JSX.Element {
     </ImageBackground>
   );
 }
-function BuyModalRight(){
-  const [collect,setCollect] = useState(false)
-  function onCollect(){
-    setCollect(!collect)
+function BuyModalRight({info,onChange}:any){
+  const [focus,setFocus] = useState(false)
+  useEffect(()=>{
+    setFocus(info.merchant?.is_follow)
+  },[info.merchant?.is_follow])
+  const userInfo = useUserInfo()
+  // 关注店铺
+  function onFocus(){
+    console.log('merchantClothInfo==',info)
+    HTTPS.post(focus ? MERCHANT_UNFOLLOW : MERCHANT_FOLLOW,{
+      "token":userInfo.token,
+      "merchant_id":info.merchant?.merchant_id,
+    }).then((result:any)=>{
+      setFocus(!focus)
+      let temp = {...info}
+      temp.merchant.is_follow = !focus
+      onChange(temp)
+    }).finally(()=>{
+    })
   }
   return <View style={styles.showBuyRightView}>
     <Image style={styles.showBuyRightDownBg} source={buybgIcon}/>
     <Image style={styles.showBuyRightIcon} source={buytopiconIcon}/>
     <Text style={styles.showBuyRightName} numberOfLines={1} ellipsizeMode='tail'>店铺名称</Text>
-    <TouchableOpacity onPressIn={onCollect}>
-      <Image style={styles.showBuyRightDownIcon} source={collect ? collectedshopIcon : collectshopIcon}/>
+    <TouchableOpacity onPressIn={onFocus}>
+      <Image style={styles.showBuyRightDownIcon} source={focus ? collectedshopIcon : collectshopIcon}/>
     </TouchableOpacity>
   </View>
 }
-function ShopInfo({info}:any){
+function ShopInfo({info,onChange}:any){
   const [focus,setFocus] = useState(false)
+  useEffect(()=>{
+    setFocus(info.merchant?.is_follow)
+  },[info.merchant?.is_follow])
+  const userInfo = useUserInfo()
+  // 关注店铺
   function onFocus(){
-    setFocus(!focus)
+    console.log('merchantClothInfo==',info)
+    HTTPS.post(focus ? MERCHANT_UNFOLLOW : MERCHANT_FOLLOW,{
+      "token":userInfo.token,
+      "merchant_id":info.merchant?.merchant_id,
+    }).then((result:any)=>{
+      setFocus(!focus)
+      let temp = {...info}
+      temp.merchant.is_follow = !focus
+      onChange(temp)
+    }).finally(()=>{
+    })
   }
+
   return <View style={styles.shopView}>
     <View style={{flexDirection:'row'}}>
-      <View style={styles.shopIcon}/>
+      {/* <View style={styles.shopIcon}/> */}
+      <ExpoImage
+          style={styles.shopIcon}
+          source={HTTPS.getImageUrl(info.merchant?.logo)}
+          placeholder={BLUR_HASH}
+          contentFit="cover"
+          transition={200}
+          onLoad={(e:any)=>{
+            console.log('eeee==',e)
+          }}
+        />
       <View>
-        <Text style={styles.shopName}>商家名称</Text>
-        <Text style={styles.shopDes}>1.5万+收藏</Text>
+        <Text style={styles.shopName}>{info.merchant?.name}</Text>
+        <Text style={styles.shopDes}>{info.merchant?.follow_count}+关注</Text>
       </View>
     </View>
     <TouchableOpacity style={[styles.focusdis,focus && styles.focusSel]} onPressIn={onFocus}>
@@ -249,7 +305,7 @@ function ShopInfo({info}:any){
     </TouchableOpacity>
   </View>
 }
-function SwiperView({images,name}:{images:any[],name:any}){
+const SwiperView = memo(({images,name}:{images:any[],name:any})=>{
   const [currentIndex,setCurrentIndex] = useState(0)
   return <View style={styles.swiperView}>
     <Carousel
@@ -292,7 +348,7 @@ function SwiperView({images,name}:{images:any[],name:any}){
     </View>
     <Text style={styles.name}>{name}</Text>
   </View>
-}
+},(pre,next)=>pre.name == next.name)
 function TDModalView(){
   return <View style={styles.modalView}>
     <WebView

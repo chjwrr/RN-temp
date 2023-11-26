@@ -18,13 +18,14 @@ import { FadeLoading } from 'react-native-fade-loading';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useUserInfo } from '@/redux/userInfo';
 import * as HTTPS from '@/api/axios'
-import { HOME_BANNER, RECOMMEND_MERCHANT_CLOTH_LIST } from '@/api/API';
+import { HOME_BANNER, RECOMMEND_MERCHANT_CLOTH_LIST,MERCHANT_CLOTH_COLLECT,MERCHANT_CLOTH_UNCOLLECT } from '@/api/API';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
 
 
-const focus_n = require('@/assets/images/unxingxing.png')
+const focus_n = require('@/assets/images/unlike.png')
+const focus_s = require('@/assets/images/like.png')
 
 
 function Recommend({navigation,jumpTo}:any): JSX.Element {
@@ -44,11 +45,11 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
       offset:currenPage * PAGE_SIZE
     }).then((result:any)=>{
       if (currenPage == 0){
-        setDataSource(result.recommend_merchant_cloth_list)
+        setDataSource(result.merchant_cloth_recommend_list)
       }else {
-        setDataSource([...dataSource,...result.recommend_merchant_cloth_list])
+        setDataSource([...dataSource,...result.merchant_cloth_recommend_list])
       }
-      if (result.recommend_merchant_cloth_list.length < PAGE_SIZE){
+      if (result.merchant_cloth_recommend_list.length < PAGE_SIZE){
         setIsLoadEnd(true)
       }else {
         setIsLoadEnd(false)
@@ -65,12 +66,16 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
   },[])
 
 
-  function onPress(cloth_id:number){
+  function onPress(item:any,index:number){
     navigation.navigate('RecommendDetail',{
-      id:cloth_id
+      id:item.cloth_id,
+      onCollectChange:(is_collect:boolean)=>{
+        let temp = [...dataSource]
+        temp.splice(index,1,{...item,is_collect:is_collect})
+        setDataSource(temp)
+      }
     })
   }
-
 
   function onRefresh(){
     if (loading || refreshing){
@@ -82,14 +87,26 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
   }
 
   function onEndReached(){
+    console.log('==onEndReached==',loading,refreshing,isLoadEnd)
     if (loading || refreshing || isLoadEnd || !isCanLoadMore.current){
       return
     }
     console.log('loading more')
-    setPage(page + 1)
+    getData(page + 1)
   }
 
-  console.log('当前数据条数=',dataSource.length)
+  // 收藏服饰
+  function onCollect(item:any,index:number){
+    HTTPS.post(item.is_collect ? MERCHANT_CLOTH_UNCOLLECT : MERCHANT_CLOTH_COLLECT,{
+      "token":userInfo.token,
+      "cloth_id":item.cloth_id,
+    }).then((result:any)=>{
+      let temp = [...dataSource]
+      temp.splice(index,1,{...item,is_collect:!item.is_collect})
+      setDataSource(temp)
+    }).finally(()=>{
+    })
+  }
 
   return (
       <FlatList
@@ -98,6 +115,7 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
         columnWrapperStyle={{justifyContent:'space-between'}}
         numColumns={2}
         renderItem={({ item, index })=>{
+          // console.log('item.merchant==',item.merchant)
           return <View style={{flex:1}}>
             { item == 1 ? <FadeLoading
           style={[styles.flowLoadingView,{
@@ -111,7 +129,7 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
           duration={0}
           visible={true}
           animated={true}
-        /> : <TouchableOpacity onPress={()=>onPress(item.cloth_id)} style={[styles.flowView,{
+        /> : <TouchableOpacity onPress={()=>onPress(item,index)} style={[styles.flowView,{
             marginVertical:2,
             marginRight:index % 2 == 0 ? 2 : 0,
             marginLeft:index % 2 == 0 ? 0 : 2,
@@ -151,8 +169,8 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
                   />
                 <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>{item.merchant.name}</Text>
               </View>
-              <TouchableOpacity style={styles.focusButton}>
-                <Image style={styles.flowFocus} source={focus_n}/>
+              <TouchableOpacity style={styles.focusButton} onPress={()=>onCollect(item,index)}>
+                <Image style={styles.flowFocus} source={item.is_collect ? focus_s : focus_n}/>
               </TouchableOpacity>
             </View>
           </TouchableOpacity>
@@ -160,7 +178,7 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
           </View>
         }}
         style={{ flex: 1,width:SCREEN_WIDTH - 32 }}
-        ListHeaderComponent={<HomeBanner/>}
+        ListHeaderComponent={<HomeBanner navigation={navigation}/>}
         ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
           <Text style={styles.loadMoreTitle}>加载更多...</Text>
           <ActivityIndicator size="small" color={Colors.main} />
@@ -175,10 +193,10 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
           }
         }}
         onContentSizeChange={() => {
-          setTimeout(() => {
+          // setTimeout(() => {
             isCanLoadMore.current = true;
 
-          }, 1000);
+          // }, 1000);
         }}
         onEndReachedThreshold={0.01}
         refreshControl={
@@ -188,14 +206,14 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
   );
 }
 
-function HomeBanner(){
+function HomeBanner({navigation}:any){
   const userInfo = useUserInfo()
   const [bannerList,setBannerList] = useState<any[]>([])
   useEffect(()=>{
     HTTPS.post(HOME_BANNER,{
       "token":userInfo.token,
     }).then((res:any)=>{
-      setBannerList(res.banner_list)
+      setBannerList(res.banner)
     }).finally(()=>{
 
     })
@@ -216,6 +234,11 @@ function HomeBanner(){
       parallaxScrollingOffset: 40,
     }}
     renderItem={({ item,index }:any) => (
+      <TouchableOpacity onPress={()=>{
+        navigation.navigate('RecommendDetail',{
+          id:item.banner_id
+        })
+      }}>
       <ExpoImage
         style={styles.flowViewIcon}
         source={HTTPS.getImageUrl(item.image)}
@@ -223,6 +246,8 @@ function HomeBanner(){
         contentFit="cover"
         transition={200}
       />
+      </TouchableOpacity>
+     
       // <CachedImage
       //   resizeMode='contain'
       //   source={HTTPS.getImageUrl(item.image)}

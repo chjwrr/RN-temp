@@ -22,7 +22,7 @@ import { FadeLoading } from 'react-native-fade-loading';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from "@react-native-community/blur";
 import * as HTTPS from '@/api/axios'
-import { MASTER_LIST, TICKET_LIST } from '@/api/API';
+import { GET_MASTER_LIST, TICKET_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
@@ -39,14 +39,28 @@ const ticket_focus = require('@/assets/images/ticket_focus_icon.png')
 const ticket_play = require('@/assets/images/ticket_play_icon.png')
 const ticket_item_1 = require('@/assets/images/tick_icon_1.png')
 const ticket_item_2 = require('@/assets/images/tick_icon_2.png')
-const focus_n = require('@/assets/images/collwhi.png')
+const focus_n = require('@/assets/images/share_w.png')
 const limmitBg = require('@/assets/images/limmitBg.png')
 const downBg = require('@/assets/images/ticket_downbgperson.png')
+
+
+const bannerList:any[] = [
+  {
+    title:'破妄明心',
+    des:'·明星阵容',
+    banner:ticket_pro_ban_1
+  },
+  {
+    title:'阴阳师',
+    des:'·全民集结',
+    banner:ticket_pro_ban_2
+  }
+]
 
 function Ticket({navigation}:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [dataSource,setDataSource] = useState<any[]>([1,1,1,1])
+  const [dataSource,setDataSource] = useState<any[]>([{},{},{}])
   const isCanLoadMore = useRef(false)
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
@@ -57,19 +71,31 @@ function Ticket({navigation}:any): JSX.Element {
 
   }
   function getData(currenPage:number){
+
+    HTTPS.post(GET_MASTER_LIST,{
+      "token":userInfo.token,
+      "limit":PAGE_SIZE,
+      offset:currenPage * PAGE_SIZE
+    })
+    .then((result:any)=>{
+      
+    })
+    .finally(()=>{})
+
+
     setLoading(true)
-    HTTPS.post(MASTER_LIST,{
+    HTTPS.post(TICKET_LIST,{
       "token":userInfo.token,
       "limit":PAGE_SIZE,
       offset:currenPage * PAGE_SIZE
     }).then((result:any)=>{
       if (currenPage == 0){
-        setDataSource(result.master_list)
+        setDataSource(result.ticket_list)
         // setDataSource([{},{},{},{},{},{},{}])
       }else {
-        setDataSource([...dataSource,...result.master_list])
+        setDataSource([...dataSource,...result.ticket_list])
       }
-      if (result.master_list.length < PAGE_SIZE){
+      if (result.ticket_list.length < PAGE_SIZE){
         setIsLoadEnd(true)
       }else {
         setIsLoadEnd(false)
@@ -114,14 +140,11 @@ function Ticket({navigation}:any): JSX.Element {
       <FlatList
         showsVerticalScrollIndicator={false}
         data={dataSource}
-        columnWrapperStyle={{justifyContent:'space-between'}}
-        numColumns={2}
+        numColumns={1}
         renderItem={({ item, index })=>{
           return item == 1 ? <FadeLoading
           style={[styles.flowLoadingView,{
             marginVertical:2,
-            marginRight:index % 2 == 0 ? 2 : 0,
-            marginLeft:index % 2  == 0 ? 0 : 2,
           }]}
           children={''}
           primaryColor={'#a6abe2'}
@@ -129,23 +152,22 @@ function Ticket({navigation}:any): JSX.Element {
           duration={0}
           visible={true}
           animated={true}
-        />: <RemmenntRenderItem item={item} columnIndex={index} onPress={()=>{
-          navigation.navigate('SuperPersonDetail',{
-            master_id:item.master_id
+        />: <RemmenntRenderItem item={item} onPress={()=>{
+          navigation.navigate('TicketBannerDetailList',{
+            info:item
           })
         }}/>
         }}
         style={{ flex: 1 }}
         ListHeaderComponent={
             <View style={styles.bannerView}>
-              <Text style={styles.centerTitle}>达人推荐</Text>
               <View style={styles.scrollView}>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 {
                   focusList.map((item:any,index:number)=>{
                     return <TouchableOpacity style={styles.focusView} key={index+'focus'} onPress={()=>{
                       navigation.navigate('SuperPersonDetail',{
-                        // master_id:item.master_id
+                        id:0
                       })
                     }}>
                       <View style={styles.focusAvatarView}>
@@ -185,48 +207,26 @@ function Ticket({navigation}:any): JSX.Element {
   );
 }
 
-function RemmenntRenderItem({item,columnIndex,onPress}:any){
-  console.log('item==',item)
+function RemmenntRenderItem({item,onPress}:any){
   return <TouchableOpacity onPress={onPress} style={[styles.flowView,{
     marginVertical:2,
-    marginRight:columnIndex == 0 ? 2 : 0,
-    marginLeft:columnIndex == 0 ? 0 : 2
   }]}>
-    <View style={styles.typeItem}>
-    {/* <CachedImage
-      resizeMode='cover'
-      source={HTTPS.getImageUrl(item.image)}
+    <View style={styles.flowViewSubView}>
+      <View style={{flexDirection:'row',alignItems:'center'}}>
+        <View style={styles.flowIcon}/>
+        <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>名字</Text>
+      </View>
+      <TouchableOpacity style={styles.focusButton}>
+        <Image style={styles.flowFocus} source={focus_n}/>
+      </TouchableOpacity>
+    </View>
+    <ExpoImage
       style={styles.typeItem}
-      blurRadius={30}
-      loadingImageComponent={ImagePlaceholder}
-      /> */}
-      <ExpoImage
-        style={styles.typeItem}
-        source={HTTPS.getImageUrl(item.avatar)}
-        placeholder={BLUR_HASH}
-        contentFit="cover"
-        transition={200}
-      />
-      {/* <ImageBackground source={limmitBg} style={styles.limmitbg}>
-        <Text style={styles.limmittitle}>限量:{item.total}份</Text>
-      </ImageBackground> */}
-    </View>
-    <View style={styles.typeItemDown}>
-      {/* <Image style={styles.typeItemDownbg} source={downBg} resizeMode='cover'/> */}
-      <LinearGradient colors={['rgba(64,14,179,0.6)', 'transparent']} style={styles.typeItemDownbg}/>
-      <View style={styles.flowViewSubView}>
-        <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.intro}</Text>
-        <TouchableOpacity style={styles.focusButton}>
-          <Image style={styles.flowFocus} source={focus_n}/>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.flowViewSubView}>
-        <View style={{flexDirection:'row',alignItems:'center',flex:1}}>
-          {/* <View style={styles.flowIcon}/> */}
-          <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>{item.name}</Text>
-        </View>
-      </View>
-    </View>
+      source={HTTPS.getImageUrl(item.image)}
+      placeholder={BLUR_HASH}
+      contentFit="cover"
+      transition={200}
+    />
   </TouchableOpacity>
 }
 const centerItems:any[] = [

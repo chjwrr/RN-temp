@@ -25,7 +25,7 @@ import { FadeLoading } from 'react-native-fade-loading';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from "@react-native-community/blur";
 import * as HTTPS from '@/api/axios'
-import { TICKET_LIST } from '@/api/API';
+import { MASTER_DETAIL, PROJECT_LIST, TICKET_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
@@ -58,9 +58,47 @@ function Ticket(props:any): JSX.Element {
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const userInfo = useUserInfo()
-
-
   const recommonList = [1,2,3,4,5,6,7,8]
+  const [masterInfo,setMasterInfo] = useState<any>({})
+  useEffect(()=>{
+    onGetProjectList(0)
+    onGetMasterDetail()
+  },[])
+
+  function onGetMasterDetail(){
+    HTTPS.post(MASTER_DETAIL,{
+      "token":userInfo.token,
+      master_id: props.route.params.master_id
+    }).then((result:any)=>{
+      setMasterInfo(result.master_detail)
+    }).finally(()=>{
+    })
+  }
+  function onGetProjectList(currenPage:number){
+    HTTPS.post(PROJECT_LIST,{
+      "token":userInfo.token,
+      "limit":PAGE_SIZE,
+      offset:currenPage * PAGE_SIZE,
+      master_id: props.route.params.master_id
+    }).then((result:any)=>{
+      if (currenPage == 0){
+        setDataSource(result.project_list)
+        // setDataSource([{},{},{},{},{},{},{}])
+      }else {
+        setDataSource([...dataSource,...result.project_list])
+      }
+      if (result.project_list.length < PAGE_SIZE){
+        setIsLoadEnd(true)
+      }else {
+        setIsLoadEnd(false)
+      }
+      setPage(currenPage)
+    }).finally(()=>{
+      setRefreshing(false)
+      setLoading(false)
+    })
+  }
+
 
   function onBack(){
     props.navigation.goBack()
@@ -97,9 +135,9 @@ function Ticket(props:any): JSX.Element {
           <Image style={styles.backIcon} source={BackIcon}/>
         </TouchableOpacity>
         <View style={{flexDirection:"row"}}>
-          <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onCollect}>
+          {/* <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onCollect}>
             <Image style={styles.collectIcon} source={CollectIcon}/>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
             <Image style={styles.backIcon} source={shareIcon}/>
           </TouchableOpacity>

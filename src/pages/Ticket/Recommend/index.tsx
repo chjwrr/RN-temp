@@ -22,7 +22,7 @@ import { FadeLoading } from 'react-native-fade-loading';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from "@react-native-community/blur";
 import * as HTTPS from '@/api/axios'
-import { GET_MASTER_LIST, TICKET_BANNER, TICKET_LIST } from '@/api/API';
+import { MASTER_LIST, TICKET_BANNER, PROJECT_RECOMMEND_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
@@ -43,19 +43,6 @@ const focus_n = require('@/assets/images/collwhi.png')
 const limmitBg = require('@/assets/images/limmitBg.png')
 const downBg = require('@/assets/images/ticketitembg.png')
 
-
-const bannerList:any[] = [
-  {
-    title:'破妄明心',
-    des:'·明星阵容',
-    banner:ticket_pro_ban_1
-  },
-  {
-    title:'阴阳师',
-    des:'·全民集结',
-    banner:ticket_pro_ban_2
-  }
-]
 function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -64,33 +51,46 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const userInfo = useUserInfo()
+  const [proList,setProList] = useState<any[]>([])
 
-  function getData(currenPage:number){
-    setLoading(true)
-    HTTPS.post(TICKET_LIST,{
+  function getProList(){
+    HTTPS.post(PROJECT_RECOMMEND_LIST,{
       "token":userInfo.token,
-      "limit":PAGE_SIZE,
-      offset:currenPage * PAGE_SIZE
+      "limit":5,
+      offset:0
     }).then((result:any)=>{
-      if (currenPage == 0){
-        setDataSource(result.ticket_list)
-        // setDataSource([{},{},{},{},{},{},{}])
-      }else {
-        setDataSource([...dataSource,...result.ticket_list])
-      }
-      if (result.ticket_list.length < PAGE_SIZE){
-        setIsLoadEnd(true)
-      }else {
-        setIsLoadEnd(false)
-      }
-      setPage(currenPage)
+      setProList(result.project_recommend_list)
     }).finally(()=>{
-      setRefreshing(false)
-      setLoading(false)
     })
   }
 
+  function getData(currenPage:number){
+    // setLoading(true)
+    // HTTPS.post(MASTER_LIST,{
+    //   "token":userInfo.token,
+    //   "limit":PAGE_SIZE,
+    //   offset:currenPage * PAGE_SIZE
+    // }).then((result:any)=>{
+    //   if (currenPage == 0){
+    //     setDataSource(result.master_list)
+    //     // setDataSource([{},{},{},{},{},{},{}])
+    //   }else {
+    //     setDataSource([...dataSource,...result.master_list])
+    //   }
+    //   if (result.master_list.length < PAGE_SIZE){
+    //     setIsLoadEnd(true)
+    //   }else {
+    //     setIsLoadEnd(false)
+    //   }
+    //   setPage(currenPage)
+    // }).finally(()=>{
+    //   setRefreshing(false)
+    //   setLoading(false)
+    // })
+  }
+
   useEffect(()=>{
+    getProList()
     getData(0)
   },[])
 
@@ -155,36 +155,26 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
           })
         }}/>
         }}
-        style={{ flex: 1 }}
+        style={{ flex: 1,paddingHorizontal:16 }}
         ListHeaderComponent={
           <View style={styles.contentView}>
             <TopCarousel navigation={navigation} jumpTo={jumpTo} tabState={tabState}/>
             <View style={styles.bannerView}>
-            {currentType != 0 && <View style={styles.scrollView}>
-              <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-              {
-                focusList.map((item:any,index:number)=>{
-                  return <View style={styles.focusView} key={index+'focus'}>
-                    <View style={styles.focusAvatarView}>
-                      <View style={styles.focusAvtar}/>
-                      <View style={styles.focusTipView}/>
-                    </View>
-                    <Text style={styles.focusName}>用户名字</Text>
-                  </View>
-                })
-              }
-              </ScrollView>
-            </View>}
               <Text style={styles.centerTitle}>来自票友推荐</Text>
               {
-                bannerList.map((item:any,index:number)=>{
+                proList.map((item:any,index:number)=>{
                   return <TouchableOpacity key={index+'tickbanner'} onPress={()=>{
                     onBannerPress(item)
                   }}>
-                    <Image style={styles.banner} source={item.banner}/>
+                    <ExpoImage
+                      style={styles.banner}
+                      source={HTTPS.getImageUrl(item.image)}
+                      placeholder={BLUR_HASH}
+                      contentFit="cover"
+                      transition={200}
+                    />
                     <View style={styles.bannerTitleView}>
-                      <Text style={styles.bannerTitle}>{item.title}</Text>
-                      <Text style={styles.bannerTitleDes}>{item.des}</Text>
+                      <Text style={styles.bannerTitle}>{item.name}</Text>
                     </View>
                   </TouchableOpacity>
                 })
@@ -233,7 +223,7 @@ function RemmenntRenderItem({item,columnIndex,onPress}:any){
       /> */}
       <ExpoImage
         style={styles.typeItem}
-        source={HTTPS.getImageUrl(item.image)}
+        source={HTTPS.getImageUrl(item.avatar)}
         placeholder={BLUR_HASH}
         contentFit="cover"
         transition={200}
@@ -294,7 +284,7 @@ function TopCarousel({navigation,jumpTo,tabState}:any){
     HTTPS.post(TICKET_BANNER,{
       "token":userInfo.token,
     }).then((res:any)=>{
-      setBannerList(res.banner_list)
+      setBannerList(res.banner)
     }).finally(()=>{
 
     })
@@ -320,8 +310,8 @@ function TopCarousel({navigation,jumpTo,tabState}:any){
       onSnapToItem={(index) => {setCurrentIndex(index)}}
       renderItem={({ item,index }:any) => (
         <ExpoImage
-          style={styles.flowIcon}
-          source={HTTPS.getImageUrl(item.merchant.logo)}
+          style={styles.topBanner}
+          source={HTTPS.getImageUrl(item.image)}
           placeholder={BLUR_HASH}
           contentFit="cover"
           transition={200}

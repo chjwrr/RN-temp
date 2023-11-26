@@ -17,7 +17,7 @@ import Colors from '@/utils/colors';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as HTTPS from '@/api/axios'
-import { DESIGN_CIRCLE_CLOTH_LIST } from '@/api/API';
+import { DESIGN_CIRCLE_BANNER, DESIGN_CIRCLE_CLOTH_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import ImagePlaceholder from '@/components/ImagePlaceholder';
@@ -126,30 +126,7 @@ function Design({navigation,jumpTo}:any): JSX.Element {
           </TouchableOpacity>
         }}
         style={{ flex: 1 }}
-        ListHeaderComponent={<View style={{flex:1}}>
-          <Carousel
-          loop
-          width={SCREEN_WIDTH - 32}
-          height={160}
-          autoPlay={true}
-          data={dataSource}
-          scrollAnimationDuration={3000}
-          onSnapToItem={(index) => {}}
-          mode="parallax"
-          modeConfig={{
-            parallaxScrollingScale: 0.9,
-            parallaxScrollingOffset: 40,
-          }}
-          renderItem={({ item,index }) => (
-            <View style={styles.swiperView}>
-              <Text>{index}</Text>
-            </View>
-          )}
-          />
-          <Text style={styles.topTitle}>成为初代设计师</Text>
-          <View style={styles.topItem}>
-          </View>
-        </View>}
+        ListHeaderComponent={<Banner navigation={navigation}/>}
         ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
           <Text style={styles.loadMoreTitle}>加载更多...</Text>
           <ActivityIndicator size="small" color={Colors.main} />
@@ -176,5 +153,51 @@ function Design({navigation,jumpTo}:any): JSX.Element {
     </View>
   );
 }
+function Banner({navigation}:any){
+  const userInfo = useUserInfo()
+  const [bannerList,setBannerList] = useState<any[]>([])
+  useEffect(()=>{
+    HTTPS.post(DESIGN_CIRCLE_BANNER,{
+      "token":userInfo.token,
+    }).then((res:any)=>{
+      setBannerList(res.banner)
+    }).finally(()=>{
 
+    })
+  },[])
+  return <View style={{flex:1}}>
+    <Carousel
+    loop
+    width={SCREEN_WIDTH - 32}
+    height={160}
+    autoPlay={true}
+    data={bannerList}
+    scrollAnimationDuration={3000}
+    onSnapToItem={(index) => {}}
+    mode="parallax"
+    modeConfig={{
+      parallaxScrollingScale: 0.9,
+      parallaxScrollingOffset: 40,
+    }}
+    renderItem={({ item,index }) => (
+      <TouchableOpacity onPress={()=>{
+        navigation.navigate('DesignDetail',{
+          id:item.banner_id
+        })
+      }}>
+      <ExpoImage
+        style={styles.swiperView}
+        source={HTTPS.getImageUrl(item.image)}
+        placeholder={BLUR_HASH}
+        contentFit="cover"
+        transition={200}
+      />
+      </TouchableOpacity>
+    )}
+    />
+    <Text style={styles.topTitle}>成为初代设计师</Text>
+    <View style={styles.topItem}>
+    </View>
+  </View>
+}
 export default Design;

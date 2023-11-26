@@ -8,14 +8,14 @@ export const styles = StyleSheet.create({
         width:'100%',
         height:160,
         borderRadius:8,
-        backgroundColor: "red",
     },
     flowView:{
         width:'100%',
         height:160,
         borderRadius:5,
         padding:8,
-        overflow:'hidden'
+        overflow:'hidden',
+
     },
     itemImage:{
       position:'absolute',

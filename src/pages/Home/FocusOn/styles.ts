@@ -7,7 +7,7 @@ import {
 export const styles = StyleSheet.create({
     scrollView:{
         width:'100%',
-        height:78,
+        // height:78,
     },
     focusView:{
         alignItems:'center',
@@ -36,6 +36,7 @@ export const styles = StyleSheet.create({
     focusName:{
         fontSize:12,
         color:Colors.title,
+        marginBottom:10
     },
     flowLoadingView:{
         height:414,

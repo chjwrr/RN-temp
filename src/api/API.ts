@@ -43,20 +43,23 @@ export const ARTICLE_COMMENNT_DEL = 'article_comment_del'
 //删除文章
 export const ARTICLE_DEL = 'article_del'
 
-//关注用户
-export const SNS_FOLLOW = 'sns_follow'
+// 关注达人
+export const MASTER_FOLLOW = 'master_follow'
 
-//取消关注用户
-export const SNS_UNFOLLOW = 'sns_unfollow'
+//取消关注达人
+export const MASTER_UNFOLLOW = 'master_unfollow'
+
+// 关注达人
+export const USER_FOLLOW = 'user_follow'
+
+//取消关注达人
+export const USER_UNFOLLOW = 'user_unfollow'
 
 //拉黑
 export const SNS_BLOCK = 'sns_block'
 
 //取消拉黑
 export const SNS_UNBLOCK = 'sns_unblock'
-
-//我的关注
-export const MY_FOLLOWING = 'my_following'
 
 //我的粉丝
 export const MY_FOLLOWER = 'my_follower'
@@ -79,7 +82,7 @@ export const ARTICLE_LIKE = 'article_like'
 //取消点赞
 export const ARTICLE_UNLIKE = 'article_unlike'
 
-//收藏
+//收藏文章
 export const ARTICLE_COLLECT = 'article_collect'
 
 //取消收藏
@@ -93,9 +96,6 @@ export const ARTICLE_COMMENT_DEL = 'article_comment_del'
 
 //获取上传图片id
 export const GET_MEDIA_ID = 'get_media_id'
-
-//查询达人列表（分页 limit, offset 可选）
-export const GET_MASTER_LIST = 'get_master_list'
 
 //读票列表（分页）(商品，未出售)
 export const TICKET_LIST = 'ticket_list'
@@ -152,7 +152,7 @@ export const MERCHANT_CLOTH_DETAIL = 'merchant_cloth_detail'
 export const CURRENNT_TIME = 'current_time'
 
 // 首页推荐
-export const RECOMMEND_MERCHANT_CLOTH_LIST = 'recommend_merchant_cloth_list'
+export const RECOMMEND_MERCHANT_CLOTH_LIST = 'merchant_cloth_recommend_list'
 
 // 首页banner
 export const HOME_BANNER = 'home_banner'
@@ -165,5 +165,54 @@ export const ARTICLE_LIST = 'article_list'
 
 // 首页关注
 export const FOLLOWING_ARTICLE_LIST = 'following_article_list'
+
+// 设计圈banner
+export const DESIGN_CIRCLE_BANNER = 'design_circle_banner'
+
+// 我关注的达人
+export const MY_FOLLOWING_MASTERS = 'my_following_masters'
+
+// 我关注的用户
+export const MY_FOLLOWING_USER = 'my_following_users'
+
+// 我关注的商家
+export const MY_FOLLOWING_merchants = 'my_following_merchants'
+
+// 票推荐的项目列表
+export const PROJECT_RECOMMEND_LIST = 'project_recommend_list'
+
+// 票推荐的达人列表
+export const MASTER_LIST = 'master_list'
+
+// 对商家服饰取消收藏
+export const MERCHANT_CLOTH_UNCOLLECT = 'merchant_cloth_uncollect'
+
+// 对商家服饰收藏
+export const MERCHANT_CLOTH_COLLECT = 'merchant_cloth_collect'
+
+// 对商家关注
+export const MERCHANT_FOLLOW = 'merchant_follow'
+
+// 对商家取消关注
+export const MERCHANT_UNFOLLOW = 'merchant_unfollow'
+
+// 项目列表（分页）master_id=None时，返回所有项目, 否则返回这个达人的项目
+export const PROJECT_LIST = 'project_list'
+
+// 达人信息
+export const MASTER_DETAIL = 'master_detail'
+
+// 对设计圈服饰收藏
+export const DESIGN_CIRCLE_CLOTH_COLLECT = 'design_circle_cloth_collect'
+
+// 对设计圈服饰取消收藏
+export const DESIGN_CIRCLE_CLOTH_UNCOLLECT = 'design_circle_cloth_uncollect'
+
+// 评论点赞
+export const ARTICLE_COOMMENT_UP = 'article_comment_up'
+
+// 评论回复
+export const ARTICLE_COOMMENT_REPLY = 'article_comment_reply'
+
 
 

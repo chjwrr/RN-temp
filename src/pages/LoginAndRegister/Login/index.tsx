@@ -90,7 +90,10 @@ function Login(props:any): JSX.Element {
     }).then((result:any)=>{
       Loading.show('登录成功，正在跳转...')
       setTimeout(() => {
-        dispatch(saveUserInfo(result))
+        dispatch(saveUserInfo({
+          ...result.my_user_info,
+          token:result.token
+        }))
         props.navigation.dispatch(
           CommonActions.reset({
             index: 0,

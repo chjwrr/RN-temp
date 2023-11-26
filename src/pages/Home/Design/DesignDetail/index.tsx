@@ -16,12 +16,14 @@ import { WebView } from 'react-native-webview';
 import { styles } from './styles'
 import { show, hidden } from '@/components/CoverModal'
 import * as HTTPS from '@/api/axios'
-import { DESIGN_CIRCLE_CLOTH_DETAIL } from '@/api/API';
+import { DESIGN_CIRCLE_CLOTH_DETAIL,DESIGN_CIRCLE_CLOTH_COLLECT,DESIGN_CIRCLE_CLOTH_UNCOLLECT } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
-const CollectIcon = require('@/assets/images/unxingxing.png')
+const CollectIcon = require('@/assets/images/unlike.png')
+const CollectSIcon = require('@/assets/images/like.png')
+
 const shareIcon = require('@/assets/images/share.png')
 const downbgIcon = require('@/assets/images/downbg.png')
 const hdIcon = require('@/assets/images/hd.png')
@@ -54,6 +56,17 @@ function DesignDetail(props:any): JSX.Element {
     props.navigation.goBack()
   }
   function onCollect(){
+    HTTPS.post(clothDetail.is_collect ?DESIGN_CIRCLE_CLOTH_UNCOLLECT : DESIGN_CIRCLE_CLOTH_COLLECT,{
+      "token":userInfo.token,
+      "cloth_id":clothDetail.cloth_id,
+    }).then((result:any)=>{
+      setClothDetail({
+        ...clothDetail,
+        is_collect:!clothDetail.is_collect
+      })
+    }).finally(()=>{
+    })
+
 
   }
   function onShare(){
@@ -90,7 +103,7 @@ function DesignDetail(props:any): JSX.Element {
             </TouchableOpacity>
             <View style={{flexDirection:"row"}}>
               <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onCollect}>
-                <Image style={styles.collectIcon} source={CollectIcon}/>
+                <Image style={styles.collectIcon} source={clothDetail.is_collect ? CollectSIcon : CollectIcon}/>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
                 <Image style={styles.backIcon} source={shareIcon}/>

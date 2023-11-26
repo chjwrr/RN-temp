@@ -7,7 +7,8 @@ import {
 export const styles = StyleSheet.create({
     mainView:{
         flex:1,
-        backgroundColor:Colors.black
+        backgroundColor:Colors.black,
+        paddingHorizontal:16
     },
     topbg:{
         width:SCREEN_WIDTH,
@@ -36,13 +37,9 @@ export const styles = StyleSheet.create({
     contentView:{
         flex:1,
     },
-    topBanner:{
-      width:SCREEN_WIDTH,
-      height:SCREEN_WIDTH
-    },
     bannerView:{
-        // paddingHorizontal:16,
-        marginTop:-SCREEN_WIDTH * 600 / 750 / 2  - 20,
+        flex:1,
+        marginTop:STATUSBAR_HEIGHT + NAVIGATION_HEIGHT + 20,
     },
     centerbg:{
         width:SCREEN_WIDTH,
@@ -52,12 +49,12 @@ export const styles = StyleSheet.create({
     centerTitle:{
         fontSize:16,
         color:'#fff',
-        marginBottom:10
+        marginBottom:10,
+        marginLeft:16
     },
     banner:{
         width:SCREEN_WIDTH - 32,
-        height:(SCREEN_WIDTH - 32) * 380 / 686,
-        borderRadius:8
+        height:(SCREEN_WIDTH - 32) * 380 / 686
     },
     bannerTitleView:{
         flexDirection:'row',
@@ -128,7 +125,7 @@ export const styles = StyleSheet.create({
     },
     flowLoadingView:{
         // width:'100%',
-        height:270,
+        height:562,
         flex:1,
         borderRadius:5,
         padding:8
@@ -136,22 +133,14 @@ export const styles = StyleSheet.create({
     flowView:{
         // width:'100%',
         flex:1,
-        height:270,
-        // backgroundColor:Colors.white,
-        borderRadius:5,
-        // padding:8
-    },
-    flowView2:{
-        // width:'100%',
-        flex:1,
-        height:180,
+        height:562,
         // backgroundColor:Colors.white,
         borderRadius:5,
         // padding:8
     },
     typeItem:{
         width:'100%',
-        height:180,
+        height:512,
         justifyContent:'flex-end',
         backgroundColor:'#fff',
         borderTopLeftRadius:5,
@@ -173,11 +162,10 @@ export const styles = StyleSheet.create({
     zIndex:2,
 },
     typeItemDown:{
-        height:90,
+        height:70,
         width:'100%',
         paddingHorizontal:10,
-        justifyContent:'center',
-        zIndex:2,
+        // justifyContent:'center',
         borderWidth:1,
         borderTopWidth:0,
         borderColor:'rgba(64,14,179,0.6)'
@@ -209,12 +197,13 @@ export const styles = StyleSheet.create({
         justifyContent:'space-between',
         alignItems:'center',
         width:'100%',
+        height:50,
     },
     flowIcon:{
-        width:24,
-        height:24,
+        width:34,
+        height:34,
         marginRight:8,
-        borderRadius:12,
+        borderRadius:17,
         backgroundColor:'blue',
     },
     flowName:{

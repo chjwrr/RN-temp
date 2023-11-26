@@ -1,3 +1,4 @@
+import { SCREEN_WIDTH } from '@/utils';
 import Colors from '@/utils/colors';
 import {
     StyleSheet,
@@ -15,7 +16,8 @@ export const styles = StyleSheet.create({
         height:260,
         backgroundColor:Colors.white,
         borderRadius:5,
-        padding:8
+        padding:8,
+        width:(SCREEN_WIDTH - 32 - 2) / 2
     },
     flowLoadingView:{
         flex:1,

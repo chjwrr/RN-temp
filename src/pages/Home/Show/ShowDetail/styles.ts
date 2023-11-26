@@ -154,7 +154,9 @@ export const styles = StyleSheet.create({
   accounticon:{
     width:34,
     height:34,
-    marginRight:5
+    marginRight:5,
+    borderRadius:17,
+    overflow:'hidden'
   },
   accountTitle:{
     fontSize:14,
@@ -312,5 +314,10 @@ export const styles = StyleSheet.create({
   downRightTitle:{
     color:Colors.label,
     fontSize:12,
+  },
+  replyTitle:{
+    color:Colors.main,
+    fontSize:12,
+    marginHorizontal:5
   }
 });

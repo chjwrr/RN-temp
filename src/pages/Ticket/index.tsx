@@ -17,6 +17,7 @@ import { NAVIGATION_HEIGHT, STATUSBAR_HEIGHT } from '@/utils';
 
 import RecommendScreen from './Recommend'
 import SuperPersonScreen from './SuperPerson'
+import FocusOnScreen from './FocusOn'
 
 let recommendShowTab = false
 function Home({navigation}:any): JSX.Element {
@@ -64,7 +65,7 @@ function Home({navigation}:any): JSX.Element {
       case 'SuperPerson':
         return <SuperPersonScreen navigation={navigation} jumpTo={jumpTo} />;
       case 'FocusOn':
-        return <SuperPersonScreen navigation={navigation} jumpTo={jumpTo} />;
+        return <FocusOnScreen navigation={navigation} jumpTo={jumpTo} />;
       case 'Play':
         return <SuperPersonScreen navigation={navigation} jumpTo={jumpTo} />;
     }

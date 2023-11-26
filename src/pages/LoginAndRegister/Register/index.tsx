@@ -149,13 +149,16 @@ function Register(props:any): JSX.Element {
     }
     setIsLoading(true)
     HTTPS.post(USER_SIGN_UP,{
-      'country': '86', 
+      'country': '86',
       'phone': userAccount,
-      'nickname': 'nick-'+userAccount, 
-      'password': userPsd, 
+      'nickname': 'nick-'+userAccount,
+      'password': userPsd,
       'code': userCode,
     }).then((result:any)=>{
-      dispatch(saveUserInfo(result))
+      dispatch(saveUserInfo({
+        ...result.my_user_info,
+        token:result.token
+      }))
       props.navigation.navigate('ChooseSex')
 
     }).finally(()=>{

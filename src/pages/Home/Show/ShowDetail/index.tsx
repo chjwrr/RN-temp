@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import {
   SafeAreaView,
   Text,
@@ -16,7 +16,8 @@ import {
   KeyboardAvoidingView,
   LayoutAnimation,
   UIManager,
-  InteractionManager
+  InteractionManager,
+  DeviceEventEmitter
 } from 'react-native';
 import {styles} from './styles'
 import Share from 'react-native-share';
@@ -29,7 +30,18 @@ import * as Animatable from 'react-native-animatable';
 import CustomTextInput from '@/components/CustomTextInput';
 import { useUserInfo } from '@/redux/userInfo';
 import * as HTTPS from '@/api/axios'
-import { ARTICLE_DETAIL, SNS_FOLLOW, SNS_UNFOLLOW } from '@/api/API';
+import {
+  ARTICLE_DETAIL,
+  USER_FOLLOW,
+  ARTICLE_UNLIKE,
+  ARTICLE_COMMENT_PUBLISH,
+  ARTICLE_COOMMENT_UP,
+  ARTICLE_UNCOLLECT,
+  ARTICLE_COLLECT,
+  ARTICLE_LIKE,
+  ARTICLE_COOMMENT_REPLY,
+  USER_UNFOLLOW
+} from '@/api/API';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { formatTime } from '@/utils/common';
@@ -42,9 +54,11 @@ const shareIcon = require('@/assets/images/share.png')
 const accountIcon = require('@/assets/images/account.png')
 const collectIcon = require('@/assets/images/unlike.png')
 const comiconIcon = require('@/assets/images/comicon.png')
-const stariconIcon = require('@/assets/images/staricon.png')
+const stariconIcon = require('@/assets/images/unlike.png')
+const stariconSIcon = require('@/assets/images/like.png')
 const comicontIcon = require('@/assets/images/comicont.png')
-const likeiconIcon = require('@/assets/images/like.png')
+const likeiconIcon = require('@/assets/images/unzan.png')
+const zaniconIcon = require('@/assets/images/zan.png')
 
 
 
@@ -52,14 +66,42 @@ function RecommendDetail(props:any): JSX.Element {
   const scrollY = useRef(new Animated.Value(0)).current;
   const userInfo = useUserInfo()
   const [detailInfo,setDetailInfo] = useState<any>({})
-
-  useEffect(()=>{
+  const [commentList,setCommentList] = useState<any>([])
+  function getDetail(){
     HTTPS.post(ARTICLE_DETAIL,{
       "token":userInfo.token,
       article_id:props.route.params.id
     }).then((res:any)=>{
       setDetailInfo(res.article_detail)
+      onGetCommonList(res.article_detail?.comment_list)
     })
+  }
+  function onGetCommonList(comment_list:any[]){
+    // 第一步，筛选出顶级的评论列表
+    // 第二步，将回复的评论列表添加到顶级评论的 replyList 属性中
+    let topList:any[] = []
+    comment_list.map((item:any)=>{
+      if (!item.reply_id){
+        topList.push({
+          ...item,
+          replyList:[] // 默认给个空数组
+        })
+      }
+    })
+    topList.map((topItem:any)=>{
+      comment_list.map((item:any)=>{
+        if(item.reply_id && item.reply_id == topItem.comment_id){
+          // 这条评论属于这个评论的回复评论
+          topItem.replyList = [...topItem.replyList,item]
+        }
+      })
+    })
+    console.log('topList=',topList)
+
+  }
+
+  useEffect(()=>{
+    getDetail()
   },[])
 
 
@@ -81,23 +123,8 @@ function RecommendDetail(props:any): JSX.Element {
     });
     Share.open(options);
   }
-  const [refreshing, setRefreshing] = useState(false);
-  const isCanLoadMore = useRef(false)
-
-  function onRefresh(){
-    console.log('onRefresh')
-
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false)
-    }, 2000);
-  }
-
-  function onEndReached(){
-    console.log('loading more')
-    setTimeout(() => {
-      isCanLoadMore.current = true
-    }, 2000);
+  function onCommonChange(){
+    getDetail()
   }
 
   return (
@@ -117,11 +144,17 @@ function RecommendDetail(props:any): JSX.Element {
               <TouchableOpacity style={styles.backButton} onPressIn={onBack}>
                 <Image style={styles.backIcon} source={BackIcon}/>
               </TouchableOpacity>
-              <Image style={styles.accounticon} source={accountIcon}/>
-              <Text style={styles.accountTitle} numberOfLines={1} ellipsizeMode='tail'>用户名字用户名字用户名字用户名字用户名字</Text>
+              <ExpoImage
+                style={styles.accounticon}
+                source={HTTPS.getImageUrl(detailInfo.author?.avatar)}
+                placeholder={BLUR_HASH}
+                contentFit="cover"
+                transition={200}
+              />
+              <Text style={styles.accountTitle} numberOfLines={1} ellipsizeMode='tail'>{detailInfo.author?.nickname}</Text>
             </View>
             <View style={{flexDirection:"row",alignItems:'center'}}>
-              <FocusButton uid={props.route.params.uid}/>
+              <FocusButton onFocusChange={props.route.params.onFocusChange} user_id={detailInfo.author?.uid} is_follow={detailInfo.author?.is_follow}/>
               <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
                 <Image style={styles.backIcon} source={shareIcon}/>
               </TouchableOpacity>
@@ -134,7 +167,7 @@ function RecommendDetail(props:any): JSX.Element {
             data={detailInfo.comment_list}
             numColumns={1}
             renderItem={({ item, index })=>{
-              return <CommonItem item={item} index={index}/>
+              return <CommonItem onCommonChange={onCommonChange} item={item} index={index} articleId={detailInfo.article_id}/>
             }}
             style={{ flex: 1 }}
             ListHeaderComponent={<View style={{flex:1}}>
@@ -171,7 +204,12 @@ function RecommendDetail(props:any): JSX.Element {
             //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[Colors.main]}/>
             // }
           />
-          <DownInfo/>
+          <DownInfo
+            is_like={detailInfo.is_like}
+            is_collect={detailInfo.is_collect}
+            article_id={detailInfo.article_id}
+            onCollectChange={props.route.params.onCollectChange}
+            onCommonChange={onCommonChange}/>
         </SafeAreaView>
         <SafeAreaView style={{flex:0,backgroundColor:Colors.white}}></SafeAreaView>
       </KeyboardAvoidingView>
@@ -179,9 +217,24 @@ function RecommendDetail(props:any): JSX.Element {
   );
 }
 
-function DownInfo(){
+function DownInfo({is_collect,article_id,is_like,onCollectChange,onCommonChange}:any){
+  const [isCollect,setIsCollect] = useState(false)
+  const [articleId,setArticleId] = useState('')
+  const [isLike,setIsLike] = useState(false)
+
+
   const [rightWidth,setRightWidth] = useState(186)
   const rightWidthAnim = useRef(new Animated.Value(0)).current;
+  const userInfo = useUserInfo()
+  useEffect(()=>{
+    setIsCollect(is_collect)
+  },[is_collect])
+  useEffect(()=>{
+    setArticleId(article_id)
+  },[article_id])
+  useEffect(()=>{
+    setIsLike(is_like)
+  },[is_like])
 
   function onFocus(){
     // LayoutAnimation.configureNext({
@@ -255,14 +308,70 @@ function DownInfo(){
     inputRef.current.onFocus()
   }
   function onCollect(){
+    if (!articleId)return
+    HTTPS.post(isCollect ? ARTICLE_UNCOLLECT : ARTICLE_COLLECT,{
+      "token":userInfo.token,
+      article_id:articleId
+    }).then((result:any)=>{
+      setIsCollect(!isCollect)
+      onCollectChange && onCollectChange(!isCollect)
+    }).finally(()=>{
+    })
   }
   function onLike(){
+    if (!articleId)return
+    HTTPS.post(isLike ? ARTICLE_UNLIKE : ARTICLE_LIKE,{
+      "token":userInfo.token,
+      article_id:articleId
+    }).then((result:any)=>{
+      setIsLike(!isLike)
+    }).finally(()=>{
+    })
   }
 
+  function onSubmitEditing(e:any){
+    console.log('====',e.nativeEvent.text)
+    if(!e.nativeEvent.text)return
+    if (replayInfo.comment_id){
+      HTTPS.post(ARTICLE_COOMMENT_REPLY,{
+        "token":userInfo.token,
+        article_id:articleId,
+        content:e.nativeEvent.text,
+        comment_id:replayInfo.comment_id
+      }).then((result:any)=>{
+        onCommonChange && onCommonChange()
+        inputRef.current.clear()
+        setReplayInfo({})
+      }).finally(()=>{
+      })
+    }else {
+      HTTPS.post(ARTICLE_COMMENT_PUBLISH,{
+        "token":userInfo.token,
+        article_id:articleId,
+        content:e.nativeEvent.text
+      }).then((result:any)=>{
+        onCommonChange && onCommonChange()
+        inputRef.current.clear()
+      }).finally(()=>{
+      })
+    }
+  }
+  const [replayInfo,setReplayInfo] = useState<any>({})
+  useEffect(()=>{
+    const listener = DeviceEventEmitter.addListener('replay',(item:any)=>{
+      console.log('item====',item)
+      inputRef.current.onFocus()
+      setReplayInfo(item)
+    })
+    return ()=>{
+      listener && listener.remove()
+    }
+  },[])
   return <View style={[styles.downView]}>
     <View style={styles.downViewCon}>
       <Animatable.View ref={downLeftRef} style={[styles.comInputView]}>
         <Image style={styles.downComIcon} source={comicontIcon}/>
+        <Text style={styles.replyTitle}>{replayInfo.author?.nickname ? '回复' + replayInfo.author?.nickname : ''}</Text>
         <CustomTextInput
           ref={inputRef}
           style={{height:'100%',flex:1}}
@@ -271,17 +380,20 @@ function DownInfo(){
             numberOfLines:1,
             style:{color:Colors.black},
             onFocus:onFocus,
-            onBlur:onBlur
+            onBlur:onBlur,
+            returnKeyLabel:'发送',
+            returnKeyType:'send',
+            onSubmitEditing:onSubmitEditing
           }}
-         />
+        />
       </Animatable.View>
       <Animatable.View ref={downRightRef} style={[styles.downRight,{width:rightWidth}]}>
         <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPressIn={onLike}>
-          <Image style={styles.downIcon} source={likeiconIcon} resizeMode='contain'/>
+          <Image style={styles.downIcon} source={isLike ? zaniconIcon : likeiconIcon} resizeMode='contain'/>
           <Text style={styles.downRightTitle}>点赞</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPressIn={onCollect}>
-          <Image style={styles.downIcon} source={stariconIcon}/>
+          <Image style={styles.downIcon} source={isCollect ? stariconSIcon : stariconIcon}/>
           <Text style={styles.downRightTitle}>收藏</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPressIn={onCommon}>
@@ -292,76 +404,84 @@ function DownInfo(){
     </View>
   </View>
 }
-function CommonItem({item,index}:any){
+function CommonItem({item,index,articleId,onCommonChange}:any){
   console.log('item',item)
+  const userInfo = useUserInfo()
+
+  function onLikeCommon(){
+    HTTPS.post(ARTICLE_COOMMENT_UP,{
+      "token":userInfo.token,
+      article_comment_id:item.comment_id
+    }).then((result:any)=>{
+      onCommonChange && onCommonChange()
+    }).finally(()=>{
+    })
+  }
+  function onReplay(){
+    DeviceEventEmitter.emit('replay',item)
+  }
   return <View style={styles.comMain}>
     <View style={styles.comView}>
-      <View style={styles.avatar}/>
+      <ExpoImage
+        style={styles.avatar}
+        source={HTTPS.getImageUrl(item.author?.avatar)}
+        placeholder={BLUR_HASH}
+        contentFit="cover"
+        transition={200}
+      />
       <View style={styles.comContent}>
-        <Text style={styles.comName} numberOfLines={1} ellipsizeMode='tail'>昵称</Text>
+        <Text style={styles.comName} numberOfLines={1} ellipsizeMode='tail'>{item.author.nickname}</Text>
         <Text style={styles.comContentDes}>{item.content}</Text>
         <View style={styles.comRelayButton}>
           <Text style={styles.comDay}>{formatTime(item.created_at)}</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPressIn={onReplay}>
             <Text style={styles.comReplay}>回复</Text>
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.comFocusView}>
-        <TouchableOpacity style={styles.comFocusButton}>
-          <Image style={styles.collectIcon} source={collectIcon}/>
+        <TouchableOpacity style={styles.comFocusButton} onPress={onLikeCommon}>
+          <Image style={styles.collectIcon} source={likeiconIcon}/>
         </TouchableOpacity>
-        <Text style={styles.collectTitle}>123</Text>
+        <Text style={styles.collectTitle}>{item.up_count}</Text>
       </View>
     </View>
     <View style={styles.comLine}/>
   </View>
 }
-function FocusButton({uid}:{uid:string}){
+function FocusButton({is_follow,user_id,onFocusChange}:any){
   const userInfo = useUserInfo()
-  // const myFollowing = useMyFollowing()
   const [focus,setFocus] = useState(false)
+  const [uid,setUid] = useState('')
   const [isLoading,setIsLoading] = useState(false)
 
-  // useEffect(()=>{
-  //   if (myFollowing.data){
-  //     if (myFollowing.data.indexOf(uid) > -1){
-  //       setFocus(true)
-  //     }
-  //   }
-  // },[myFollowing.isLoading])
-
+  useEffect(()=>{
+    setFocus(is_follow)
+  },[is_follow])
+  useEffect(()=>{
+    setUid(user_id)
+  },[user_id])
 
   function onFocus(){
-    if (isLoading){
+    if (isLoading || !uid){
       return
     }
     setIsLoading(true)
-    if (focus){
-      HTTPS.post(SNS_UNFOLLOW,{
-        "token":userInfo.token,
-        "to_uid":uid,
-      }).then((result:any)=>{
-        setFocus(!focus)
-      }).finally(()=>{
-        setIsLoading(false)
-      })
-    }else {
-      HTTPS.post(SNS_FOLLOW,{
-        "token":userInfo.token,
-        "to_uid":uid,
-      }).then((result:any)=>{
-        setFocus(!focus)
-      }).finally(()=>{
-        setIsLoading(false)
-      })
-    }
+    HTTPS.post(focus ? USER_UNFOLLOW : USER_FOLLOW,{
+      "token":userInfo.token,
+      "to_uid":uid,
+    }).then((result:any)=>{
+      setFocus(!focus)
+      onFocusChange && onFocusChange()
+    }).finally(()=>{
+      setIsLoading(false)
+    })
   }
   return <TouchableOpacity style={[styles.focusButton,focus && styles.focusButtoned]} onPressIn={onFocus}>
     <Text style={[styles.focusTitle,focus && styles.focusTitleed]}>{focus ? '已关注' : '关注'}</Text>
   </TouchableOpacity>
 }
-function SwiperView({images}:any){
+const SwiperView = memo(({images}:any)=>{
   const [currentIndex,setCurrentIndex] = useState(0)
   return <View style={styles.swiperView}>
     <Carousel
@@ -398,6 +518,6 @@ function SwiperView({images}:any){
       <Text style={styles.sliderTitle}>{currentIndex + 1}/{images?.length}</Text>
     </View>
   </View>
-}
+},(pre:any,next:any)=>pre.images == next.images)
 
 export default RecommendDetail;

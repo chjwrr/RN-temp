@@ -18,21 +18,26 @@ interface CustomTextInputProps {
 const CustomTextInput = forwardRef((props:CustomTextInputProps,ref)=>{
   const inputRef = useRef<any>()
   const [isFocus,setIsFocus] = useState(false)
+  const [value,setValue] = useState('')
 
   useImperativeHandle(ref,()=>(
     {
       onFocus,
-      onBlur
+      onBlur,
+      clear
     }
   ))
 
+  function clear(){
+    inputRef.current && inputRef.current.clear()
+
+  }
   function onFocus(e:any){
     inputRef.current && inputRef.current.focus()
   }
   function onBlur(e:any){
     inputRef.current && inputRef.current.blur()
   }
-
   return (
     <View style={props.style}>
       <TextInput

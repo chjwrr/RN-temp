@@ -18,7 +18,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import { BLUR_HASH, PAGE_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
 import * as HTTPS from '@/api/axios'
 import { useUserInfo } from '@/redux/userInfo';
-import { FOLLOWING_ARTICLE_LIST, MY_FOLLOWING } from '@/api/API';
+import { FOLLOWING_ARTICLE_LIST, MY_FOLLOWING_USER } from '@/api/API';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
@@ -30,7 +30,6 @@ function FocusOn({navigation,jumpTo}:any): JSX.Element {
   const isCanLoadMore = useRef(false)
   const [loading, setLoading] = useState(false);
   const [dataSource,setDataSource] = useState<any[]>([1,1,1])
-  const focusList:any[] = [1,2,3,4,5,6,7,8,9,0]
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const userInfo = useUserInfo()
@@ -38,14 +37,14 @@ function FocusOn({navigation,jumpTo}:any): JSX.Element {
 
   useEffect(()=>{
     getData(0)
-    getMyFollowing
+    getMyFollowing()
   },[])
 
   function getMyFollowing(){
-    HTTPS.post(MY_FOLLOWING,{
+    HTTPS.post(MY_FOLLOWING_USER,{
       "token":userInfo.token,
     }).then((res:any)=>{
-      setMyFollowing(res.my_following)
+      setMyFollowing(res.my_following_users)
     }).finally(()=>{
 
     })
@@ -58,7 +57,6 @@ function FocusOn({navigation,jumpTo}:any): JSX.Element {
       "limit":PAGE_SIZE,
       offset:currenPage * PAGE_SIZE
     }).then((result:any)=>{
-      console.log('result=',)
       if (currenPage == 0){
         setDataSource(result.following_article_list)
       }else {
@@ -96,7 +94,14 @@ function FocusOn({navigation,jumpTo}:any): JSX.Element {
     getData(page + 1)
   }
 
-
+  function onShowMore(item:any){
+    navigation.navigate('ShowDetail',{
+      id:item.article_id,
+      onFocusChange:()=>{
+        getMyFollowing()
+      }
+    })
+  }
   return (
     <FlatList
       style={{ flex: 1 }}
@@ -112,18 +117,24 @@ function FocusOn({navigation,jumpTo}:any): JSX.Element {
           duration={0}
           visible={true}
           animated={true}
-        /> : <RenderItem item={item} index={index} navigation={navigation}/> 
+        /> : <RenderItem onShowMore={()=>onShowMore(item)} item={item} index={index} navigation={navigation}/> 
       }}
       ListHeaderComponent={<View style={styles.scrollView}>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           {
-            focusList.map((item:any,index:number)=>{
+            myFollowing.map((item:any,index:number)=>{
               return <View style={styles.focusView} key={index+'focus'}>
                 <View style={styles.focusAvatarView}>
-                  <View style={styles.focusAvtar}/>
-                  <View style={styles.focusTipView}/>
+                <ExpoImage
+                  style={styles.focusAvtar}
+                  source={HTTPS.getImageUrl(item.avatar)}
+                  placeholder={BLUR_HASH}
+                  contentFit="cover"
+                  transition={200}
+                />
+                  {/* <View style={styles.focusTipView}/> */}
                 </View>
-                <Text style={styles.focusName}>用户名字</Text>
+                <Text style={styles.focusName}>{item.nickname}</Text>
               </View>
             })
           }
@@ -158,18 +169,18 @@ function FocusOn({navigation,jumpTo}:any): JSX.Element {
 }
 
 // 顶部44 + 图片300 + 点20  + 标题20 + 内容30  = 414
-function RenderItem({item,index,navigation}:any){
-
-  function onShowMore(){
-    navigation.navigate('ShowDetail',{
-      id:index
-    })
-  }
+function RenderItem({item,index,navigation,onShowMore}:any){
   return <View style={styles.itemView}>
     <View style={styles.itemTopView}>
       <View style={{flexDirection:'row',alignItems:'center'}}>
-        <View style={styles.itemAvatar}/>
-        <Text style={styles.itemName} numberOfLines={1} ellipsizeMode='tail'>名字</Text>
+        <ExpoImage
+          style={styles.itemAvatar}
+          source={HTTPS.getImageUrl(item.author?.avatar)}
+          placeholder={BLUR_HASH}
+          contentFit="cover"
+          transition={200}
+        />
+        <Text style={styles.itemName} numberOfLines={1} ellipsizeMode='tail'>{item.author?.nickname}</Text>
       </View>
       <TouchableOpacity style={styles.shareButton}>
         <Image style={styles.share} source={ShareIcon}/>
