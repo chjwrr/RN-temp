@@ -214,5 +214,8 @@ export const ARTICLE_COOMMENT_UP = 'article_comment_up'
 // 评论回复
 export const ARTICLE_COOMMENT_REPLY = 'article_comment_reply'
 
+// 推荐达人列表
+export const MASTER_RECOMMEND_LIST = 'master_recommend_list'
+
 
 

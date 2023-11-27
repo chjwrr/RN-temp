@@ -42,9 +42,9 @@ const tabbars:any[] = [
 export default function CustomTabbar(props:BottomTabBarProps): JSX.Element {
   return (
     <View style={[styles.main,{
-      backgroundColor:props.state.index == 1 ? Colors.black : Colors.white
+      backgroundColor:(props.state.index == 1 || props.state.index == 3) ? Colors.black : Colors.white
     }]}>
-      <StatusBar barStyle={props.state.index == 1 ? 'light-content' : 'dark-content'} translucent={ true } backgroundColor="transparent" />
+      <StatusBar barStyle={(props.state.index == 1 || props.state.index == 3) ? 'light-content' : 'dark-content'} translucent={ true } backgroundColor="transparent" />
 
       {props.state.routes.map((route:any, index:number) => {
         const { options } = props.descriptors[route.key];

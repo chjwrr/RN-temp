@@ -1,5 +1,4 @@
 
- 
 article_collect(req)
 收藏
 params: {"token": "token", "article_id": "article_id"}
@@ -11,17 +10,19 @@ return: {}
 article_comment_list(req)
 读文章评论列表（分页）
 params: {"token": "token", "article_id": "article_id", "limit": 100, "offset": 0}
-return: {'article_comment_list': [{'comment_id': 61, 'uid': '6ae70652c1d24ab092fd579827534fce', 'content': 'comment-00000', 'reply_id': None, 'created_at': 1700897219026, 'up_count': 1, 'down_count': 0, 'author': {'nickname': 'test', 'avatar': 'image_id'}}], 'code': 0}
+return: {'article_comment_list': [{'comment_id': 64, 'uid': '1143566535c34c5baef560de31fa5a6e', 'content': 'hello', 'reply_id': 53, 'reply_uid': '1143566535c34c5baef560de31fa5a6e', 'first_reply_id': 53, 'first_reply_uid': '1143566535c34c5baef560de31fa5a6e', 'created_at': 1701061051887, 'up_count': 0, 'down_count': 0, 'is_up': False, 'is_down': False, 'author': {'nickname': 'nick-18682222222', 'avatar': None}, 'reply_author': {'nickname': 'nick-18682222222', 'avatar': None}, 'first_reply_author': {'nickname': 'nick-18682222222', 'avatar': None}}...], 'code': 0}
 article_comment_publish(req)
 文章评论发表
 params: {"token": "token", "article_id": "article_id", "content": "content"}
 return: {}
 article_comment_reply(req)
 文章评论回复
-params: {"token": "token", "article_id": "article_id", "comment_id": "comment_id", "content": "content"}
+params: {"token": "token", "article_id": "article_id", "reply_id": "comment_id", "content": "content", "first_reply_id": "comment_id"}
 return: {}
 article_comment_up(req)
 评论点赞(顶)
+params: {"token": "token", "article_comment_id": "article_comment_id"}
+return: {}
 article_del(req)
 删除文章 (只能删除自己发的, 一次最多100篇)
 params: {"token": "token", "article_id_list": "article_id_list"}
@@ -29,7 +30,7 @@ return: {}
 article_detail(req)
 读文章详情 + 100条评论 收藏点赞
 params: {"token": "token", "article_id": "article_id"}
-return: {'article_detail': {'article_id': 74, 'content': 'qwertyuiopasdfghjklzxcvbnnm-3', 'images': ['f1abbc31-855a-11ee-bcb6-5785abdd6148.jpeg', 'e6e00ede-855a-11ee-bcb6-5785abdd6148.jpeg', 'e35d9e3e-855a-11ee-bcb6-5785abdd6148.jpeg'], 'created_at': 1700897219025, 'like_user_list': [], 'collect_user_list': [], 'comment_list': [{'comment_id': 61, 'uid': '6ae70652c1d24ab092fd579827534fce', 'content': 'comment-00000', 'reply_id': None, 'created_at': 1700897219026, 'author': {'nickname': 'test', 'avatar': 'image_id'}}], 'author': {'uid': '6ae70652c1d24ab092fd579827534fce', 'nickname': 'test', 'avatar': 'image_id', 'gender': 1, 'country': '86', 'province': '广东省', 'city': '深圳市', 'birthday': 1700897223410, 'intro': 'test_intro', 'created_at': 1700722804842, 'is_follow': False}, 'is_like': False, 'is_collect': False}, 'code': 0}
+return: {'article_detail': {'article_id': 60, 'content': 'qwertyuiopasdfghjklzxcvbnnm-9', 'images': ['e4cbdd56-855a-11ee-bcb6-5785abdd6148.jpeg', 'e87dbff1-855a-11ee-bcb6-5785abdd6148.jpeg', 'f1abbc30-855a-11ee-bcb6-5785abdd6148.jpeg'], 'created_at': 1701061051684, 'like_user_list': [], 'collect_user_list': [], 'comment_list': [{'comment_id': 53, 'uid': '1143566535c34c5baef560de31fa5a6e', 'content': 'comment-00000', 'reply_id': None, 'reply_uid': None, 'first_reply_id': None, 'first_reply_uid': None, 'created_at': 1701061051814, 'up_count': 0, 'down_count': 0, 'is_up': False, 'is_down': False, 'author': {'nickname': 'nick-18682222222', 'avatar': None}}], 'author': {'uid': '1143566535c34c5baef560de31fa5a6e', 'nickname': 'nick-18682222222', 'avatar': None, 'gender': 0, 'country': '86', 'province': None, 'city': None, 'birthday': None, 'intro': None, 'created_at': 1701059268775, 'is_follow': False}, 'is_like': False, 'is_collect': False}, 'code': 0}
 article_like(req)
 点赞
 params: {"token": "token", "article_id": "article_id"}
@@ -37,7 +38,7 @@ return: {}
 article_list(req)
 读文章列表（分页）-- 在首页秀场里展示
 params: {"token": "token", "limit": 20, "offset": 0}
-return: {'article_list': [{'article_id': 80, 'uid': '6ae70652c1d24ab092fd579827534fce', 'content': 'qwertyuiopasdfghjklzxcvbnnm-9', 'images': ['ef203695-855a-11ee-bcb6-5785abdd6148.jpeg', 'f0ad3cc8-855a-11ee-bcb6-5785abdd6148.jpeg', 'f0ad3cc9-855a-11ee-bcb6-5785abdd6148.jpeg'], 'created_at': 1700897219025, 'like_count': 0, 'collect_count': 0, 'comment_count': 1, 'is_like': False, 'is_collect': False, 'author': {'uid': '6ae70652c1d24ab092fd579827534fce', 'nickname': 'test', 'avatar': 'image_id'}}...]}
+return: {'article_list': [{'article_id': 60, 'uid': '1143566535c34c5baef560de31fa5a6e', 'content': 'qwertyuiopasdfghjklzxcvbnnm-9', 'images': ['e4cbdd56-855a-11ee-bcb6-5785abdd6148.jpeg', 'e87dbff1-855a-11ee-bcb6-5785abdd6148.jpeg', 'f1abbc30-855a-11ee-bcb6-5785abdd6148.jpeg'], 'created_at': 1701061051684, 'like_count': 0, 'collect_count': 0, 'comment_count': 0, 'is_like': False, 'is_collect': False, 'author': {'uid': '1143566535c34c5baef560de31fa5a6e', 'nickname': 'nick-18682222222', 'avatar': None}}...]}
 article_publish(req)
 发布文章（文字，0-9张图片）
 params: {"token": "token", "content": "content", "images": ["image_1", "image_2", ...]}
@@ -77,7 +78,7 @@ return: {}
 following_article_list(req)
 读我关注的人的文章列表（分页）-- 在首页关注里展示
 params: {"token": "token", "limit": 20, "offset": 0}
-return: {'following_article_list': [{'article_id': 80, 'uid': '6ae70652c1d24ab092fd579827534fce', 'content': 'qwertyuiopasdfghjklzxcvbnnm-9', 'images': ['ef203695-855a-11ee-bcb6-5785abdd6148.jpeg', 'f0ad3cc8-855a-11ee-bcb6-5785abdd6148.jpeg', 'f0ad3cc9-855a-11ee-bcb6-5785abdd6148.jpeg'], 'created_at': 1700897219025, 'like_count': 0, 'collect_count': 0, 'comment_count': 1, 'is_like': False, 'is_collect': False, 'author': {'uid': '6ae70652c1d24ab092fd579827534fce', 'nickname': 'test', 'avatar': 'image_id'}}...]}
+return: {'following_article_list': [{'article_id': 60, 'uid': '1143566535c34c5baef560de31fa5a6e', 'content': 'qwertyuiopasdfghjklzxcvbnnm-9', 'images': ['e4cbdd56-855a-11ee-bcb6-5785abdd6148.jpeg', 'e87dbff1-855a-11ee-bcb6-5785abdd6148.jpeg', 'f1abbc30-855a-11ee-bcb6-5785abdd6148.jpeg'], 'created_at': 1701061051684, 'like_count': 0, 'collect_count': 0, 'comment_count': 0, 'is_like': False, 'is_collect': False, 'author': {'uid': '1143566535c34c5baef560de31fa5a6e', 'nickname': 'nick-18682222222', 'avatar': None}}...]}
 game_banner(req)
 读游戏banner
 params: {"token": "token"}
@@ -211,10 +212,14 @@ message_del(req)
 删除私信
 params: {"token": "token", "message_id_list": ["message_id1", "message_id2", ...]}
 return: {}
+my_article_collect_list(req)
+我收藏的文章列表（分页）
+params: {"token": "token"}
+return: {'my_article_collect_list': [{'article_id': 17, 'content': 'qwertyuiopasdfghjklzxcvbnnm-9', 'images': ['e6e00ede-855a-11ee-bcb6-5785abdd6148.jpeg', 'f2bf36d8-855a-11ee-bcb6-5785abdd6148.jpeg', 'f0ad3cc8-855a-11ee-bcb6-5785abdd6148.jpeg'], 'created_at': 1701077825969, 'like_count': 0, 'collect_count': 1, 'comment_count': 0}...]}
 my_article_list(req)
 读我的文章列表（分页）-- 在我的笔记里展示
 params: {"token": "token", "limit": 20, "offset": 0}
-return: {'my_article_list': [{'article_id': 74, 'uid': '6ae70652c1d24ab092fd579827534fce', 'content': 'qwertyuiopasdfghjklzxcvbnnm-3', 'images': ['f1abbc31-855a-11ee-bcb6-5785abdd6148.jpeg', 'e6e00ede-855a-11ee-bcb6-5785abdd6148.jpeg', 'e35d9e3e-855a-11ee-bcb6-5785abdd6148.jpeg'], 'created_at': 1700897219025, 'like_count': 0, 'collect_count': 0, 'comment_count': 1, 'is_like': False, 'is_collect': False}...]}
+return: {'my_article_list': [{'article_id': 60, 'uid': '1143566535c34c5baef560de31fa5a6e', 'content': 'qwertyuiopasdfghjklzxcvbnnm-9', 'images': ['e4cbdd56-855a-11ee-bcb6-5785abdd6148.jpeg', 'e87dbff1-855a-11ee-bcb6-5785abdd6148.jpeg', 'f1abbc30-855a-11ee-bcb6-5785abdd6148.jpeg'], 'created_at': 1701061051684, 'like_count': 0, 'collect_count': 0, 'comment_count': 0, 'is_like': False, 'is_collect': False}...]}
 my_follower(req)
 我的粉丝
 params: {"token": "token"}
@@ -246,7 +251,7 @@ return: {"my_ticket_list": [{"ticket_id": "ticket_id", "name": "name", "im
 my_user_info(req)
 读个人信息
 params: {"token": "token"}
-return: {"my_user_info": {'uid': '9b2a3757ed174de88b7b3fdc2247dd7b', 'nickname': 'test', 'avatar': 'image', 'gender': 0, 'country': '86', 'province': '广东省', 'city': '深圳市', 'birthday': 1699708371238, 'phone': '18682222222', 'email': 'xxx@163.com', 'category': 0, 'status': 0, 'score': 0, 'invitation_code': None, 'inviter': None, 'intro': 'test_intro', 'created_at': ts}}
+return: {'my_user_info': {'uid': 'f29880611d884a52bdf37982fa4dff19', 'nickname': 'test', 'avatar': 'image_id', 'gender': 1, 'country': '86', 'province': '广东省', 'city': '深圳市', 'birthday': 1701074685929, 'phone': '18682222222', 'email': 'xxx@163.com', 'category': 0, 'status': 0, 'score': 0, 'level': 0, 'exp': 0, 'invitation_code': None, 'inviter': None, 'intro': 'test_intro', 'created_at': 1701074039152, 'follow_count': 1, 'follower_count': 2, 'article_count': 24}, 'code': 0}
 my_user_info_update(req)
 写个人信息
 params: {"token": "token",'nickname': 'test', 'avatar': 'image', 'gender': 1, 'province': '广东省', 'city': '深圳市', 'birthday': 1699708371238, 'email': 'xxx@163.com', 'intro': 'test_intro'}
@@ -332,7 +337,7 @@ return: {}
 user_info(req)
 读他人信息
 params: {"token": "token", "to_uid": "to_uid", "phone": "phone"} # to_uid or phone
-return: {"user_info": {'uid': '9b2a3757ed174de88b7b3fdc2247dd7b', 'nickname': 'test', 'avatar': 'image', 'gender': 0, 'country': '86', 'province': '广东省', 'city': '深圳市', 'birthday': 1699708371238, 'phone': '18682222222', 'email': 'xxx@163.com', 'category': 0, 'status': 0, 'score': 0, 'invitation_code': None, 'inviter': None, 'intro': 'test_intro', 'created_at': ts}}
+return: {'user_info': {'uid': 'f29880611d884a52bdf37982fa4dff19', 'nickname': 'test', 'avatar': 'image_id', 'gender': 1, 'country': '86', 'province': '广东省', 'city': '深圳市', 'birthday': 1701074471865, 'score': 0, 'level': 0, 'exp': 0, 'intro': 'test_intro', 'created_at': 1701074039152, 'follow_count': 1, 'follower_count': 2, 'is_follow': False, 'article_count': 24}, 'code': 0}
 user_login(req)
 手机号登录 （密码）or（短信验证） (不用登录可用)
 params: {"country": "86", "phone": "13800138000", "password": "123456"} or {"country": "86", "phone": "13800138000", "code": "123456"}
@@ -354,4 +359,3 @@ user_unfollow(req)
 params: {"token": "token", "to_uid": "to_uid"}
 return: {}
 
- 

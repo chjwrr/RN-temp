@@ -41,8 +41,11 @@ function Tabs() {
         headerShown:false,
       }}/>
       <Tab.Screen name="Post" component={PostScreen} />
-      <Tab.Screen name="Ecology" component={EcologyScreen} />
+      <Tab.Screen name="Ecology" component={EcologyScreen} options={{
+        headerShown:false,
+      }}/>
       <Tab.Screen name="Mine" component={MineScreen} options={{
+        headerShown:false,
       }}/>
     </Tab.Navigator>
   );

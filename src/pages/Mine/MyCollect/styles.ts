@@ -37,40 +37,47 @@ export const styles = StyleSheet.create({
     fontSize:16,
     color:Colors.navTitle
   },
-  value:{
+  flowLoadingView:{
+    flex:1,
+    height:112,
+    borderRadius:12,
+    marginVertical:4
+  },
+  flowView:{
+    flex:1,
+    height:112,
+    borderRadius:12,
+    backgroundColor:'#fff',
+    paddingHorizontal:20,
+    paddingVertical:14,
+    flexDirection:'row',
+    alignItems:'center',
+    marginVertical:4
+  },
+  flowViewIcon:{
+    width:80,
+    height:80,
+    marginRight:10,
+    borderRadius:8,
+    backgroundColor:'red'
+  },
+  flowViewTitle:{
     fontSize:14,
     color:Colors.light
   },
-  scrollView:{
-    flex:1,
-    paddingHorizontal:16,
-    marginTop:NAVIGATION_HEIGHT,
-  },
-  itemView:{
-    borderBottomWidth:1,
-    borderBottomColor:'#CCCCCC',
-    height:60,
+  loadMoreView:{
     flexDirection:'row',
-    justifyContent:'space-between',
+    justifyContent:'center',
+    height:30,
     alignItems:'center'
   },
-  arrow:{
-    width:16,
-    height:16,
-    marginLeft:8
+  loadMoreTitle:{
+      fontSize:12,
+      color:Colors.assist
   },
-  avatar:{
-    width:30,
-    height:30,
-    borderRadius:15
-  },
-  name:{
+  flatList:{
+    marginTop:STATUSBAR_HEIGHT,
     flex:1,
-    fontSize:14,
-    color:Colors.light,
-    paddingTop:0,
-    paddingBottom:0,
-    height:'100%',
-    textAlign:'right'
+    paddingHorizontal:16
   }
 });

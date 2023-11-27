@@ -30,6 +30,8 @@ import { savePicture } from '@/utils/common';
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
 const arrowr = require('@/assets/images/back_b_r.png')
+const share = require('@/assets/images/share.png')
+const downbg = require('@/assets/images/invitebg.png')
 
 
 
@@ -48,31 +50,21 @@ function RecommendDetail(props:any): JSX.Element {
             <Image style={styles.backIcon} source={BackIcon}/>
           </TouchableOpacity>
           <View style={styles.titleView}>
-            <Text style={styles.title}>设置</Text>
+            <Text style={styles.title}>邀请好友</Text>
           </View>
+          <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onBack}>
+            <Image style={styles.backIcon} source={share}/>
+          </TouchableOpacity>
         </View>
-        <ScrollView style={styles.scrollView} keyboardDismissMode='on-drag'>
-          <TouchableOpacity style={styles.itemView}>
-            <Text style={styles.title}>账号与安全</Text>
-            <Image style={styles.arrow} source={arrowr}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.itemView}>
-            <Text style={styles.title}>隐私设置</Text>
-            <Image style={styles.arrow} source={arrowr}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.itemView}>
-            <Text style={styles.title}>通知设置</Text>
-            <Image style={styles.arrow} source={arrowr}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.itemView}>
-            <Text style={styles.title}>关于Cverselink</Text>
-            <Image style={styles.arrow} source={arrowr}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.itemView}>
-            <Text style={styles.title}>分享APP</Text>
-            <Image style={styles.arrow} source={arrowr}/>
-          </TouchableOpacity>
-        </ScrollView>
+        <View style={{alignItems:'center'}}>
+          <ImageBackground style={styles.downView} source={downbg}>
+            <Text style={styles.downTitle}>我的邀请码</Text>
+            <View style={{alignItems:'center'}}>
+              <View style={styles.code}/>
+              <Text style={styles.downDes}>扫码下载我们的APP</Text>
+            </View>
+          </ImageBackground>
+        </View>
       </SafeAreaView>
     </ImageBackground>
   );

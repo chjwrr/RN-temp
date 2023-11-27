@@ -1,132 +1,165 @@
 
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  SafeAreaView,
-  ImageBackground,
-  Text,
+  TouchableOpacity,
   View,
-  TextInput,
+  ActivityIndicator,
+  ScrollView,
+  ImageBackground,
+  RefreshControl,
+  Text,
   Image,
-  useWindowDimensions,
-  TouchableOpacity
+  SafeAreaView,
+  FlatList
 } from 'react-native';
 import {styles} from './styles'
+import LinearGradient from 'react-native-linear-gradient';
+import Carousel from 'react-native-reanimated-carousel';
+import { BLUR_HASH, PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
 import Colors from '@/utils/colors';
-import { TabView, SceneMap } from 'react-native-tab-view';
+import WaterfallFlow from 'react-native-waterfall-flow'
+import { FadeLoading } from 'react-native-fade-loading';
+import * as Animatable from 'react-native-animatable';
+import { BlurView } from "@react-native-community/blur";
+import * as HTTPS from '@/api/axios'
+import { MASTER_LIST, TICKET_BANNER, PROJECT_RECOMMEND_LIST } from '@/api/API';
+import { useUserInfo } from '@/redux/userInfo';
+import ImagePlaceholder from '@/components/ImagePlaceholder';
+import {CachedImage} from '@georstat/react-native-image-cache'
+import { Image as ExpoImage } from 'expo-image';
 
-const BGImage = require('@/assets/images/homebg.png')
-const AccountImage = require('@/assets/images/account.png')
-const SearchImage = require('@/assets/images/search.png')
+const centerBg = require('@/assets/images/ticket_downbg.png')
+const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
+const ticket_pro_ban_2 = require('@/assets/images/ticket_pro_ban_1.png')
+const topbanner = require('@/assets/images/ticket_banner.png')
+const ticket_line = require('@/assets/images/tdbg.png')
+const ticket_tj = require('@/assets/images/ticket_tj_icon.png')
+const ticket_dr = require('@/assets/images/ticket_dr_icon.png')
+const ticket_focus = require('@/assets/images/ticket_focus_icon.png')
+const ticket_play = require('@/assets/images/ticket_play_icon.png')
+const ticket_item_1 = require('@/assets/images/tick_icon_1.png')
+const ticket_item_2 = require('@/assets/images/tick_icon_2.png')
+const focus_n = require('@/assets/images/collwhi.png')
+const limmitBg = require('@/assets/images/limmitBg.png')
+const downBg = require('@/assets/images/ticketitembg.png')
 
-import PagerView from 'react-native-pager-view';
-
-
-const FirstRoute = ({navigation,onPress}:any) => (
-  <View style={{ flex: 1, backgroundColor: '#ff4081' }}>
-    <TouchableOpacity onPress={()=>{
-      navigation.navigate('Register')
-    }}>
-      <Text>jump</Text>
-    </TouchableOpacity>
-  </View>
-);
-
-const SecondRoute = ({navigation}:any) => (
-  <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
-);
-
-const ThreeRoute = ({navigation}:any) => (
-  <View style={{ flex: 1, backgroundColor: 'blue' }} />
-);
-
-const FourRoute = ({navigation}:any) => (
-  <View style={{ flex: 1, backgroundColor: 'red' }} />
-);
-
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-const Tab = createMaterialTopTabNavigator();
+function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX.Element {
+  const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [dataSource,setDataSource] = useState<any[]>([1,1,1,1])
+  const isCanLoadMore = useRef(false)
+  const [page,setPage] = useState(0)
+  const [isLoadEnd,setIsLoadEnd] = useState(false)
+  const userInfo = useUserInfo()
+  const [proList,setProList] = useState<any[]>([])
 
 
+  function getData(currenPage:number){
+   
+  }
 
-function Home({navigation}:any): JSX.Element {
-  return (
-    <Tab.Navigator
-      initialRouteName="Feed"
-      screenOptions={{
-        tabBarActiveTintColor: '#e91e63',
-        tabBarLabelStyle: { fontSize: 12 },
-        tabBarStyle: { backgroundColor: 'powderblue' },
-      }}
-    >
-      <Tab.Screen
-        name="Feed"
-        component={FirstRoute}
-        options={{ tabBarLabel: 'Home' }}
-      />
-      <Tab.Screen
-        name="Notifications"
-        component={SecondRoute}
-        options={{ tabBarLabel: 'Updates' }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ThreeRoute}
-        options={{ tabBarLabel: 'Profile' }}
-      />
-      <Tab.Screen
-        name="Profile1"
-        component={FourRoute}
-        options={{ tabBarLabel: 'Profile' }}
-      />
-    </Tab.Navigator>
-  );
-
-  const layout = useWindowDimensions();
-  const [index, setIndex] = React.useState(0);
-  const routes =[
-    { key: 'Recommend', title: 'FirstRoute' },
-    { key: 'Design', title: 'SecondRoute' },
-    { key: 'Show', title: 'ThreeRoute' },
-    { key: 'FocusOn', title: 'FourRoute' },
-  ]
-
-  const renderScene = useCallback(({ route, jumpTo }:any) => {
-    switch (route.key) {
-      case 'Recommend':
-        return <FirstRoute navigation={navigation} jumpTo={jumpTo} onPress={()=>{
-          navigation.navigate('Register')
-        }}/>
-      case 'Design':
-        return <SecondRoute navigation={navigation} jumpTo={jumpTo} />;
-      case 'Show':
-        return <ThreeRoute navigation={navigation} jumpTo={jumpTo} />;
-      case 'FocusOn':
-        return <FourRoute navigation={navigation} jumpTo={jumpTo} />;
-    }
+  useEffect(()=>{
+    // getProList()
+    // getData(0)
   },[])
+
+
+  function onRefresh(){
+    if (loading || refreshing){
+      return
+    }
+    // console.log('onRefresh')
+    // setRefreshing(true);
+    // getData(0)
+  }
+
+  function onEndReached(){
+    if (loading || refreshing || isLoadEnd){
+      return
+    }
+    console.log('loading more')
+    // getData(page + 1)
+  }
   return (
-    <View style={{
-      flex: 1,
-    }}>
-      {/* <TabView
-        swipeEnabled={false}
-        lazy
-        navigationState={{ index, routes }}
-        renderScene={renderScene}
-        onIndexChange={setIndex}
-        initialLayout={{ width: layout.width }}
-      /> */}
-
-
-    <PagerView style={{flex:1}} initialPage={0}>
-      <FirstRoute key="1" navigation={navigation} onPress={()=>{
-        navigation.navigate('Register')
-      }}/>
-      <SecondRoute key="2"/>
-      <ThreeRoute key="3"/>
-      <FourRoute key="4"/>
-    </PagerView>
-    </View>
+    <ScrollView style={styles.mainView}>
+      <TopCarousel navigation={navigation} jumpTo={jumpTo} tabState={tabState}/>
+      <View style={styles.downView}>
+        <RemmenntRenderItem item={''} onPress={()=>{
+          navigation.navigate('EcologyDetail')
+        }}/>
+      </View>
+    </ScrollView>
   );
 }
-export default Home;
+function RemmenntRenderItem({item,onPress}:any){
+  return <TouchableOpacity onPress={()=>onPress()} style={[styles.flowView,{
+    marginVertical:2,
+  }]}>
+    <View style={styles.typeItem}>
+      <ExpoImage
+        style={styles.typeItem}
+        source={ticket_pro_ban_1}
+        placeholder={BLUR_HASH}
+        contentFit="cover"
+        transition={200}
+      />
+    </View>
+  </TouchableOpacity>
+}
+
+function TopCarousel({navigation,jumpTo,tabState}:any){
+  const [currentIndex,setCurrentIndex] = useState(0)
+  const userInfo = useUserInfo()
+  const [bannerList,setBannerList] = useState<any[]>([])
+
+  useEffect(()=>{
+    HTTPS.post(TICKET_BANNER,{
+      "token":userInfo.token,
+    }).then((res:any)=>{
+      setBannerList(res.banner)
+    }).finally(()=>{
+
+    })
+  },[])
+  return <View style={{backgroundColor:Colors.black}}>
+    <LinearGradient colors={['#000', 'transparent']} style={styles.topOp}/>
+    <Carousel
+      loop
+      autoPlay={true}
+      width={SCREEN_WIDTH}
+      height={SCREEN_WIDTH}
+      data={bannerList}
+      mode="parallax"
+      modeConfig={{
+        parallaxScrollingScale: 1,
+        parallaxScrollingOffset: 0,
+      }}
+      scrollAnimationDuration={3000}
+      onSnapToItem={(index) => {setCurrentIndex(index)}}
+      renderItem={({ item,index }:any) => (
+        <ExpoImage
+          style={styles.topBanner}
+          source={HTTPS.getImageUrl(item.image)}
+          placeholder={BLUR_HASH}
+          contentFit="cover"
+          transition={200}
+        />
+      )}
+      />
+    <View style={styles.pointView}>
+      {
+        bannerList.map((item:any,index:number)=>{
+          return <View key={index+'tickban'} style={[styles.point,{
+            backgroundColor:currentIndex == index ? Colors.buttonMain : '#CCCCCC'
+          }]}/>
+        })
+      }
+    </View>
+    <ImageBackground style={styles.centerbg} source={centerBg}>
+      <Image style={styles.centerLine} source={ticket_line}/>
+      <Text style={styles.centerTitle}>热门推荐</Text>
+    </ImageBackground>
+  </View>
+}
+
+export default Ticket;

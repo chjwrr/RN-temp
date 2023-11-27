@@ -48,29 +48,61 @@ function RecommendDetail(props:any): JSX.Element {
             <Image style={styles.backIcon} source={BackIcon}/>
           </TouchableOpacity>
           <View style={styles.titleView}>
-            <Text style={styles.title}>设置</Text>
+            <Text style={styles.title}>编辑资料</Text>
           </View>
         </View>
         <ScrollView style={styles.scrollView} keyboardDismissMode='on-drag'>
           <TouchableOpacity style={styles.itemView}>
-            <Text style={styles.title}>账号与安全</Text>
-            <Image style={styles.arrow} source={arrowr}/>
+            <Text style={styles.title}>头像</Text>
+            <View style={{flexDirection:'row',alignItems:'center'}}>
+              <ExpoImage
+                style={styles.avatar}
+                source={HTTPS.getImageUrl(userInfo.avatar)}
+                placeholder={BLUR_HASH}
+                contentFit="cover"
+                transition={200}
+              />
+              <Image style={styles.arrow} source={arrowr}/>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.itemView}>
+            <Text style={styles.title}>用户名CN</Text>
+            <TextInput underlineColorAndroid={'transparent'}
+              style={styles.name}
+              value={userInfo.nickname}
+            />
+          </View>
+          <View style={styles.itemView}>
+            <Text style={styles.title}>玩家时间</Text>
+            <Text style={styles.value}>两年</Text>
+          </View>
+          <TouchableOpacity style={styles.itemView}>
+            <Text style={styles.title}>性别</Text>
+            <View style={{flexDirection:'row',alignItems:'center'}}>
+              <Text style={styles.value}>女</Text>
+              <Image style={styles.arrow} source={arrowr}/>
+            </View>
           </TouchableOpacity>
           <TouchableOpacity style={styles.itemView}>
-            <Text style={styles.title}>隐私设置</Text>
-            <Image style={styles.arrow} source={arrowr}/>
+            <Text style={styles.title}>现居</Text>
+            <View style={{flexDirection:'row',alignItems:'center'}}>
+              <Text style={styles.value}>请选择</Text>
+              <Image style={styles.arrow} source={arrowr}/>
+            </View>
           </TouchableOpacity>
           <TouchableOpacity style={styles.itemView}>
-            <Text style={styles.title}>通知设置</Text>
-            <Image style={styles.arrow} source={arrowr}/>
+            <Text style={styles.title}>星座</Text>
+            <View style={{flexDirection:'row',alignItems:'center'}}>
+              <Text style={styles.value}>请选择</Text>
+              <Image style={styles.arrow} source={arrowr}/>
+            </View>
           </TouchableOpacity>
           <TouchableOpacity style={styles.itemView}>
-            <Text style={styles.title}>关于Cverselink</Text>
-            <Image style={styles.arrow} source={arrowr}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.itemView}>
-            <Text style={styles.title}>分享APP</Text>
-            <Image style={styles.arrow} source={arrowr}/>
+            <Text style={styles.title}>签名</Text>
+            <View style={{flexDirection:'row',alignItems:'center'}}>
+              <Text style={styles.value}>请选择</Text>
+              <Image style={styles.arrow} source={arrowr}/>
+            </View>
           </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>

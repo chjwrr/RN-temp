@@ -22,11 +22,11 @@ import { FadeLoading } from 'react-native-fade-loading';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from "@react-native-community/blur";
 import * as HTTPS from '@/api/axios'
-import { GET_MASTER_LIST, TICKET_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
+import { MY_FOLLOWING_MASTERS } from '@/api/API';
 
 const centerBg = require('@/assets/images/ticket_downbg.png')
 const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
@@ -65,37 +65,37 @@ function Ticket({navigation}:any): JSX.Element {
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const userInfo = useUserInfo()
+  const [myFollowingList,setMyFollowingList] = useState<any[]>([])
 
 
   function onPress(columnIndex:number){
 
   }
-  function getData(currenPage:number){
 
-    HTTPS.post(GET_MASTER_LIST,{
+  function onMyFollowingMaster(){
+    HTTPS.post(MY_FOLLOWING_MASTERS,{
       "token":userInfo.token,
       "limit":PAGE_SIZE,
-      offset:currenPage * PAGE_SIZE
+      offset:0
+    }).then((result:any)=>{
+      setMyFollowingList(result.my_following_masters)
+    }).finally(()=>{
     })
-    .then((result:any)=>{
-      
-    })
-    .finally(()=>{})
-
-
+  }
+  function getData(currenPage:number){
     setLoading(true)
-    HTTPS.post(TICKET_LIST,{
+    HTTPS.post(MY_FOLLOWING_MASTERS,{
       "token":userInfo.token,
       "limit":PAGE_SIZE,
       offset:currenPage * PAGE_SIZE
     }).then((result:any)=>{
       if (currenPage == 0){
-        setDataSource(result.ticket_list)
+        setDataSource(result.my_following_masters)
         // setDataSource([{},{},{},{},{},{},{}])
       }else {
-        setDataSource([...dataSource,...result.ticket_list])
+        setDataSource([...dataSource,...result.my_following_masters])
       }
-      if (result.ticket_list.length < PAGE_SIZE){
+      if (result.my_following_masters.length < PAGE_SIZE){
         setIsLoadEnd(true)
       }else {
         setIsLoadEnd(false)
@@ -109,6 +109,7 @@ function Ticket({navigation}:any): JSX.Element {
 
   useEffect(()=>{
     getData(0)
+    onMyFollowingMaster()
   },[])
 
 
@@ -118,6 +119,7 @@ function Ticket({navigation}:any): JSX.Element {
     }
     console.log('onRefresh')
     setRefreshing(true);
+    onMyFollowingMaster()
     getData(0)
   }
 
@@ -133,7 +135,6 @@ function Ticket({navigation}:any): JSX.Element {
   function onChangeType(index:any){
     setCurrentType(index)
   }
-  const focusList:any[] = [1,2,3,4,5,6,7,8,9,0]
 
   return (
     <View style={styles.mainView}>
@@ -164,17 +165,23 @@ function Ticket({navigation}:any): JSX.Element {
               <View style={styles.scrollView}>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 {
-                  focusList.map((item:any,index:number)=>{
+                  myFollowingList.map((item:any,index:number)=>{
                     return <TouchableOpacity style={styles.focusView} key={index+'focus'} onPress={()=>{
                       navigation.navigate('SuperPersonDetail',{
                         id:0
                       })
                     }}>
                       <View style={styles.focusAvatarView}>
-                        <View style={styles.focusAvtar}/>
-                        <View style={styles.focusTipView}/>
+                        <ExpoImage
+                          style={styles.focusAvtar}
+                          source={HTTPS.getImageUrl(item.avatar)}
+                          placeholder={BLUR_HASH}
+                          contentFit="cover"
+                          transition={200}
+                        />
+                        {/* <View style={styles.focusTipView}/> */}
                       </View>
-                      <Text style={styles.focusName}>用户名字</Text>
+                      <Text style={styles.focusName}>{item.name}</Text>
                     </TouchableOpacity>
                   })
                 }
@@ -213,8 +220,14 @@ function RemmenntRenderItem({item,onPress}:any){
   }]}>
     <View style={styles.flowViewSubView}>
       <View style={{flexDirection:'row',alignItems:'center'}}>
-        <View style={styles.flowIcon}/>
-        <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>名字</Text>
+        <ExpoImage
+          style={styles.flowIcon}
+          source={HTTPS.getImageUrl(item.avatar)}
+          placeholder={BLUR_HASH}
+          contentFit="cover"
+          transition={200}
+        />
+        <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>{item.name}</Text>
       </View>
       <TouchableOpacity style={styles.focusButton}>
         <Image style={styles.flowFocus} source={focus_n}/>

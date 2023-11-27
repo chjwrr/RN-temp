@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
         top:0,
         left:0,
         height:STATUSBAR_HEIGHT + NAVIGATION_HEIGHT,
-        width:'100%',
+        width:SCREEN_WIDTH,
         zIndex:2
     },
     downOp:{

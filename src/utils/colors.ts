@@ -25,6 +25,7 @@ const Colors = {
   buttonMain:'#6d69fa',                // 按钮选中
   tipPoint:'#FF4F4F',                  // 提示红点
   showMore:'#593D99',                  // 查看全文
+  navTitle:'#5C5C5C',                  // 导航条文字
 
 }
 export default Colors

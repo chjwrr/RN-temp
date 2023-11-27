@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     width:'100%',
     height:NAVIGATION_HEIGHT + STATUSBAR_HEIGHT,
     flexDirection:'row',
-    // top:STATUSBAR_HEIGHT,
+    justifyContent:'space-between',
     top:0,
     paddingTop:STATUSBAR_HEIGHT,
     paddingHorizontal:16,
@@ -23,54 +23,41 @@ export const styles = StyleSheet.create({
   backButton:{
     width:NAVIGATION_HEIGHT,
     height:NAVIGATION_HEIGHT,
-    justifyContent:'center'
+    justifyContent:'center',
   },
   backIcon:{
     width:16,
     height:16
   },
   titleView:{
-    width:SCREEN_WIDTH - NAVIGATION_HEIGHT - NAVIGATION_HEIGHT,
-    alignItems:'center'
+    width:200,
+    alignItems:'center',
   },
   title:{
     fontSize:16,
     color:Colors.navTitle
   },
-  value:{
+  downView:{
+    width:310,
+    height:450,
+    marginTop:60,
+    alignItems:'center',
+    paddingVertical:55,
+    justifyContent:'space-between'
+  },
+  downTitle:{
+    fontSize:24,
+    fontWeight:'500',
+    color:Colors.buttonMain
+  },
+  downDes:{
     fontSize:14,
-    color:Colors.light
+    color:Colors.label
   },
-  scrollView:{
-    flex:1,
-    paddingHorizontal:16,
-    marginTop:NAVIGATION_HEIGHT,
-  },
-  itemView:{
-    borderBottomWidth:1,
-    borderBottomColor:'#CCCCCC',
-    height:60,
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center'
-  },
-  arrow:{
-    width:16,
-    height:16,
-    marginLeft:8
-  },
-  avatar:{
-    width:30,
-    height:30,
-    borderRadius:15
-  },
-  name:{
-    flex:1,
-    fontSize:14,
-    color:Colors.light,
-    paddingTop:0,
-    paddingBottom:0,
-    height:'100%',
-    textAlign:'right'
+  code:{
+    width:140,
+    height:140,
+    backgroundColor:'#fff',
+    marginBottom:20
   }
 });

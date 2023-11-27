@@ -25,7 +25,7 @@ import { FadeLoading } from 'react-native-fade-loading';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from "@react-native-community/blur";
 import * as HTTPS from '@/api/axios'
-import { MASTER_DETAIL, PROJECT_LIST, TICKET_LIST } from '@/api/API';
+import { MASTER_DETAIL, MASTER_UNFOLLOW, PROJECT_LIST, MASTER_FOLLOW } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
@@ -151,15 +151,15 @@ function Ticket(props:any): JSX.Element {
         ],{
           useNativeDriver:false
         })}>
-        <TopInfo/>
+        <TopInfo masterInfo={masterInfo}/>
         <View style={styles.line}/>
         <Text style={styles.title}>系列作品</Text>
         {
-          [1,2].map((item:any,index:number)=>{
+          dataSource.map((item:any,index:number)=>{
             return <View style={styles.bannerView} key={index+'spdb'}>
               <ExpoImage
                 style={styles.banner}
-                source={tick_icon_2}
+                source={HTTPS.getImageUrl(item.image)}
                 placeholder={BLUR_HASH}
                 contentFit="cover"
                 transition={200}
@@ -196,31 +196,38 @@ function Ticket(props:any): JSX.Element {
           }
           </ScrollView>
         </View>
-        {
-          [1,2].map((item:any,index:number)=>{
-            return <View style={styles.bannerView} key={index+'spdb'}>
-              <ExpoImage
-                style={styles.banner}
-                source={tick_icon_2}
-                placeholder={BLUR_HASH}
-                contentFit="cover"
-                transition={200}
-              />
-            </View>
-          })
-        }
       </ScrollView>
     </View>
   );
 }
-function TopInfo(){
+function TopInfo({masterInfo}:any){
+  const [isFocus,setIsFocus] = useState(false)
+  const userInfo = useUserInfo()
+  useEffect(()=>{
+    setIsFocus(masterInfo.is_follow)
+  },[masterInfo])
+  function onFocus(){
+    HTTPS.post(isFocus ? MASTER_UNFOLLOW : MASTER_FOLLOW,{
+      "token":userInfo.token,
+      master_id:masterInfo.master_id
+    }).then((result:any)=>{
+      setIsFocus(!isFocus)
+    }).finally(()=>{
+    })
+  }
   return <View style={styles.topView}>
     <View style={styles.infoView}>
-      <View style={styles.avatar}/>
+      <ExpoImage
+        style={styles.avatar}
+        source={masterInfo.avatar}
+        placeholder={BLUR_HASH}
+        contentFit="cover"
+        transition={200}
+      />
       <View>
-        <Text style={styles.name}>名字</Text>
-        <Text style={styles.des}>衣互号：1</Text>
-        <Text style={styles.des}>IP属地：北京</Text>
+        <Text style={styles.name}>{masterInfo.name}</Text>
+        {/* <Text style={styles.des}>衣互号：{masterInfo.}</Text>
+        <Text style={styles.des}>IP属地：北京</Text> */}
       </View>
     </View>
     <View style={styles.infoView}>
@@ -233,24 +240,28 @@ function TopInfo(){
     </View>
     <View style={styles.numberView}>
       <View style={styles.numItem}>
-        <Text style={styles.number}>200</Text>
+        <Text style={styles.number}>0</Text>
         <Text style={styles.numberdes}>动态</Text>
       </View>
       <View style={styles.numItem}>
-        <Text style={styles.number}>200</Text>
+        <Text style={styles.number}>0</Text>
         <Text style={styles.numberdes}>关注</Text>
       </View>
       <View style={styles.numItem}>
-        <Text style={styles.number}>200</Text>
+        <Text style={styles.number}>0</Text>
         <Text style={styles.numberdes}>粉丝</Text>
       </View>
       <View style={styles.infoView}>
-        <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearVienumw}>
-          <Text style={styles.numberdestitle}>+关注</Text>
-        </LinearGradient>
-        <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearVienumw}>
-          <Text style={styles.numberdestitle}>发消息</Text>
-        </LinearGradient>
+        <TouchableOpacity onPressIn={onFocus}>
+          <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearVienumw}>
+            <Text style={styles.numberdestitle}>{isFocus ? '-关注' : '+关注'}</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearVienumw}>
+            <Text style={styles.numberdestitle}>发消息</Text>
+          </LinearGradient>
+        </TouchableOpacity>
       </View>
     </View>
   </View>

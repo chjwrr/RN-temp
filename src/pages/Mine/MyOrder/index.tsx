@@ -48,31 +48,9 @@ function RecommendDetail(props:any): JSX.Element {
             <Image style={styles.backIcon} source={BackIcon}/>
           </TouchableOpacity>
           <View style={styles.titleView}>
-            <Text style={styles.title}>设置</Text>
+            <Text style={styles.title}>全部订单</Text>
           </View>
         </View>
-        <ScrollView style={styles.scrollView} keyboardDismissMode='on-drag'>
-          <TouchableOpacity style={styles.itemView}>
-            <Text style={styles.title}>账号与安全</Text>
-            <Image style={styles.arrow} source={arrowr}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.itemView}>
-            <Text style={styles.title}>隐私设置</Text>
-            <Image style={styles.arrow} source={arrowr}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.itemView}>
-            <Text style={styles.title}>通知设置</Text>
-            <Image style={styles.arrow} source={arrowr}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.itemView}>
-            <Text style={styles.title}>关于Cverselink</Text>
-            <Image style={styles.arrow} source={arrowr}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.itemView}>
-            <Text style={styles.title}>分享APP</Text>
-            <Image style={styles.arrow} source={arrowr}/>
-          </TouchableOpacity>
-        </ScrollView>
       </SafeAreaView>
     </ImageBackground>
   );

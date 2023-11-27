@@ -22,7 +22,7 @@ import { FadeLoading } from 'react-native-fade-loading';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from "@react-native-community/blur";
 import * as HTTPS from '@/api/axios'
-import { MASTER_LIST, TICKET_LIST } from '@/api/API';
+import { MASTER_LIST, MASTER_RECOMMEND_LIST, TICKET_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
@@ -51,11 +51,24 @@ function Ticket({navigation}:any): JSX.Element {
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const userInfo = useUserInfo()
+  const [recommenList,seRecommenList] = useState<any[]>([])
 
 
   function onPress(columnIndex:number){
 
   }
+  function getRecommenMsterList(){
+    setLoading(true)
+    HTTPS.post(MASTER_RECOMMEND_LIST,{
+      "token":userInfo.token,
+      "limit":PAGE_SIZE,
+      offset:0
+    }).then((result:any)=>{
+      seRecommenList(result.master_recommend_list)
+    }).finally(()=>{
+    })
+  }
+
   function getData(currenPage:number){
     setLoading(true)
     HTTPS.post(MASTER_LIST,{
@@ -83,6 +96,7 @@ function Ticket({navigation}:any): JSX.Element {
 
   useEffect(()=>{
     getData(0)
+    getRecommenMsterList()
   },[])
 
 
@@ -92,6 +106,7 @@ function Ticket({navigation}:any): JSX.Element {
     }
     console.log('onRefresh')
     setRefreshing(true);
+    getRecommenMsterList()
     getData(0)
   }
 
@@ -142,17 +157,23 @@ function Ticket({navigation}:any): JSX.Element {
               <View style={styles.scrollView}>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 {
-                  focusList.map((item:any,index:number)=>{
+                  recommenList.map((item:any,index:number)=>{
                     return <TouchableOpacity style={styles.focusView} key={index+'focus'} onPress={()=>{
                       navigation.navigate('SuperPersonDetail',{
-                        // master_id:item.master_id
+                        master_id:item.master_id
                       })
                     }}>
                       <View style={styles.focusAvatarView}>
-                        <View style={styles.focusAvtar}/>
-                        <View style={styles.focusTipView}/>
+                        <ExpoImage
+                          style={styles.focusAvtar}
+                          source={HTTPS.getImageUrl(item.avatar)}
+                          placeholder={BLUR_HASH}
+                          contentFit="cover"
+                          transition={200}
+                        />
+                        {/* <View style={styles.focusTipView}/> */}
                       </View>
-                      <Text style={styles.focusName}>用户名字</Text>
+                      <Text style={styles.focusName}>{item.name}</Text>
                     </TouchableOpacity>
                   })
                 }
