@@ -58,6 +58,7 @@ export default function CustomTabbar(props:BottomTabBarProps): JSX.Element {
           });
 
           if (!isFocused && !event.defaultPrevented) {
+            console.log('route.name==',route.name)
             props.navigation.navigate(route.name);
           }
         };

@@ -8,7 +8,8 @@ import {
   TextInput,
   Image,
   useWindowDimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  DeviceEventEmitter
 } from 'react-native';
 import {styles} from './styles'
 import Colors from '@/utils/colors';
@@ -119,6 +120,11 @@ const tabs:any[] = [
   },
 ]
 function TopTabbar(props:any){
+  useEffect(()=>{
+    DeviceEventEmitter.addListener('postSuccess',()=>{
+      props.jumpTo('Show')
+    })
+  },[])
   return <View style={styles.tabView}>
     {
       tabs.map((item:any,index:number)=>{

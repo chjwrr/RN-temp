@@ -77,6 +77,7 @@ function RecommendDetail(props:any): JSX.Element {
     })
   }
   function onGetCommonList(comment_list:any[]){
+    console.log('comment_list===',comment_list)
     // 第一步，筛选出顶级的评论列表
     // 第二步，将回复的评论列表添加到顶级评论的 replyList 属性中
     let topList:any[] = []
@@ -90,14 +91,14 @@ function RecommendDetail(props:any): JSX.Element {
     })
     topList.map((topItem:any)=>{
       comment_list.map((item:any)=>{
-        if(item.reply_id && item.reply_id == topItem.comment_id){
+        if(item.first_reply_id && item.first_reply_id == topItem.comment_id){
           // 这条评论属于这个评论的回复评论
           topItem.replyList = [...topItem.replyList,item]
         }
       })
     })
     console.log('topList=',topList)
-
+    setCommentList(topList)
   }
 
   useEffect(()=>{
@@ -164,7 +165,7 @@ function RecommendDetail(props:any): JSX.Element {
             keyboardDismissMode='on-drag'
             contentContainerStyle={styles.contentContainerStyle}
             showsVerticalScrollIndicator={false}
-            data={detailInfo.comment_list}
+            data={commentList}
             numColumns={1}
             renderItem={({ item, index })=>{
               return <CommonItem onCommonChange={onCommonChange} item={item} index={index} articleId={detailInfo.article_id}/>
@@ -177,7 +178,7 @@ function RecommendDetail(props:any): JSX.Element {
               <View style={styles.line}/>
               <View style={styles.commonTitleVieew}>
                 <Text style={styles.commonTitle}>共</Text>
-                <Text style={styles.commonTitleMain}>{detailInfo.comment_list?.length}</Text>
+                <Text style={styles.commonTitleMain}>{commentList.length}</Text>
                 <Text style={styles.commonTitle}>条评论</Text>
               </View>
             </View>}
@@ -330,14 +331,16 @@ function DownInfo({is_collect,article_id,is_like,onCollectChange,onCommonChange}
   }
 
   function onSubmitEditing(e:any){
-    console.log('====',e.nativeEvent.text)
+    console.log('====',replayInfo)
+
     if(!e.nativeEvent.text)return
     if (replayInfo.comment_id){
       HTTPS.post(ARTICLE_COOMMENT_REPLY,{
         "token":userInfo.token,
         article_id:articleId,
         content:e.nativeEvent.text,
-        comment_id:replayInfo.comment_id
+        reply_id:replayInfo.comment_id,
+        first_reply_id:replayInfo.comment_id
       }).then((result:any)=>{
         onCommonChange && onCommonChange()
         inputRef.current.clear()
@@ -446,6 +449,28 @@ function CommonItem({item,index,articleId,onCommonChange}:any){
         <Text style={styles.collectTitle}>{item.up_count}</Text>
       </View>
     </View>
+
+    {
+      item.replyList.map((item:any,index:number)=>{
+        return <View style={styles.replayView}>
+          <View style={{flexDirection:'row',alignItems:'center'}}>
+            <Text style={styles.collectTitleCol}>{item.reply_author.nickname}</Text>
+            <Text style={styles.collectTitle}>回复了</Text>
+            <Text style={styles.collectTitleCol}>{item.author.nickname}： </Text>
+          </View>
+          <Text style={styles.collectTitle}>
+            {item.content}
+          </Text>
+          <View style={styles.comRelayButton}>
+            <Text style={styles.comDay}>{formatTime(item.created_at)}</Text>
+            <TouchableOpacity onPressIn={onReplay}>
+              <Text style={styles.comReplay}>回复</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      })
+    }
+
     <View style={styles.comLine}/>
   </View>
 }

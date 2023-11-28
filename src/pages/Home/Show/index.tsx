@@ -7,6 +7,7 @@ import {
   Image,
   ActivityIndicator,
   FlatList,
+  DeviceEventEmitter,
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
@@ -36,6 +37,13 @@ function Show({navigation,jumpTo}:any): JSX.Element {
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const userInfo = useUserInfo()
 
+  useEffect(()=>{
+    DeviceEventEmitter.addListener('postSuccess',()=>{
+      setRefreshing(true)
+      getData(0)
+    })
+  },[])
+
   async function getData(currenPage:number){
     setLoading(true)
     HTTPS.post(ARTICLE_LIST,{
@@ -54,7 +62,6 @@ function Show({navigation,jumpTo}:any): JSX.Element {
         setIsLoadEnd(false)
       }
       setPage(currenPage)
-
     }).finally(()=>{
       setRefreshing(false)
       setLoading(false)
@@ -176,7 +183,7 @@ function RenderItem({item,index,navigation,onCollect,onPress}:any){
       />
     <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.content}</Text>
     <View style={styles.flowViewSubView}>
-      <View style={{flexDirection:'row'}}>
+      <View style={{flexDirection:'row',alignItems:'center'}}>
         <ExpoImage
         style={styles.flowIcon}
         source={HTTPS.getImageUrl(item.author?.avatar)}

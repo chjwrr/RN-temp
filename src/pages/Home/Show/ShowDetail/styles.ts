@@ -319,5 +319,14 @@ export const styles = StyleSheet.create({
     color:Colors.main,
     fontSize:12,
     marginHorizontal:5
+  },
+  replayView:{
+    marginLeft:54,
+    marginRight:16,
+    marginTop:10
+  },
+  collectTitleCol:{
+    fontSize:14,
+    color:Colors.main
   }
 });

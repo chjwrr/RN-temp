@@ -213,6 +213,7 @@ function SwiperView({images}:any){
         {
           images.map((item:any,index:number)=>{
             return <ExpoImage
+              key={'focusOn'+index}
               style={styles.swiperTopView}
               source={HTTPS.getImageUrl(item)}
               placeholder={BLUR_HASH}

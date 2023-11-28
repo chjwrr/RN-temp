@@ -40,7 +40,9 @@ function Tabs() {
       <Tab.Screen name="Ticket" component={TicketScreen} options={{
         headerShown:false,
       }}/>
-      <Tab.Screen name="Post" component={PostScreen} />
+      <Tab.Screen name="Post" component={PostScreen} options={{
+        headerShown:false,
+      }}/>
       <Tab.Screen name="Ecology" component={EcologyScreen} options={{
         headerShown:false,
       }}/>

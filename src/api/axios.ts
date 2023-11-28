@@ -72,12 +72,16 @@ export async function get(pathName:string,params?:Record<string,any>,config?:any
 }
 
 function signature(key:string, data:any) {
+  console.log('data==',data)
   const dataList = Object.entries(data).map(([k, v]) => `${k}=${v}`);
   dataList.sort();
   const dataStr = dataList.join('&') + '&' + key;
   console.log('dataStr==',dataStr)
   return sha256(dataStr).toString()
 }
+
+
+
 
 export async function post(method:string,params:Record<string,any>,config?:any) {
   params.method = method

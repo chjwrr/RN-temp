@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { saveUserInfo, useUserInfo } from '@/redux/userInfo';
 import { CommonActions } from '@react-navigation/native';
 import * as HTTPS from '@/api/axios'
-import { USER_LOGOUT } from '@/api/API';
+import { MY_USER_INFO, USER_LOGOUT } from '@/api/API';
 import { Image as ExpoImage } from 'expo-image';
 import { BLUR_HASH } from '@/utils';
 import LinearGradient from 'react-native-linear-gradient';
@@ -28,6 +28,16 @@ const mineitem = require('@/assets/images/mineitem.png')
 function Mine(props:any): JSX.Element {
   const dispatch = useDispatch()
   const userInfo = useUserInfo()
+  useEffect(()=>{
+    HTTPS.post(MY_USER_INFO,{
+      token:userInfo.token
+    }).then((result:any)=>{
+      dispatch(saveUserInfo({
+        ...result.my_user_info,
+        token:userInfo.token
+      }))
+    })
+  },[])
   function onLogout(){
     dispatch(saveUserInfo({}))
     props.navigation.dispatch(
