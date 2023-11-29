@@ -77,7 +77,7 @@ export const styles = StyleSheet.create({
       color:Colors.assist
   },
   flatList:{
-    marginTop:STATUSBAR_HEIGHT,
+    marginTop:NAVIGATION_HEIGHT + STATUSBAR_HEIGHT,
     flex:1,
     paddingHorizontal:16
   }

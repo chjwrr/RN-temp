@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
   scrollView:{
     flex:1,
     paddingHorizontal:16,
-    marginTop:NAVIGATION_HEIGHT,
+    marginTop:NAVIGATION_HEIGHT
   },
   itemView:{
     borderBottomWidth:1,

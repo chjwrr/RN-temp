@@ -117,7 +117,7 @@ function RecommendDetail(props:any): JSX.Element {
   }
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
-      <SafeAreaView style={{flex:1}}>
+      {/* <SafeAreaView style={{flex:1}}> */}
         <View style={[styles.navigationView,{
         }]}>
           <TouchableOpacity style={styles.backButton} onPressIn={onBack}>
@@ -147,7 +147,7 @@ function RecommendDetail(props:any): JSX.Element {
           duration={0}
           visible={true}
           animated={true}
-        /> : <TouchableOpacity onPress={()=>onPress(item,index)} style={[styles.flowView,{
+        /> : <TouchableOpacity onPressIn={()=>onPress(item,index)} style={[styles.flowView,{
             marginVertical:2,
             marginRight:index % 2 == 0 ? 2 : 0,
             marginLeft:index % 2 == 0 ? 0 : 2,
@@ -208,7 +208,7 @@ function RecommendDetail(props:any): JSX.Element {
       />
 
 
-      </SafeAreaView>
+      {/* </SafeAreaView> */}
     </ImageBackground>
   );
 }
