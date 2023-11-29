@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     paddingVertical:14,
     flexDirection:'row',
     alignItems:'center',
-    marginVertical:4
+    marginVertical:4,
   },
   flowViewIcon:{
     width:80,
@@ -63,7 +63,8 @@ export const styles = StyleSheet.create({
   },
   flowViewTitle:{
     fontSize:14,
-    color:Colors.light
+    color:Colors.light,
+    width:200
   },
   loadMoreView:{
     flexDirection:'row',

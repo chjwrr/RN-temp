@@ -25,7 +25,7 @@ import { FadeLoading } from 'react-native-fade-loading';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from "@react-native-community/blur";
 import * as HTTPS from '@/api/axios'
-import { MASTER_DETAIL, MASTER_UNFOLLOW, PROJECT_LIST, MASTER_FOLLOW } from '@/api/API';
+import { MASTER_DETAIL, MASTER_UNFOLLOW, PROJECT_LIST, MASTER_FOLLOW,PROJECT_RECOMMEND_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
@@ -58,12 +58,24 @@ function Ticket(props:any): JSX.Element {
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const userInfo = useUserInfo()
-  const recommonList = [1,2,3,4,5,6,7,8]
+  const [recommonList,seRecommenList] = useState<any[]>([])
   const [masterInfo,setMasterInfo] = useState<any>({})
   useEffect(()=>{
     onGetProjectList(0)
     onGetMasterDetail()
+    getRecommenList()
   },[])
+
+  function getRecommenList(){
+    HTTPS.post(PROJECT_RECOMMEND_LIST,{
+      "token":userInfo.token,
+      "limit":5,
+      offset:0
+    }).then((result:any)=>{
+      seRecommenList(result.project_recommend_list)
+    }).finally(()=>{
+    })
+  }
 
   function onGetMasterDetail(){
     HTTPS.post(MASTER_DETAIL,{
@@ -175,13 +187,13 @@ function Ticket(props:any): JSX.Element {
               return <TouchableOpacity style={[styles.recmmonItem,{
                 marginRight:index == recommonList.length - 1 ? 0 : 8
               }]} key={index+'spdr'} onPress={()=>{
-                props.navigation.navigate('SuperPersonDetail',{
-                  id:0
+                props.navigation.navigate('TicketBannerDetail',{
+                  id:item.project_id
                 })
               }}>
                 <ExpoImage
                   style={styles.focusAvatarView}
-                  source={ticket_pro_ban_1}
+                  source={HTTPS.getImageUrl(item.image)}
                   placeholder={BLUR_HASH}
                   contentFit="cover"
                   transition={200}
@@ -189,8 +201,8 @@ function Ticket(props:any): JSX.Element {
                 <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearsellView}>
                   <Text style={styles.numberdestitle}>热卖中</Text>
                 </LinearGradient>
-                <Text numberOfLines={1} ellipsizeMode='tail' style={styles.itemName}>项目01</Text>
-                <Text style={styles.itemID}>ID:01</Text>
+                <Text numberOfLines={1} ellipsizeMode='tail' style={styles.itemName}>{item.name}</Text>
+                <Text style={styles.itemID}>ID:{item.project_id}</Text>
               </TouchableOpacity>
             })
           }
@@ -226,8 +238,8 @@ function TopInfo({masterInfo}:any){
       />
       <View>
         <Text style={styles.name}>{masterInfo.name}</Text>
-        {/* <Text style={styles.des}>衣互号：{masterInfo.}</Text>
-        <Text style={styles.des}>IP属地：北京</Text> */}
+        <Text style={[styles.des,{width:200}]} numberOfLines={1} ellipsizeMode='tail'>衣互号：{masterInfo.master_id}</Text>
+        <Text style={styles.des}>IP属地：北京</Text>
       </View>
     </View>
     <View style={styles.infoView}>
@@ -240,21 +252,21 @@ function TopInfo({masterInfo}:any){
     </View>
     <View style={styles.numberView}>
       <View style={styles.numItem}>
-        <Text style={styles.number}>0</Text>
+        <Text style={styles.number}>{masterInfo.article_count}</Text>
         <Text style={styles.numberdes}>动态</Text>
       </View>
       <View style={styles.numItem}>
-        <Text style={styles.number}>0</Text>
+        <Text style={styles.number}>{masterInfo.follow_count}</Text>
         <Text style={styles.numberdes}>关注</Text>
       </View>
       <View style={styles.numItem}>
-        <Text style={styles.number}>0</Text>
+        <Text style={styles.number}>{masterInfo.follower_count}</Text>
         <Text style={styles.numberdes}>粉丝</Text>
       </View>
       <View style={styles.infoView}>
         <TouchableOpacity onPressIn={onFocus}>
           <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearVienumw}>
-            <Text style={styles.numberdestitle}>{isFocus ? '-关注' : '+关注'}</Text>
+            <Text style={styles.numberdestitle}>{isFocus ? '取消关注' : '添加关注'}</Text>
           </LinearGradient>
         </TouchableOpacity>
         <TouchableOpacity>

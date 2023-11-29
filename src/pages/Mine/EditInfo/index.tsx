@@ -26,6 +26,7 @@ import { Image as ExpoImage } from 'expo-image';
 import { MERCHANT_CLOTH_DETAIL, MERCHANT_FOLLOW, MERCHANT_UNFOLLOW,  MERCHANT_CLOTH_UNCOLLECT , MERCHANT_CLOTH_COLLECT } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import { savePicture } from '@/utils/common';
+import dayjs from 'dayjs';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -35,10 +36,21 @@ const arrowr = require('@/assets/images/back_b_r.png')
 
 function RecommendDetail(props:any): JSX.Element {
   const userInfo = useUserInfo()
+  const [day,setDay] = useState('-')
+  useEffect(()=>{
+    const day1 = dayjs(dayjs(userInfo.created_at).format('YYYY-MM-DD'))
+    const day2 = dayjs(dayjs().format('YYYY-MM-DD'))
+    setDay(day2.diff(day1,'day')+'')
+  },[userInfo])
   function onBack(){
     props.navigation.goBack()
   }
-
+  function onChangeAvatar(){
+    props.navigation.navigate('ChangeAvatar')
+  }
+  function onChangeName(){
+    props.navigation.navigate('ChangeName')
+  }
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -52,7 +64,7 @@ function RecommendDetail(props:any): JSX.Element {
           </View>
         </View>
         <ScrollView style={styles.scrollView} keyboardDismissMode='on-drag'>
-          <TouchableOpacity style={styles.itemView}>
+          <TouchableOpacity style={styles.itemView} onPressIn={onChangeAvatar}>
             <Text style={styles.title}>头像</Text>
             <View style={{flexDirection:'row',alignItems:'center'}}>
               <ExpoImage
@@ -65,21 +77,21 @@ function RecommendDetail(props:any): JSX.Element {
               <Image style={styles.arrow} source={arrowr}/>
             </View>
           </TouchableOpacity>
-          <View style={styles.itemView}>
+          <TouchableOpacity style={styles.itemView} onPressIn={onChangeName}>
             <Text style={styles.title}>用户名CN</Text>
-            <TextInput underlineColorAndroid={'transparent'}
-              style={styles.name}
-              value={userInfo.nickname}
-            />
-          </View>
+            <View style={{flexDirection:'row',alignItems:'center'}}>
+              <Text style={styles.value}>{userInfo.nickname}</Text>
+              <Image style={styles.arrow} source={arrowr}/>
+            </View>
+          </TouchableOpacity>
           <View style={styles.itemView}>
             <Text style={styles.title}>玩家时间</Text>
-            <Text style={styles.value}>两年</Text>
+            <Text style={styles.value}>{day}天</Text>
           </View>
-          <TouchableOpacity style={styles.itemView}>
+          <TouchableOpacity style={styles.itemView} onPressIn={onChangeName}>
             <Text style={styles.title}>性别</Text>
             <View style={{flexDirection:'row',alignItems:'center'}}>
-              <Text style={styles.value}>女</Text>
+              <Text style={styles.value}>{userInfo.gender == 0 ? '女' : '男'}</Text>
               <Image style={styles.arrow} source={arrowr}/>
             </View>
           </TouchableOpacity>

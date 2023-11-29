@@ -48,7 +48,9 @@ export const styles = StyleSheet.create({
     height:300,
     borderRadius:12,
     backgroundColor:'#fff',
-    marginVertical:4
+    marginVertical:4,
+    width:(SCREEN_WIDTH - 32 - 2) / 2
+
   },
   flowViewIcon:{
     width:'100%',

@@ -20,6 +20,9 @@ import MyCollectScreen from '@/pages/Mine/MyCollect'
 import MyFocusScreen from '@/pages/Mine/MyFocus'
 import MyOrderScreen from '@/pages/Mine/MyOrder'
 import MyPostScreen from '@/pages/Mine/MyPost'
+import ChangeAvatarScreen from '@/pages/Mine/EditInfo/ChangeAvatar'
+import ChangeNameScreen from '@/pages/Mine/EditInfo/ChangeName'
+
 
 
 export const routers:any[] = [
@@ -111,7 +114,12 @@ export const routers:any[] = [
       name:'MyPost',
       component:MyPostScreen
     },
-
-    
-
+    {
+      name:'ChangeAvatar',
+      component:ChangeAvatarScreen
+    },
+    {
+      name:'ChangeName',
+      component:ChangeNameScreen
+    },
 ]

@@ -40,7 +40,9 @@ function Show({navigation,jumpTo}:any): JSX.Element {
   useEffect(()=>{
     DeviceEventEmitter.addListener('postSuccess',()=>{
       setRefreshing(true)
-      getData(0)
+      setTimeout(() => {
+        getData(0)
+      }, 500);
     })
   },[])
 

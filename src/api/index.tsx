@@ -2,21 +2,6 @@ import {
     useQuery,
     useMutation,
   } from '@tanstack/react-query'
-import * as HTTPS from './axios'
-import { useUserInfo } from '@/redux/userInfo'
-import { 
-  MY_USER_INFO,
-  DESIGN_CIRCLE_CLOTH_LIST,
-  DESIGN_CIRCLE_CLOTH_DETAIL,
-  MY_FOLLOWING,
-  MERCHANT_CLOTH_DETAIL,
-  HOME_BANNER,
-  TICKET_BANNER,
-  ARTICLE_DETAIL
- } from './API'
-import { PAGE_SIZE } from '@/utils'
-
-
 /**
 const mutation = useMutation({
     mutationFn: (newTodo) => {
@@ -34,20 +19,6 @@ export function useSendTransaction(){
       })
     }
     return useMutation(sendTransaction)
-}
-
-export function useUserInfomation(){
-  const userInfo = useUserInfo()
-  async function fetchData(){
-    const info:any = await HTTPS.post(MY_USER_INFO,{
-      "token":userInfo.token
-    })
-    return info.user_info
-  }
-  return useQuery(["useUserInfomation" + userInfo.token], fetchData, {
-    enabled:!!userInfo.token
-    // refetchInterval: config.refreshInterval,
-  })
 }
 
 // export function useDesignCircleClothDetail(clothID:number | string){

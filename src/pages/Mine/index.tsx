@@ -38,22 +38,6 @@ function Mine(props:any): JSX.Element {
       }))
     })
   },[])
-  function onLogout(){
-    dispatch(saveUserInfo({}))
-    props.navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [
-          { name: 'Login' },
-        ],
-      })
-    );
-    HTTPS.post(USER_LOGOUT,{
-      token:userInfo.token
-    }).then((res:any)=>{
-    })
-
-  }
   function onEdit(){
     props.navigation.navigate('EditInfo')
   }
@@ -161,9 +145,6 @@ function Mine(props:any): JSX.Element {
             <Text style={styles.ovdername}>客服中心</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.logoutButton} onPressIn={onLogout}>
-          <Text>退出登录</Text>
-        </TouchableOpacity>
       </ScrollView>
     </ImageBackground>
   );

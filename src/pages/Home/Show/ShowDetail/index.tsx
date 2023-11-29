@@ -452,7 +452,7 @@ function CommonItem({item,index,articleId,onCommonChange}:any){
 
     {
       item.replyList.map((item:any,index:number)=>{
-        return <View style={styles.replayView}>
+        return <View style={styles.replayView} key={index+'replaycom'}>
           <View style={{flexDirection:'row',alignItems:'center'}}>
             <Text style={styles.collectTitleCol}>{item.reply_author.nickname}</Text>
             <Text style={styles.collectTitle}>回复了</Text>

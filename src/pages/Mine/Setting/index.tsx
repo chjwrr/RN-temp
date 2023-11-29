@@ -23,9 +23,11 @@ import {CacheManager, CachedImage} from '@georstat/react-native-image-cache'
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import * as HTTPS from '@/api/axios'
 import { Image as ExpoImage } from 'expo-image';
-import { MERCHANT_CLOTH_DETAIL, MERCHANT_FOLLOW, MERCHANT_UNFOLLOW,  MERCHANT_CLOTH_UNCOLLECT , MERCHANT_CLOTH_COLLECT } from '@/api/API';
-import { useUserInfo } from '@/redux/userInfo';
+import { MERCHANT_CLOTH_DETAIL, MERCHANT_FOLLOW, MERCHANT_UNFOLLOW,  MERCHANT_CLOTH_UNCOLLECT , MERCHANT_CLOTH_COLLECT, USER_LOGOUT } from '@/api/API';
+import { saveUserInfo, useUserInfo } from '@/redux/userInfo';
 import { savePicture } from '@/utils/common';
+import { useDispatch } from 'react-redux';
+import { CommonActions } from '@react-navigation/native';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -35,10 +37,27 @@ const arrowr = require('@/assets/images/back_b_r.png')
 
 function RecommendDetail(props:any): JSX.Element {
   const userInfo = useUserInfo()
+  const dispatch = useDispatch()
   function onBack(){
     props.navigation.goBack()
   }
 
+  function onLogout(){
+    dispatch(saveUserInfo({}))
+    props.navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          { name: 'Login' },
+        ],
+      })
+    );
+    HTTPS.post(USER_LOGOUT,{
+      token:userInfo.token
+    }).then((res:any)=>{
+    })
+
+  }
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -71,6 +90,9 @@ function RecommendDetail(props:any): JSX.Element {
           <TouchableOpacity style={styles.itemView}>
             <Text style={styles.title}>分享APP</Text>
             <Image style={styles.arrow} source={arrowr}/>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.logoutButton} onPressIn={onLogout}>
+            <Text style={styles.logoutTitle}>退出登录</Text>
           </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>

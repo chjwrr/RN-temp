@@ -30,12 +30,11 @@ const bottomBG = require('@/assets/images/avatarbottombg.png')
 
 const WomenIcon = require('@/assets/images/womenimg.png')
 const MenIcon = require('@/assets/images/menimg.png')
+
 const women_n = require('@/assets/images/women_n.png')
 const women_s = require('@/assets/images/women_s.png')
 const man_n = require('@/assets/images/man_n.png')
 const man_s = require('@/assets/images/man_s.png')
-
-
 
 
 
@@ -45,20 +44,22 @@ function ChooseSex(props:any): JSX.Element {
   const userInfo = useUserInfo()
   const [isLoading,setIsLoading] = useState(false)
   const dispatch = useDispatch()
+
+  useEffect(()=>{
+    setName(userInfo.nickname)
+    setSex(userInfo.gender)
+  },[userInfo])
+
   function onNameChange(e:any){
     setName(e.nativeEvent.text)
   }
   function onBack(){
     props.navigation.pop()
   }
-  function onJumpNext(){
-    props.navigation.navigate('ChooseAvatar')
-  }
   function onNext(){
     if (name.length == 0){
       return
     }
-
     setIsLoading(true)
     HTTPS.post(MY_USER_INFO_UPDATE,{
       "token":userInfo.token,
@@ -76,10 +77,10 @@ function ChooseSex(props:any): JSX.Element {
         nickname:name,
         gender:sex
       }))
-      props.navigation.navigate('ChooseAvatar')
+      onBack()
     }).finally(()=>{
       setIsLoading(false)
-    })   
+    })
   }
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
@@ -141,8 +142,8 @@ function ChooseSex(props:any): JSX.Element {
                   {name.length > 0 ? <ImageBackground source={ButtonImg} style={styles.nextButton} resizeMode='cover'>
                     <Text style={[styles.nextTitle,{
                       color:'#fff'
-                    }]}>下一步</Text>
-                  </ImageBackground> : <Text style={styles.nextTitle}>下一步</Text>}
+                    }]}>确认修改</Text>
+                  </ImageBackground> : <Text style={styles.nextTitle}>确认修改</Text>}
                 </LoadingButton>
                 <View style={{
                   height:'100%',
@@ -153,11 +154,6 @@ function ChooseSex(props:any): JSX.Element {
             </View>
           </View>
         </TouchableOpacity>
-        <View style={styles.jumpView}>
-          <TouchableOpacity onPressIn={onJumpNext}>
-            <Text style={styles.agreeText}>跳过</Text>
-          </TouchableOpacity>
-        </View>
       </SafeAreaView>
       <SafeAreaView style={{
         backgroundColor: "white",

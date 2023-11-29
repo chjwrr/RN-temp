@@ -25,7 +25,6 @@ export const styles = StyleSheet.create({
     },
     mainContent:{
         flex:1,
-        justifyContent:'space-between',
     },
     title:{
         marginTop:120 - 32 - STATUSBAR_SAFE_AREA_HEIGHT,
@@ -38,18 +37,9 @@ export const styles = StyleSheet.create({
         marginTop:5,
         marginBottom:10
     },
-    nameView:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        marginLeft:-63,
-        alignItems:'center',
-    },
     agreeView:{
-        justifyContent:'center',
         width:'100%',
-        height:'100%',
         alignItems:'center',
-        marginTop:-30,
     },
     agreeText:{
         color:Colors.forbidBg,
@@ -59,33 +49,6 @@ export const styles = StyleSheet.create({
         fontSize:24,
         color:Colors.bright,
         fontFamily: 'SmileySans-Oblique',
-    },
-    nameBG:{
-        width:'100%',
-        height:52,
-        justifyContent:'center'
-    },
-    nameIcon:{
-        width:92,
-        height:92,
-        marginLeft:-60,
-        zIndex:2
-    },
-    nameInput:{
-        width:'70%',
-        height:'100%',
-        marginLeft:63,
-    },
-    bottombg:{
-        width:'100%',
-        height:450,
-        flex:1,
-        alignItems:'center',
-        paddingTop:80,
-    },
-    sexImg:{
-        width:120,
-        height:120
     },
     nextButton:{
         width:310,
@@ -103,22 +66,37 @@ export const styles = StyleSheet.create({
     },
     nextTitle:{
         color:Colors.bright,
-        fontSize:14
+        fontSize:14,
+        fontWeight:'500'
+    },
+    avatarbg:{
+        width:150,
+        height:150,
+        marginTop:50,
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius:75,
+        overflow:'hidden'
+    },
+    avatarImage:{
+        width:150,
+        height:150,
+    },
+    avatarIcon:{
+        width:80,
+        height:81,
+    },
+    avatarBottom:{
+        width:100,
+        height:20,
+        marginTop:5,
+        marginBottom:50
     },
     jumpView:{
       position:'absolute',
       bottom:10,
       flexDirection:'row',
       justifyContent:'center',
-      width:'100%',
-    },
-    sexBtn:{
-      // backgroundColor:'red',
-      alignItems:'center'
-    },
-    sexImgicon:{
-      width:30,
-      height:30,
-      marginTop:10
+      width:'100%'
     }
 })

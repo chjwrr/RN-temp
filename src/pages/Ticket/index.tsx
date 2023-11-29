@@ -59,7 +59,7 @@ function Home({navigation}:any): JSX.Element {
           })
         }} onBannerPress={(item:any)=>{
           navigation.navigate('TicketBannerDetail',{
-            id:0
+            id:item.project_id
           })
         }}/>
       case 'SuperPerson':

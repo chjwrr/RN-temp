@@ -217,5 +217,7 @@ export const ARTICLE_COOMMENT_REPLY = 'article_comment_reply'
 // 推荐达人列表
 export const MASTER_RECOMMEND_LIST = 'master_recommend_list'
 
+// 我收藏的文章列表（分页）
+export const MY_ARTICLE_COLLECT_LIST = 'my_article_collect_list'
 
 

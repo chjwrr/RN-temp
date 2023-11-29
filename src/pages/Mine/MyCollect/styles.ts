@@ -63,7 +63,8 @@ export const styles = StyleSheet.create({
   },
   flowViewTitle:{
     fontSize:14,
-    color:Colors.light
+    color:Colors.light,
+    width:SCREEN_WIDTH - 32 - 80 - 50
   },
   loadMoreView:{
     flexDirection:'row',

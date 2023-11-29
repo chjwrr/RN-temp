@@ -72,5 +72,18 @@ export const styles = StyleSheet.create({
     paddingBottom:0,
     height:'100%',
     textAlign:'right'
+  },
+  logoutButton:{
+    height:44,
+    borderRadius:5,
+    backgroundColor:Colors.main,
+    justifyContent:'center',
+    alignItems:'center',
+    marginTop:50
+  },
+  logoutTitle:{
+    fontSize:20,
+    color:Colors.white,
+    fontWeight:'500'
   }
 });

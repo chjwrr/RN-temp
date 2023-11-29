@@ -52,10 +52,7 @@ function RecommendDetail(props:any): JSX.Element {
 
   }
   useEffect(()=>{
-    // getData()
-    setTimeout(() => {
-      setDataSource([{},{},{}])
-    }, 2000);
+    getData()
   },[])
 
   function getData(){
@@ -108,14 +105,14 @@ function RecommendDetail(props:any): JSX.Element {
           }]}>
             <ExpoImage
               style={styles.flowViewIcon}
-              // source={HTTPS.getImageUrl(item.image)}
+              source={HTTPS.getImageUrl(item.avatar)}
               placeholder={BLUR_HASH}
               contentFit="cover"
               transition={200}
             />
             <View>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>名字</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>ID:</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>名字:{item.nickname}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>ID:{item.uid}</Text>
             </View>
           </TouchableOpacity>
           }

@@ -17,13 +17,13 @@ import {styles} from './styles'
 import Share from 'react-native-share';
 import { WebView } from 'react-native-webview';
 import Carousel from 'react-native-reanimated-carousel';
-import { BLUR_HASH, SCREEN_HEIGHT, SCREEN_WIDTH, STATUSBAR_HEIGHT } from '@/utils';
+import { BLUR_HASH, PAGE_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH, STATUSBAR_HEIGHT } from '@/utils';
 import * as _ from 'lodash'
 import {CacheManager, CachedImage} from '@georstat/react-native-image-cache'
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import * as HTTPS from '@/api/axios'
 import { Image as ExpoImage } from 'expo-image';
-import { MERCHANT_CLOTH_DETAIL, MERCHANT_FOLLOW, MERCHANT_UNFOLLOW,  MERCHANT_CLOTH_UNCOLLECT , MERCHANT_CLOTH_COLLECT } from '@/api/API';
+import { MY_ARTICLE_COLLECT_LIST} from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import { savePicture } from '@/utils/common';
 import { FadeLoading } from 'react-native-fade-loading';
@@ -38,27 +38,53 @@ const arrowr = require('@/assets/images/back_b_r.png')
 function RecommendDetail(props:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [dataSource,setDataSource] = useState<any[]>([1,1,1,1])
+  const [dataSource,setDataSource] = useState<any[]>([1,1,1,1,1,1,1,1,1,1])
   const isCanLoadMore = useRef(false)
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const userInfo = useUserInfo()
 
   useEffect(()=>{
-    setTimeout(() => {
-      setDataSource([{},{},{},{}])
-    }, 2000);
+    getData(0)
   },[])
   function onBack(){
     props.navigation.goBack()
   }
 
   function onPress(item:any,index:number){
-
+    props.navigation.navigate('ShowDetail',{
+      id:item.article_id,
+      onCollectChange:(is_collect:boolean)=>{
+        console.log('is_collect=',is_collect)
+        let temp = [...dataSource]
+        temp.splice(index,1)
+        setDataSource(temp)
+      }
+    })
   }
 
   function getData(currentPage:number){
-
+    setLoading(true)
+    HTTPS.post(MY_ARTICLE_COLLECT_LIST,{
+      "token":userInfo.token,
+      "limit":PAGE_SIZE,
+      offset:currentPage * PAGE_SIZE
+    }).then((result:any)=>{
+      if (currentPage == 0){
+        setDataSource(result.my_article_collect_list)
+      }else {
+        setDataSource([...dataSource,...result.my_article_collect_list])
+      }
+      if (result.my_article_collect_list.length < PAGE_SIZE){
+        setIsLoadEnd(true)
+      }else {
+        setIsLoadEnd(false)
+      }
+      setPage(currentPage)
+    }).finally(()=>{
+      setRefreshing(false)
+      setLoading(false)
+    })
   }
   function onRefresh(){
     if (loading || refreshing){
@@ -70,7 +96,6 @@ function RecommendDetail(props:any): JSX.Element {
   }
 
   function onEndReached(){
-    console.log('==onEndReached==',loading,refreshing,isLoadEnd)
     if (loading || refreshing || isLoadEnd || !isCanLoadMore.current){
       return
     }
@@ -107,14 +132,15 @@ function RecommendDetail(props:any): JSX.Element {
           }]}>
             <ExpoImage
               style={styles.flowViewIcon}
-              // source={HTTPS.getImageUrl(item.image)}
+              source={HTTPS.getImageUrl(item.images ? item.images[0] : '')}
               placeholder={BLUR_HASH}
               contentFit="cover"
               transition={200}
             />
             <View>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>名字</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>ID:</Text>
+              <Text ellipsizeMode='tail' numberOfLines={4} style={styles.flowViewTitle}>
+              {item.content}
+              </Text>
             </View>
           </TouchableOpacity>
           }

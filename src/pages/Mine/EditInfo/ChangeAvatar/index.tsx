@@ -41,24 +41,6 @@ function ChooseAvatar(props:any): JSX.Element {
   function onBack(){
     props.navigation.pop()
   }
-  function onJumpNext(){
-    props.navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [
-          { name: 'Tab' },
-        ],
-      })
-    );
-    // props.navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 0,
-    //     routes: [
-    //       { name: 'Login' },
-    //     ],
-    //   })
-    // );
-  }
   function onNext(){
     if (avatorFile.length > 0){
       setIsLoading(true)
@@ -79,14 +61,7 @@ function ChooseAvatar(props:any): JSX.Element {
               ...userInfo,
               avatar:res.media_id,
             }))
-            props.navigation.dispatch(
-              CommonActions.reset({
-                index: 0,
-                routes: [
-                  { name: 'Tab' },
-                ],
-              })
-            );
+            onBack()
           }).finally(()=>{
             setIsLoading(false)
           })
@@ -167,15 +142,10 @@ function ChooseAvatar(props:any): JSX.Element {
               {avatorFile.length > 0 ? <ImageBackground source={ButtonImg} style={styles.nextButton} resizeMode='cover'>
                 <Text style={[styles.nextTitle,{
                   color:'#fff'
-                }]}>下一步</Text>
+                }]}>确认修改</Text>
               </ImageBackground> : <Text style={styles.nextTitle}>从相册选取图片</Text>}
             </LoadingButton>
           </View>
-        </View>
-        <View style={styles.jumpView}>
-          <TouchableOpacity onPressIn={onJumpNext}>
-            <Text style={styles.agreeText}>跳过</Text>
-          </TouchableOpacity>
         </View>
       </SafeAreaView>
       <SafeAreaView style={{
