@@ -7,7 +7,7 @@ import {
 export const styles = StyleSheet.create({
     main:{
         flex:1,
-        backgroundColor:Colors.black
+        backgroundColor:Colors.black,
     },
     backButton:{
       width:NAVIGATION_HEIGHT,
@@ -138,7 +138,9 @@ export const styles = StyleSheet.create({
         position:'absolute',
         zIndex:10,
         top:0,
-        backgroundColor:Colors.black
+        backgroundColor:Colors.black,
+        paddingHorizontal:16
+
     },
     tabButton:{
         flex:1,
@@ -325,13 +327,16 @@ export const styles = StyleSheet.create({
     avatar:{
       width:58,
       height:58,
+      borderRadius:29,
+      overflow:'hidden'
     },
     title:{
       fontSize:24,
       color:Colors.white,
       textAlign:'center',
       width:'100%',
-      marginTop:20
+      marginTop:20,
+      marginBottom:20
     },
 });
 

@@ -7,11 +7,10 @@ const instance = axios.create({})
 instance.defaults.timeout = 30000;
 // instance.defaults.baseURL = "http://119.45.143.198/yuanyiapi/"
 
-const HTTP_URL = 'http://119.45.143.198/'
+const HTTP_URL = 'https://cverselink.cn/'
 const BASE_URL = HTTP_URL + 'yuanyiapi/'
 const UPLOAD_URL = BASE_URL + "upload"
 const IMAGE_URL = HTTP_URL + 'yuanyi-media/'
-
 
 export function getImageUrl(media_id:string){
   if(!media_id){

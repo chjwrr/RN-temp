@@ -111,7 +111,6 @@ export const styles = StyleSheet.create({
         paddingHorizontal:10,
         borderRadius:12,
         marginTop:30,
-        marginBottom:20,
         marginRight:10
     },
     linearVienumw:{
@@ -126,6 +125,7 @@ export const styles = StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'space-between',
+        marginTop:20
     },
     number:{
         fontSize:16,
@@ -157,14 +157,14 @@ export const styles = StyleSheet.create({
     },
     bannerView:{
       width:'100%',
-      height:150,
+      height:200,
       borderRadius:8,
       overflow:'hidden',
       marginTop:8
     },
     banner:{
       width:'100%',
-      height:150,
+      height:200,
     },
     recmmonItem:{
       width:86,

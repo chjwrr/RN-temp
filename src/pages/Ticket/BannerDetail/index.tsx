@@ -16,15 +16,17 @@ import Share from 'react-native-share';
 import { WebView } from 'react-native-webview';
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel from 'react-native-reanimated-carousel';
-import { PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
+import { BLUR_HASH, PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
 import Colors from '@/utils/colors';
 import WaterfallFlow from 'react-native-waterfall-flow'
 import { FadeLoading } from 'react-native-fade-loading';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from "@react-native-community/blur";
 import * as HTTPS from '@/api/axios'
-import { TICKET_LIST } from '@/api/API';
+import { PROJECT_DETAIL, MASTER_UNFOLLOW, MASTER_FOLLOW } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
+import { Image as ExpoImage } from 'expo-image';
+import { formatTime } from '@/utils/common';
 
 
 
@@ -39,23 +41,45 @@ const tabButtonBg = require('@/assets/images/buttonbg.png')
 const downbg = require('@/assets/images/downbg.png')
 
 
-
-
-
 function Ticket(props:any): JSX.Element {
   const scrollY = useRef(new Animated.Value(0)).current;
+  const userInfo = useUserInfo()
+  const [projectDetail,setProjectDetail] = useState<any>({})
+  useEffect(()=>{
+    HTTPS.post(PROJECT_DETAIL,{
+      "token":userInfo.token,
+      "project_id":props.route.params.project_id,
+    })
+    .then((result:any)=>{
+      setProjectDetail(result.project_detail)
+    })
+    .finally(()=>{})
+  },[])
 
   function onBack(){
     props.navigation.goBack()
   }
   function onBuy(){
-    
-    props.navigation.navigate('TicketBannerDetailList')
-
+    props.navigation.navigate('TicketBannerDetailList',{
+      project_id:props.route.params.project_id,
+      image:projectDetail.image,
+      avatar:projectDetail.master?.avatar,
+      pro_name:projectDetail.name,
+      name:projectDetail.master?.name
+    })
   }
-  function onCollect(){
 
+  const [isFocus,setIsFocus] = useState(false)
+  function onFocus(){
+    HTTPS.post(isFocus ? MASTER_UNFOLLOW : MASTER_FOLLOW,{
+      "token":userInfo.token,
+      master_id:projectDetail.master?.master_id
+    }).then((result:any)=>{
+      setIsFocus(!isFocus)
+    }).finally(()=>{
+    })
   }
+
   function onShare(){
     const url = 'https://awesome.contents.com/';
     const title = 'Awesome Contents';
@@ -72,7 +96,13 @@ function Ticket(props:any): JSX.Element {
   }
   return (
     <View style={styles.main}>
-      <Image style={styles.topImage} source={ticket_pro_ban_1}/>
+      <ExpoImage
+        style={styles.topImage}
+        source={HTTPS.getImageUrl(projectDetail.image)}
+        placeholder={BLUR_HASH}
+        contentFit="cover"
+        transition={200}
+      />
       <LinearGradient colors={['#000', 'transparent']} style={styles.topOp}/>
       <LinearGradient colors={['transparent','#000']} style={styles.bottomOp}/>
       <Animated.View style={[styles.navigationView,{
@@ -85,9 +115,9 @@ function Ticket(props:any): JSX.Element {
           <Image style={styles.backIcon} source={BackIcon}/>
         </TouchableOpacity>
         <View style={{flexDirection:"row"}}>
-          <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onCollect}>
+          {/* <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onCollect}>
             <Image style={styles.collectIcon} source={CollectIcon}/>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
             <Image style={styles.backIcon} source={shareIcon}/>
           </TouchableOpacity>
@@ -98,35 +128,41 @@ function Ticket(props:any): JSX.Element {
         <ScrollView contentContainerStyle={{flexGrow:1}}>
           <View style={styles.downContent}>
             <View style={styles.avatatView}>
-              <Image source={ticketavatar} style={styles.avatar}/>
+              <ExpoImage
+                style={styles.avatar}
+                source={HTTPS.getImageUrl(projectDetail.master?.avatar)}
+                placeholder={BLUR_HASH}
+                contentFit="cover"
+                transition={200}
+              />
             </View>
             <View style={styles.downView}>
-              <Text style={styles.title}>破妄明心</Text>
+              <Text style={styles.title}>{projectDetail.name}</Text>
               <View style={{flexDirection:'row'}}>
                 <Text style={styles.by}>BY：</Text>
-                <Text style={styles.byath}>KOL名称</Text>
+                <Text style={styles.byath}>{projectDetail.master?.name}</Text>
               </View>
               <View style={styles.numView}>
                 <View style={{flexDirection:'row',alignItems:'center'}}>
                   <View style={{alignItems:'center'}}>
-                    <Text style={styles.numTitle}>200</Text>
+                    <Text style={styles.numTitle}>0</Text>
                     <Text style={styles.numDes}>发行总量</Text>
                   </View>
-                  <View style={[{alignItems:'center'},{marginLeft:20}]}>
-                    <Text style={styles.numTitle}>520</Text>
+                  {/* <View style={[{alignItems:'center'},{marginLeft:20}]}>
+                    <Text style={styles.numTitle}>0</Text>
                     <Text style={styles.numDes}>收藏人数</Text>
-                  </View>
+                  </View> */}
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPressIn={onFocus}>
                   <ImageBackground source={numbg} style={styles.numbg}>
-                    <Text style={styles.focus}>点击关注</Text>
+                    <Text style={styles.focus}>{isFocus ? '取消关注' : '点击关注'}</Text>
                   </ImageBackground>
                 </TouchableOpacity>
               </View>
               <Text style={styles.des}>
-                项目介绍项目介绍项目介绍项目介绍项目介绍项目介绍项目介绍项目介绍项目介绍项目介绍项目介绍项目介绍
+                {projectDetail.intro}
               </Text>
-              <Text style={styles.time}>2023-11-15</Text>
+              <Text style={styles.time}>{formatTime(projectDetail.created_at)}</Text>
             </View>
           </View>
           <WebView

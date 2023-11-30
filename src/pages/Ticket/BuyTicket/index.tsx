@@ -23,7 +23,7 @@ import { FadeLoading } from 'react-native-fade-loading';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from "@react-native-community/blur";
 import * as HTTPS from '@/api/axios'
-import { TICKET_LIST } from '@/api/API';
+import { TICKET_LIST, TICKET_LIST_DETAIL } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import { Image as ExpoImage } from 'expo-image';
 
@@ -52,12 +52,22 @@ const paybtnbg = require('@/assets/images/paybtnbg.png')
 
 function Ticket(props:any): JSX.Element {
   const scrollY = useRef(new Animated.Value(0)).current;
-  const info = props.route.params.info
 
   const bottomAnim = useRef(new Animated.Value(0)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [posButtonBottom,setPosButtonBottom] = useState(SCREEN_HEIGHT)
   const [isAnimated,setIsAnimated] = useState(false)
+  const userInfo = useUserInfo()
+  const [detailInfo,setDetailInfo] = useState<any>({})
+  useEffect(()=>{
+    HTTPS.post(TICKET_LIST_DETAIL,{
+      "token":userInfo.token,
+      ticket_id:props.route.params.ticket_id
+    }).then((result:any)=>{
+      setDetailInfo(result.ticket_detail)
+    }).finally(()=>{
+    })
+  },[])
 
 
   function onBack(){
@@ -147,40 +157,45 @@ function Ticket(props:any): JSX.Element {
           <Image style={styles.backIcon} source={BackIcon}/>
         </TouchableOpacity>
         <View style={{flexDirection:"row"}}>
-          <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onCollect}>
+          {/* <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onCollect}>
             <Image style={styles.collectIcon} source={CollectIcon}/>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
             <Image style={styles.backIcon} source={shareIcon}/>
           </TouchableOpacity>
         </View>
       </Animated.View>  
       <ScrollView contentContainerStyle={{flexGrow:1,alignItems:'center'}}>
-
         <ImageBackground source={topbg} style={styles.topbg} resizeMode='cover'>
           <ExpoImage
             style={styles.topItemImage}
-            source={{uri:HTTPS.getImageUrl(info.image)}} 
+            source={{uri:HTTPS.getImageUrl(detailInfo.image)}} 
             placeholder={BLUR_HASH}
             contentFit="cover"
             transition={200}
           />
           <View style={styles.priceView}>
             <Text style={styles.priceuni}>￥</Text>
-            <Text style={styles.price}>{info.price}</Text>
+            <Text style={styles.price}>{detailInfo.price}</Text>
           </View>
         </ImageBackground>
         <View style={styles.infoView}>
-          <ImageBackground style={styles.limmitbg} source={limmitBg}>
-            <Text style={styles.limmittitle}>限量:{info.remain}份</Text>
-          </ImageBackground>
+          {/* <ImageBackground style={styles.limmitbg} source={limmitBg}>
+            <Text style={styles.limmittitle}>限量:{detailInfo.remain}份</Text>
+          </ImageBackground> */}
           <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-            <Text style={styles.name}>{info.name}</Text>
-            <Text style={styles.name}>ID:{info.ticket_id}</Text>
+            <Text style={styles.name}>{detailInfo.name}</Text>
+            <Text style={styles.name}>ID:{detailInfo.ticket_id}</Text>
           </View>
           <View style={{flexDirection:'row',alignItems:'center'}}>
-            <View style={styles.avatarsmal}/>
-            <Text style={styles.avatarName}>名字</Text>
+            <ExpoImage
+              style={styles.avatarsmal}
+              source={{uri:HTTPS.getImageUrl(props.route.params.avatar)}} 
+              placeholder={BLUR_HASH}
+              contentFit="cover"
+              transition={200}
+            />
+            <Text style={styles.avatarName}>{props.route.params.name}</Text>
           </View>
         </View>
         <WebView
@@ -229,7 +244,7 @@ function Ticket(props:any): JSX.Element {
         <View style={styles.payButtonVie}>
           <View style={{flexDirection:'row',alignItems:'flex-end'}}>
             <Text style={styles.payUnit}>￥</Text>
-            <Text style={styles.payPrice}>{info.price}</Text>
+            <Text style={styles.payPrice}>{detailInfo.price}</Text>
           </View>
           <TouchableOpacity>
             <ImageBackground style={styles.payButton} source={paybtnbg}>

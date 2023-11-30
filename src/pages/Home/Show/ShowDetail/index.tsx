@@ -362,7 +362,6 @@ function DownInfo({is_collect,article_id,is_like,onCollectChange,onCommonChange}
   const [replayInfo,setReplayInfo] = useState<any>({})
   useEffect(()=>{
     const listener = DeviceEventEmitter.addListener('replay',(item:any)=>{
-      console.log('item====',item)
       inputRef.current.onFocus()
       setReplayInfo(item)
     })
@@ -444,7 +443,7 @@ function CommonItem({item,index,articleId,onCommonChange}:any){
       </View>
       <View style={styles.comFocusView}>
         <TouchableOpacity style={styles.comFocusButton} onPress={onLikeCommon}>
-          <Image style={styles.collectIcon} source={likeiconIcon}/>
+          <Image style={styles.collectIcon} source={item.is_up ? zaniconIcon : likeiconIcon}/>
         </TouchableOpacity>
         <Text style={styles.collectTitle}>{item.up_count}</Text>
       </View>

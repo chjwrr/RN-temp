@@ -1,7 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  TouchableOpacity,
   View,
   Animated,
   Platform,
@@ -13,6 +12,7 @@ import {
   ImageBackground,
   ActivityIndicator
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import {styles} from './styles'
 import Share from 'react-native-share';
 import { WebView } from 'react-native-webview';
@@ -61,26 +61,15 @@ function Ticket(props:any): JSX.Element {
 
 
   function getData(currenPage:number){
-
-    // HTTPS.post(GET_MASTER_LIST,{
-    //   "token":userInfo.token,
-    //   "limit":PAGE_SIZE,
-    //   offset:currenPage * PAGE_SIZE
-    // })
-    // .then((result:any)=>{
-      
-    // })
-    // .finally(()=>{})
-
     setLoading(true)
     HTTPS.post(TICKET_LIST,{
       "token":userInfo.token,
       "limit":PAGE_SIZE,
-      offset:currenPage * PAGE_SIZE
+      offset:currenPage * PAGE_SIZE,
+      project_id:props.route.params.project_id,
     }).then((result:any)=>{
       if (currenPage == 0){
         setDataSource(result.ticket_list)
-        // setDataSource([{},{},{},{},{},{},{}])
       }else {
         setDataSource([...dataSource,...result.ticket_list])
       }
@@ -142,7 +131,13 @@ function Ticket(props:any): JSX.Element {
   }
   return (
     <View style={styles.main}>
-      <Image style={styles.topImage} source={ticket_pro_ban_1}/>
+      <ExpoImage
+        style={styles.topImage}
+        source={HTTPS.getImageUrl(props.route.params.image)}
+        placeholder={BLUR_HASH}
+        contentFit="cover"
+        transition={200}
+      />
       <LinearGradient colors={['#000', 'transparent']} style={styles.topOp}/>
       <LinearGradient colors={['transparent','#000']} style={styles.bottomOp}/>
       <Animated.View style={[styles.navigationView,{
@@ -155,9 +150,9 @@ function Ticket(props:any): JSX.Element {
           <Image style={styles.backIcon} source={BackIcon}/>
         </TouchableOpacity>
         <View style={{flexDirection:"row"}}>
-          <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onCollect}>
+          {/* <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onCollect}>
             <Image style={styles.collectIcon} source={CollectIcon}/>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
             <Image style={styles.backIcon} source={shareIcon}/>
           </TouchableOpacity>
@@ -181,15 +176,25 @@ function Ticket(props:any): JSX.Element {
           duration={0}
           visible={true}
           animated={true}
-        />: <RemmenntRenderItem item={item} columnIndex={index}/>
+        />: <RemmenntRenderItem item={item} columnIndex={index} 
+          name={props.route.params.name}
+          avatar={props.route.params.avatar}
+          navigation={props.navigation}
+        />
         }}
-        style={{ flex: 1 }}
+        style={{ flex: 1, paddingHorizontal:16 }}
         ListHeaderComponent={
           <View style={styles.contentView}>
             <View style={styles.avatatView}>
-              <Image source={ticketavatar} style={styles.avatar}/>
+              <ExpoImage
+                style={styles.avatar}
+                source={HTTPS.getImageUrl(props.route.params.avatar)}
+                placeholder={BLUR_HASH}
+                contentFit="cover"
+                transition={200}
+              />
             </View>
-            <Text style={styles.title}>破妄明心</Text>
+            <Text style={styles.title}>{props.route.params.pro_name}</Text>
           </View>
         }
         ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
@@ -217,23 +222,20 @@ function Ticket(props:any): JSX.Element {
   );
 }
 
-function RemmenntRenderItem({item,columnIndex}:any){
+function RemmenntRenderItem({item,columnIndex,name,avatar,navigation}:any){
   function onPress(index:any){
-
+    navigation.navigate('BuyTicket',{
+      ticket_id:item.ticket_id,
+      avatar:avatar,
+      name:name
+    })
   }
-  return <TouchableOpacity onPressIn={()=>onPress(columnIndex)} style={[styles.flowView,{
+  return <TouchableOpacity onPress={()=>onPress(columnIndex)} style={[styles.flowView,{
     marginVertical:2,
     marginRight:columnIndex == 0 ? 2 : 0,
     marginLeft:columnIndex == 0 ? 0 : 2
   }]}>
     <View style={styles.typeItem}>
-    {/* <CachedImage
-      resizeMode='cover'
-      source={HTTPS.getImageUrl(item.image)}
-      style={styles.typeItem}
-      blurRadius={30}
-      loadingImageComponent={ImagePlaceholder}
-      /> */}
       <ExpoImage
         style={styles.typeItem}
         source={HTTPS.getImageUrl(item.image)}
@@ -241,25 +243,30 @@ function RemmenntRenderItem({item,columnIndex}:any){
         contentFit="cover"
         transition={200}
       />
-      <ImageBackground source={limmitBg} style={styles.limmitbg}>
+      {/* <ImageBackground source={limmitBg} style={styles.limmitbg}>
         <Text style={styles.limmittitle}>限量:{item.total}份</Text>
-      </ImageBackground>
+      </ImageBackground> */}
     </View>
     <View style={styles.typeItemDown}>
       {/* <Image style={styles.typeItemDownbg} source={downBg} resizeMode='cover'/> */}
       <LinearGradient colors={['rgba(64,14,179,0.6)', 'transparent']} style={styles.typeItemDownbg}/>
-
       <View style={styles.flowViewSubView}>
         <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.intro}</Text>
-        <TouchableOpacity style={styles.focusButton}>
+        {/* <TouchableOpacity style={styles.focusButton}>
           <Image style={styles.flowFocus} source={focus_n}/>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowNameid}>id:{item.ticket_id}</Text>
       <View style={styles.flowViewSubView}>
         <View style={{flexDirection:'row',alignItems:'center'}}>
-          <View style={styles.flowIcon}/>
-          <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>名字</Text>
+            <ExpoImage
+              style={styles.flowIcon}
+              source={HTTPS.getImageUrl(avatar)}
+              placeholder={BLUR_HASH}
+              contentFit="cover"
+              transition={200}
+            />
+          <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>{name}</Text>
         </View>
         <View style={{flexDirection:'row',alignItems:'center'}}>
           <Text style={styles.moenyUni}>$</Text>

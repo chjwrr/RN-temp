@@ -43,10 +43,10 @@ const focus_n = require('@/assets/images/collwhi.png')
 const limmitBg = require('@/assets/images/limmitBg.png')
 const downBg = require('@/assets/images/ticketitembg.png')
 
-function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX.Element {
+function Ticket({navigation,tabState,jumpTo,onBannerPress}:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [dataSource,setDataSource] = useState<any[]>([1,1,1,1])
+  const [dataSource,setDataSource] = useState<any[]>([])
   const isCanLoadMore = useRef(false)
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
@@ -56,7 +56,7 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
   function getProList(){
     HTTPS.post(PROJECT_RECOMMEND_LIST,{
       "token":userInfo.token,
-      "limit":5,
+      "limit":20,
       offset:0
     }).then((result:any)=>{
       setProList(result.project_recommend_list)
@@ -91,7 +91,7 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
 
   useEffect(()=>{
     getProList()
-    getData(0)
+    // getData(0)
   },[])
 
 
@@ -182,27 +182,27 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
             </View>
           </View>
         }
-        ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
-          <Text style={styles.loadMoreTitle}>加载更多...</Text>
-          <ActivityIndicator size="small" color={Colors.main} />
-        </View> : <View style={styles.loadMoreView}/>}
+        // ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
+        //   <Text style={styles.loadMoreTitle}>加载更多...</Text>
+        //   <ActivityIndicator size="small" color={Colors.main} />
+        // </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}
         initialNumToRender={10}
         onScroll={onScroll}
         keyExtractor={(item, index) => 'key' + index}
-        onEndReached={() => {
-          if (isCanLoadMore) {
-            onEndReached();
-            isCanLoadMore.current = false;
-          }
-        }}
+        // onEndReached={() => {
+        //   if (isCanLoadMore) {
+        //     onEndReached();
+        //     isCanLoadMore.current = false;
+        //   }
+        // }}
         onContentSizeChange={() => {
           isCanLoadMore.current = true;
         }}
-        onEndReachedThreshold={0.01}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#fff']}/>
-        }
+        // onEndReachedThreshold={0.01}
+        // refreshControl={
+        //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#fff']}/>
+        // }
       />
     </View>
   );

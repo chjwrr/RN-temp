@@ -1,7 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  TouchableOpacity,
   View,
   Animated,
   Platform,
@@ -13,6 +12,7 @@ import {
   ImageBackground,
   ActivityIndicator
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import {styles} from './styles'
 import Share from 'react-native-share';
 import { WebView } from 'react-native-webview';
@@ -95,7 +95,6 @@ function Ticket(props:any): JSX.Element {
     }).then((result:any)=>{
       if (currenPage == 0){
         setDataSource(result.project_list)
-        // setDataSource([{},{},{},{},{},{},{}])
       }else {
         setDataSource([...dataSource,...result.project_list])
       }
@@ -168,7 +167,18 @@ function Ticket(props:any): JSX.Element {
         <Text style={styles.title}>系列作品</Text>
         {
           dataSource.map((item:any,index:number)=>{
-            return <View style={styles.bannerView} key={index+'spdb'}>
+            return <TouchableOpacity style={styles.bannerView} key={index+'spdb'} onPress={()=>{
+              // props.navigation.navigate('TicketBannerDetailList',{
+              //   project_id:item.project_id,
+              //   image:item.image,
+              //   avatar:masterInfo.avatar,
+              //   pro_name:item.name,
+              //   name:masterInfo.name
+              // })
+              props.navigation.navigate('TicketBannerDetail',{
+                project_id:item.project_id
+              })
+            }}>
               <ExpoImage
                 style={styles.banner}
                 source={HTTPS.getImageUrl(item.image)}
@@ -176,7 +186,7 @@ function Ticket(props:any): JSX.Element {
                 contentFit="cover"
                 transition={200}
               />
-            </View>
+            </TouchableOpacity>
           })
         }
         <Text style={[styles.title,{marginTop:32}]}>热门推荐</Text>
@@ -188,7 +198,7 @@ function Ticket(props:any): JSX.Element {
                 marginRight:index == recommonList.length - 1 ? 0 : 8
               }]} key={index+'spdr'} onPress={()=>{
                 props.navigation.navigate('TicketBannerDetail',{
-                  id:item.project_id
+                  project_id:item.project_id
                 })
               }}>
                 <ExpoImage
@@ -231,7 +241,7 @@ function TopInfo({masterInfo}:any){
     <View style={styles.infoView}>
       <ExpoImage
         style={styles.avatar}
-        source={masterInfo.avatar}
+        source={HTTPS.getImageUrl(masterInfo.avatar)}
         placeholder={BLUR_HASH}
         contentFit="cover"
         transition={200}
@@ -239,17 +249,17 @@ function TopInfo({masterInfo}:any){
       <View>
         <Text style={styles.name}>{masterInfo.name}</Text>
         <Text style={[styles.des,{width:200}]} numberOfLines={1} ellipsizeMode='tail'>衣互号：{masterInfo.master_id}</Text>
-        <Text style={styles.des}>IP属地：北京</Text>
+        <Text style={styles.des}>IP属地：-</Text>
       </View>
     </View>
-    <View style={styles.infoView}>
+    {/* <View style={styles.infoView}>
       <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearView}>
         <Text style={styles.desinfo}>金牛座</Text>
       </LinearGradient>
       <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearView}>
         <Text style={styles.desinfo}>**爱好者</Text>
       </LinearGradient>
-    </View>
+    </View> */}
     <View style={styles.numberView}>
       <View style={styles.numItem}>
         <Text style={styles.number}>{masterInfo.article_count}</Text>

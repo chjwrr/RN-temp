@@ -53,13 +53,9 @@ function Home({navigation}:any): JSX.Element {
           if (index == 0){
             recommendShowTab = show
           }
-        }} onItemPress={(item:any)=>{
-          navigation.navigate('BuyTicket',{
-            id:item.ticket_id
-          })
         }} onBannerPress={(item:any)=>{
           navigation.navigate('TicketBannerDetail',{
-            id:item.project_id
+            project_id:item.project_id
           })
         }}/>
       case 'SuperPerson':

@@ -220,4 +220,6 @@ export const MASTER_RECOMMEND_LIST = 'master_recommend_list'
 // 我收藏的文章列表（分页）
 export const MY_ARTICLE_COLLECT_LIST = 'my_article_collect_list'
 
+// 项目详情
+export const PROJECT_DETAIL = 'project_detail'
 

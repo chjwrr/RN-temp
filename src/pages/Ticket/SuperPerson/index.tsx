@@ -46,7 +46,7 @@ const downBg = require('@/assets/images/ticket_downbgperson.png')
 function Ticket({navigation}:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [dataSource,setDataSource] = useState<any[]>([1,1,1,1])
+  const [dataSource,setDataSource] = useState<any[]>([1,1,1,1,1,1])
   const isCanLoadMore = useRef(false)
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
@@ -54,11 +54,12 @@ function Ticket({navigation}:any): JSX.Element {
   const [recommenList,seRecommenList] = useState<any[]>([])
 
 
-  function onPress(columnIndex:number){
+  useEffect(()=>{
+    getData(0)
+    getRecommenMsterList()
+  },[])
 
-  }
   function getRecommenMsterList(){
-    setLoading(true)
     HTTPS.post(MASTER_RECOMMEND_LIST,{
       "token":userInfo.token,
       "limit":PAGE_SIZE,
@@ -93,11 +94,6 @@ function Ticket({navigation}:any): JSX.Element {
       setLoading(false)
     })
   }
-
-  useEffect(()=>{
-    getData(0)
-    getRecommenMsterList()
-  },[])
 
 
   function onRefresh(){
@@ -207,7 +203,6 @@ function Ticket({navigation}:any): JSX.Element {
 }
 
 function RemmenntRenderItem({item,columnIndex,onPress}:any){
-  console.log('item==',item)
   return <TouchableOpacity onPress={onPress} style={[styles.flowView,{
     marginVertical:2,
     marginRight:columnIndex == 0 ? 2 : 0,

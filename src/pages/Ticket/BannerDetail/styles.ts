@@ -72,6 +72,8 @@ export const styles = StyleSheet.create({
   avatar:{
     width:58,
     height:58,
+    borderRadius:29,
+    overflow:'hidden'
   },
   downView:{
     width:'100%',
