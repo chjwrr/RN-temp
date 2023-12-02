@@ -45,6 +45,8 @@ function Ticket(props:any): JSX.Element {
   const scrollY = useRef(new Animated.Value(0)).current;
   const userInfo = useUserInfo()
   const [projectDetail,setProjectDetail] = useState<any>({})
+  const [isFocus,setIsFocus] = useState(false)
+
   useEffect(()=>{
     HTTPS.post(PROJECT_DETAIL,{
       "token":userInfo.token,
@@ -52,6 +54,7 @@ function Ticket(props:any): JSX.Element {
     })
     .then((result:any)=>{
       setProjectDetail(result.project_detail)
+      setIsFocus(result.project_detail.master.is_follow)
     })
     .finally(()=>{})
   },[])
@@ -69,7 +72,6 @@ function Ticket(props:any): JSX.Element {
     })
   }
 
-  const [isFocus,setIsFocus] = useState(false)
   function onFocus(){
     HTTPS.post(isFocus ? MASTER_UNFOLLOW : MASTER_FOLLOW,{
       "token":userInfo.token,
@@ -81,10 +83,9 @@ function Ticket(props:any): JSX.Element {
   }
 
   function onShare(){
-    const url = 'https://awesome.contents.com/';
-    const title = 'Awesome Contents';
-    const message = 'Please check this out.';
-    const icon = 'data:<data_type>/<file_extension>;base64,<base64_data>';
+    const url = HTTPS.getImageUrl(projectDetail.image)
+    const title = 'Cverselink';
+    const message = '';
     const options = Platform.select({
       default: {
         title,
@@ -145,7 +146,7 @@ function Ticket(props:any): JSX.Element {
               <View style={styles.numView}>
                 <View style={{flexDirection:'row',alignItems:'center'}}>
                   <View style={{alignItems:'center'}}>
-                    <Text style={styles.numTitle}>0</Text>
+                    <Text style={styles.numTitle}>{projectDetail.ticket_count}</Text>
                     <Text style={styles.numDes}>发行总量</Text>
                   </View>
                   {/* <View style={[{alignItems:'center'},{marginLeft:20}]}>

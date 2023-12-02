@@ -145,7 +145,7 @@ function Show({navigation,jumpTo}:any): JSX.Element {
       </View> : <View style={styles.loadMoreView}/>}
       ListEmptyComponent={<View/>}
       initialNumToRender={10}
-      keyExtractor={(item, index) => 'key' + index}
+      keyExtractor={(item, index) => index + 'showList' + item.article_id}
       onEndReached={() => {
         if (isCanLoadMore) {
           onEndReached();

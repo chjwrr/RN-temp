@@ -1,4 +1,5 @@
-
+ 
+ 
 article_collect(req)
 收藏
 params: {"token": "token", "article_id": "article_id"}
@@ -110,7 +111,7 @@ return: {}
 game_detail(req)
 游戏详情
 params: {"token": "token", "game_id": "game_id"}
-return: {'game_detail': {'game_id': 1, 'name': '游戏名称0', 'image': 'f1abbc30-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '游戏简介0', 'created_at': 1700723076581}, 'code': 0}
+return: {'game_detail': {'game_id': 1, 'name': '游戏名称0', 'image': 'f1abbc30-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '游戏简介0', 'created_at': 1700723076581, 'is_collect': False}, 'code': 0}
 game_like(req)
 游戏点赞
 params: {"token": "token", "game_id": "game_id"}
@@ -118,7 +119,7 @@ return: {}
 game_recommend_list(req)
 系统推荐游戏列表（分页）
 params: {"token": "token"}
-return: {'game_recommend_list': [{'game_id': 1, 'name': '游戏名称0', 'image': 'f1abbc30-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '游戏简介0', 'created_at': 1700723076581}...]}
+return: {'game_recommend_list': [{'game_id': 1, 'name': '游戏名称0', 'image': 'f1abbc30-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '游戏简介0', 'created_at': 1700723076581, 'is_collect': False}...]}
 game_uncollect(req)
 游戏取消收藏
 params: {"token": "token", "game_id": "game_id"}
@@ -138,7 +139,7 @@ return: {"home_banner": [{"banner_id": "banner_id", "image": "image", "url
 master_detail(req)
 达人详情
 params: {"token": "token", "master_id": "master_id"}
-return: {'master_detail': {'master_id': 'bcedd63f179848a8bdc4ab4126b8119d', 'name': '达人0', 'avatar': 'ef203694-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '达人简介0', 'address': '北京市海淀区中关村0号', 'birthday': '1990-01-01', 'is_follow': True/False 'created_at': 1700723076574}, 'code': 0}
+return: {'master_detail': {'master_id': 'ef1b95c82f4b47c2841d9c0c095a558b', 'name': '达人0', 'avatar': 'e35d9e3e-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '达人简介0', 'address': '北京市海淀区中关村0号', 'birthday': '1990-01-01', 'is_follow': False, 'follow_count': 0, 'article_count': 0, 'follower_count': 0, 'created_at': 1701075470849}, 'code': 0}
 master_follow(req)
 关注用户
 params: {"token": "token", "master_id": "master_id"}
@@ -146,7 +147,7 @@ return: {}
 master_list(req)
 达人列表（分页）
 params: {"token": "token", "limit": 100, "offset": 0}
-return: {"master_list": [{"uid": "uid", "nickname": "nickname", "avatar": "avatar", "intro": "intro", "created_at": ts }, ...]
+return: {"master_list": [{"uid": "uid", "nickname": "nickname", "avatar": "avatar", "intro": "intro", "is_follow": True/Flase, "created_at": ts }, ...]}
 master_recommend_list(req)
 推荐达人列表（分页）
 params: {"token": "token", "limit": 100, "offset": 0}
@@ -228,6 +229,10 @@ my_following_masters(req)
 我关注的达人
 params: {"token": "token"}
 return: {'my_following_masters': [{'master_id': 'bcedd63f179848a8bdc4ab4126b8119d', 'name': '达人0', 'avatar': 'ef203694-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '达人简介0', 'address': '北京市海淀区中关村0号', 'birthday': '1990-01-01', 'created_at': 1700723076574}], 'code': 0}
+my_following_masters_project_list(req)
+我关注的达人的项目列表（分页）
+params: {"token": "token", "limit": 100, "offset": 0}
+return: {'project_recommend_list': [{'project_id': 1, 'name': '项目名称0', 'image': 'e5df9161-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '项目简介0', 'created_at': 1700748733467, 'master': {'master_id': 'bcedd63f179848a8bdc4ab4126b8119d', 'name': '达人0', 'avatar': 'ef203694-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '达人简介0', 'address': '北京市海淀区中关村0号', 'birthday': '1990-01-01', 'is_follow': False, 'created_at': 1700723076574}}...], 'code': 0}
 my_following_merchants(req)
 我关注的商家
 params: {"token": "token"}
@@ -241,8 +246,8 @@ my_message(req)
 params: {"token": "token", "to_id": "to_id", "limit": 100, "offset": 0}
 return: {"my_message": [{"message_id": "message_id", "from_id": "from_id", "to_id": "to_id", "content": "content", "created_at": ts}, ...]}
 my_order_list(req)
-我的订单列表（分页）
-params: {"token": "token", "limit": 100, "offset": 0}
+我的订单列表（分页） (status 0-待支付 1-已完成 2-已取消，不传status时返回所有订单)
+params: {"token": "token", "status": 0, "limit": 100, "offset": 0}
 return: {'my_order_list': [{'order_id': 1, 'uid': '6ae70652c1d24ab092fd579827534fce', 'price': 1999, 'status': 2, 'created_at': 1700750273542, 'updated_at': 1700750817533}, {'order_id': 2, 'uid': '6ae70652c1d24ab092fd579827534fce', 'price': 1999, 'status': 0, 'created_at': 1700750273542, 'updated_at': 1700750273542}...]}
 my_ticket_list(req)
 读我的票列表（分页）（已购买）
@@ -277,7 +282,7 @@ order_pay(req)
 project_detail(req)
 项目详情
 params: {"token": "token", "project_id": "project_id"}
-return: {'project_detail': {'project_id': 200, 'name': '项目名称9', 'image': 'e986c93d-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '项目简介9', 'created_at': 1700748733467, 'master': {'master_id': '3cd115bb5e1c4e5baa2137c4e58efd34', 'name': '达人19', 'avatar': 'f0ad3cc8-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '达人简介19', 'address': '北京市海淀区中关村19号', 'birthday': '1990-01-01', 'is_follow': False, 'created_at': 1700723076574}}, 'code': 0}
+return: {'project_detail': {'project_id': 200, 'name': '项目名称9', 'image': 'e986c93d-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '项目简介9', 'created_at': 1700748733467, 'master': {'master_id': '3cd115bb5e1c4e5baa2137c4e58efd34', 'name': '达人19', 'avatar': 'f0ad3cc8-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '达人简介19', 'address': '北京市海淀区中关村19号', 'birthday': '1990-01-01', 'is_follow': False, 'created_at': 1700723076574}, "ticket_count": 100}, 'code': 0}
 project_list(req)
 项目列表（分页）master_id=None时，返回所有项目, 否则返回这个达人的项目
 params: {"token": "token", "master_id": "master_id", "limit": 100, "offset": 0}
@@ -323,9 +328,9 @@ ticket_banner(req)
 params: {"token": "token"}
 return: {"ticket_banner": [{"banner_id": "banner_id", "image": "image", "url": "url"}, ...]}
 ticket_detail(req)
-读票详情 + 100条评论
+读票详情
 params: {"token": "token", "ticket_id": "ticket_id"}
-return: {"ticket_detail": {"ticket_id": "ticket_id", "name": "name", "image": "image", "intro": "intro", "price": 0, "total": 1, "remain": 1, "created_at": ts, "updated_at": ts}, "ticket_comment_list": [{"ticket_comment_id": "ticket_comment_id", "uid": "uid", "content": "content", "created_at": ts}, ...]
+return: {"ticket_detail": {"ticket_id": "ticket_id", "name": "name", "image": "image", "intro": "intro", "price": 0, "project_id": 1, "created_at": ts, "updated_at": ts}, "project_ticket_count": 100}
 ticket_list(req)
 读票列表（分页）(商品，未出售)
 params: {"token": "token", "project_id": "project_id", "limit": 100, "offset": 0}
@@ -358,4 +363,3 @@ user_unfollow(req)
 取消关注用户
 params: {"token": "token", "to_uid": "to_uid"}
 return: {}
-

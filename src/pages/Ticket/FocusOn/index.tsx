@@ -26,7 +26,7 @@ import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
-import { MY_FOLLOWING_MASTERS } from '@/api/API';
+import { MY_FOLLOWING_MASTERS,MY_FOLLOWING_MASTER_PROJECT_LIST } from '@/api/API';
 
 const centerBg = require('@/assets/images/ticket_downbg.png')
 const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
@@ -84,18 +84,17 @@ function Ticket({navigation}:any): JSX.Element {
   }
   function getData(currenPage:number){
     setLoading(true)
-    HTTPS.post(MY_FOLLOWING_MASTERS,{
+    HTTPS.post(MY_FOLLOWING_MASTER_PROJECT_LIST,{
       "token":userInfo.token,
       "limit":PAGE_SIZE,
       offset:currenPage * PAGE_SIZE
     }).then((result:any)=>{
       if (currenPage == 0){
-        setDataSource(result.my_following_masters)
-        // setDataSource([{},{},{},{},{},{},{}])
+        setDataSource(result.my_following_masters_project_list)
       }else {
-        setDataSource([...dataSource,...result.my_following_masters])
+        setDataSource([...dataSource,...result.my_following_masters_project_list])
       }
-      if (result.my_following_masters.length < PAGE_SIZE){
+      if (result.my_following_masters_project_list.length < PAGE_SIZE){
         setIsLoadEnd(true)
       }else {
         setIsLoadEnd(false)
@@ -131,11 +130,6 @@ function Ticket({navigation}:any): JSX.Element {
     getData(page + 1)
   }
 
-  const [currentType,setCurrentType] = useState(0)
-  function onChangeType(index:any){
-    setCurrentType(index)
-  }
-
   return (
     <View style={styles.mainView}>
       <FlatList
@@ -154,9 +148,13 @@ function Ticket({navigation}:any): JSX.Element {
           visible={true}
           animated={true}
         />: <RemmenntRenderItem item={item} onPress={()=>{
-          navigation.navigate('TicketBannerDetailList',{
-            info:item
-          })
+          // navigation.navigate('TicketBannerDetailList',{
+          //   project_id:item.project_id,
+          //   image:item.image,
+          //   avatar:item.master?.avatar,
+          //   pro_name:item.name,
+          //   name:item.master?.name
+          // })
         }}/>
         }}
         style={{ flex: 1 }}
@@ -222,16 +220,16 @@ function RemmenntRenderItem({item,onPress}:any){
       <View style={{flexDirection:'row',alignItems:'center'}}>
         <ExpoImage
           style={styles.flowIcon}
-          source={HTTPS.getImageUrl(item.avatar)}
+          source={HTTPS.getImageUrl(item.master?.avatar)}
           placeholder={BLUR_HASH}
           contentFit="cover"
           transition={200}
         />
-        <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>{item.name}</Text>
+        <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>{item.master?.name}</Text>
       </View>
-      <TouchableOpacity style={styles.focusButton}>
+      {/* <TouchableOpacity style={styles.focusButton}>
         <Image style={styles.flowFocus} source={focus_n}/>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
     <ExpoImage
       style={styles.typeItem}
@@ -241,55 +239,6 @@ function RemmenntRenderItem({item,onPress}:any){
       transition={200}
     />
   </TouchableOpacity>
-}
-const centerItems:any[] = [
-  ticket_tj,
-  ticket_dr,
-  ticket_focus,
-  ticket_play
-]
-function TopCarousel({navigation}:any){
-  const [currentIndex,setCurrentIndex] = useState(0)
-  const datas:any[] = [1,2,3,4,5]
-  function onChangeType(index:number){
-  }
-  return <View>
-    <LinearGradient colors={['#000', 'transparent']} style={styles.topOp}/>
-    <Carousel
-      loop
-      autoPlay={true}
-      width={SCREEN_WIDTH}
-      height={SCREEN_WIDTH * 640 / 750}
-      data={datas}
-      scrollAnimationDuration={3000}
-      onSnapToItem={(index) => {setCurrentIndex(index)}}
-      renderItem={({ item,index }) => (
-        <Image style={{width:'100%',height:'100%'}} source={topbanner}/>
-      )}
-      />
-    <View style={styles.pointView}>
-      {
-        datas.map((item:any,index:number)=>{
-          return <View key={index+'tickban'} style={[styles.point,{
-            backgroundColor:currentIndex == index ? Colors.buttonMain : '#CCCCCC'
-          }]}/>
-        })
-      }
-    </View>
-    <ImageBackground style={styles.centerbg} source={centerBg}>
-      <Image style={styles.centerLine} source={ticket_line}/>
-      <View style={styles.centerItemView}>
-        {
-          centerItems.map((item:any,index:number)=>{
-            return <TouchableOpacity key={index+'centeritem'} onPressIn={()=>onChangeType(index)}>
-                <Image style={[styles.centerItem,{
-                }]} source={item} />
-            </TouchableOpacity>
-          })
-        }
-      </View>
-    </ImageBackground>
-  </View>
 }
 
 export default Ticket;

@@ -9,7 +9,6 @@ export const styles = StyleSheet.create({
         width:'100%',
         height:160,
         borderRadius:8,
-        backgroundColor: "blue",
     },
     flowView:{
         flex:1,
@@ -27,7 +26,6 @@ export const styles = StyleSheet.create({
     },
     flowViewIcon:{
         height:180,
-        backgroundColor:'blue',
         borderRadius:8,
     },
     flowViewTitle:{
@@ -45,7 +43,6 @@ export const styles = StyleSheet.create({
         height:16,
         marginRight:8,
         borderRadius:88,
-        backgroundColor:'blue',
     },
     flowName:{
         fontSize:10,
@@ -83,7 +80,6 @@ export const styles = StyleSheet.create({
     topItemSub:{
         flex:1,
         borderRadius:8,
-        backgroundColor:'blue',
         height:54,
         justifyContent:'center',
         alignItems:'center',

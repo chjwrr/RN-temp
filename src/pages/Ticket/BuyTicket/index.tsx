@@ -23,9 +23,11 @@ import { FadeLoading } from 'react-native-fade-loading';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from "@react-native-community/blur";
 import * as HTTPS from '@/api/axios'
-import { TICKET_LIST, TICKET_LIST_DETAIL } from '@/api/API';
+import { TICKET_LIST, TICKET_LIST_DETAIL,ORDER_CREATE } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import { Image as ExpoImage } from 'expo-image';
+import LoadingButton from '@/components/LoadingButton';
+import { showMessage } from 'react-native-flash-message';
 
 
 
@@ -73,11 +75,6 @@ function Ticket(props:any): JSX.Element {
   function onBack(){
     props.navigation.goBack()
   }
-
-  function onCollect(){
-
-  }
-
 
   function onShowBuy(){
     if (isAnimated){
@@ -132,10 +129,9 @@ function Ticket(props:any): JSX.Element {
   }
 
   function onShare(){
-    const url = 'https://awesome.contents.com/';
-    const title = 'Awesome Contents';
-    const message = 'Please check this out.';
-    const icon = 'data:<data_type>/<file_extension>;base64,<base64_data>';
+    const url = HTTPS.getImageUrl(detailInfo.image)
+    const title = 'Cverselink';
+    const message = '';
     const options = Platform.select({
       default: {
         title,
@@ -144,6 +140,23 @@ function Ticket(props:any): JSX.Element {
       },
     });
     Share.open(options);
+  }
+  const [isCreat,setIsCreat] = useState(false)
+  function onCreatOrder(){
+    setIsCreat(true)
+    HTTPS.post(ORDER_CREATE,{
+      "token":userInfo.token,
+      ticket_id_list:[detailInfo.ticket_id]
+    }).then((result:any)=>{
+      onBack()
+      showMessage({
+        message: "订单创建成功，请在我的订单中查看",
+        type: "success",
+      });
+    }).finally(()=>{
+      setIsCreat(false)
+      onHiddenBuy()
+    })
   }
   return (
     <View style={styles.main}>
@@ -246,11 +259,11 @@ function Ticket(props:any): JSX.Element {
             <Text style={styles.payUnit}>￥</Text>
             <Text style={styles.payPrice}>{detailInfo.price}</Text>
           </View>
-          <TouchableOpacity>
+          <LoadingButton isLoading={isCreat} onPressIn={onCreatOrder}>
             <ImageBackground style={styles.payButton} source={paybtnbg}>
               <Text style={styles.payButtonTitle}>提交订单</Text>
             </ImageBackground>
-          </TouchableOpacity>
+          </LoadingButton>
         </View>
 
       </Animated.View>

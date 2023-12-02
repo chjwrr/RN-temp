@@ -18,6 +18,11 @@ import { show, hidden } from '@/components/CoverModal'
 import * as HTTPS from '@/api/axios'
 import { DESIGN_CIRCLE_CLOTH_DETAIL,DESIGN_CIRCLE_CLOTH_COLLECT,DESIGN_CIRCLE_CLOTH_UNCOLLECT } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
+import { Image as ExpoImage } from 'expo-image';
+import { BLUR_HASH } from '@/utils';
+import { savePicture } from '@/utils/common';
+import {CacheManager, CachedImage} from '@georstat/react-native-image-cache'
+import ImagePlaceholder from '@/components/ImagePlaceholder';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -70,10 +75,9 @@ function DesignDetail(props:any): JSX.Element {
 
   }
   function onShare(){
-    const url = 'https://awesome.contents.com/';
-    const title = 'Awesome Contents';
-    const message = 'Please check this out.';
-    const icon = 'data:<data_type>/<file_extension>;base64,<base64_data>';
+    const url = HTTPS.getImageUrl(clothDetail.image)
+    const title = 'Cverselink';
+    const message = '';
     const options = Platform.select({
       default: {
         title,
@@ -86,7 +90,8 @@ function DesignDetail(props:any): JSX.Element {
 
 
   function onShowDown(){
-    show(<DownImage/>)
+    console.log('----')
+    show(<DownImage image={clothDetail.image}/>)
   }
 
   return (
@@ -172,20 +177,55 @@ function DetailInfo(){
     />
   </View>
 }
-function DownImage(){
+function DownImage({image}:any){
+  function onDownload(){
+    if (image){
+      savePicture(HTTPS.getImageUrl(image))
+    }
+    hidden()
+  }
+  function onShare(){
+    const url = HTTPS.getImageUrl(image)
+    const title = 'Cverselink';
+    const message = '';
+    const options = Platform.select({
+      default: {
+        title,
+        subject: title,
+        message: `${message} ${url}`,
+      },
+    });
+    Share.open(options);
+    hidden()
+  }
   return <View style={styles.downImageView}>
-    <View style={styles.downImageContent}/>
+    {/* <ExpoImage
+      style={styles.downImageContent}
+      source={HTTPS.getImageUrl(image)}
+      placeholder={BLUR_HASH}
+      contentFit="cover"
+      transition={200}
+    /> */}
+    <CachedImage
+        sourceAnimationDuration={100}
+        thumbnailAnimationDuration={100}
+        resizeMode='cover'
+        source={HTTPS.getImageUrl(image)}
+        style={styles.downImageContent}
+        blurRadius={30}
+        loadingImageComponent={ImagePlaceholder}
+        />
     <View style={styles.downImageLineView}>
       <View style={styles.downlinecir}/>
-        <Image style={styles.downImageLine} source={spebgIcon}/>
+      <Image style={styles.downImageLine} source={spebgIcon}/>
       <View style={styles.downlinercir}/>
     </View>
     <View style={styles.downButtonView}>
-      <TouchableOpacity style={styles.downImagebutton}>
+      <TouchableOpacity style={styles.downImagebutton} onPressIn={onDownload}>
         <Image style={styles.downImagebuttonicon} source={download_nIcon}/>
         <Text style={styles.downImagebuttontitle}>保存图片</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.downImagebutton,styles.downImagebuttonSpa]}>
+      <TouchableOpacity style={[styles.downImagebutton,styles.downImagebuttonSpa]} onPressIn={onShare}>
         <Image style={styles.downImagebuttonicon} source={share_nIcon}/>
         <Text style={styles.downImagebuttontitle}>分享链接</Text>
       </TouchableOpacity>

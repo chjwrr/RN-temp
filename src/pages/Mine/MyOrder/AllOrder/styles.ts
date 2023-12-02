@@ -37,40 +37,71 @@ export const styles = StyleSheet.create({
     fontSize:16,
     color:Colors.navTitle
   },
-  value:{
-    fontSize:14,
-    color:Colors.light
-  },
-  scrollView:{
+  flowLoadingView:{
     flex:1,
-    paddingHorizontal:16,
-    marginTop: Platform.OS === 'ios' ? NAVIGATION_HEIGHT : NAVIGATION_HEIGHT + STATUSBAR_HEIGHT,
+    height:175,
+    borderRadius:12,
+    marginVertical:4
   },
-  itemView:{
-    borderBottomWidth:1,
-    borderBottomColor:'#CCCCCC',
-    height:60,
+  flowView:{
+    flex:1,
+    height:175,
+    borderRadius:12,
+    backgroundColor:'#fff',
+    marginVertical:4
+  },
+  loadMoreView:{
     flexDirection:'row',
-    justifyContent:'space-between',
+    justifyContent:'center',
+    height:30,
     alignItems:'center'
   },
-  arrow:{
-    width:16,
-    height:16,
-    marginLeft:8
+  loadMoreTitle:{
+      fontSize:12,
+      color:Colors.assist
   },
-  avatar:{
-    width:30,
-    height:30,
-    borderRadius:15
+  flatList:{
+    flex:1,
+    paddingHorizontal:16
+  },
+  time:{
+    fontSize:16,
+    color:Colors.light,
+    marginHorizontal:16,
+    marginTop:10
+  },
+  line:{
+    width:'100%',
+    height:1,
+    backgroundColor:Colors.border,
+    marginTop:5,
+    marginBottom:10
+  },
+  itemView:{
+    marginHorizontal:16,
+    flexDirection:'row',
+    // alignItems:'center'
+  },
+  itemImage:{
+    width:120,
+    height:120,
+    borderRadius:8,
+    marginRight:10
   },
   name:{
-    flex:1,
-    fontSize:14,
+    fontSize:16,
     color:Colors.light,
-    paddingTop:0,
-    paddingBottom:0,
-    height:'100%',
-    textAlign:'right'
+    lineHeight:30
+  },
+  buytitle:{
+    fontSize:14,
+    color:Colors.white,
+  },
+  buyBtn:{
+    justifyContent:'center',
+    alignItems:'center',
+    height:30,
+    borderRadius:6,
+    paddingHorizontal:40,
   }
 });

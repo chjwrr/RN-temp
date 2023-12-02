@@ -9,7 +9,6 @@ import {
   Platform,
   Animated,
   FlatList,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   RefreshControl,
   TextInput,
@@ -46,6 +45,7 @@ import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { formatTime } from '@/utils/common';
 import { Image as ExpoImage } from 'expo-image';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const BGImage = require('@/assets/images/homebg.png')
@@ -111,18 +111,19 @@ function RecommendDetail(props:any): JSX.Element {
   }
 
   function onShare(){
-    const url = 'https://awesome.contents.com/';
-    const title = 'Awesome Contents';
-    const message = 'Please check this out.';
-    const icon = 'data:<data_type>/<file_extension>;base64,<base64_data>';
-    const options = Platform.select({
-      default: {
-        title,
-        subject: title,
-        message: `${message} ${url}`,
-      },
-    });
-    Share.open(options);
+    if(detailInfo.images){
+      const url = HTTPS.getImageUrl(detailInfo.images[0])
+      const title = 'Cverselink';
+      const message = '';
+      const options = Platform.select({
+        default: {
+          title,
+          subject: title,
+          message: `${message} ${url}`,
+        },
+      });
+      Share.open(options);
+    }
   }
   function onCommonChange(){
     getDetail()
@@ -411,13 +412,15 @@ function CommonItem({item,index,articleId,onCommonChange}:any){
   const userInfo = useUserInfo()
 
   function onLikeCommon(){
-    HTTPS.post(ARTICLE_COOMMENT_UP,{
-      "token":userInfo.token,
-      article_comment_id:item.comment_id
-    }).then((result:any)=>{
-      onCommonChange && onCommonChange()
-    }).finally(()=>{
-    })
+    if (!item.is_up){
+      HTTPS.post(ARTICLE_COOMMENT_UP,{
+        "token":userInfo.token,
+        article_comment_id:item.comment_id
+      }).then((result:any)=>{
+        onCommonChange && onCommonChange()
+      }).finally(()=>{
+      })
+    }
   }
   function onReplay(){
     DeviceEventEmitter.emit('replay',item)

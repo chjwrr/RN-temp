@@ -116,10 +116,9 @@ function Ticket(props:any): JSX.Element {
 
   }
   function onShare(){
-    const url = 'https://awesome.contents.com/';
-    const title = 'Awesome Contents';
-    const message = 'Please check this out.';
-    const icon = 'data:<data_type>/<file_extension>;base64,<base64_data>';
+    const url = HTTPS.getImageUrl(props.route.params.image)
+    const title = 'Cverselink';
+    const message = '';
     const options = Platform.select({
       default: {
         title,
@@ -161,14 +160,9 @@ function Ticket(props:any): JSX.Element {
       <FlatList
         showsVerticalScrollIndicator={false}
         data={dataSource}
-        columnWrapperStyle={{justifyContent:'space-between'}}
-        numColumns={2}
         renderItem={({ item, index })=>{
           return item == 1 ? <FadeLoading
           style={[styles.flowLoadingView,{
-            marginVertical:2,
-            marginRight:index % 2 == 0 ? 2 : 0,
-            marginLeft:index % 2  == 0 ? 0 : 2,
           }]}
           children={''}
           primaryColor={'#a6abe2'}
@@ -182,7 +176,7 @@ function Ticket(props:any): JSX.Element {
           navigation={props.navigation}
         />
         }}
-        style={{ flex: 1, paddingHorizontal:16 }}
+        style={{ flex: 1, paddingHorizontal:16}}
         ListHeaderComponent={
           <View style={styles.contentView}>
             <View style={styles.avatatView}>
@@ -231,9 +225,6 @@ function RemmenntRenderItem({item,columnIndex,name,avatar,navigation}:any){
     })
   }
   return <TouchableOpacity onPress={()=>onPress(columnIndex)} style={[styles.flowView,{
-    marginVertical:2,
-    marginRight:columnIndex == 0 ? 2 : 0,
-    marginLeft:columnIndex == 0 ? 0 : 2
   }]}>
     <View style={styles.typeItem}>
       <ExpoImage

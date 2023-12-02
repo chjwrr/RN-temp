@@ -291,9 +291,6 @@ function ShopInfo({info,onChange}:any){
           placeholder={BLUR_HASH}
           contentFit="cover"
           transition={200}
-          onLoad={(e:any)=>{
-            console.log('eeee==',e)
-          }}
         />
       <View>
         <Text style={styles.shopName}>{info.merchant?.name}</Text>

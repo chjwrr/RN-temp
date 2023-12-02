@@ -1,12 +1,12 @@
 
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import {
   SafeAreaView,
   Text,
   View,
   ImageBackground,
   Image,
-  Platform,
+  useWindowDimensions,
   ScrollView,
   Animated,
   TouchableOpacity,
@@ -14,18 +14,12 @@ import {
   TextInput
 } from 'react-native';
 import {styles} from './styles'
-import Share from 'react-native-share';
-import { WebView } from 'react-native-webview';
-import Carousel from 'react-native-reanimated-carousel';
-import { BLUR_HASH, SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
-import * as _ from 'lodash'
-import {CacheManager, CachedImage} from '@georstat/react-native-image-cache'
-import ImagePlaceholder from '@/components/ImagePlaceholder';
-import * as HTTPS from '@/api/axios'
-import { Image as ExpoImage } from 'expo-image';
-import { MERCHANT_CLOTH_DETAIL, MERCHANT_FOLLOW, MERCHANT_UNFOLLOW,  MERCHANT_CLOTH_UNCOLLECT , MERCHANT_CLOTH_COLLECT } from '@/api/API';
+import { TabView, SceneMap } from 'react-native-tab-view';
 import { useUserInfo } from '@/redux/userInfo';
-import { savePicture } from '@/utils/common';
+
+
+import AllOrderScreen from './AllOrder'
+import WaitPayOrderScreen from './WaitPayOrder'
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -39,6 +33,23 @@ function RecommendDetail(props:any): JSX.Element {
     props.navigation.goBack()
   }
 
+
+  const layout = useWindowDimensions();
+  const [index, setIndex] = React.useState(0);
+  const routes =[
+    { key: 'AllOrder', title: 'AllOrder' },
+    { key: 'WaitPayOrder', title: 'WaitPayOrder' }
+  ]
+
+  const renderScene = useCallback(({ route, jumpTo }:any) => {
+    switch (route.key) {
+      case 'AllOrder':
+        return <AllOrderScreen navigation={props.navigation} jumpTo={jumpTo}/>
+      case 'WaitPayOrder':
+        return <WaitPayOrderScreen navigation={props.navigation} jumpTo={jumpTo} />;
+    }
+  },[])
+
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -51,8 +62,45 @@ function RecommendDetail(props:any): JSX.Element {
             <Text style={styles.title}>全部订单</Text>
           </View>
         </View>
+        <TabView
+          swipeEnabled={false}
+          lazy
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          renderTabBar={(props:any)=><TopTabbar {...props}/>}
+          onIndexChange={setIndex}
+          initialLayout={{ width: layout.width }}
+        />
       </SafeAreaView>
     </ImageBackground>
   );
 }
+
+const tabs:any[] = [
+  {
+    title:'全部',
+    key:'AllOrder'
+  },
+  {
+    title:'待支付',
+    key:'WaitPayOrder'
+  },
+]
+function TopTabbar(props:any){
+  return <View style={styles.tabView}>
+    {
+      tabs.map((item:any,index:number)=>{
+        return <TouchableOpacity style={[styles.tabButton]} key={item.title} onPressIn={()=>{
+          props.jumpTo(item.key)
+        }}>
+          <Text style={[styles.tabButtonTitle,{
+            fontSize:props.navigationState.index == index ? 16 : 14,
+            fontWeight:props.navigationState.index == index ? '600' : '400',
+          }]}>{item.title}</Text>
+        </TouchableOpacity>
+      })
+    }
+  </View>
+}
+
 export default RecommendDetail;

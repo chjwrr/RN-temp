@@ -185,7 +185,7 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
         </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}
         initialNumToRender={10}
-        keyExtractor={(item, index) => 'key' + index}
+        keyExtractor={(item, index) => index + 'recommend' + item.cloth_id}
         onEndReached={() => {
           if (isCanLoadMore) {
             onEndReached();
@@ -223,7 +223,7 @@ function HomeBanner({navigation}:any){
     <Carousel
     loop
     width={SCREEN_WIDTH - 32}
-    height={160}
+    height={180}
     autoPlay={true}
     data={bannerList}
     scrollAnimationDuration={3000}

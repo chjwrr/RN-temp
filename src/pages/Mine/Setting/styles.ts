@@ -12,7 +12,6 @@ export const styles = StyleSheet.create({
     width:'100%',
     height:NAVIGATION_HEIGHT + STATUSBAR_HEIGHT,
     flexDirection:'row',
-    // top:STATUSBAR_HEIGHT,
     top:0,
     paddingTop:STATUSBAR_HEIGHT,
     paddingHorizontal:16,
@@ -44,7 +43,7 @@ export const styles = StyleSheet.create({
   scrollView:{
     flex:1,
     paddingHorizontal:16,
-    marginTop:NAVIGATION_HEIGHT,
+    marginTop: Platform.OS === 'ios' ? NAVIGATION_HEIGHT : NAVIGATION_HEIGHT + STATUSBAR_HEIGHT,
   },
   itemView:{
     borderBottomWidth:1,

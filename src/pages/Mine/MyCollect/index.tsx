@@ -36,7 +36,7 @@ const arrowr = require('@/assets/images/back_b_r.png')
 
 
 function RecommendDetail(props:any): JSX.Element {
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState(true);
   const [loading, setLoading] = useState(false);
   const [dataSource,setDataSource] = useState<any[]>([1,1,1,1,1,1,1,1,1,1])
   const isCanLoadMore = useRef(false)

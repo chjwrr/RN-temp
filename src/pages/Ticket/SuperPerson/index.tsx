@@ -22,7 +22,7 @@ import { FadeLoading } from 'react-native-fade-loading';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from "@react-native-community/blur";
 import * as HTTPS from '@/api/axios'
-import { MASTER_LIST, MASTER_RECOMMEND_LIST, TICKET_LIST } from '@/api/API';
+import { MASTER_LIST, MASTER_RECOMMEND_LIST, MASTER_UNFOLLOW,MASTER_FOLLOW } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
@@ -39,7 +39,9 @@ const ticket_focus = require('@/assets/images/ticket_focus_icon.png')
 const ticket_play = require('@/assets/images/ticket_play_icon.png')
 const ticket_item_1 = require('@/assets/images/tick_icon_1.png')
 const ticket_item_2 = require('@/assets/images/tick_icon_2.png')
-const focus_n = require('@/assets/images/collwhi.png')
+const focus_n = require('@/assets/images/unlike.png')
+const focus_s = require('@/assets/images/like.png')
+
 const limmitBg = require('@/assets/images/limmitBg.png')
 const downBg = require('@/assets/images/ticket_downbgperson.png')
 
@@ -118,8 +120,18 @@ function Ticket({navigation}:any): JSX.Element {
   function onChangeType(index:any){
     setCurrentType(index)
   }
-  const focusList:any[] = [1,2,3,4,5,6,7,8,9,0]
-
+  
+  function onLike(item:any,index:number){
+    HTTPS.post(item.is_follow ? MASTER_UNFOLLOW : MASTER_FOLLOW,{
+      "token":userInfo.token,
+      master_id:item.master_id
+    }).then((result:any)=>{
+      let temp = [...dataSource]
+      temp.splice(index,1,{...item,is_follow:!item.is_follow})
+      setDataSource(temp)
+    }).finally(()=>{
+    })
+  }
   return (
     <View style={styles.mainView}>
       <FlatList
@@ -141,10 +153,15 @@ function Ticket({navigation}:any): JSX.Element {
           visible={true}
           animated={true}
         />: <RemmenntRenderItem item={item} columnIndex={index} onPress={()=>{
-          navigation.navigate('SuperPersonDetail',{
-            master_id:item.master_id
-          })
-        }}/>
+            navigation.navigate('SuperPersonDetail',{
+              master_id:item.master_id,
+              onFocusChange:(isFocus:boolean)=>{
+                let temp = [...dataSource]
+                temp.splice(index,1,{...item,is_follow:isFocus})
+                setDataSource(temp)
+              }
+            })
+          }} onLike={()=>onLike(item,index)}/>
         }}
         style={{ flex: 1 }}
         ListHeaderComponent={
@@ -202,7 +219,7 @@ function Ticket({navigation}:any): JSX.Element {
   );
 }
 
-function RemmenntRenderItem({item,columnIndex,onPress}:any){
+function RemmenntRenderItem({item,columnIndex,onPress,onLike}:any){
   return <TouchableOpacity onPress={onPress} style={[styles.flowView,{
     marginVertical:2,
     marginRight:columnIndex == 0 ? 2 : 0,
@@ -232,8 +249,8 @@ function RemmenntRenderItem({item,columnIndex,onPress}:any){
       <LinearGradient colors={['rgba(64,14,179,0.6)', 'transparent']} style={styles.typeItemDownbg}/>
       <View style={styles.flowViewSubView}>
         <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.intro}</Text>
-        <TouchableOpacity style={styles.focusButton}>
-          <Image style={styles.flowFocus} source={focus_n}/>
+        <TouchableOpacity style={styles.focusButton} onPressIn={onLike}>
+          <Image style={styles.flowFocus} source={item.is_follow ? focus_s : focus_n}/>
         </TouchableOpacity>
       </View>
       <View style={styles.flowViewSubView}>

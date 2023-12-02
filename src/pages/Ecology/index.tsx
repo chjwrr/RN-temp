@@ -1,7 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  TouchableOpacity,
   View,
   ActivityIndicator,
   ScrollView,
@@ -22,11 +21,12 @@ import { FadeLoading } from 'react-native-fade-loading';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from "@react-native-community/blur";
 import * as HTTPS from '@/api/axios'
-import { MASTER_LIST, TICKET_BANNER, PROJECT_RECOMMEND_LIST } from '@/api/API';
+import { MASTER_LIST, TICKET_BANNER, PROJECT_RECOMMEND_LIST, GAME_BANNER, GAME_RECOMMEND_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const centerBg = require('@/assets/images/ticket_downbg.png')
 const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
@@ -51,16 +51,34 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const userInfo = useUserInfo()
-  const [proList,setProList] = useState<any[]>([])
 
 
   function getData(currenPage:number){
-   
+    setLoading(true)
+    HTTPS.post(GAME_RECOMMEND_LIST,{
+      "token":userInfo.token,
+      "limit":PAGE_SIZE,
+      offset:currenPage * PAGE_SIZE
+    }).then((result:any)=>{
+      if (currenPage == 0){
+        setDataSource(result.game_recommend_list)
+      }else {
+        setDataSource([...dataSource,...result.game_recommend_list])
+      }
+      if (result.game_recommend_list.length < PAGE_SIZE){
+        setIsLoadEnd(true)
+      }else {
+        setIsLoadEnd(false)
+      }
+      setPage(currenPage)
+    }).finally(()=>{
+      setRefreshing(false)
+      setLoading(false)
+    })
   }
 
   useEffect(()=>{
-    // getProList()
-    // getData(0)
+    getData(0)
   },[])
 
 
@@ -68,43 +86,80 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
     if (loading || refreshing){
       return
     }
-    // console.log('onRefresh')
-    // setRefreshing(true);
-    // getData(0)
+    setRefreshing(true);
+    getData(0)
   }
 
   function onEndReached(){
     if (loading || refreshing || isLoadEnd){
       return
     }
-    console.log('loading more')
-    // getData(page + 1)
+    getData(page + 1)
   }
   return (
-    <ScrollView style={styles.mainView}>
-      <TopCarousel navigation={navigation} jumpTo={jumpTo} tabState={tabState}/>
-      <View style={styles.downView}>
-        <RemmenntRenderItem item={''} onPress={()=>{
-          navigation.navigate('EcologyDetail')
-        }}/>
-      </View>
-    </ScrollView>
-  );
-}
-function RemmenntRenderItem({item,onPress}:any){
-  return <TouchableOpacity onPress={()=>onPress()} style={[styles.flowView,{
-    marginVertical:2,
-  }]}>
-    <View style={styles.typeItem}>
-      <ExpoImage
-        style={styles.typeItem}
-        source={ticket_pro_ban_1}
-        placeholder={BLUR_HASH}
-        contentFit="cover"
-        transition={200}
+    <View style={styles.mainView}>
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={dataSource}
+        renderItem={({ item, index })=>{
+          return item == 1 ? <FadeLoading
+          style={[styles.flowLoadingView,{
+            marginVertical:4,
+          }]}
+          children={''}
+          primaryColor={'#a6abe2'}
+          secondaryColor={'#b391e8'}
+          duration={0}
+          visible={true}
+          animated={true}
+        />: <TouchableOpacity style={[styles.flowView,{
+          marginVertical:4,
+        }]} onPress={()=>{
+          navigation.navigate('EcologyDetail',{
+            game_id:item.game_id
+          })
+        }}>
+          <ExpoImage
+            style={styles.banner}
+            source={HTTPS.getImageUrl(item.image)}
+            placeholder={BLUR_HASH}
+            contentFit="cover"
+            transition={200}
+          />
+          <View style={styles.bannerTitleView}>
+            <Text numberOfLines={1} ellipsizeMode='tail' style={styles.bannerTitle}>{item.name}</Text>
+          </View>
+        </TouchableOpacity>
+        }}
+        style={{ flex: 1 }}
+        ListHeaderComponent={
+          <View style={styles.contentView}>
+            <TopCarousel navigation={navigation} jumpTo={jumpTo} tabState={tabState}/>
+          </View>
+        }
+        ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
+          <Text style={styles.loadMoreTitle}>加载更多...</Text>
+          <ActivityIndicator size="small" color={Colors.main} />
+        </View> : <View style={styles.loadMoreView}/>}
+        ListEmptyComponent={<View/>}
+        initialNumToRender={10}
+        keyExtractor={(item, index) => 'key' + index}
+        onEndReached={() => {
+          if (isCanLoadMore) {
+            onEndReached();
+            isCanLoadMore.current = false;
+          }
+        }}
+        onContentSizeChange={() => {
+          isCanLoadMore.current = true;
+        }}
+        onEndReachedThreshold={0.01}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#fff']}/>
+        }
       />
     </View>
-  </TouchableOpacity>
+  );
 }
 
 function TopCarousel({navigation,jumpTo,tabState}:any){
@@ -113,7 +168,7 @@ function TopCarousel({navigation,jumpTo,tabState}:any){
   const [bannerList,setBannerList] = useState<any[]>([])
 
   useEffect(()=>{
-    HTTPS.post(TICKET_BANNER,{
+    HTTPS.post(GAME_BANNER,{
       "token":userInfo.token,
     }).then((res:any)=>{
       setBannerList(res.banner)

@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     width:24,
     height:24,
     marginTop:4,
-    marginBottom:4
+    // marginBottom:4
     // marginBottom:4
   },
   tabbariconBig:{

@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
       height:SCREEN_WIDTH
     },
     bannerView:{
-        // paddingHorizontal:16,
+        paddingHorizontal:16,
         marginTop:-SCREEN_WIDTH * 600 / 750 / 2  - 20,
     },
     centerbg:{
@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
     bannerTitleView:{
         flexDirection:'row',
         alignItems:'center',
-        marginVertical:10
+        marginTop:5
     },
     bannerTitle:{
         fontSize:14,
@@ -127,19 +127,18 @@ export const styles = StyleSheet.create({
         height:40,
     },
     flowLoadingView:{
-        // width:'100%',
-        height:270,
-        flex:1,
-        borderRadius:5,
-        padding:8
+        padding:8,
+        width:SCREEN_WIDTH - 32,
+        height:(SCREEN_WIDTH - 32) * 380 / 686 + 30,
+        borderRadius:8,
+        marginHorizontal:16
       },
     flowView:{
-        // width:'100%',
-        flex:1,
-        height:270,
-        // backgroundColor:Colors.white,
-        borderRadius:5,
-        // padding:8
+        padding:8,
+        width:SCREEN_WIDTH - 32,
+        height:(SCREEN_WIDTH - 32) * 380 / 686 + 30,
+        borderRadius:8,
+        marginHorizontal:16
     },
     flowView2:{
         // width:'100%',

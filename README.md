@@ -17,7 +17,8 @@ cd android && ./gradlew clean && cd ..
 npx react-native start --reset-cache
 npx react-native run-android     npx react-native run-ios
 
-
+# 图标、启动图一键生成
+https://apetools.webprofusion.com/?ref=hackernoon.com#/tools/imagegorilla
 
 
 # 输入框动画

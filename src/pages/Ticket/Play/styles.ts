@@ -5,40 +5,10 @@ import {
   } from 'react-native';
   
 export const styles = StyleSheet.create({
-    main:{
+    mainView:{
         flex:1,
         backgroundColor:Colors.black,
-    },
-    backButton:{
-      width:NAVIGATION_HEIGHT,
-      height:NAVIGATION_HEIGHT,
-      justifyContent:'center'
-    },
-    backIcon:{
-      width:16,
-      height:16
-    },
-    collectIcon:{
-      width:18,
-      height:16
-    },
-    topImage:{
-      width:SCREEN_WIDTH,
-      height:300,
-      position:'absolute',
-      top:0
-    },
-    bottomOp:{
-      height:150,
-      width:'100%',
-      top:150,
-      position:'absolute',
-    },
-    downContent:{
-      width:'100%',
-      paddingHorizontal:16,
-      marginTop:240,
-      // height:500,
+        paddingHorizontal:16
     },
     topbg:{
         width:SCREEN_WIDTH,
@@ -65,12 +35,10 @@ export const styles = StyleSheet.create({
         // zIndex:2
     },
     contentView:{
-        height:348,
-        justifyContent:'flex-end'
+        flex:1,
     },
     bannerView:{
-        paddingHorizontal:16,
-        marginTop:-SCREEN_WIDTH * 600 / 750 / 2  - 20,
+        flex:1,
     },
     centerbg:{
         width:SCREEN_WIDTH,
@@ -80,7 +48,8 @@ export const styles = StyleSheet.create({
     centerTitle:{
         fontSize:16,
         color:'#fff',
-        marginBottom:10
+        marginBottom:10,
+        marginLeft:16
     },
     banner:{
         width:SCREEN_WIDTH - 32,
@@ -138,9 +107,7 @@ export const styles = StyleSheet.create({
         position:'absolute',
         zIndex:10,
         top:0,
-        backgroundColor:Colors.black,
-        paddingHorizontal:16
-
+        backgroundColor:Colors.black
     },
     tabButton:{
         flex:1,
@@ -156,25 +123,18 @@ export const styles = StyleSheet.create({
         height:40,
     },
     flowLoadingView:{
-        height:270,
-        borderRadius:5,
-        width:SCREEN_WIDTH - 32,
-        marginVertical:4
+        height:44,
+        flex:1,
       },
     flowView:{
-        height:270,
-        borderRadius:5,
-        width:SCREEN_WIDTH - 32,
-        marginVertical:4,
-        backgroundColor:Colors.black
+        flex:1,
+        height:44,
     },
     typeItem:{
-        width:SCREEN_WIDTH - 32,
-        height:180,
+        width:'100%',
+        height:512,
         justifyContent:'flex-end',
-        backgroundColor:'#fff',
-        borderTopLeftRadius:5,
-        borderTopRightRadius:5,
+        borderRadius:5,
         overflow:'hidden',
         alignItems:'flex-start'
     },
@@ -186,17 +146,16 @@ export const styles = StyleSheet.create({
   },
   typeItemDown2:{
     height:64,
-    width:SCREEN_WIDTH - 32,
+    width:'100%',
     paddingHorizontal:10,
     justifyContent:'center',
     zIndex:2,
 },
     typeItemDown:{
-        height:90,
+        height:70,
         width:'100%',
         paddingHorizontal:10,
-        justifyContent:'center',
-        zIndex:2,
+        // justifyContent:'center',
         borderWidth:1,
         borderTopWidth:0,
         borderColor:'rgba(64,14,179,0.6)'
@@ -206,7 +165,7 @@ export const styles = StyleSheet.create({
       top:0,
       bottom:0,
       left:0,
-      width:SCREEN_WIDTH - 32,
+      right:0
     },
     loadMoreView:{
         flexDirection:'row',
@@ -228,23 +187,25 @@ export const styles = StyleSheet.create({
         justifyContent:'space-between',
         alignItems:'center',
         width:'100%',
+        height:44,
     },
-    flowIcon:{
-        width:24,
-        height:24,
+    avatar:{
+        width:44,
+        height:44,
         marginRight:8,
-        borderRadius:12,
-        backgroundColor:'blue',
+        borderRadius:22,
+        backgroundColor:'red'
     },
     flowName:{
-        fontSize:10,
+        fontSize:16,
         color:Colors.white,
-        width:'40%'
+        width:'80%',
+        lineHeight:22
     },
     flowNameid:{
       fontSize:12,
-      color:Colors.white,
-      marginBottom:5
+      color:Colors.light,
+      lineHeight:22
     },
     flowFocus:{
         width:16,
@@ -267,7 +228,6 @@ export const styles = StyleSheet.create({
     focusAvtar:{
         width:44,
         height:44,
-        backgroundColor:'blue',
         borderRadius:22
     },
     focusTipView:{
@@ -310,23 +270,20 @@ export const styles = StyleSheet.create({
       fontSize:10,
       color:Colors.white,
     },
-    avatatView:{
-      flexDirection:'row',
-      justifyContent:'center',
+    flatList:{
+        paddingTop:STATUSBAR_HEIGHT + NAVIGATION_HEIGHT + 10,
+        flex:1
     },
-    avatar:{
-      width:58,
-      height:58,
-      borderRadius:29,
-      overflow:'hidden'
+    unRead:{
+        height:16,
+        borderRadius:8,
+        paddingHorizontal:5,
+        backgroundColor:Colors.tipPoint,
+        justifyContent:'center'
     },
-    title:{
-      fontSize:24,
-      color:Colors.white,
-      textAlign:'center',
-      width:'100%',
-      marginTop:20,
-      marginBottom:20
-    },
+    unReadText:{
+        fontSize:12,
+        color:Colors.white
+    }
 });
 

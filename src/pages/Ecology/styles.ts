@@ -35,13 +35,14 @@ export const styles = StyleSheet.create({
     },
     contentView:{
         flex:1,
+        height:SCREEN_WIDTH +40
     },
     topBanner:{
       width:SCREEN_WIDTH,
       height:SCREEN_WIDTH
     },
     bannerView:{
-        // paddingHorizontal:16,
+        paddingHorizontal:16,
         marginTop:-SCREEN_WIDTH * 600 / 750 / 2  - 20,
     },
     centerbg:{
@@ -49,17 +50,12 @@ export const styles = StyleSheet.create({
         height:SCREEN_WIDTH * 600 / 750,
         // marginTop:-20
     },
-    downView:{
-      marginTop:-240,
-      paddingHorizontal:16
-    },
     centerTitle:{
         fontSize:16,
         color:'#fff',
         marginBottom:10,
         marginTop:40,
-        fontWeight:'600',
-        marginLeft:16
+        paddingHorizontal:16,
     },
     banner:{
         width:SCREEN_WIDTH - 32,
@@ -69,11 +65,11 @@ export const styles = StyleSheet.create({
     bannerTitleView:{
         flexDirection:'row',
         alignItems:'center',
-        marginVertical:10
+        marginTop:5,
     },
     bannerTitle:{
         fontSize:14,
-        color:Colors.white
+        color:Colors.white,
     },
     bannerTitleDes:{
         fontSize:12,
@@ -134,19 +130,18 @@ export const styles = StyleSheet.create({
         height:40,
     },
     flowLoadingView:{
-        // width:'100%',
-        height:270,
-        flex:1,
-        borderRadius:5,
-        padding:8
+        padding:8,
+        width:SCREEN_WIDTH - 32,
+        height:(SCREEN_WIDTH - 32) * 380 / 686 + 30,
+        borderRadius:8,
+        marginHorizontal:16
       },
     flowView:{
-        // width:'100%',
-        flex:1,
-        height:270,
-        // backgroundColor:Colors.white,
-        borderRadius:5,
-        // padding:8
+        padding:8,
+        width:SCREEN_WIDTH - 32,
+        height:(SCREEN_WIDTH - 32) * 380 / 686 + 30,
+        borderRadius:8,
+        marginHorizontal:16
     },
     flowView2:{
         // width:'100%',
@@ -159,8 +154,12 @@ export const styles = StyleSheet.create({
     typeItem:{
         width:'100%',
         height:180,
-        borderRadius:5,
+        justifyContent:'flex-end',
+        backgroundColor:'#fff',
+        borderTopLeftRadius:5,
+        borderTopRightRadius:5,
         overflow:'hidden',
+        alignItems:'flex-start'
     },
     typeItemDownBlur:{
       height:64,

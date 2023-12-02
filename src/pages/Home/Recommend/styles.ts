@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
     flowViewIcon:{
         height:180,
         borderRadius:8,
+        overflow:'hidden'
     },
     flowViewTitle:{
         fontSize:14,

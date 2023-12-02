@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
   downView:{
     width:310,
     height:450,
-    marginTop:60,
+    marginTop: Platform.OS === 'ios' ? NAVIGATION_HEIGHT : NAVIGATION_HEIGHT + STATUSBAR_HEIGHT,
     alignItems:'center',
     paddingVertical:55,
     justifyContent:'space-between'
@@ -58,6 +58,8 @@ export const styles = StyleSheet.create({
     width:140,
     height:140,
     backgroundColor:'#fff',
-    marginBottom:20
+    marginBottom:20,
+    justifyContent:'center',
+    alignItems:'center'
   }
 });

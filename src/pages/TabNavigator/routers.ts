@@ -22,6 +22,7 @@ import MyOrderScreen from '@/pages/Mine/MyOrder'
 import MyPostScreen from '@/pages/Mine/MyPost'
 import ChangeAvatarScreen from '@/pages/Mine/EditInfo/ChangeAvatar'
 import ChangeNameScreen from '@/pages/Mine/EditInfo/ChangeName'
+import TicketPlayScreen from '@/pages/Ticket/Play'
 
 
 
@@ -122,4 +123,9 @@ export const routers:any[] = [
       name:'ChangeName',
       component:ChangeNameScreen
     },
+    {
+      name:'TicketPlay',
+      component:TicketPlayScreen
+    },
 ]
+

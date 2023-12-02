@@ -147,7 +147,7 @@ function FocusOn({navigation,jumpTo}:any): JSX.Element {
       </View> : <View style={styles.loadMoreView}></View>}
       initialNumToRender={10}
       ItemSeparatorComponent={()=><View style={styles.speHeight}/>}
-      keyExtractor={(item, index) => 'key' + index}
+      keyExtractor={(item, index) => index + 'focuson' + item.article_id}
       getItemLayout={(data, index) => (
         {length: 414, offset: (414+10) * index, index}
       )}
@@ -182,9 +182,9 @@ function RenderItem({item,index,navigation,onShowMore}:any){
         />
         <Text style={styles.itemName} numberOfLines={1} ellipsizeMode='tail'>{item.author?.nickname}</Text>
       </View>
-      <TouchableOpacity style={styles.shareButton}>
+      {/* <TouchableOpacity style={styles.shareButton}>
         <Image style={styles.share} source={ShareIcon}/>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
     <SwiperView images={item.images}/>
     {/* <Text style={styles.itemTitle} numberOfLines={1} ellipsizeMode='tail'>标题</Text> */}

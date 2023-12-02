@@ -135,7 +135,7 @@ function Design({navigation,jumpTo}:any): JSX.Element {
         ListEmptyComponent={<View/>}
         ItemSeparatorComponent={()=><View style={styles.separator}/>}
         initialNumToRender={10}
-        keyExtractor={(item, index) => 'key' + index}
+        keyExtractor={(item, index) => index+'design' + item.cloth_id}
         onEndReached={() => {
           if (isCanLoadMore) {
             onEndReached();
@@ -169,7 +169,7 @@ function Banner({navigation}:any){
     <Carousel
     loop
     width={SCREEN_WIDTH - 32}
-    height={160}
+    height={180}
     autoPlay={true}
     data={bannerList}
     scrollAnimationDuration={3000}

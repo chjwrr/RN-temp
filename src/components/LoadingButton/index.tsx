@@ -13,7 +13,7 @@ function LoadingButton({
 }: {
   children: React.ReactNode,
   onPressIn:(event: GestureResponderEvent) => void,
-  style:any,
+  style?:any,
   isLoading:boolean,
   loadingWidth?:number
 }): JSX.Element {

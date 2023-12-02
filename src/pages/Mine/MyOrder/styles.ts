@@ -37,40 +37,29 @@ export const styles = StyleSheet.create({
     fontSize:16,
     color:Colors.navTitle
   },
-  value:{
-    fontSize:14,
-    color:Colors.light
-  },
-  scrollView:{
-    flex:1,
-    paddingHorizontal:16,
-    marginTop:NAVIGATION_HEIGHT,
-  },
-  itemView:{
-    borderBottomWidth:1,
-    borderBottomColor:'#CCCCCC',
-    height:60,
+  tabView:{
     flexDirection:'row',
     justifyContent:'space-between',
-    alignItems:'center'
+    height:34,
+    marginVertical:5,
+    marginTop: Platform.OS === 'ios' ? NAVIGATION_HEIGHT : NAVIGATION_HEIGHT + STATUSBAR_HEIGHT,
   },
-  arrow:{
-    width:16,
-    height:16,
-    marginLeft:8
+  tabButton:{
+      flex:1,
+      flexDirection:'row',
+      justifyContent:'center',
+      alignItems:'center',
   },
-  avatar:{
-    width:30,
-    height:30,
-    borderRadius:15
+  tabButtonBg:{
+      flexDirection:'row',
+      justifyContent:'center',
+      alignItems:'center',
+      width:75,
+      height:40
   },
-  name:{
-    flex:1,
-    fontSize:14,
-    color:Colors.light,
-    paddingTop:0,
-    paddingBottom:0,
-    height:'100%',
-    textAlign:'right'
+  tabButtonTitle:{
+      fontSize:14,
+      color:Colors.title,
+      fontWeight:'400'
   }
 });

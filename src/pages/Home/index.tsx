@@ -24,7 +24,6 @@ const AccountImage = require('@/assets/images/account.png')
 const SearchImage = require('@/assets/images/search.png')
 
 function Home({navigation}:any): JSX.Element {
-  console.log('homeeeee')
   const [searchValue,setSearchValue] = useState('')
 
   function onSearch(){

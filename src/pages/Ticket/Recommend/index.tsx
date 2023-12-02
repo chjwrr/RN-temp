@@ -46,52 +46,39 @@ const downBg = require('@/assets/images/ticketitembg.png')
 function Ticket({navigation,tabState,jumpTo,onBannerPress}:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [dataSource,setDataSource] = useState<any[]>([])
+  const [dataSource,setDataSource] = useState<any[]>([1,1,1,1,1,1,1,1])
   const isCanLoadMore = useRef(false)
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const userInfo = useUserInfo()
   const [proList,setProList] = useState<any[]>([])
 
-  function getProList(){
+  function getData(currenPage:number){
+    setLoading(true)
     HTTPS.post(PROJECT_RECOMMEND_LIST,{
       "token":userInfo.token,
-      "limit":20,
-      offset:0
+      "limit":PAGE_SIZE,
+      offset:currenPage * PAGE_SIZE
     }).then((result:any)=>{
-      setProList(result.project_recommend_list)
+      if (currenPage == 0){
+        setDataSource(result.project_recommend_list)
+      }else {
+        setDataSource([...dataSource,...result.project_recommend_list])
+      }
+      if (result.project_recommend_list.length < PAGE_SIZE){
+        setIsLoadEnd(true)
+      }else {
+        setIsLoadEnd(false)
+      }
+      setPage(currenPage)
     }).finally(()=>{
+      setRefreshing(false)
+      setLoading(false)
     })
   }
 
-  function getData(currenPage:number){
-    // setLoading(true)
-    // HTTPS.post(MASTER_LIST,{
-    //   "token":userInfo.token,
-    //   "limit":PAGE_SIZE,
-    //   offset:currenPage * PAGE_SIZE
-    // }).then((result:any)=>{
-    //   if (currenPage == 0){
-    //     setDataSource(result.master_list)
-    //     // setDataSource([{},{},{},{},{},{},{}])
-    //   }else {
-    //     setDataSource([...dataSource,...result.master_list])
-    //   }
-    //   if (result.master_list.length < PAGE_SIZE){
-    //     setIsLoadEnd(true)
-    //   }else {
-    //     setIsLoadEnd(false)
-    //   }
-    //   setPage(currenPage)
-    // }).finally(()=>{
-    //   setRefreshing(false)
-    //   setLoading(false)
-    // })
-  }
-
   useEffect(()=>{
-    getProList()
-    // getData(0)
+    getData(0)
   },[])
 
 
@@ -123,25 +110,17 @@ function Ticket({navigation,tabState,jumpTo,onBannerPress}:any): JSX.Element {
     }
 
   }
-  const [currentType,setCurrentType] = useState(0)
-  function onChangeType(index:any){
-    setCurrentType(index)
-  }
-  const focusList:any[] = [1,2,3,4,5,6,7,8,9,0]
+
 
   return (
     <View style={styles.mainView}>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={dataSource}
-        columnWrapperStyle={{justifyContent:'space-between'}}
-        numColumns={2}
         renderItem={({ item, index })=>{
           return item == 1 ? <FadeLoading
           style={[styles.flowLoadingView,{
-            marginVertical:2,
-            marginRight:index % 2 == 0 ? 2 : 0,
-            marginLeft:index % 2  == 0 ? 0 : 2,
+            marginVertical:4,
           }]}
           children={''}
           primaryColor={'#a6abe2'}
@@ -149,112 +128,56 @@ function Ticket({navigation,tabState,jumpTo,onBannerPress}:any): JSX.Element {
           duration={0}
           visible={true}
           animated={true}
-        />: <RemmenntRenderItem item={item} columnIndex={index} onPress={()=>{
-          navigation.navigate('BuyTicket',{
-            info:item
-          })
-        }}/>
+        />: <TouchableOpacity style={[styles.flowView,{
+          marginVertical:4,
+        }]} key={index+'tickbanner'} onPress={()=>{
+          onBannerPress(item)
+        }}>
+          <ExpoImage
+            style={styles.banner}
+            source={HTTPS.getImageUrl(item.image)}
+            placeholder={BLUR_HASH}
+            contentFit="cover"
+            transition={200}
+          />
+          <View style={styles.bannerTitleView}>
+            <Text style={styles.bannerTitle}>{item.name}</Text>
+          </View>
+        </TouchableOpacity>
         }}
-        style={{ flex: 1,paddingHorizontal:16 }}
+        style={{ flex: 1}}
         ListHeaderComponent={
           <View style={styles.contentView}>
             <TopCarousel navigation={navigation} jumpTo={jumpTo} tabState={tabState}/>
             <View style={styles.bannerView}>
               <Text style={styles.centerTitle}>来自票友推荐</Text>
-              {
-                proList.map((item:any,index:number)=>{
-                  return <TouchableOpacity key={index+'tickbanner'} onPress={()=>{
-                    onBannerPress(item)
-                  }}>
-                    <ExpoImage
-                      style={styles.banner}
-                      source={HTTPS.getImageUrl(item.image)}
-                      placeholder={BLUR_HASH}
-                      contentFit="cover"
-                      transition={200}
-                    />
-                    <View style={styles.bannerTitleView}>
-                      <Text style={styles.bannerTitle}>{item.name}</Text>
-                    </View>
-                  </TouchableOpacity>
-                })
-              }
             </View>
           </View>
         }
-        // ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
-        //   <Text style={styles.loadMoreTitle}>加载更多...</Text>
-        //   <ActivityIndicator size="small" color={Colors.main} />
-        // </View> : <View style={styles.loadMoreView}/>}
+        ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
+          <Text style={styles.loadMoreTitle}>加载更多...</Text>
+          <ActivityIndicator size="small" color={Colors.main} />
+        </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}
         initialNumToRender={10}
         onScroll={onScroll}
         keyExtractor={(item, index) => 'key' + index}
-        // onEndReached={() => {
-        //   if (isCanLoadMore) {
-        //     onEndReached();
-        //     isCanLoadMore.current = false;
-        //   }
-        // }}
+        onEndReached={() => {
+          if (isCanLoadMore) {
+            onEndReached();
+            isCanLoadMore.current = false;
+          }
+        }}
         onContentSizeChange={() => {
           isCanLoadMore.current = true;
         }}
-        // onEndReachedThreshold={0.01}
-        // refreshControl={
-        //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#fff']}/>
-        // }
+        onEndReachedThreshold={0.01}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#fff']}/>
+        }
       />
     </View>
   );
-}
-function RemmenntRenderItem({item,columnIndex,onPress}:any){
-  return <TouchableOpacity onPress={()=>onPress()} style={[styles.flowView,{
-    marginVertical:2,
-    marginRight:columnIndex == 0 ? 2 : 0,
-    marginLeft:columnIndex == 0 ? 0 : 2
-  }]}>
-    <View style={styles.typeItem}>
-    {/* <CachedImage
-      resizeMode='cover'
-      source={HTTPS.getImageUrl(item.image)}
-      style={styles.typeItem}
-      blurRadius={30}
-      loadingImageComponent={ImagePlaceholder}
-      /> */}
-      <ExpoImage
-        style={styles.typeItem}
-        source={HTTPS.getImageUrl(item.avatar)}
-        placeholder={BLUR_HASH}
-        contentFit="cover"
-        transition={200}
-      />
-      <ImageBackground source={limmitBg} style={styles.limmitbg}>
-        <Text style={styles.limmittitle}>限量:{item.total}份</Text>
-      </ImageBackground>
-    </View>
-    <View style={styles.typeItemDown}>
-      {/* <Image style={styles.typeItemDownbg} source={downBg} resizeMode='cover'/> */}
-      <LinearGradient colors={['rgba(64,14,179,0.6)', 'transparent']} style={styles.typeItemDownbg}/>
-
-      <View style={styles.flowViewSubView}>
-        <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.intro}</Text>
-        <TouchableOpacity style={styles.focusButton}>
-          <Image style={styles.flowFocus} source={focus_n}/>
-        </TouchableOpacity>
-      </View>
-      <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowNameid}>id:{item.ticket_id}</Text>
-      <View style={styles.flowViewSubView}>
-        <View style={{flexDirection:'row',alignItems:'center'}}>
-          <View style={styles.flowIcon}/>
-          <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>名字</Text>
-        </View>
-        <View style={{flexDirection:'row',alignItems:'center'}}>
-          <Text style={styles.moenyUni}>$</Text>
-          <Text style={styles.moeny}>{item.price}</Text>
-        </View>
-      </View>
-    </View>
-  </TouchableOpacity>
 }
 
 const centerItems:any[] = [

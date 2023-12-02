@@ -28,6 +28,7 @@ import { saveUserInfo, useUserInfo } from '@/redux/userInfo';
 import { savePicture } from '@/utils/common';
 import { useDispatch } from 'react-redux';
 import { CommonActions } from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -91,8 +92,10 @@ function RecommendDetail(props:any): JSX.Element {
             <Text style={styles.title}>分享APP</Text>
             <Image style={styles.arrow} source={arrowr}/>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.logoutButton} onPressIn={onLogout}>
-            <Text style={styles.logoutTitle}>退出登录</Text>
+          <TouchableOpacity onPressIn={onLogout}>
+            <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.logoutButton}>
+              <Text style={styles.logoutTitle}>退出登录</Text>
+            </LinearGradient>
           </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>

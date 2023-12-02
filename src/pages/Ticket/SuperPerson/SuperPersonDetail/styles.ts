@@ -70,8 +70,8 @@ export const styles = StyleSheet.create({
     },
     scrollView:{
         flex:1,
-        marginBottom:12
-        // width:SCREEN_WIDTH - 32,
+        marginBottom:12,
+        width:SCREEN_WIDTH - 32,
     },
     topView:{
         marginLeft:14,

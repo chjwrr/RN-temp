@@ -26,6 +26,7 @@ import { Image as ExpoImage } from 'expo-image';
 import { MERCHANT_CLOTH_DETAIL, MERCHANT_FOLLOW, MERCHANT_UNFOLLOW,  MERCHANT_CLOTH_UNCOLLECT , MERCHANT_CLOTH_COLLECT } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import { savePicture } from '@/utils/common';
+import {QRCode, Canvas} from 'easyqrcode-react-native';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -40,6 +41,26 @@ function RecommendDetail(props:any): JSX.Element {
   function onBack(){
     props.navigation.goBack()
   }
+  function onShare(){
+
+  }
+  const generateQRCode = (canvas:any) => {
+    if (canvas !== null){
+        var options = {
+            text: userInfo.uid,
+            width: 140,
+            height: 140,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H, // L, M, Q, H
+            logo: HTTPS.getImageUrl(userInfo.avatar),  //  support: Static Image Resources, Network Images, Base64 Uri Data Images
+            logoWidth: 50, // fixed logo width. default is `width/3.5`
+            logoHeight: 50, // fixed logo height. default is `heigth/3.5`
+            
+      };
+      var qrCode = new QRCode(canvas, options);
+    }
+  }
 
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
@@ -52,7 +73,7 @@ function RecommendDetail(props:any): JSX.Element {
           <View style={styles.titleView}>
             <Text style={styles.title}>邀请好友</Text>
           </View>
-          <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onBack}>
+          <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
             <Image style={styles.backIcon} source={share}/>
           </TouchableOpacity>
         </View>
@@ -60,7 +81,9 @@ function RecommendDetail(props:any): JSX.Element {
           <ImageBackground style={styles.downView} source={downbg}>
             <Text style={styles.downTitle}>我的邀请码</Text>
             <View style={{alignItems:'center'}}>
-              <View style={styles.code}/>
+              <View style={styles.code}>
+                <Canvas ref={generateQRCode}/>
+              </View>
               <Text style={styles.downDes}>扫码下载我们的APP</Text>
             </View>
           </ImageBackground>

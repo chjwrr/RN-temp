@@ -142,9 +142,7 @@ export const styles = StyleSheet.create({
         width:'100%',
         height:512,
         justifyContent:'flex-end',
-        backgroundColor:'#fff',
-        borderTopLeftRadius:5,
-        borderTopRightRadius:5,
+        borderRadius:5,
         overflow:'hidden',
         alignItems:'flex-start'
     },
@@ -204,7 +202,6 @@ export const styles = StyleSheet.create({
         height:34,
         marginRight:8,
         borderRadius:17,
-        backgroundColor:'blue',
     },
     flowName:{
         fontSize:10,
@@ -237,7 +234,6 @@ export const styles = StyleSheet.create({
     focusAvtar:{
         width:44,
         height:44,
-        backgroundColor:'blue',
         borderRadius:22
     },
     focusTipView:{

@@ -1,4 +1,4 @@
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
+import { BOTTOM_SPACE_HEIGHT, SCREEN_HEIGHT, SCREEN_WIDTH } from '@/utils';
 import Colors from '@/utils/colors';
 import {
     StyleSheet,
@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
     },
     downView:{
         alignItems:'center',
-        // paddingBottom:10
+        paddingBottom:BOTTOM_SPACE_HEIGHT
     },
     agreeView:{
         flexDirection:'row',

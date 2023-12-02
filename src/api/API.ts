@@ -121,7 +121,7 @@ export const SHOPPING_CART_ADD = 'shopping_cart_add'
 //移除购物车商品
 export const SHOPPING_CART_DEL = 'shopping_cart_del'
 
-//我的订单列表（分页）
+//我的订单列表（分页） (status 0-待支付 1-已完成 2-已取消，不传status时返回所有订单)
 export const MY_ORDER_LIST = 'my_order_list'
 
 //读订单详情
@@ -222,4 +222,22 @@ export const MY_ARTICLE_COLLECT_LIST = 'my_article_collect_list'
 
 // 项目详情
 export const PROJECT_DETAIL = 'project_detail'
+
+// 游戏banner
+export const GAME_BANNER = 'game_banner'
+
+// 游戏推荐
+export const GAME_RECOMMEND_LIST = 'game_recommend_list'
+
+// 游戏详情
+export const GAME_DETAIL = 'game_detail'
+
+// 游戏取消收藏
+export const GAME_UNCOLLECT = 'game_uncollect'
+
+// 游戏收藏
+export const GAME_COLLECT = 'game_collect'
+
+// 我关注的达人的项目列表（分页）
+export const MY_FOLLOWING_MASTER_PROJECT_LIST = 'my_following_masters_project_list'
 

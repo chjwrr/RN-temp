@@ -118,18 +118,17 @@ function Ticket(props:any): JSX.Element {
 
   }
   function onShare(){
-    const url = 'https://awesome.contents.com/';
-    const title = 'Awesome Contents';
-    const message = 'Please check this out.';
-    const icon = 'data:<data_type>/<file_extension>;base64,<base64_data>';
-    const options = Platform.select({
-      default: {
-        title,
-        subject: title,
-        message: `${message} ${url}`,
-      },
-    });
-    Share.open(options);
+    // const url = HTTPS.getImageUrl(projectDetail.image)
+    // const title = 'Cverselink';
+    // const message = '';
+    // const options = Platform.select({
+    //   default: {
+    //     title,
+    //     subject: title,
+    //     message: `${message} ${url}`,
+    //   },
+    // });
+    // Share.open(options);
   }
   return (
     <View style={styles.main}>
@@ -149,9 +148,9 @@ function Ticket(props:any): JSX.Element {
           {/* <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onCollect}>
             <Image style={styles.collectIcon} source={CollectIcon}/>
           </TouchableOpacity> */}
-          <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
+          {/* <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
             <Image style={styles.backIcon} source={shareIcon}/>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </Animated.View>
       <ScrollView style={styles.scrollView}
@@ -162,7 +161,7 @@ function Ticket(props:any): JSX.Element {
         ],{
           useNativeDriver:false
         })}>
-        <TopInfo masterInfo={masterInfo}/>
+        <TopInfo masterInfo={masterInfo} onFocusChange={props.route.params.onFocusChange}/>
         <View style={styles.line}/>
         <Text style={styles.title}>系列作品</Text>
         {
@@ -222,7 +221,7 @@ function Ticket(props:any): JSX.Element {
     </View>
   );
 }
-function TopInfo({masterInfo}:any){
+function TopInfo({masterInfo,onFocusChange}:any){
   const [isFocus,setIsFocus] = useState(false)
   const userInfo = useUserInfo()
   useEffect(()=>{
@@ -234,6 +233,7 @@ function TopInfo({masterInfo}:any){
       master_id:masterInfo.master_id
     }).then((result:any)=>{
       setIsFocus(!isFocus)
+      onFocusChange && onFocusChange(!isFocus)
     }).finally(()=>{
     })
   }

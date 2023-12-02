@@ -6,7 +6,7 @@ import {
 export const styles = StyleSheet.create({
     swiperView:{
         width:'100%',
-        height:160,
+        height:180,
         borderRadius:8,
     },
     flowView:{
@@ -15,7 +15,6 @@ export const styles = StyleSheet.create({
         borderRadius:5,
         padding:8,
         overflow:'hidden',
-
     },
     itemImage:{
       position:'absolute',

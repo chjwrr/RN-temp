@@ -47,6 +47,8 @@ export const STATUSBAR_SAFE_AREA_HEIGHT = Platform.OS === 'ios' ?10:StatusBar.cu
 export const NAVIGATION_HEIGHT =  Platform.OS === 'ios' ?44:48
 export const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window')
 export const BOTTOM_HEIGHT =  Platform.OS === 'ios' ?(isIPhoneX?34:0):0
+export const BOTTOM_SPACE_HEIGHT =  Platform.OS === 'ios' ?(isIPhoneX?0:16):16
+
 export const TABBAR_HEIGHT = 49
 
 export const CODE_COUNTDOWN_TIME = 60
