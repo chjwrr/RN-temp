@@ -241,3 +241,15 @@ export const GAME_COLLECT = 'game_collect'
 // 我关注的达人的项目列表（分页）
 export const MY_FOLLOWING_MASTER_PROJECT_LIST = 'my_following_masters_project_list'
 
+// 我关注的达人的票列表（分页）
+export const MY_FOLLOWING_MASTER_TICKET_LIST = 'my_following_masters_ticket_list'
+
+// 票儿--玩圈
+export const TICKET_CIRCLE = 'ticket_circle'
+
+// 票儿--玩圈
+export const SEND_MESSAGE_TO_MASTER = 'send_message_to_master'
+
+// 消息中心
+export const MY_MESSAGE_CENTER = 'my_message_center'
+

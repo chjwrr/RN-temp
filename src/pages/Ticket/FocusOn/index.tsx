@@ -26,7 +26,7 @@ import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
-import { MY_FOLLOWING_MASTERS,MY_FOLLOWING_MASTER_PROJECT_LIST } from '@/api/API';
+import { MY_FOLLOWING_MASTERS,MY_FOLLOWING_MASTER_TICKET_LIST } from '@/api/API';
 
 const centerBg = require('@/assets/images/ticket_downbg.png')
 const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
@@ -84,17 +84,17 @@ function Ticket({navigation}:any): JSX.Element {
   }
   function getData(currenPage:number){
     setLoading(true)
-    HTTPS.post(MY_FOLLOWING_MASTER_PROJECT_LIST,{
+    HTTPS.post(MY_FOLLOWING_MASTER_TICKET_LIST,{
       "token":userInfo.token,
       "limit":PAGE_SIZE,
       offset:currenPage * PAGE_SIZE
     }).then((result:any)=>{
       if (currenPage == 0){
-        setDataSource(result.my_following_masters_project_list)
+        setDataSource(result.my_following_masters_ticket_list)
       }else {
-        setDataSource([...dataSource,...result.my_following_masters_project_list])
+        setDataSource([...dataSource,...result.my_following_masters_ticket_list])
       }
-      if (result.my_following_masters_project_list.length < PAGE_SIZE){
+      if (result.my_following_masters_ticket_list.length < PAGE_SIZE){
         setIsLoadEnd(true)
       }else {
         setIsLoadEnd(false)
@@ -148,13 +148,9 @@ function Ticket({navigation}:any): JSX.Element {
           visible={true}
           animated={true}
         />: <RemmenntRenderItem item={item} onPress={()=>{
-          // navigation.navigate('TicketBannerDetailList',{
-          //   project_id:item.project_id,
-          //   image:item.image,
-          //   avatar:item.master?.avatar,
-          //   pro_name:item.name,
-          //   name:item.master?.name
-          // })
+          navigation.navigate('TicketDetail',{
+            info:item,
+          })
         }}/>
         }}
         style={{ flex: 1 }}

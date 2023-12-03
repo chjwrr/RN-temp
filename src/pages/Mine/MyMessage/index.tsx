@@ -1,7 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  TouchableOpacity,
   View,
   ActivityIndicator,
   ScrollView,
@@ -26,12 +25,12 @@ import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
-import { TICKET_CIRCLE } from '@/api/API';
+import { MY_MESSAGE_CENTER } from '@/api/API';
 import { formatTime } from '@/utils/common';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const ticket_msg_bg = require('@/assets/images/ticket_msg_bg.png')
-const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
-const ticket_pro_ban_2 = require('@/assets/images/ticket_pro_ban_1.png')
+const BGImage = require('@/assets/images/homebg.png')
+const BackIcon = require('@/assets/images/back_b.png')
 
 function Ticket({navigation}:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(true);
@@ -43,32 +42,63 @@ function Ticket({navigation}:any): JSX.Element {
   const userInfo = useUserInfo()
 
   useEffect(()=>{
-    getData()
+    getData(0)
   },[])
 
-  function getData(){
+  function getData(currentPage:number){
     setLoading(true)
-    HTTPS.post(TICKET_CIRCLE,{
+    HTTPS.post(MY_MESSAGE_CENTER,{
       "token":userInfo.token,
+      "limit":PAGE_SIZE,
+      offset:currentPage * PAGE_SIZE
     }).then((result:any)=>{
-      setDataSource(result.ticket_circle)
+      if (currentPage == 0){
+        setDataSource(result.my_message_center)
+      }else {
+        setDataSource([...dataSource,...result.my_message_center])
+      }
+      if (result.my_message_center.length < PAGE_SIZE){
+        setIsLoadEnd(true)
+      }else {
+        setIsLoadEnd(false)
+      }
+      setPage(currentPage)
     }).finally(()=>{
-      setLoading(false)
       setRefreshing(false)
+      setLoading(false)
     })
   }
-
+ 
   function onRefresh(){
     if (loading || refreshing){
       return
     }
     console.log('onRefresh')
     setRefreshing(true);
-    getData()
+    getData(0)
   }
 
+  function onEndReached(){
+    if (loading || refreshing || isLoadEnd || !isCanLoadMore.current){
+      return
+    }
+    console.log('loading more')
+    getData(page + 1)
+  }
+  function onBack(){
+    navigation.goBack()
+  }
   return (
-    <ImageBackground style={styles.mainView} source={ticket_msg_bg}>
+    <ImageBackground source={BGImage} resizeMode="cover" style={styles.mainView}>
+      <View style={[styles.navigationView,{
+      }]}>
+        <TouchableOpacity style={styles.backButton} onPressIn={onBack}>
+          <Image style={styles.backIcon} source={BackIcon}/>
+        </TouchableOpacity>
+        <View style={styles.titleView}>
+          <Text style={styles.title}>消息中心</Text>
+        </View>
+      </View>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={dataSource}
@@ -85,29 +115,29 @@ function Ticket({navigation}:any): JSX.Element {
           visible={true}
           animated={true}
         />: <RemmenntRenderItem item={item} onPress={()=>{
-          navigation.navigate('PrivateMessage',{
-            info:item
+          navigation.navigate('SendMessage',{
+            info:item.master
           })
         }}/>
         }}
         style={styles.flatList}
-        // ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
-        //   <Text style={styles.loadMoreTitle}>加载更多...</Text>
-        //   <ActivityIndicator size="small" color={Colors.main} />
-        // </View> : <View style={styles.loadMoreView}/>}
+        ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
+          <Text style={styles.loadMoreTitle}>加载更多...</Text>
+          <ActivityIndicator size="small" color={Colors.main} />
+        </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}
         initialNumToRender={10}
         keyExtractor={(item, index) => 'keyPlay' + index}
-        // onEndReached={() => {
-        //   if (isCanLoadMore) {
-        //     onEndReached();
-        //     isCanLoadMore.current = false;
-        //   }
-        // }}
-        // onContentSizeChange={() => {
-        //   isCanLoadMore.current = true;
-        // }}
-        // onEndReachedThreshold={0.01}
+        onEndReached={() => {
+          if (isCanLoadMore) {
+            onEndReached();
+            isCanLoadMore.current = false;
+          }
+        }}
+        onContentSizeChange={() => {
+          isCanLoadMore.current = true;
+        }}
+        onEndReachedThreshold={0.01}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#fff']}/>
         }
@@ -124,17 +154,17 @@ function RemmenntRenderItem({item,onPress}:any){
        <View style={{flexDirection:'row',flex:1}}>
           <ExpoImage
             style={styles.avatar}
-            source={HTTPS.getImageUrl(item.ticket.image)}
+            source={HTTPS.getImageUrl(item.master.avatar)}
             placeholder={BLUR_HASH}
             contentFit="cover"
             transition={200}
           />
           <View style={{flex:1}}>
-            <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>{item.ticket.name}</Text>
-            <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowNameid}>{item.last_comment.author.nickname}:{item.last_comment.content}</Text>
+            <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>{item.master.name}</Text>
+            <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowNameid}>{item.last_message.content}</Text>
           </View>
        </View>
-       <Text style={styles.flowNameid}>{formatTime(item.last_comment.created_at)}</Text>
+       <Text style={styles.flowNameid}>{formatTime(item.last_message.created_at)}</Text>
 
     </View>
   </TouchableOpacity>

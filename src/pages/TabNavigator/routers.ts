@@ -23,7 +23,10 @@ import MyPostScreen from '@/pages/Mine/MyPost'
 import ChangeAvatarScreen from '@/pages/Mine/EditInfo/ChangeAvatar'
 import ChangeNameScreen from '@/pages/Mine/EditInfo/ChangeName'
 import TicketPlayScreen from '@/pages/Ticket/Play'
-
+import TicketDetailScreen from '@/pages/Ticket/FocusOn/TicketDetail'
+import PrivateMessageScreen from '@/pages/Ticket/Play/PrivateMessage'
+import SendMessageScreen from '@/pages/Ticket/SuperPerson/SendMessage'
+import MyMessageCenterScreen from '@/pages/Mine/MyMessage'
 
 
 export const routers:any[] = [
@@ -126,6 +129,22 @@ export const routers:any[] = [
     {
       name:'TicketPlay',
       component:TicketPlayScreen
+    },
+    {
+      name:'TicketDetail',
+      component:TicketDetailScreen
+    },
+    {
+      name:'PrivateMessage',
+      component:PrivateMessageScreen
+    },
+    {
+      name:'SendMessage',
+      component:SendMessageScreen
+    },
+    {
+      name:'MyMessageCenter',
+      component:MyMessageCenterScreen
     },
 ]
 

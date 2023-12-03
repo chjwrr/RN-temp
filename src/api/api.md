@@ -1,5 +1,4 @@
- 
- 
+
 article_collect(req)
 收藏
 params: {"token": "token", "article_id": "article_id"}
@@ -233,6 +232,10 @@ my_following_masters_project_list(req)
 我关注的达人的项目列表（分页）
 params: {"token": "token", "limit": 100, "offset": 0}
 return: {'project_recommend_list': [{'project_id': 1, 'name': '项目名称0', 'image': 'e5df9161-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '项目简介0', 'created_at': 1700748733467, 'master': {'master_id': 'bcedd63f179848a8bdc4ab4126b8119d', 'name': '达人0', 'avatar': 'ef203694-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '达人简介0', 'address': '北京市海淀区中关村0号', 'birthday': '1990-01-01', 'is_follow': False, 'created_at': 1700723076574}}...], 'code': 0}
+my_following_masters_ticket_list(req)
+我关注的达人的票列表（分页）(商品，未出售)
+params: {"token": "token", "limit": 100, "offset": 0}
+return: {'my_following_masters_ticket_list': [{'ticket_id': 1991, 'project_id': 1, 'name': '票名称0', 'image': 'eb917056-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '票简介0', 'price': 1999, 'created_at': 1701360073084, 'master': {'master_id': '735ccc4379a74607a17a48e3eea72227', 'name': '达人0', 'avatar': 'e35d9e3e-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '达人简介0', 'address': '北京市海淀区中关村0号', 'birthday': '1990-01-01', 'created_at': 1701360073015}}...], 'code': 0}
 my_following_merchants(req)
 我关注的商家
 params: {"token": "token"}
@@ -244,7 +247,11 @@ return: {'my_following_users': [{'uid': '0abea4cf4db842a2aef6fbcdcce08e92', 
 my_message(req)
 读私信列表 （分页）
 params: {"token": "token", "to_id": "to_id", "limit": 100, "offset": 0}
-return: {"my_message": [{"message_id": "message_id", "from_id": "from_id", "to_id": "to_id", "content": "content", "created_at": ts}, ...]}
+return: {"my_message": [{"message_id": "message_id", "from_id": "from_id", "to_id": "to_id", "content": "content", "created_at": ts}, ...], 'other_side': {'master_id': '37d220c44a3044cb8afa497f13534094', 'name': '达人9', 'avatar': 'e986c93c-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '达人简介9', 'address': '北京市海淀区中关村9号', 'birthday': '1990-01-01', 'created_at': 1701360073015}, 'code': 0}
+my_message_center(req)
+读消息中心 （分页） 私信的会话列表，目前只有达人，包含最后一条私信内容
+params: {"token": "token"}
+return: {'my_message_center': [{'type': 'master', 'master_id': '37d220c44a3044cb8afa497f13534094', 'master': {'master_id': '37d220c44a3044cb8afa497f13534094', 'name': '达人9', 'avatar': 'e986c93c-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '达人简介9', 'address': '北京市海淀区中关村9号', 'birthday': '1990-01-01', 'created_at': 1701360073015}, 'last_message': {'message_id': 18, 'from_id': '2077e0e6861e49d1a356d83ad4d0c01b', 'to_id': '37d220c44a3044cb8afa497f13534094', 'content': 'test_message', 'created_at': 1701531522145}}...]}
 my_order_list(req)
 我的订单列表（分页） (status 0-待支付 1-已完成 2-已取消，不传status时返回所有订单)
 params: {"token": "token", "status": 0, "limit": 100, "offset": 0}
@@ -327,6 +334,22 @@ ticket_banner(req)
 读票儿banner
 params: {"token": "token"}
 return: {"ticket_banner": [{"banner_id": "banner_id", "image": "image", "url": "url"}, ...]}
+ticket_circle(req)
+票儿--玩圈
+params: {"token": "token"}
+return: {'ticket_circle': [{'ticket': {'ticket_id': 1, 'name': '票名称0', 'image': 'f2bf36d9-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '票简介0', 'created_at': 1701360073049}, 'last_comment': {'comment_id': 63, 'content': 'test_ticket_comment', 'created_at': 1701534552545, 'author': {'uid': '2077e0e6861e49d1a356d83ad4d0c01b', 'nickname': 'test', 'avatar': 'image_id', 'gender': 1, 'country': '86', 'province': '广东省', 'city': '深圳市', 'birthday': 1701520064861, 'score': 0, 'level': 1, 'exp': 0, 'intro': 'test_intro', 'created_at': 1701360089597}}}], 'code': 0}
+ticket_comment_del(req)
+票评论删除
+params: {"token": "token", "ticket_comment_id_list": ["ticket_comment_id1", "ticket_comment_id2", ...]}
+return: {}
+ticket_comment_list(req)
+读票评论列表（分页）
+params: {"token": "token", "ticket_id": "ticket_id", "limit": 100, "offset": 0}
+return: {"ticket_comment_list": [{"ticket_comment_id": "ticket_comment_id", "uid": "uid", "content": "content", "created_at": ts}, ...]}
+ticket_comment_publish(req)
+写票评论
+params: {"token": "token", "ticket_id": "ticket_id", "content": "content"}
+return: {}
 ticket_detail(req)
 读票详情
 params: {"token": "token", "ticket_id": "ticket_id"}

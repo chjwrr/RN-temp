@@ -7,7 +7,6 @@ import {
 export const styles = StyleSheet.create({
     mainView:{
         flex:1,
-        backgroundColor:Colors.black,
         paddingHorizontal:16
     },
     topbg:{
@@ -62,11 +61,11 @@ export const styles = StyleSheet.create({
     },
     bannerTitle:{
         fontSize:14,
-        color:Colors.white
+        color:Colors.title
     },
     bannerTitleDes:{
         fontSize:12,
-        color:Colors.white
+        color:Colors.title
     },
     pointView:{
         flexDirection:'row',
@@ -101,14 +100,31 @@ export const styles = StyleSheet.create({
         width:'100%',
         height:NAVIGATION_HEIGHT + STATUSBAR_HEIGHT,
         flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'center',
-        paddingTop:STATUSBAR_HEIGHT,
-        position:'absolute',
-        zIndex:10,
+        // top:STATUSBAR_HEIGHT,
         top:0,
-        backgroundColor:Colors.black
-    },
+        paddingTop:STATUSBAR_HEIGHT,
+        paddingHorizontal:16,
+        position:'absolute',
+        zIndex:100,
+        alignItems:'center'
+      },
+      backButton:{
+        width:NAVIGATION_HEIGHT,
+        height:NAVIGATION_HEIGHT,
+        justifyContent:'center'
+      },
+      backIcon:{
+        width:16,
+        height:16
+      },
+      titleView:{
+        width:SCREEN_WIDTH - NAVIGATION_HEIGHT - NAVIGATION_HEIGHT,
+        alignItems:'center'
+      },
+      title:{
+        fontSize:16,
+        color:Colors.navTitle
+      },
     tabButton:{
         flex:1,
         flexDirection:'row',
@@ -179,7 +195,7 @@ export const styles = StyleSheet.create({
     },
     flowViewTitle:{
         fontSize:14,
-        color:Colors.white,
+        color:Colors.title,
         width:'60%',
     },
     flowViewSubView:{
@@ -196,7 +212,7 @@ export const styles = StyleSheet.create({
     },
     flowName:{
         fontSize:16,
-        color:Colors.white,
+        color:Colors.title,
         width:'80%',
         lineHeight:22
     },
@@ -240,7 +256,7 @@ export const styles = StyleSheet.create({
     },
     focusName:{
         fontSize:12,
-        color:Colors.white,
+        color:Colors.title,
     },
     scrollView:{
         width:'100%',
@@ -248,12 +264,12 @@ export const styles = StyleSheet.create({
     },
     moenyUni:{
       fontSize:16,
-      color:Colors.white,
+      color:Colors.title,
       marginRight:5
     },
     moeny:{
       fontSize:20,
-      color:Colors.white,
+      color:Colors.title,
     },
     limmitbg:{
       width:81,
@@ -266,7 +282,7 @@ export const styles = StyleSheet.create({
     },
     limmittitle:{
       fontSize:10,
-      color:Colors.white,
+      color:Colors.title,
     },
     flatList:{
         marginTop:STATUSBAR_HEIGHT + NAVIGATION_HEIGHT + 10,
@@ -281,7 +297,7 @@ export const styles = StyleSheet.create({
     },
     unReadText:{
         fontSize:12,
-        color:Colors.white
+        color:Colors.title
     }
 });
 

@@ -59,7 +59,9 @@ function Mine(props:any): JSX.Element {
   function onMyPost(){
     props.navigation.navigate('MyPost')
   }
-  
+  function onMessageCenter(){
+    props.navigation.navigate('MyMessageCenter')
+  }
 
   console.log('user====',userInfo)
   return (
@@ -136,7 +138,7 @@ function Mine(props:any): JSX.Element {
             <Image style={styles.orderIcon} source={mineitem}/>
             <Text style={styles.ovdername}>我的笔记</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{alignItems:'center'}}>
+          <TouchableOpacity style={{alignItems:'center'}} onPressIn={onMessageCenter}>
             <Image style={styles.orderIcon} source={mineitem}/>
             <Text style={styles.ovdername}>消息中心</Text>
           </TouchableOpacity>

@@ -161,7 +161,7 @@ function Ticket(props:any): JSX.Element {
         ],{
           useNativeDriver:false
         })}>
-        <TopInfo masterInfo={masterInfo} onFocusChange={props.route.params.onFocusChange}/>
+        <TopInfo navigation={props.navigation} masterInfo={masterInfo} onFocusChange={props.route.params.onFocusChange}/>
         <View style={styles.line}/>
         <Text style={styles.title}>系列作品</Text>
         {
@@ -221,7 +221,7 @@ function Ticket(props:any): JSX.Element {
     </View>
   );
 }
-function TopInfo({masterInfo,onFocusChange}:any){
+function TopInfo({masterInfo,onFocusChange,navigation}:any){
   const [isFocus,setIsFocus] = useState(false)
   const userInfo = useUserInfo()
   useEffect(()=>{
@@ -279,7 +279,12 @@ function TopInfo({masterInfo,onFocusChange}:any){
             <Text style={styles.numberdestitle}>{isFocus ? '取消关注' : '添加关注'}</Text>
           </LinearGradient>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPressIn={()=>{
+          navigation.navigate('SendMessage',{
+            info:masterInfo,
+            isDark:true
+          })
+        }}>
           <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearVienumw}>
             <Text style={styles.numberdestitle}>发消息</Text>
           </LinearGradient>
