@@ -567,6 +567,8 @@ PODS:
     - ZIPFoundation (= 0.9.11)
   - RNCAsyncStorage (1.19.5):
     - React-Core
+  - RNCPicker (2.6.1):
+    - React-Core
   - RNGestureHandler (2.13.4):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
@@ -708,6 +710,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeFileAccess (from `../node_modules/react-native-file-access`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -863,6 +866,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-file-access"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCPicker:
+    :path: "../node_modules/@react-native-picker/picker"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNLinearGradient:
@@ -954,6 +959,7 @@ SPEC CHECKSUMS:
   ReactCommon: 91ece8350ebb3dd2be9cef662abd78b6948233c0
   ReactNativeFileAccess: 4530e3be4d5069454c6c6389096d8cb78c897f2c
   RNCAsyncStorage: f2974eca860c16a3e56eea5771fda8d12e2d2057
+  RNCPicker: b18aaf30df596e9b1738e7c1f9ee55402a229dca
   RNGestureHandler: 6e46dde1f87e5f018a54fe5d40cd0e0b942b49ee
   RNLinearGradient: 03fc377e5f7a1483a33a0642bb523ae4cf102211
   RNReanimated: ab2e96c6d5591c3dfbb38a464f54c8d17fb34a87
@@ -970,4 +976,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: cd3420e25ae58c3d7a7c47c47d9a6571f0396063
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.13.0

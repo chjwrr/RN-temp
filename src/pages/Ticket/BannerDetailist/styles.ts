@@ -158,18 +158,18 @@ export const styles = StyleSheet.create({
     flowLoadingView:{
         height:270,
         borderRadius:5,
-        width:SCREEN_WIDTH - 32,
+        width:(SCREEN_WIDTH - 32 - 2) / 2,
         marginVertical:4
       },
     flowView:{
         height:270,
         borderRadius:5,
-        width:SCREEN_WIDTH - 32,
+        width:(SCREEN_WIDTH - 32 - 2) / 2,
         marginVertical:4,
         backgroundColor:Colors.black
     },
     typeItem:{
-        width:SCREEN_WIDTH - 32,
+        width:(SCREEN_WIDTH - 32 - 2) / 2,
         height:180,
         justifyContent:'flex-end',
         backgroundColor:'#fff',
@@ -186,7 +186,7 @@ export const styles = StyleSheet.create({
   },
   typeItemDown2:{
     height:64,
-    width:SCREEN_WIDTH - 32,
+    width:(SCREEN_WIDTH - 32 - 2) / 2,
     paddingHorizontal:10,
     justifyContent:'center',
     zIndex:2,
@@ -206,7 +206,7 @@ export const styles = StyleSheet.create({
       top:0,
       bottom:0,
       left:0,
-      width:SCREEN_WIDTH - 32,
+      width:(SCREEN_WIDTH - 32 - 2) / 2
     },
     loadMoreView:{
         flexDirection:'row',

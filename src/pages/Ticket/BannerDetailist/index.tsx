@@ -160,9 +160,14 @@ function Ticket(props:any): JSX.Element {
       <FlatList
         showsVerticalScrollIndicator={false}
         data={dataSource}
+        columnWrapperStyle={{justifyContent:'space-between'}}
+        numColumns={2}
         renderItem={({ item, index })=>{
           return item == 1 ? <FadeLoading
           style={[styles.flowLoadingView,{
+            marginVertical:2,
+            marginRight:index % 2 == 0 ? 2 : 0,
+            marginLeft:index % 2 == 0 ? 0 : 2,
           }]}
           children={''}
           primaryColor={'#a6abe2'}
@@ -225,6 +230,9 @@ function RemmenntRenderItem({item,columnIndex,name,avatar,navigation}:any){
     })
   }
   return <TouchableOpacity onPress={()=>onPress(columnIndex)} style={[styles.flowView,{
+    marginVertical:2,
+    marginRight:columnIndex % 2 == 0 ? 2 : 0,
+    marginLeft:columnIndex % 2 == 0 ? 0 : 2,
   }]}>
     <View style={styles.typeItem}>
       <ExpoImage
@@ -242,7 +250,7 @@ function RemmenntRenderItem({item,columnIndex,name,avatar,navigation}:any){
       {/* <Image style={styles.typeItemDownbg} source={downBg} resizeMode='cover'/> */}
       <LinearGradient colors={['rgba(64,14,179,0.6)', 'transparent']} style={styles.typeItemDownbg}/>
       <View style={styles.flowViewSubView}>
-        <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.intro}</Text>
+        <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.name}</Text>
         {/* <TouchableOpacity style={styles.focusButton}>
           <Image style={styles.flowFocus} source={focus_n}/>
         </TouchableOpacity> */}

@@ -27,6 +27,8 @@ import TicketDetailScreen from '@/pages/Ticket/FocusOn/TicketDetail'
 import PrivateMessageScreen from '@/pages/Ticket/Play/PrivateMessage'
 import SendMessageScreen from '@/pages/Ticket/SuperPerson/SendMessage'
 import MyMessageCenterScreen from '@/pages/Mine/MyMessage'
+import UserIntroScreen from '@/pages/Mine/EditInfo/UserIntro'
+import UserAddressScreen from '@/pages/Mine/EditInfo/UserAddress'
 
 
 export const routers:any[] = [
@@ -145,6 +147,14 @@ export const routers:any[] = [
     {
       name:'MyMessageCenter',
       component:MyMessageCenterScreen
+    },
+    {
+      name:'UserIntro',
+      component:UserIntroScreen
+    },
+    {
+      name:'UserAddress',
+      component:UserAddressScreen
     },
 ]
 

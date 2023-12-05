@@ -51,6 +51,13 @@ function RecommendDetail(props:any): JSX.Element {
   function onChangeName(){
     props.navigation.navigate('ChangeName')
   }
+  function onUserIntro(){
+    props.navigation.navigate('UserIntro')
+  }
+  function onUserAddress(){
+    props.navigation.navigate('UserAddress')
+  }
+  
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -95,10 +102,10 @@ function RecommendDetail(props:any): JSX.Element {
               <Image style={styles.arrow} source={arrowr}/>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.itemView}>
+          <TouchableOpacity style={styles.itemView} onPressIn={onUserAddress}>
             <Text style={styles.title}>现居</Text>
             <View style={{flexDirection:'row',alignItems:'center'}}>
-              <Text style={styles.value}>请选择</Text>
+              <Text style={styles.value}>{userInfo.province} {userInfo.city}</Text>
               <Image style={styles.arrow} source={arrowr}/>
             </View>
           </TouchableOpacity>
@@ -109,10 +116,10 @@ function RecommendDetail(props:any): JSX.Element {
               <Image style={styles.arrow} source={arrowr}/>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.itemView}>
+          <TouchableOpacity style={styles.itemView} onPressIn={onUserIntro}>
             <Text style={styles.title}>签名</Text>
             <View style={{flexDirection:'row',alignItems:'center'}}>
-              <Text style={styles.value}>请选择</Text>
+              <Text style={styles.value}>{userInfo.intro}</Text>
               <Image style={styles.arrow} source={arrowr}/>
             </View>
           </TouchableOpacity>

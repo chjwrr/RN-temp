@@ -81,12 +81,11 @@ export const styles = StyleSheet.create({
         width:SCREEN_WIDTH - 32
     },
     topItemSub:{
-        flex:1,
         borderRadius:8,
-        backgroundColor:'blue',
         height:54,
         justifyContent:'center',
         alignItems:'center',
+        width:(SCREEN_WIDTH - 32 - 24 - 16) / 3
     },
     topItemSubSpa:{
         marginHorizontal:12

@@ -7,6 +7,7 @@ import {
   Image,
   ActivityIndicator,
   FlatList,
+  ImageBackground,
 } from 'react-native';
 import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
@@ -26,6 +27,9 @@ import { Image as ExpoImage } from 'expo-image';
 
 const focus_n = require('@/assets/images/unlike.png')
 const focus_s = require('@/assets/images/like.png')
+const home_item_t = require('@/assets/images/home_item_t.png')
+const home_item_s = require('@/assets/images/home_item_s.png')
+const home_item_m = require('@/assets/images/home_item_m.png')
 
 
 function Recommend({navigation,jumpTo}:any): JSX.Element {
@@ -261,13 +265,13 @@ function HomeBanner({navigation}:any){
     <Text style={styles.topTitle}>穿越不同朝代</Text>
     <View style={styles.topItem}>
       <TouchableOpacity containerStyle={styles.topItemSub}>
-        <Text style={styles.topItemName}>唐</Text>
+        <ImageBackground style={styles.topItemSub} source={home_item_t} resizeMode='cover'/>
       </TouchableOpacity>
       <TouchableOpacity containerStyle={[styles.topItemSub,styles.topItemSubSpa]}>
-        <Text style={styles.topItemName}>宋</Text>
+        <ImageBackground style={styles.topItemSub} source={home_item_s} resizeMode='cover'/>
       </TouchableOpacity>
       <TouchableOpacity containerStyle={styles.topItemSub}>
-        <Text style={styles.topItemName}>元</Text>
+        <ImageBackground style={styles.topItemSub} source={home_item_m} resizeMode='cover'/>
       </TouchableOpacity>
     </View>
   </View>

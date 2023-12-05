@@ -20,6 +20,9 @@ npx react-native run-android     npx react-native run-ios
 # 图标、启动图一键生成
 https://apetools.webprofusion.com/?ref=hackernoon.com#/tools/imagegorilla
 
+# expo组件库
+https://docs.expo.dev/versions/latest/sdk/sms/
+
 
 # 输入框动画
 react-native-textinput-effects：https://github.com/halilb/react-native-textinput-effects
