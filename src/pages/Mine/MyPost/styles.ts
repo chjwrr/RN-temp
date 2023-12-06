@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     height:16
   },
   titleView:{
-    width:SCREEN_WIDTH - NAVIGATION_HEIGHT - NAVIGATION_HEIGHT,
+    width:SCREEN_WIDTH - NAVIGATION_HEIGHT - NAVIGATION_HEIGHT - 32,
     alignItems:'center'
   },
   title:{
@@ -56,8 +56,8 @@ export const styles = StyleSheet.create({
     width:'100%',
     height:240,
     marginRight:10,
-    borderRadius:8,
-    backgroundColor:'red'
+    borderTopLeftRadius:8,
+    borderTopRightRadius:8,
   },
   flowViewTitle:{
     fontSize:14,

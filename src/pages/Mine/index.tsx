@@ -142,7 +142,14 @@ function Mine(props:any): JSX.Element {
             <Image style={styles.orderIcon} source={mineitem}/>
             <Text style={styles.ovdername}>消息中心</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{alignItems:'center'}}>
+          <TouchableOpacity style={{alignItems:'center'}} onPressIn={()=>{
+             props.navigation.navigate('SendMessage',{
+              info:{
+                name:'客服中心'
+              },
+              customer:true
+            })
+          }}>
             <Image style={styles.orderIcon} source={mineitem}/>
             <Text style={styles.ovdername}>客服中心</Text>
           </TouchableOpacity>

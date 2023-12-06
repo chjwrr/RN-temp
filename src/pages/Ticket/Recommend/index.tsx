@@ -22,7 +22,7 @@ import { FadeLoading } from 'react-native-fade-loading';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from "@react-native-community/blur";
 import * as HTTPS from '@/api/axios'
-import { MASTER_LIST, TICKET_BANNER, PROJECT_RECOMMEND_LIST } from '@/api/API';
+import { TICKET_RECOMMEND_LIST, TICKET_BANNER, PROJECT_RECOMMEND_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
@@ -51,21 +51,32 @@ function Ticket({navigation,tabState,jumpTo,onBannerPress}:any): JSX.Element {
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const userInfo = useUserInfo()
-  const [proList,setProList] = useState<any[]>([])
+  const [recommonList,setRecommonList] = useState<any[]>([])
+
+  function getRecommonList(){
+    HTTPS.post(PROJECT_RECOMMEND_LIST,{
+      "token":userInfo.token,
+      "limit":5,
+      offset:0
+    }).then((result:any)=>{
+      setRecommonList(result.project_recommend_list)
+    }).finally(()=>{
+    })
+  }
 
   function getData(currenPage:number){
     setLoading(true)
-    HTTPS.post(PROJECT_RECOMMEND_LIST,{
+    HTTPS.post(TICKET_RECOMMEND_LIST,{
       "token":userInfo.token,
       "limit":PAGE_SIZE,
       offset:currenPage * PAGE_SIZE
     }).then((result:any)=>{
       if (currenPage == 0){
-        setDataSource(result.project_recommend_list)
+        setDataSource(result.ticket_recommend_list)
       }else {
-        setDataSource([...dataSource,...result.project_recommend_list])
+        setDataSource([...dataSource,...result.ticket_recommend_list])
       }
-      if (result.project_recommend_list.length < PAGE_SIZE){
+      if (result.ticket_recommend_list.length < PAGE_SIZE){
         setIsLoadEnd(true)
       }else {
         setIsLoadEnd(false)
@@ -79,6 +90,7 @@ function Ticket({navigation,tabState,jumpTo,onBannerPress}:any): JSX.Element {
 
   useEffect(()=>{
     getData(0)
+    getRecommonList()
   },[])
 
 
@@ -88,6 +100,7 @@ function Ticket({navigation,tabState,jumpTo,onBannerPress}:any): JSX.Element {
     }
     console.log('onRefresh')
     setRefreshing(true);
+    getRecommonList()
     getData(0)
   }
 
@@ -117,10 +130,14 @@ function Ticket({navigation,tabState,jumpTo,onBannerPress}:any): JSX.Element {
       <FlatList
         showsVerticalScrollIndicator={false}
         data={dataSource}
+        columnWrapperStyle={{justifyContent:'space-between'}}
+        numColumns={2}
         renderItem={({ item, index })=>{
           return item == 1 ? <FadeLoading
           style={[styles.flowLoadingView,{
-            marginVertical:4,
+            marginVertical:2,
+            marginRight:index % 2 == 0 ? 2 : 0,
+            marginLeft:index % 2 == 0 ? 0 : 2,
           }]}
           children={''}
           primaryColor={'#a6abe2'}
@@ -128,22 +145,9 @@ function Ticket({navigation,tabState,jumpTo,onBannerPress}:any): JSX.Element {
           duration={0}
           visible={true}
           animated={true}
-        />: <TouchableOpacity style={[styles.flowView,{
-          marginVertical:4,
-        }]} key={index+'tickbanner'} onPress={()=>{
-          onBannerPress(item)
-        }}>
-          <ExpoImage
-            style={styles.banner}
-            source={HTTPS.getImageUrl(item.image)}
-            placeholder={BLUR_HASH}
-            contentFit="cover"
-            transition={200}
-          />
-          <View style={styles.bannerTitleView}>
-            <Text style={styles.bannerTitle}>{item.name}</Text>
-          </View>
-        </TouchableOpacity>
+        />: <RemmenntRenderItem item={item} columnIndex={index} 
+          navigation={navigation}
+        />
         }}
         style={{ flex: 1}}
         ListHeaderComponent={
@@ -152,6 +156,26 @@ function Ticket({navigation,tabState,jumpTo,onBannerPress}:any): JSX.Element {
             <View style={styles.bannerView}>
               <Text style={styles.centerTitle}>来自票友推荐</Text>
             </View>
+            {
+              recommonList.map((item:any)=>{
+                return <TouchableOpacity style={[styles.flowView2,{
+                  marginVertical:4,
+                }]} key={item.name+'tickbannerrecommon'} onPress={()=>{
+                  onBannerPress(item)
+                }}>
+                  <ExpoImage
+                    style={styles.banner}
+                    source={HTTPS.getImageUrl(item.image)}
+                    placeholder={BLUR_HASH}
+                    contentFit="cover"
+                    transition={200}
+                  />
+                  <View style={styles.bannerTitleView}>
+                    <Text style={styles.bannerTitle}>{item.name}</Text>
+                  </View>
+                </TouchableOpacity>
+              })
+            }
           </View>
         }
         ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
@@ -180,6 +204,60 @@ function Ticket({navigation,tabState,jumpTo,onBannerPress}:any): JSX.Element {
   );
 }
 
+function RemmenntRenderItem({item,columnIndex,navigation}:any){
+  function onPress(index:any){
+    navigation.navigate('BuyTicket',{
+      ticket_id:item.ticket_id,
+      avatar:item.master.avatar,
+      name:item.master.name
+    })
+  }
+  return <TouchableOpacity onPress={()=>onPress(columnIndex)} style={[styles.flowView,{
+    marginVertical:2,
+    marginRight:columnIndex % 2 == 0 ? 2 : 16,
+    marginLeft:columnIndex % 2 == 0 ? 16 : 2,
+  }]}>
+    <View style={styles.typeItem}>
+      <ExpoImage
+        style={styles.typeItem}
+        source={HTTPS.getImageUrl(item.image)}
+        placeholder={BLUR_HASH}
+        contentFit="cover"
+        transition={200}
+      />
+      {/* <ImageBackground source={limmitBg} style={styles.limmitbg}>
+        <Text style={styles.limmittitle}>限量:{item.total}份</Text>
+      </ImageBackground> */}
+    </View>
+    <View style={styles.typeItemDown}>
+      {/* <Image style={styles.typeItemDownbg} source={downBg} resizeMode='cover'/> */}
+      <LinearGradient colors={['rgba(64,14,179,0.6)', 'transparent']} style={styles.typeItemDownbg}/>
+      <View style={styles.flowViewSubView}>
+        <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{item.name}</Text>
+        {/* <TouchableOpacity style={styles.focusButton}>
+          <Image style={styles.flowFocus} source={focus_n}/>
+        </TouchableOpacity> */}
+      </View>
+      <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowNameid}>id:{item.ticket_id}</Text>
+      <View style={styles.flowViewSubView}>
+        <View style={{flexDirection:'row',alignItems:'center'}}>
+            <ExpoImage
+              style={styles.flowIcon}
+              source={HTTPS.getImageUrl(item.master.avatar)}
+              placeholder={BLUR_HASH}
+              contentFit="cover"
+              transition={200}
+            />
+          <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowName}>{item.master.name}</Text>
+        </View>
+        <View style={{flexDirection:'row',alignItems:'center'}}>
+          <Text style={styles.moenyUni}>$</Text>
+          <Text style={styles.moeny}>{item.price}</Text>
+        </View>
+      </View>
+    </View>
+  </TouchableOpacity>
+}
 const centerItems:any[] = [
   {
     key:'Recommend',

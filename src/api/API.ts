@@ -253,3 +253,12 @@ export const SEND_MESSAGE_TO_MASTER = 'send_message_to_master'
 // 消息中心
 export const MY_MESSAGE_CENTER = 'my_message_center'
 
+// 推荐的票列表
+export const TICKET_RECOMMEND_LIST = 'ticket_recommend_list'
+
+// 和客服的私信列表
+export const MY_MESSAGE_WITH_CUSTOMER = 'my_message_with_customer_service'
+
+// 给客服发私信
+export const SEND_MESSAGE_TO_CUSTOMER = 'send_message_to_customer_service'
+

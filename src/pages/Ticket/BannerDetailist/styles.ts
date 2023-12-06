@@ -234,7 +234,6 @@ export const styles = StyleSheet.create({
         height:24,
         marginRight:8,
         borderRadius:12,
-        backgroundColor:'blue',
     },
     flowName:{
         fontSize:10,
@@ -267,7 +266,6 @@ export const styles = StyleSheet.create({
     focusAvtar:{
         width:44,
         height:44,
-        backgroundColor:'blue',
         borderRadius:22
     },
     focusTipView:{

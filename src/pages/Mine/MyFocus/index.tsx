@@ -9,7 +9,6 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   TextInput
 } from 'react-native';
@@ -28,6 +27,7 @@ import { useUserInfo } from '@/redux/userInfo';
 import { savePicture } from '@/utils/common';
 import { FadeLoading } from 'react-native-fade-loading';
 import Colors from '@/utils/colors';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')

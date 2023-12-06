@@ -50,7 +50,6 @@ const CustomTextInput = forwardRef((props:CustomTextInputProps,ref)=>{
           fontSize:14,
           paddingTop:0,
           paddingBottom:0,
-          // backgroundColor:'red',
           height:'100%'
         },props.inputProps.style]}
         onFocus={(e:any)=>{

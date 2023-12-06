@@ -203,7 +203,6 @@ export const styles = StyleSheet.create({
     height:44,
     borderRadius:22,
     marginRight:10,
-    backgroundColor:'red'
   },
   comContent:{
     flex:1,

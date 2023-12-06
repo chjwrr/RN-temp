@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import {
   SafeAreaView,
   Text,
@@ -19,10 +19,11 @@ import * as HTTPS from '@/api/axios'
 import { DESIGN_CIRCLE_CLOTH_DETAIL,DESIGN_CIRCLE_CLOTH_COLLECT,DESIGN_CIRCLE_CLOTH_UNCOLLECT } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import { Image as ExpoImage } from 'expo-image';
-import { BLUR_HASH } from '@/utils';
+import { BLUR_HASH, SCREEN_WIDTH } from '@/utils';
 import { savePicture } from '@/utils/common';
 import {CacheManager, CachedImage} from '@georstat/react-native-image-cache'
 import ImagePlaceholder from '@/components/ImagePlaceholder';
+import Carousel from 'react-native-reanimated-carousel';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -125,23 +126,10 @@ function DesignDetail(props:any): JSX.Element {
             useNativeDriver:false
           })}
           >
-          <View style={styles.modalView}>
-            <WebView
-              // source={{uri:'https://www.baidu.com'}}
-              source={{ uri: Platform.OS == 'ios' ? 'https://nextjs-3d-modal-j2fc-git-main-chjwrr.vercel.app/' : 'http://test.yingxiong123.top/' }}
-              style={styles.webView}
-              onTouchStart={()=>{
-                setScrollEnabled(false)
-              }}
-              onTouchCancel={()=>{
-                setScrollEnabled(true)
-              }}
-              onTouchEnd={()=>{
-                setScrollEnabled(true)
-              }}
-            />
-            <Text style={styles.name}>{clothDetail.name}</Text>
-          </View>
+          
+          <SwiperView images={clothDetail.images} name={clothDetail.name}/>
+
+
           <DetailInfo/>
         </ScrollView>
         <View style={styles.downView}>
@@ -232,4 +220,79 @@ function DownImage({image}:any){
     </View>
   </View>
 }
+
+const SwiperView = memo(({images,name}:{images:any[],name:any})=>{
+  const [imageSource,setImageSource] = useState<any>([])
+  const [currentIndex,setCurrentIndex] = useState(0)
+
+  useEffect(()=>{
+    if (images){
+      setImageSource(images)
+    }
+  },[images])
+
+  return <View style={styles.swiperView}>
+    <Carousel
+      loop
+      width={SCREEN_WIDTH - 32}
+      height={SCREEN_WIDTH + 20}
+      // autoPlay={true}
+      data={imageSource}
+      // scrollAnimationDuration={3000}
+      onSnapToItem={(index:number) => setCurrentIndex(index)}
+      // mode="parallax"
+      // modeConfig={{
+      //   parallaxScrollingScale: 0.9,
+      //   parallaxScrollingOffset: 40,
+      // }}
+      renderItem={({ item,index }:any) => (
+        // <ExpoImage
+        //   style={styles.swiperTopView}
+        //   source={HTTPS.getImageUrl(item)}
+        //   placeholder={BLUR_HASH}
+        //   contentFit="cover"
+        //   transition={200}
+        //   onLoad={(e:any)=>{
+        //     console.log('eeee==',e)
+        //   }}
+        // />
+        <CachedImage
+        sourceAnimationDuration={100}
+        thumbnailAnimationDuration={100}
+        resizeMode='cover'
+        source={HTTPS.getImageUrl(item)}
+        style={styles.swiperTopView}
+        blurRadius={30}
+        loadingImageComponent={ImagePlaceholder}
+        />
+      )}
+      />
+    <View style={styles.sliderView}>
+      <Text style={styles.sliderTitle}>{currentIndex + 1}/{imageSource.length}</Text>
+    </View>
+    <Text style={styles.name}>{name}</Text>
+  </View>
+},(pre:any,next:any)=>pre.images == next.images)
+
+//clothDetail.name
+function TDModalView(name:string){
+  return <View style={styles.modalView}>
+    <WebView
+      // source={{uri:'https://www.baidu.com'}}
+      source={{ uri: Platform.OS == 'ios' ? 'https://nextjs-3d-modal-j2fc-git-main-chjwrr.vercel.app/' : 'http://test.yingxiong123.top/' }}
+      style={styles.webView}
+      // onTouchStart={()=>{
+      //   setScrollEnabled(false)
+      // }}
+      // onTouchCancel={()=>{
+      //   setScrollEnabled(true)
+      // }}
+      // onTouchEnd={()=>{
+      //   setScrollEnabled(true)
+      // }}
+    />
+    <Text style={styles.name}>{name}</Text>
+  </View>
+}
+
 export default DesignDetail;

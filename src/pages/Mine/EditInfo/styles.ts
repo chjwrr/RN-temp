@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     height:16
   },
   titleView:{
-    width:SCREEN_WIDTH - NAVIGATION_HEIGHT - NAVIGATION_HEIGHT,
+    width:SCREEN_WIDTH - NAVIGATION_HEIGHT - NAVIGATION_HEIGHT - 32,
     alignItems:'center'
   },
   title:{

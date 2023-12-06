@@ -130,14 +130,14 @@ export const styles = StyleSheet.create({
         height:40,
     },
     flowLoadingView:{
-        padding:8,
+        // padding:8,
         width:SCREEN_WIDTH - 32,
         height:(SCREEN_WIDTH - 32) * 380 / 686 + 30,
         borderRadius:8,
         marginHorizontal:16
       },
     flowView:{
-        padding:8,
+        // padding:8,
         width:SCREEN_WIDTH - 32,
         height:(SCREEN_WIDTH - 32) * 380 / 686 + 30,
         borderRadius:8,
@@ -217,7 +217,6 @@ export const styles = StyleSheet.create({
         height:24,
         marginRight:8,
         borderRadius:12,
-        backgroundColor:'blue',
     },
     flowName:{
         fontSize:10,
@@ -250,7 +249,6 @@ export const styles = StyleSheet.create({
     focusAvtar:{
         width:44,
         height:44,
-        backgroundColor:'blue',
         borderRadius:22
     },
     focusTipView:{

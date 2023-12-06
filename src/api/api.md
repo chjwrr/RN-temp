@@ -1,4 +1,6 @@
+ 
 
+ 
 article_collect(req)
 收藏
 params: {"token": "token", "article_id": "article_id"}
@@ -66,11 +68,11 @@ return: {}
 design_circle_cloth_detail(req)
 读设计圈服饰详情
 params: {"token": "token", "cloth_id": "cloth_id"}
-return: {'design_circle_cloth_detail': {'cloth_id': 20, 'name': '服饰名称19', 'image': 'e87dbff1-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '服饰简介19', 'price': 2999, 'designer_intro': '', 'dynasty': 1, 'created_at': 1700723076577, 'is_collect': True/False}, 'code': 0}
+return: {'design_circle_cloth_detail': {'cloth_id': 20, 'name': '服饰名称19', 'image': 'e87dbff1-855a-11ee-bcb6-5785abdd6148.jpeg', 'images': [], 'intro': '服饰简介19', 'price': 2999, 'designer_intro': '', 'dynasty': 1, 'created_at': 1700723076577, 'is_collect': True/False}, 'code': 0}
 design_circle_cloth_list(req)
 读设计圈服饰列表（分页）
 params: {"token": "token", "limit": 100, "offset": 0}
-return: {"design_circle_cloth_list": [{'cloth_id': 20, 'name': '服饰名称19', 'image': 'e87dbff1-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '服饰简介19', 'price': 2999, 'dynasty': 1, 'created_at': 1700723076577}, ...]}
+return: {"design_circle_cloth_list": [{'cloth_id': 20, 'name': '服饰名称19', 'image': 'e87dbff1-855a-11ee-bcb6-5785abdd6148.jpeg', 'images': [], 'intro': '服饰简介19', 'price': 2999, 'dynasty': 1, 'created_at': 1700723076577}, ...]}
 design_circle_cloth_uncollect(req)
 对设计圈服饰取消收藏
 params: {"token": "token", "cloth_id": "cloth_id"}
@@ -162,7 +164,7 @@ return: {}
 merchant_cloth_detail(req)
 读商家服饰详情
 params: {"token": "token", "cloth_id": "cloth_id"}
-return: {"merchant_cloth_detail": {"cloth_id": "cloth_id", "name": "name", "image": "image", "intro": "intro", "price": 0, 'dynasty': 1, "created_at": ts, 'is_collect': True/False, 
+return: {"merchant_cloth_detail": {"cloth_id": "cloth_id", "name": "name", "image": "image", 'images': [], "intro": "intro", "price": 0, 'dynasty': 1, "created_at": ts, 'is_collect': True/False, 
 'merchant': {
         'merchant_id': merchant_id,
         'name': merchant_name,
@@ -175,7 +177,7 @@ return: {"merchant_cloth_detail": {"cloth_id": "cloth_id", "name": "name",�
 merchant_cloth_list(req)
 读商家服饰列表（分页）
 params: {"token": "token", "limit": 100, "offset": 0}
-return: {"merchant_cloth_list": [{"cloth_id": "cloth_id", "name": "name", "image": "image", "intro": "intro", "price": 0, 'dynasty': 1, "created_at": ts, 'is_collect': True/False,
+return: {"merchant_cloth_list": [{"cloth_id": "cloth_id", "name": "name", "image": "image", 'images': [], "intro": "intro", "price": 0, 'dynasty': 1, "created_at": ts, 'is_collect': True/False,
 'merchant': {
         'merchant_id': merchant_id,
         'name': merchant_name,
@@ -187,7 +189,7 @@ return: {"merchant_cloth_list": [{"cloth_id": "cloth_id", "name": "name", 
 merchant_cloth_recommend_list(req)
 系统推荐商家服饰列表（分页）
  params: {"token": "token", "limit": 100, "offset": 0}
-return: {"merchant_cloth_list": [{"cloth_id": "cloth_id", "name": "name", "image": "image", "intro": "intro", "price": 0, 'dynasty': 1, "created_at": ts, 'is_collect': True/False,
+return: {"merchant_cloth_list": [{"cloth_id": "cloth_id", "name": "name", "image": "image", 'images': [], "intro": "intro", "price": 0, 'dynasty': 1, "created_at": ts, 'is_collect': True/False,
 'merchant': {
         'merchant_id': merchant_id,
         'name': merchant_name,
@@ -252,6 +254,10 @@ my_message_center(req)
 读消息中心 （分页） 私信的会话列表，目前只有达人，包含最后一条私信内容
 params: {"token": "token"}
 return: {'my_message_center': [{'type': 'master', 'master_id': '37d220c44a3044cb8afa497f13534094', 'master': {'master_id': '37d220c44a3044cb8afa497f13534094', 'name': '达人9', 'avatar': 'e986c93c-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '达人简介9', 'address': '北京市海淀区中关村9号', 'birthday': '1990-01-01', 'created_at': 1701360073015}, 'last_message': {'message_id': 18, 'from_id': '2077e0e6861e49d1a356d83ad4d0c01b', 'to_id': '37d220c44a3044cb8afa497f13534094', 'content': 'test_message', 'created_at': 1701531522145}}...]}
+my_message_with_customer_service(req)
+读我和客服私信列表 （分页）
+params: {"token": "token", "limit": 20, "offset": 0}
+return: {"my_message_with_customer_service": [{"message_id": "message_id", "from_id": "from_id", "to_id": "to_id", "content": "content", "created_at": ts}, ...], 'other_side': 'customer_service', 'code': 0}
 my_order_list(req)
 我的订单列表（分页） (status 0-待支付 1-已完成 2-已取消，不传status时返回所有订单)
 params: {"token": "token", "status": 0, "limit": 100, "offset": 0}
@@ -358,6 +364,10 @@ ticket_list(req)
 读票列表（分页）(商品，未出售)
 params: {"token": "token", "project_id": "project_id", "limit": 100, "offset": 0}
 return: {ticket_list': [{'ticket_id': 1, 'name': '票名称0', 'image': 'f2bf36d8-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '票简介0', 'price': 1999, 'created_at': 1700748733468}...]}
+ticket_recommend_list(req)
+系统推荐的票列表（分页）(商品，未出售)
+params: {"token": "token", "limit": 100, "offset": 0}
+return: {ticket_recommend_list': [{'ticket_id': 1, 'name': '票名称0', 'image': 'f2bf36d8-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '票简介0', 'price': 1999, 'created_at': 1700748733468}...]}
 user_follow(req)
 关注用户
 params: {"token": "token", "to_uid": "to_uid"}

@@ -109,13 +109,13 @@ function RecommendDetail(props:any): JSX.Element {
               <Image style={styles.arrow} source={arrowr}/>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.itemView}>
+          {/* <TouchableOpacity style={styles.itemView}>
             <Text style={styles.title}>星座</Text>
             <View style={{flexDirection:'row',alignItems:'center'}}>
               <Text style={styles.value}>请选择</Text>
               <Image style={styles.arrow} source={arrowr}/>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity style={styles.itemView} onPressIn={onUserIntro}>
             <Text style={styles.title}>签名</Text>
             <View style={{flexDirection:'row',alignItems:'center'}}>

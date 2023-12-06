@@ -68,7 +68,7 @@ export const styles = StyleSheet.create({
     width:'100%',
     height:'100%',
     borderRadius:8,
-    backgroundColor: "blue",
+    overflow:'hidden'
   },
   sliderView:{
     backgroundColor:'rgba(109,105,250,0.2)',
@@ -277,14 +277,12 @@ export const styles = StyleSheet.create({
   detailLeftButton:{
     width:SCREEN_WIDTH / 5 * 3,
     height:'100%',
-    // backgroundColor:'red',
     alignItems:'center',
     justifyContent:'center'
   },
   detailRightButton:{
     width:SCREEN_WIDTH / 5 * 2,
     height:'100%',
-    // backgroundColor:'blue',
     alignItems:'center',
     justifyContent:'center'
   },

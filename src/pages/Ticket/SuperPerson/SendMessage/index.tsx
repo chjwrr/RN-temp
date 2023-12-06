@@ -37,8 +37,8 @@ import {
   ARTICLE_COOMMENT_UP,
   ARTICLE_UNCOLLECT,
   ARTICLE_COLLECT,
-  ARTICLE_LIKE,
-  ARTICLE_COOMMENT_REPLY,
+  SEND_MESSAGE_TO_CUSTOMER,
+  MY_MESSAGE_WITH_CUSTOMER,
   SEND_MESSAGE_TO_MASTER,
   MY_MESSAGE
 } from '@/api/API';
@@ -53,6 +53,9 @@ import dayjs from 'dayjs';
 const BackIcon = require('@/assets/images/back_w.png')
 const BackBIcon = require('@/assets/images/back_b.png')
 const BGImage = require('@/assets/images/homebg.png')
+const customerIcon = require('@/assets/images/customer.png')
+
+
 
 function RecommendDetail(props:any): JSX.Element {
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -64,32 +67,57 @@ function RecommendDetail(props:any): JSX.Element {
   const [page,setPage] = useState(0)
   const [isLoadEnd,setIsLoadEnd] = useState(false)
   const detailInfo = props.route.params.info
+  const customer = props.route.params.customer
   const isDark = props.route.params.isDark
   const [otherSide,setOtherSide] = useState<any>({})
 
   function getCommonList(currenPage:number){
     setLoading(true)
-    HTTPS.post(MY_MESSAGE,{
-      "token":userInfo.token,
-      "limit":PAGE_SIZE,
-      offset:currenPage * PAGE_SIZE,
-      to_id:detailInfo.master_id
-    }).then((result:any)=>{
-      if (currenPage == 0){
-        setDataSource(result.my_message)
-      }else {
-        setDataSource([...dataSource,...result.my_message])
-      }
-      if (result.my_message.length < PAGE_SIZE){
-        setIsLoadEnd(true)
-      }else {
-        setIsLoadEnd(false)
-      }
-      setPage(currenPage)
-    }).finally(()=>{
-      setRefreshing(false)
-      setLoading(false)
-    })
+    if (customer){
+      HTTPS.post(MY_MESSAGE_WITH_CUSTOMER,{
+        "token":userInfo.token,
+        "limit":PAGE_SIZE,
+        offset:currenPage * PAGE_SIZE,
+      }).then((result:any)=>{
+        if (currenPage == 0){
+          setDataSource(result.my_message_with_customer_service)
+        }else {
+          setDataSource([...dataSource,...result.my_message_with_customer_service])
+        }
+        if (result.my_message_with_customer_service.length < PAGE_SIZE){
+          setIsLoadEnd(true)
+        }else {
+          setIsLoadEnd(false)
+        }
+        setPage(currenPage)
+      }).finally(()=>{
+        setRefreshing(false)
+        setLoading(false)
+      })
+    }else {
+      HTTPS.post(MY_MESSAGE,{
+        "token":userInfo.token,
+        "limit":PAGE_SIZE,
+        offset:currenPage * PAGE_SIZE,
+        to_id:detailInfo.master_id
+      }).then((result:any)=>{
+        if (currenPage == 0){
+          setDataSource(result.my_message)
+        }else {
+          setDataSource([...dataSource,...result.my_message])
+        }
+        if (result.my_message.length < PAGE_SIZE){
+          setIsLoadEnd(true)
+        }else {
+          setIsLoadEnd(false)
+        }
+        setPage(currenPage)
+      }).finally(()=>{
+        setRefreshing(false)
+        setLoading(false)
+      })
+    }
+   
   }
 
   useEffect(()=>{
@@ -142,7 +170,7 @@ function RecommendDetail(props:any): JSX.Element {
                 </TouchableOpacity>
                 <ExpoImage
                   style={styles.accounticon}
-                  source={HTTPS.getImageUrl(detailInfo.avatar)}
+                  source={customer?customerIcon:HTTPS.getImageUrl(detailInfo.avatar)}
                   placeholder={BLUR_HASH}
                   contentFit="cover"
                   transition={200}
@@ -159,7 +187,7 @@ function RecommendDetail(props:any): JSX.Element {
               data={dataSource}
               numColumns={1}
               renderItem={({ item, index })=>{
-                return <CommonItem detailInfo={detailInfo} isDark={isDark} item={item} index={index}/>
+                return <CommonItem detailInfo={detailInfo} customer={customer} isDark={isDark} item={item} index={index}/>
               }}
               style={{ flex: 1 }}
               ListEmptyComponent={<View/>}
@@ -180,7 +208,7 @@ function RecommendDetail(props:any): JSX.Element {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[Colors.main]}/>
               }
             />
-            <DownInfo isDark={isDark} master_id={detailInfo.master_id}
+            <DownInfo customer={customer} isDark={isDark} master_id={detailInfo.master_id}
             onCommonChange={onCommonChange}/>
           </SafeAreaView>
         </KeyboardAvoidingView>
@@ -189,7 +217,7 @@ function RecommendDetail(props:any): JSX.Element {
   );
 }
 
-function DownInfo({master_id,onCommonChange,isDark}:any){
+function DownInfo({master_id,onCommonChange,isDark,customer}:any){
   const inputRef = useRef<any>()
   const userInfo = useUserInfo()
   function onFocus(){
@@ -200,20 +228,40 @@ function DownInfo({master_id,onCommonChange,isDark}:any){
   }
 
   function onSubmitEditing(e:any){
-    const newContent = {"content": e.nativeEvent.text, 
-    "created_at": dayjs().unix() * 1000, 
-    "from_id": userInfo.uid, 
-    "message_id": 999,
-    "to_id": master_id}
-    HTTPS.post(SEND_MESSAGE_TO_MASTER,{
-      "token":userInfo.token,
-      master_id:master_id,
-      content:e.nativeEvent.text
-    }).then((result:any)=>{
-      onCommonChange && onCommonChange(newContent)
-      inputRef.current.clear()
-    }).finally(()=>{
-    })
+    if (customer){
+      const newContent = {
+        "content": e.nativeEvent.text, 
+        "created_at": dayjs().unix() * 1000, 
+        "from_id": userInfo.uid, 
+        "message_id": 999
+      }
+      HTTPS.post(SEND_MESSAGE_TO_CUSTOMER,{
+        "token":userInfo.token,
+        content:e.nativeEvent.text
+      }).then((result:any)=>{
+        onCommonChange && onCommonChange(newContent)
+        inputRef.current.clear()
+      }).finally(()=>{
+      })
+    }else {
+      const newContent = {
+        "content": e.nativeEvent.text, 
+        "created_at": dayjs().unix() * 1000, 
+        "from_id": userInfo.uid, 
+        "message_id": 999,
+        "to_id": master_id
+      }
+      HTTPS.post(SEND_MESSAGE_TO_MASTER,{
+        "token":userInfo.token,
+        master_id:master_id,
+        content:e.nativeEvent.text
+      }).then((result:any)=>{
+        onCommonChange && onCommonChange(newContent)
+        inputRef.current.clear()
+      }).finally(()=>{
+      })
+    }
+   
   }
 
   return <View style={[styles.downView]}>
@@ -237,13 +285,16 @@ function DownInfo({master_id,onCommonChange,isDark}:any){
     />
   </View>
 }
-function CommonItem({item,index,isDark,detailInfo}:any){
-  console.log('detailInfo=',detailInfo)
+function CommonItem({item,index,isDark,detailInfo,customer}:any){
   const userInfo = useUserInfo()
   return <View style={styles.msgView}>
     <ExpoImage
       style={styles.avatar}
-      source={HTTPS.getImageUrl(item.from_id == userInfo.uid ? userInfo.avatar : detailInfo.avatar)}
+      source={
+        item.from_id == userInfo.uid ? HTTPS.getImageUrl(userInfo.avatar) : (
+          customer ? customerIcon :  HTTPS.getImageUrl(detailInfo.avatar)
+        )
+      }
       placeholder={BLUR_HASH}
       contentFit="cover"
       transition={200}

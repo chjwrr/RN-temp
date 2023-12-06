@@ -95,7 +95,7 @@ export const styles = StyleSheet.create({
         justifyContent:'space-between',
         paddingHorizontal:16,
         marginTop:50,
-        zIndex:2
+        zIndex:2,
     },    
     centerItem:{
         width:74,
@@ -127,34 +127,26 @@ export const styles = StyleSheet.create({
         height:40,
     },
     flowLoadingView:{
-        padding:8,
-        width:SCREEN_WIDTH - 32,
-        height:(SCREEN_WIDTH - 32) * 380 / 686 + 30,
+        width:(SCREEN_WIDTH - 32 - 2) / 2,
+        height:270,
         borderRadius:8,
-        marginHorizontal:16
+        overflow:'hidden'
+        // marginHorizontal:16
       },
     flowView:{
-        padding:8,
-        width:SCREEN_WIDTH - 32,
-        height:(SCREEN_WIDTH - 32) * 380 / 686 + 30,
+        width:(SCREEN_WIDTH - 32 - 2) / 2,
+        height:270,
         borderRadius:8,
-        marginHorizontal:16
+        overflow:'hidden',
     },
     flowView2:{
-        // width:'100%',
-        flex:1,
-        height:180,
-        // backgroundColor:Colors.white,
-        borderRadius:5,
-        // padding:8
+        // width:SCREEN_WIDTH - 32,
+        paddingHorizontal:16
     },
     typeItem:{
-        width:'100%',
+        width:(SCREEN_WIDTH - 32 - 2) / 2,
         height:180,
         justifyContent:'flex-end',
-        backgroundColor:'#fff',
-        borderTopLeftRadius:5,
-        borderTopRightRadius:5,
         overflow:'hidden',
         alignItems:'flex-start'
     },
@@ -173,13 +165,10 @@ export const styles = StyleSheet.create({
 },
     typeItemDown:{
         height:90,
-        width:'100%',
         paddingHorizontal:10,
         justifyContent:'center',
         zIndex:2,
-        borderWidth:1,
-        borderTopWidth:0,
-        borderColor:'rgba(64,14,179,0.6)'
+        width:(SCREEN_WIDTH - 32 - 2) / 2,
     },
     typeItemDownbg:{
       position:'absolute',
@@ -214,7 +203,6 @@ export const styles = StyleSheet.create({
         height:24,
         marginRight:8,
         borderRadius:12,
-        backgroundColor:'blue',
     },
     flowName:{
         fontSize:10,
@@ -247,7 +235,6 @@ export const styles = StyleSheet.create({
     focusAvtar:{
         width:44,
         height:44,
-        backgroundColor:'blue',
         borderRadius:22
     },
     focusTipView:{

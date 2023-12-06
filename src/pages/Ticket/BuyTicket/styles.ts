@@ -254,7 +254,6 @@ export const styles = StyleSheet.create({
     height:18,
     marginRight:6,
     borderRadius:9,
-    backgroundColor:'red'
   },
   avatarName:{
     fontSize:10,
@@ -286,7 +285,6 @@ export const styles = StyleSheet.create({
     width:24,
     height:24,
     borderRadius:4,
-    backgroundColor:'red',
     marginRight:10
   },
   checkicon:{

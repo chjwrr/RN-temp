@@ -181,7 +181,7 @@ function RecommendDetail(props:any): JSX.Element {
           })}
         >
           {/* {id == 0 ? <TDModalView/> : <SwiperView/>} */}
-          <SwiperView images={[merchantClothInfo.image]} name={merchantClothInfo.name}/>
+          <SwiperView images={merchantClothInfo.images} name={merchantClothInfo.name}/>
           <View style={styles.detailView}>
             <ShopInfo info={merchantClothInfo} onChange={(info:any)=>{
               setMerchantClothInfo(info)
@@ -303,22 +303,30 @@ function ShopInfo({info,onChange}:any){
   </View>
 }
 const SwiperView = memo(({images,name}:{images:any[],name:any})=>{
+  const [imageSource,setImageSource] = useState<any>([])
   const [currentIndex,setCurrentIndex] = useState(0)
+
+  useEffect(()=>{
+    if (images){
+      setImageSource(images)
+    }
+  },[images])
+
   return <View style={styles.swiperView}>
     <Carousel
       loop
       width={SCREEN_WIDTH - 32}
       height={SCREEN_WIDTH + 20}
       // autoPlay={true}
-      data={images}
+      data={imageSource}
       // scrollAnimationDuration={3000}
-      onSnapToItem={(index) => setCurrentIndex(index)}
+      onSnapToItem={(index:number) => setCurrentIndex(index)}
       // mode="parallax"
       // modeConfig={{
       //   parallaxScrollingScale: 0.9,
       //   parallaxScrollingOffset: 40,
       // }}
-      renderItem={({ item,index }) => (
+      renderItem={({ item,index }:any) => (
         // <ExpoImage
         //   style={styles.swiperTopView}
         //   source={HTTPS.getImageUrl(item)}
@@ -341,11 +349,11 @@ const SwiperView = memo(({images,name}:{images:any[],name:any})=>{
       )}
       />
     <View style={styles.sliderView}>
-      <Text style={styles.sliderTitle}>{currentIndex + 1}/{images.length}</Text>
+      <Text style={styles.sliderTitle}>{currentIndex + 1}/{imageSource.length}</Text>
     </View>
     <Text style={styles.name}>{name}</Text>
   </View>
-},(pre,next)=>pre.name == next.name)
+},(pre:any,next:any)=>pre.images == next.images)
 function TDModalView(){
   return <View style={styles.modalView}>
     <WebView

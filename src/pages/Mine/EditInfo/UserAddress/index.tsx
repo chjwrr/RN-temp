@@ -6,10 +6,9 @@ import {
   View,
   ImageBackground,
   Image,
-  Modal,
+  FlatList,
   ScrollView,
   Animated,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   TextInput
 } from 'react-native';
@@ -33,6 +32,7 @@ import { useDispatch } from 'react-redux';
 import LoadingButton from '@/components/LoadingButton';
 import {Picker} from '@react-native-picker/picker';
 import CitySource from '@/assets/json/pca.json'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -42,42 +42,39 @@ const arrowr = require('@/assets/images/back_b_r.png')
 
 function RecommendDetail(props:any): JSX.Element {
   const userInfo = useUserInfo()
-  const [inputValue,setInputValue] = useState('')
   const [isLoading,setIsLoading] = useState(false)
   const dispatch = useDispatch()
 
-  useEffect(()=>{
-    setInputValue(userInfo.intro)
-  },[userInfo])
   function onBack(){
     props.navigation.goBack()
   }
 
-  function onChange(e:any){
-    setInputValue(e.nativeEvent.text)
-  }
-
   function onPost(){
-    if (isLoading)return
+    if (isLoading || secondIndex < 0)return
     setIsLoading(true)
     HTTPS.post(MY_USER_INFO_UPDATE,{
       "token":userInfo.token,
       // 'avatar': res.media_id,
-      // 'province': '广东省',
-      // 'city': '深圳市',
+      'province': CitySource[firstIndex].name,
+      'city': CitySource[firstIndex].children[secondIndex].name,
       // 'birthday': 1699708371238,
       // 'email': 'xxx@163.com',
-      'intro': inputValue
+      // 'intro': inputValue
     }).then((result:any)=>{
       dispatch(saveUserInfo({
         ...userInfo,
-        intro:inputValue
+        'province': CitySource[firstIndex].name,
+        'city': CitySource[firstIndex].children[secondIndex].name
       }))
       onBack()
     }).finally(()=>{
       setIsLoading(false)
     })
   }
+
+  const [firstIndex,setFirstIndex] = useState(0)
+  const [secondIndex,setSecondIndex] = useState(-1)
+  const [threeIndex,setThreeIndex] = useState(-1)
 
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
@@ -88,12 +85,80 @@ function RecommendDetail(props:any): JSX.Element {
             <Image style={styles.backIcon} source={BackIcon}/>
           </TouchableOpacity>
           <View style={styles.titleView}>
-            <Text style={styles.title}>编辑地址</Text>
+            <Text style={styles.title}>选择地址</Text>
           </View>
           <LoadingButton isLoading={isLoading} style={styles.backButton} onPressIn={onPost}>
             <Text style={[styles.title,{textAlign:'right'}]}>修改</Text>
           </LoadingButton>
         </View>
+        <Text style={styles.selectTitle}>
+          {CitySource[firstIndex].name} 
+          {secondIndex > -1 && CitySource[firstIndex].children[secondIndex].name} 
+          {threeIndex > -1 && CitySource[firstIndex].children[secondIndex].children[threeIndex]?.name} 
+          </Text>
+        <View style={styles.flatView}>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={CitySource}
+            renderItem={({ item, index }:any)=>{
+              return <TouchableOpacity onPress={()=>{
+                setFirstIndex(index)
+                setSecondIndex(-1)
+                setThreeIndex(-1)
+              }} style={[styles.itemBtn,firstIndex == index && styles.itemBtnSel]}>
+                <Text style={[styles.titleS,firstIndex == index && styles.titleSel]}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+              
+            }}
+            style={styles.flatList}
+            ListEmptyComponent={<View/>}
+            initialNumToRender={10}
+            keyExtractor={(item, index) => 'key' + item.name + item.code}
+          />
+          <View style={{width:16,height:'100%'}}/>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={CitySource[firstIndex].children}
+            renderItem={({ item, index }:any)=>{
+              return <TouchableOpacity onPress={()=>{
+                setSecondIndex(index)
+                setThreeIndex(-1)
+              }} style={[styles.itemBtn,secondIndex == index && styles.itemBtnSel]}>
+                <Text style={[styles.titleS,secondIndex == index && styles.titleSel]}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+              
+            }}
+            style={styles.flatList}
+            ListEmptyComponent={<View/>}
+            initialNumToRender={10}
+            keyExtractor={(item, index) => 'key' + item.name + item.code}
+          />
+          <View style={{width:16,height:'100%'}}/>
+           <FlatList
+            showsVerticalScrollIndicator={false}
+            data={CitySource[firstIndex].children[secondIndex]?.children}
+            renderItem={({ item, index }:any)=>{
+              return <TouchableOpacity onPress={()=>{
+                setThreeIndex(index)
+              }} style={[styles.itemBtn,threeIndex == index && styles.itemBtnSel]}>
+                <Text style={[styles.titleS,threeIndex == index && styles.titleSel]}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+              
+            }}
+            style={styles.flatList}
+            ListEmptyComponent={<View/>}
+            initialNumToRender={10}
+            keyExtractor={(item, index) => 'key' + item.name + item.code}
+          />
+        </View>
+       
+
 
        
       </SafeAreaView>

@@ -87,7 +87,6 @@ export const styles = StyleSheet.create({
         height:80,
         borderRadius:40,
         overflow:'hidden',
-        backgroundColor:'red',
         marginRight:32,
     },
     name:{

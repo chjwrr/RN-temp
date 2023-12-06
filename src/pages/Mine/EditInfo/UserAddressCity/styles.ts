@@ -52,21 +52,9 @@ export const styles = StyleSheet.create({
     color:Colors.black,
     marginBottom:10
   },
-  selectTitle:{
-    marginTop:NAVIGATION_HEIGHT,
-    fontSize:16,
-    fontWeight:'800',
-    color:Colors.main,
-    height:50,
-  },
-  flatView:{
-    flexDirection:'row',
-    justifyContent:'space-between',
-    flex:1,
-    width:'100%'
-  },
   flatList:{
     flex:1,
+    marginTop:NAVIGATION_HEIGHT,
   },
   titleS:{
     fontSize:16,
@@ -77,11 +65,5 @@ export const styles = StyleSheet.create({
     justifyContent:'center',
     borderBottomWidth:1,
     borderColor:'#CCCCCC',
-  },
-  itemBtnSel:{
-    backgroundColor:Colors.main
-  },
-  titleSel:{
-    color:Colors.white
   }
 });

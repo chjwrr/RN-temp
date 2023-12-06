@@ -20,7 +20,6 @@ export const styles = StyleSheet.create({
     focusAvtar:{
         width:44,
         height:44,
-        backgroundColor:'blue',
         borderRadius:22
     },
     focusTipView:{
@@ -54,7 +53,6 @@ export const styles = StyleSheet.create({
         width:32,
         height:32,
         borderRadius:16,
-        backgroundColor:'blue',
         marginRight:5
     },
     itemName:{

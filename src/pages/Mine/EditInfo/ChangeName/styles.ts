@@ -113,7 +113,6 @@ export const styles = StyleSheet.create({
       width:'100%',
     },
     sexBtn:{
-      // backgroundColor:'red',
       alignItems:'center'
     },
     sexImgicon:{
