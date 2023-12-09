@@ -58,7 +58,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal:16,
   },
   swiperTopView:{
-    width:'100%',
+    width:SCREEN_WIDTH - 32 - 4,
+    marginHorizontal:2,
     height:'100%',
     borderRadius:8,
     overflow:'hidden'
@@ -315,7 +316,7 @@ export const styles = StyleSheet.create({
     fontSize:12,
   },
   replyTitle:{
-    color:Colors.main,
+    color:Colors.buttonMain,
     fontSize:12,
     marginHorizontal:5
   },
@@ -326,6 +327,6 @@ export const styles = StyleSheet.create({
   },
   collectTitleCol:{
     fontSize:14,
-    color:Colors.main
+    color:Colors.buttonMain
   }
 });

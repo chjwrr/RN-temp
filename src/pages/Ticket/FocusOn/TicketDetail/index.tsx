@@ -129,8 +129,8 @@ function RecommendDetail(props:any): JSX.Element {
   function onShare(){
     if(detailInfo.images){
       const url = HTTPS.getImageUrl(detailInfo.images[0])
-      const title = 'Cverselink';
-      const message = '';
+      const title = detailInfo.name;
+      const message = detailInfo.intro;
       const options = Platform.select({
         default: {
           title,

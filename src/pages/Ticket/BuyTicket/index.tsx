@@ -130,8 +130,8 @@ function Ticket(props:any): JSX.Element {
 
   function onShare(){
     const url = HTTPS.getImageUrl(detailInfo.image)
-    const title = 'Cverselink';
-    const message = '';
+    const title = detailInfo.name;
+    const message = detailInfo.intro;
     const options = Platform.select({
       default: {
         title,

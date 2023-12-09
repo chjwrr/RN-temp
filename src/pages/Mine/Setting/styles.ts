@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     alignItems:'center'
   },
   backButton:{
-    width:NAVIGATION_HEIGHT,
+    width:30,
     height:NAVIGATION_HEIGHT,
     justifyContent:'center'
   },

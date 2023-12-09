@@ -83,9 +83,9 @@ export const styles = StyleSheet.create({
         height:20
     },
     swiperTopView:{
-        width:SCREEN_WIDTH - 32,
+        width:SCREEN_WIDTH - 32 - 4,
+        marginHorizontal:2,
         flex:1,
-        backgroundColor: "blue",
       },
     scrollPointerView:{
         width:4,

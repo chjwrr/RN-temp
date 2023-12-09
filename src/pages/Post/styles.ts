@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
     justifyContent:'flex-end'
   },
   backButton:{
-    width:NAVIGATION_HEIGHT,
+    width:30,
     height:NAVIGATION_HEIGHT,
     justifyContent:'center',
     alignItems:'flex-end',

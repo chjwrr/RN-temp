@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
       backgroundColor:Colors.black
   },
   backButton:{
-    width:NAVIGATION_HEIGHT,
+    width:30,
     height:NAVIGATION_HEIGHT,
     justifyContent:'center'
   },

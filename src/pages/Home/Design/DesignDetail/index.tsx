@@ -77,8 +77,8 @@ function DesignDetail(props:any): JSX.Element {
   }
   function onShare(){
     const url = HTTPS.getImageUrl(clothDetail.image)
-    const title = 'Cverselink';
-    const message = '';
+    const title = clothDetail.name;
+    const message = clothDetail.intro;
     const options = Platform.select({
       default: {
         title,

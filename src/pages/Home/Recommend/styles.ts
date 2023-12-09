@@ -100,6 +100,28 @@ export const styles = StyleSheet.create({
         height:30,
         justifyContent:'center',
         alignItems:'center',
+    },
+    pointerView:{
+        width:'100%',
+        height:4,
+        marginTop:-20,
+        marginBottom:20,
+        flexDirection:'row',
+        justifyContent:'center'
+    },
+    pointerItem:{
+        width:16,
+        height:4,
+        backgroundColor:'#C7C7C7',
+        borderRadius:2,
+        marginHorizontal:1
+    },
+    pointerItemNor:{
+        width:7,
+        height:4,
+        backgroundColor:'rgba(199,199,199,0.6)',
+        borderRadius:2,
+        marginHorizontal:1
     }
 });
   

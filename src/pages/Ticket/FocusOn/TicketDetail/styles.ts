@@ -59,7 +59,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal:16,
   },
   swiperTopView:{
-    width:'100%',
+    width:SCREEN_WIDTH - 32 - 4,
+    marginHorizontal:2,
     height:'100%',
     borderRadius:8,
     overflow:'hidden'

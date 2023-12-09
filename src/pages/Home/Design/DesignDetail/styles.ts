@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     marginTop:Platform.OS === 'ios' ? NAVIGATION_HEIGHT : STATUSBAR_HEIGHT + NAVIGATION_HEIGHT
   },
   backButton:{
-    width:NAVIGATION_HEIGHT,
+    width:30,
     height:NAVIGATION_HEIGHT,
     justifyContent:'center'
   },
@@ -65,7 +65,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal:16,
   },
   swiperTopView:{
-    width:'100%',
+    width:SCREEN_WIDTH - 32 - 4,
+    marginHorizontal:2,
     height:'100%',
     borderRadius:8,
     overflow:'hidden'

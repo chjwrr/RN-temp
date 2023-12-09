@@ -80,8 +80,8 @@ function RecommendDetail(props:any): JSX.Element {
   }
   function onShare(){
     const url = HTTPS.getImageUrl(merchantClothInfo.image)
-    const title = 'Cverselink';
-    const message = '';
+    const title = merchantClothInfo.name;
+    const message = merchantClothInfo.intro;
     const options = Platform.select({
       default: {
         title,
@@ -323,7 +323,7 @@ const SwiperView = memo(({images,name}:{images:any[],name:any})=>{
       onSnapToItem={(index:number) => setCurrentIndex(index)}
       // mode="parallax"
       // modeConfig={{
-      //   parallaxScrollingScale: 0.9,
+      //   // parallaxScrollingScale: 0.9,
       //   parallaxScrollingOffset: 40,
       // }}
       renderItem={({ item,index }:any) => (

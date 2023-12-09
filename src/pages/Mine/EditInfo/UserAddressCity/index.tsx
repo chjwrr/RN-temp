@@ -31,7 +31,6 @@ import CustomTextInput from '@/components/CustomTextInput';
 import LinearGradient from 'react-native-linear-gradient';
 import { useDispatch } from 'react-redux';
 import LoadingButton from '@/components/LoadingButton';
-import {Picker} from '@react-native-picker/picker';
 import CitySource from '@/assets/json/pca.json'
 
 const BGImage = require('@/assets/images/homebg.png')

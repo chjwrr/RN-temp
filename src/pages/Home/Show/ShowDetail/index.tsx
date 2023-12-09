@@ -63,6 +63,7 @@ const zaniconIcon = require('@/assets/images/zan.png')
 
 
 function RecommendDetail(props:any): JSX.Element {
+  const [refreshing, setRefreshing] = useState(true);
   const scrollY = useRef(new Animated.Value(0)).current;
   const userInfo = useUserInfo()
   const [detailInfo,setDetailInfo] = useState<any>({})
@@ -74,10 +75,11 @@ function RecommendDetail(props:any): JSX.Element {
     }).then((res:any)=>{
       setDetailInfo(res.article_detail)
       onGetCommonList(res.article_detail?.comment_list)
+    }).finally(()=>{
+      setRefreshing(false)
     })
   }
   function onGetCommonList(comment_list:any[]){
-    console.log('comment_list===',comment_list)
     // 第一步，筛选出顶级的评论列表
     // 第二步，将回复的评论列表添加到顶级评论的 replyList 属性中
     let topList:any[] = []
@@ -97,7 +99,6 @@ function RecommendDetail(props:any): JSX.Element {
         }
       })
     })
-    console.log('topList=',topList)
     setCommentList(topList)
   }
 
@@ -105,6 +106,14 @@ function RecommendDetail(props:any): JSX.Element {
     getDetail()
   },[])
 
+  function onRefresh(){
+    if (refreshing){
+      return
+    }
+    console.log('onRefresh')
+    setRefreshing(true);
+    getDetail()
+  }
 
   function onBack(){
     props.navigation.goBack()
@@ -113,8 +122,8 @@ function RecommendDetail(props:any): JSX.Element {
   function onShare(){
     if(detailInfo.images){
       const url = HTTPS.getImageUrl(detailInfo.images[0])
-      const title = 'Cverselink';
-      const message = '';
+      const title = '';
+      const message = detailInfo.content;
       const options = Platform.select({
         default: {
           title,
@@ -202,9 +211,9 @@ function RecommendDetail(props:any): JSX.Element {
             //   isCanLoadMore.current = true;
             // }}
             // onEndReachedThreshold={0.01}
-            // refreshControl={
-            //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[Colors.main]}/>
-            // }
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[Colors.main]}/>
+            }
           />
           <DownInfo
             is_like={detailInfo.is_like}

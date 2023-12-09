@@ -213,6 +213,7 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
 function HomeBanner({navigation}:any){
   const userInfo = useUserInfo()
   const [bannerList,setBannerList] = useState<any[]>([])
+  const [currentIndex,setCurrentIndex] = useState(0)
   useEffect(()=>{
     HTTPS.post(HOME_BANNER,{
       "token":userInfo.token,
@@ -231,7 +232,7 @@ function HomeBanner({navigation}:any){
     autoPlay={true}
     data={bannerList}
     scrollAnimationDuration={3000}
-    onSnapToItem={(index) => {}}
+    onSnapToItem={(index:number) => setCurrentIndex(index)}
     mode="parallax"
     modeConfig={{
       parallaxScrollingScale: 0.9,
@@ -262,6 +263,13 @@ function HomeBanner({navigation}:any){
       //   />
     )}
     />
+    <View style={styles.pointerView}>
+      {
+        bannerList.map((item:any,index:number)=>{
+          return <View style={currentIndex === index ? styles.pointerItem : styles.pointerItemNor} key={'homepoinnt'+index}/>
+        })
+      }
+    </View>
     <Text style={styles.topTitle}>穿越不同朝代</Text>
     <View style={styles.topItem}>
       <TouchableOpacity containerStyle={styles.topItemSub}>
