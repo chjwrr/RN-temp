@@ -22,7 +22,8 @@ export const styles = StyleSheet.create({
     alignItems:'center'
   },
   contentContainerStyle:{
-    marginTop:Platform.OS === 'ios' ? NAVIGATION_HEIGHT : STATUSBAR_HEIGHT + NAVIGATION_HEIGHT
+    marginTop:Platform.OS === 'ios' ? NAVIGATION_HEIGHT : STATUSBAR_HEIGHT + NAVIGATION_HEIGHT,
+    paddingBottom:66 + BOTTOM_HEIGHT + 20,
   },
   backButton:{
     width:30,
@@ -132,7 +133,8 @@ export const styles = StyleSheet.create({
   },
   webDetailView:{
     width:'100%',
-    height:SCREEN_HEIGHT
+    height:SCREEN_HEIGHT,
+    marginTop:20
   },
   downView:{
     flexDirection:'row',

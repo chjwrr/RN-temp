@@ -19,6 +19,7 @@ npx react-native run-android     npx react-native run-ios
 
 # 图标、启动图一键生成
 https://apetools.webprofusion.com/?ref=hackernoon.com#/tools/imagegorilla
+https://icon.wuruihong.com/splash
 
 # expo组件库
 https://docs.expo.dev/versions/latest/sdk/sms/

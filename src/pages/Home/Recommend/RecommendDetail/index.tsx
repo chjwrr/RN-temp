@@ -10,6 +10,7 @@ import {
   ScrollView,
   Animated,
   TouchableOpacity,
+  Dimensions,
   TouchableWithoutFeedback
 } from 'react-native';
 import {styles} from './styles'
@@ -148,6 +149,36 @@ function RecommendDetail(props:any): JSX.Element {
     //   savePicture(HTTPS.getImageUrl(merchantClothInfo.image))
     // }
   }
+  const [webViewHeight,setWebViewHeight] = useState(SCREEN_HEIGHT)
+  // const INJECTEDJAVASCRIPT = 'window.ReactNativeWebView.postMessage(document.documentElement.scrollHeight)'
+  const INJECTEDJAVASCRIPT = `
+    const meta = document.createElement('meta');
+    meta.setAttribute('content', 'width=device-width, 'initial-scale=0.5, maximum-scale=0.5, user-scalable=1');
+    meta.setAttribute('name', 'viewport');
+    document.getElementsByTagName('head')[0].appendChild(meta);
+
+    let webHeight = document.body.scrollHeight;
+    let webWidth = document.body.scrollWidth;
+
+    window.ReactNativeWebView.postMessage(JSON.stringify({
+      webHeight: webHeight,
+      webWidth: webWidth,
+    }));
+
+`;
+
+  
+  function computeHeight (pageWidth:number, pageHeight:number) {  
+    return  pageHeight
+     // 获取webview容器的宽度dp 
+      const { width: webviewWidth } = Dimensions.get('window');  
+        // 根据html页面的高度（px）和宽度（px）计算webview实际应该渲染的高度dp
+          const webviewHeight = (webviewWidth - 32) * pageHeight / pageWidth;   
+          console.log('webviewHeight---=',webviewHeight)
+           return parseInt(webviewHeight + '') + 10;
+          }
+
+  const [scrollEnabled,setScrollEnabled] = useState(true)
 
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
@@ -179,6 +210,7 @@ function RecommendDetail(props:any): JSX.Element {
           ],{
             useNativeDriver:false
           })}
+          scrollEnabled={scrollEnabled}
         >
           {/* {id == 0 ? <TDModalView/> : <SwiperView/>} */}
           <SwiperView images={merchantClothInfo.images} name={merchantClothInfo.name}/>
@@ -187,8 +219,32 @@ function RecommendDetail(props:any): JSX.Element {
               setMerchantClothInfo(info)
             }}/>
             <WebView
-              source={{ uri: 'https://www.baidu.com' }}
-              style={styles.webDetailView}
+              source={{html:merchantClothInfo.intro || ''}}
+              style={[styles.webDetailView]}
+              containerStyle={[styles.webDetailView]}
+              onTouchStart={() => {
+                setScrollEnabled(false)
+              }}
+              onTouchCancel={() => {
+                setScrollEnabled(true)
+              }}
+              onTouchEnd={() => {
+                setScrollEnabled(true)
+              }}
+              // javaScriptEnabled={true}
+              // injectedJavaScript={INJECTEDJAVASCRIPT}
+              // scalesPageToFit={false}
+              // scrollEnabled={false}
+              // onMessage={ (msg) => {
+              //   console.log('msg.nativeEvent.data===',msg.nativeEvent.data)
+
+
+              //   const info = JSON.parse(msg.nativeEvent.data)
+              //   console.log('info===',info.webWidth)
+
+              //   setWebViewHeight(computeHeight(info.webWidth,info.webHeight))
+              // }}
+              
             />
           </View>
         </ScrollView>
