@@ -113,11 +113,39 @@ export const styles = StyleSheet.create({
       width:'100%',
     },
     sexBtn:{
-      alignItems:'center'
+      alignItems:'center',
+      position:'relative'
     },
     sexImgicon:{
       width:30,
       height:30,
       marginTop:10
+    },
+    sexItem:{
+        flexDirection:'row',
+        marginTop:10
+    },
+    secIcon:{
+        width:16,
+        height:16,
+        marginRight:10
+    },
+    sexName:{
+        color:Colors.label,
+        fontSize:12
+    },
+    girlImage:{
+        width:49,
+        height:48,
+        position:'absolute',
+        bottom:20,
+        left:-20
+    },
+    boyImage:{
+        width:55,
+        height:48,
+        position:'absolute',
+        bottom:18,
+        left:-25
     }
 })

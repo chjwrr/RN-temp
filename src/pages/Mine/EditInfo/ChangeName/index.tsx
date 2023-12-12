@@ -27,15 +27,16 @@ const ButtonImg = require('@/assets/images/buttonbg.png')
 const NameNorImg = require('@/assets/images/namebg_nor.png')
 const NameSelImg = require('@/assets/images/namebg_sel.png')
 const bottomBG = require('@/assets/images/avatarbottombg.png')
-
 const WomenIcon = require('@/assets/images/womenimg.png')
 const MenIcon = require('@/assets/images/menimg.png')
-
-const women_n = require('@/assets/images/women_n.png')
-const women_s = require('@/assets/images/women_s.png')
-const man_n = require('@/assets/images/man_n.png')
-const man_s = require('@/assets/images/man_s.png')
-
+const WomenIcon_s = require('@/assets/images/womenimg_s.png')
+const MenIcon_s = require('@/assets/images/menimg_s.png')
+const boy = require('@/assets/images/boy.png')
+const boy_icon = require('@/assets/images/boy_icon.png')
+const boy_icon_s = require('@/assets/images/boy_icon_s.png')
+const girl_icon_s = require('@/assets/images/girl_icon_s.png')
+const girl_icon = require('@/assets/images/girl_icon.png')
+const girl = require('@/assets/images/Girl.png')
 
 
 function ChooseSex(props:any): JSX.Element {
@@ -125,15 +126,23 @@ function ChooseSex(props:any): JSX.Element {
                   flexDirection:'row'
                 }}>
                   <TouchableOpacity onPressIn={()=>setSex(0)} style={[styles.sexBtn]}>
-                    <Image style={styles.sexImg} source={WomenIcon}/>
-                    <Image style={styles.sexImgicon} source={sex == 0 ? women_s : women_n}/>
+                    <Image style={styles.sexImg} source={sex == 0 ? WomenIcon_s : WomenIcon}/>
+                    <View style={styles.sexItem}>
+                      <Image style={styles.secIcon} source={sex == 0 ? girl_icon_s : girl_icon}/>
+                      <Text style={styles.sexName}>女生</Text>
+                    </View>
+                    <Image style={styles.girlImage} source={girl}/>
                   </TouchableOpacity>
                   <View style={{
                     width:50
                   }}/>
                   <TouchableOpacity onPressIn={()=>setSex(1)} style={[styles.sexBtn]}>
-                    <Image style={styles.sexImg} source={MenIcon}/>
-                    <Image style={styles.sexImgicon} source={sex == 1 ? man_s : man_n}/>
+                    <Image style={styles.sexImg} source={sex == 1 ? MenIcon_s : MenIcon}/>
+                    <View style={styles.sexItem}>
+                      <Image style={styles.secIcon} source={sex == 1 ? boy_icon_s : boy_icon}/>
+                      <Text style={styles.sexName}>男生</Text>
+                    </View>
+                    <Image style={styles.boyImage} source={boy}/>
                   </TouchableOpacity>
                 </View>
                 <LoadingButton isLoading={isLoading} onPressIn={onNext} style={[styles.nextButtonView,{
