@@ -274,5 +274,15 @@ export const styles = StyleSheet.create({
     paddingLeft:30,
     borderTopLeftRadius:12,
     borderTopRightRadius:12
+  },
+  detailImage:{
+    width:'100%',
+    marginVertical:5,
+    height:500
+  },
+  detailName:{
+    fontSize:14,
+    color:Colors.title,
+    marginVertical:2
   }
 });

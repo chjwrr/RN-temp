@@ -25,7 +25,7 @@ import * as HTTPS from '@/api/axios'
 import { Image as ExpoImage } from 'expo-image';
 import { MERCHANT_CLOTH_DETAIL, MERCHANT_FOLLOW, MERCHANT_UNFOLLOW,  MERCHANT_CLOTH_UNCOLLECT , MERCHANT_CLOTH_COLLECT } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
-import { savePicture } from '@/utils/common';
+import { isImage, savePicture } from '@/utils/common';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -149,37 +149,6 @@ function RecommendDetail(props:any): JSX.Element {
     //   savePicture(HTTPS.getImageUrl(merchantClothInfo.image))
     // }
   }
-  const [webViewHeight,setWebViewHeight] = useState(SCREEN_HEIGHT)
-  // const INJECTEDJAVASCRIPT = 'window.ReactNativeWebView.postMessage(document.documentElement.scrollHeight)'
-  const INJECTEDJAVASCRIPT = `
-    const meta = document.createElement('meta');
-    meta.setAttribute('content', 'width=device-width, 'initial-scale=0.5, maximum-scale=0.5, user-scalable=1');
-    meta.setAttribute('name', 'viewport');
-    document.getElementsByTagName('head')[0].appendChild(meta);
-
-    let webHeight = document.body.scrollHeight;
-    let webWidth = document.body.scrollWidth;
-
-    window.ReactNativeWebView.postMessage(JSON.stringify({
-      webHeight: webHeight,
-      webWidth: webWidth,
-    }));
-
-`;
-
-  
-  function computeHeight (pageWidth:number, pageHeight:number) {  
-    return  pageHeight
-     // 获取webview容器的宽度dp 
-      const { width: webviewWidth } = Dimensions.get('window');  
-        // 根据html页面的高度（px）和宽度（px）计算webview实际应该渲染的高度dp
-          const webviewHeight = (webviewWidth - 32) * pageHeight / pageWidth;   
-          console.log('webviewHeight---=',webviewHeight)
-           return parseInt(webviewHeight + '') + 10;
-          }
-
-  const [scrollEnabled,setScrollEnabled] = useState(true)
-
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -210,7 +179,6 @@ function RecommendDetail(props:any): JSX.Element {
           ],{
             useNativeDriver:false
           })}
-          scrollEnabled={scrollEnabled}
         >
           {/* {id == 0 ? <TDModalView/> : <SwiperView/>} */}
           <SwiperView images={merchantClothInfo.images} name={merchantClothInfo.name}/>
@@ -218,34 +186,16 @@ function RecommendDetail(props:any): JSX.Element {
             <ShopInfo info={merchantClothInfo} onChange={(info:any)=>{
               setMerchantClothInfo(info)
             }}/>
-            <WebView
-              source={{html:merchantClothInfo.intro || ''}}
-              style={[styles.webDetailView]}
-              containerStyle={[styles.webDetailView]}
-              onTouchStart={() => {
-                setScrollEnabled(false)
-              }}
-              onTouchCancel={() => {
-                setScrollEnabled(true)
-              }}
-              onTouchEnd={() => {
-                setScrollEnabled(true)
-              }}
-              // javaScriptEnabled={true}
-              // injectedJavaScript={INJECTEDJAVASCRIPT}
-              // scalesPageToFit={false}
-              // scrollEnabled={false}
-              // onMessage={ (msg) => {
-              //   console.log('msg.nativeEvent.data===',msg.nativeEvent.data)
+            <View style={{height:20}}/>
+            {
+              merchantClothInfo.intro && JSON.parse(merchantClothInfo.intro).map((item:string,index:number)=>{
+                if (isImage(item)){
+                  return <DetailImage key={item} imageName={item}/>
+                }
+                return <Text key={item} style={styles.detailName}>{item}</Text>
+              })
+            }
 
-
-              //   const info = JSON.parse(msg.nativeEvent.data)
-              //   console.log('info===',info.webWidth)
-
-              //   setWebViewHeight(computeHeight(info.webWidth,info.webHeight))
-              // }}
-              
-            />
           </View>
         </ScrollView>
         <View style={styles.downView}>
@@ -288,6 +238,21 @@ function RecommendDetail(props:any): JSX.Element {
     </ImageBackground>
   );
 }
+function DetailImage({imageName}:any){
+  const [imageHeight,setImageHeight] = useState(500)
+  return <ExpoImage
+    style={[styles.detailImage,{
+      height:imageHeight
+    }]}
+    source={HTTPS.getImageUrl(imageName)}
+    placeholder={BLUR_HASH}
+    contentFit="cover"
+    transition={200}
+    onLoad={(e:any)=>{
+      setImageHeight((SCREEN_WIDTH - 32) * e.source.height / e.source.width)
+    }}
+  />
+}
 function BuyModalRight({info,onChange}:any){
   const [focus,setFocus] = useState(false)
   useEffect(()=>{
@@ -296,7 +261,6 @@ function BuyModalRight({info,onChange}:any){
   const userInfo = useUserInfo()
   // 关注店铺
   function onFocus(){
-    console.log('merchantClothInfo==',info)
     HTTPS.post(focus ? MERCHANT_UNFOLLOW : MERCHANT_FOLLOW,{
       "token":userInfo.token,
       "merchant_id":info.merchant?.merchant_id,

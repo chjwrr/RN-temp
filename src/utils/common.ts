@@ -104,3 +104,12 @@ export async function savePicture(imageFile:string) {
   })
 
 };
+export function isImage(str:string){
+  if (!str) return false
+  return str.endsWith('.jpg') ||
+    str.endsWith('.JPG') ||
+    str.endsWith('.png') ||
+    str.endsWith('.PNG') ||
+    str.endsWith('.jpeg') ||
+    str.endsWith('.JPEG')
+}
