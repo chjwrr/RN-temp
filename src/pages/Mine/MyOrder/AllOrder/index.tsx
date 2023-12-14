@@ -143,14 +143,14 @@ function OrderItem({item}:any){
     <View style={styles.itemView}>
       <ExpoImage
         style={styles.itemImage}
-        source={HTTPS.getImageUrl(item.image)}
+        source={HTTPS.getImageUrl(item.ticket_image)}
         placeholder={BLUR_HASH}
         contentFit="cover"
         transition={200}
       />
       <View>
         <Text ellipsizeMode='tail' numberOfLines={1} style={styles.name}>
-        名称:{item.name}
+        名称:{item.ticket_name}
         </Text>
         <Text style={styles.name}>
         ID:{item.order_id}

@@ -136,8 +136,8 @@ function Ticket({navigation,tabState,jumpTo,onBannerPress}:any): JSX.Element {
           return item == 1 ? <FadeLoading
           style={[styles.flowLoadingView,{
             marginVertical:2,
-            marginRight:index % 2 == 0 ? 2 : 0,
-            marginLeft:index % 2 == 0 ? 0 : 2,
+            marginRight:index % 2 == 0 ? 2 : 16,
+            marginLeft:index % 2 == 0 ? 16 : 2,
           }]}
           children={''}
           primaryColor={'#a6abe2'}

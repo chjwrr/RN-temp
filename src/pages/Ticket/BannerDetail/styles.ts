@@ -166,9 +166,14 @@ export const styles = StyleSheet.create({
     width:'100%',
     marginBottom:BOTTOM_HEIGHT + 16
   },
-  webView:{
-    width:SCREEN_WIDTH - 32,
-    height:400,
-    marginHorizontal:16
+  detailImage:{
+    width:'100%',
+    marginVertical:20,
+    height:500
+  },
+  detailName:{
+    fontSize:14,
+    color:Colors.title,
+    marginVertical:2
   }
 });

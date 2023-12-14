@@ -26,7 +26,7 @@ import * as HTTPS from '@/api/axios'
 import { PROJECT_DETAIL, MASTER_UNFOLLOW, MASTER_FOLLOW } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import { Image as ExpoImage } from 'expo-image';
-import { formatTime } from '@/utils/common';
+import { formatTime, isImage } from '@/utils/common';
 
 
 
@@ -159,19 +159,18 @@ function Ticket(props:any): JSX.Element {
                     <Text style={styles.focus}>{isFocus ? '取消关注' : '点击关注'}</Text>
                   </ImageBackground>
                 </TouchableOpacity>
-              </View>
-              <Text style={styles.des}>
-                {projectDetail.intro}
-              </Text>
-              <Text style={styles.time}>{formatTime(projectDetail.created_at)}</Text>
+              </View>             
+              {
+                projectDetail.intro && JSON.parse(projectDetail.intro).map((item:string,index:number)=>{
+                  if (isImage(item)){
+                    return <DetailImage key={item} imageName={item}/>
+                  }
+                  return <Text key={item} style={styles.detailName}>{item}</Text>
+                })
+              }
             </View>
           </View>
-          <WebView
-          source={{uri:'https://www.baidu.com'}}
-          style={styles.webView}
-        />
         </ScrollView>
-
         <TouchableOpacity style={styles.buyBtn} onPressIn={onBuy}>
           <ImageBackground style={styles.tabButtonBg} source={tabButtonBg}>
             <Text style={styles.buy}>点击购买</Text>
@@ -181,6 +180,21 @@ function Ticket(props:any): JSX.Element {
       {/* </SafeAreaView> */}
     </View>
   );
+}
+function DetailImage({imageName}:any){
+  const [imageHeight,setImageHeight] = useState(500)
+  return <ExpoImage
+    style={[styles.detailImage,{
+      height:imageHeight
+    }]}
+    source={HTTPS.getImageUrl(imageName)}
+    placeholder={BLUR_HASH}
+    contentFit="cover"
+    transition={200}
+    onLoad={(e:any)=>{
+      setImageHeight((SCREEN_WIDTH - 64) * e.source.height / e.source.width)
+    }}
+  />
 }
 
 export default Ticket;

@@ -211,10 +211,10 @@ function Ticket(props:any): JSX.Element {
             <Text style={styles.avatarName}>{props.route.params.name}</Text>
           </View>
         </View>
-        <WebView
+        {/* <WebView
           source={{uri:'https://www.baidu.com'}}
           style={styles.webView}
-        />
+        /> */}
       </ScrollView>
       <TouchableOpacity style={styles.buyBtn} onPressIn={onShowBuy}>
         <ImageBackground style={styles.tabButtonBg} source={tabButtonBg}>
