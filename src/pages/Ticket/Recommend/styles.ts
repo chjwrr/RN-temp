@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
     },
     topBanner:{
       width:SCREEN_WIDTH,
-      height:SCREEN_WIDTH
+      height:SCREEN_WIDTH * 640 / 750
     },
     bannerView:{
         paddingHorizontal:16,

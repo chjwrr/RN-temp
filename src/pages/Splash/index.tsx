@@ -31,12 +31,12 @@ function Splash(props:any): JSX.Element {
   const [page,setPage] = useState(0)
   const dispatch = useDispatch()
   useEffect(()=>{
-    if (!isShowGuid){
-      console.log('显示用户引导')
-      setTimeout(() => {
-        setShowGuid(true)
-      }, 3000);
-    }else {
+    // if (!isShowGuid){
+    //   console.log('显示用户引导')
+    //   setTimeout(() => {
+    //     setShowGuid(true)
+    //   }, 3000);
+    // }else {
       console.log('userInfo==',userInfo)
       if (userInfo && userInfo.uid){
         console.log('用户已经登录')
@@ -63,7 +63,7 @@ function Splash(props:any): JSX.Element {
           );
         }, 3000);
       }
-    }
+    // }
   },[])
 
 
@@ -103,8 +103,10 @@ function Splash(props:any): JSX.Element {
   }
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
-      {!showGuid && <Animatable.Image animation={fadeInscale} source={Logo} style={styles.logo}/>}
-      {
+      <Animatable.Image animation={fadeInscale} source={Logo} style={styles.logo}/>
+
+      {/* {!showGuid && <Animatable.Image animation={fadeInscale} source={Logo} style={styles.logo}/>} */}
+      {/* {
         showGuid && <SafeAreaView style={{flex:1}}>
           <ScrollView ref={scrollViewRef} style={{flex:1}} horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false}
           decelerationRate={0}
@@ -157,7 +159,7 @@ function Splash(props:any): JSX.Element {
             </TouchableWithoutFeedback>
             </View>
         </SafeAreaView>
-      }
+      } */}
     </ImageBackground>
   );
 }

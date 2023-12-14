@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
     },
     banner:{
         width:SCREEN_WIDTH - 32,
-        height:(SCREEN_WIDTH - 32) * 380 / 686,
+        height:(SCREEN_WIDTH - 32) * 300 / 686,
         borderRadius:8
     },
     bannerTitleView:{
