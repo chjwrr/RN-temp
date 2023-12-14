@@ -6,18 +6,18 @@ import { GET_MEDIA_ID } from './API';
 const instance = axios.create({})
 instance.defaults.timeout = 30000;
 
-// const HTTP_URL = 'https://cverselink.cn/'
-// const BASE_URL = HTTP_URL + 'yuanyiapi/'
-// const UPLOAD_URL = BASE_URL + "upload"
-// const IMAGE_URL = HTTP_URL + 'yuanyi-media/'
-
-
-const HTTP_URL = 'https://cverselink.com/'
+const HTTP_URL = 'https://cverselink.cn/'
 const BASE_URL = HTTP_URL + 'yuanyiapi/'
 const UPLOAD_URL = BASE_URL + "upload"
+const IMAGE_URL = HTTP_URL + 'yuanyi-media/'
 
-const MEDIA_URL = "http://cdn.cverselink.com/"
-const IMAGE_URL = MEDIA_URL + 'yuanyi-media/'
+
+// const HTTP_URL = 'https://cverselink.com/'
+// const BASE_URL = HTTP_URL + 'yuanyiapi/'
+// const UPLOAD_URL = BASE_URL + "upload"
+
+// const MEDIA_URL = "http://cdn.cverselink.com/"
+// const IMAGE_URL = MEDIA_URL + 'yuanyi-media/'
 
 
 

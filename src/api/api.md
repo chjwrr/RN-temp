@@ -1,5 +1,5 @@
  
-
+ 
  
 article_collect(req)
 收藏
@@ -261,7 +261,7 @@ return: {"my_message_with_customer_service": [{"message_id": "message_id", "
 my_order_list(req)
 我的订单列表（分页） (status 0-待支付 1-已完成 2-已取消，不传status时返回所有订单)
 params: {"token": "token", "status": 0, "limit": 100, "offset": 0}
-return: {'my_order_list': [{'order_id': 1, 'uid': '6ae70652c1d24ab092fd579827534fce', 'price': 1999, 'status': 2, 'created_at': 1700750273542, 'updated_at': 1700750817533}, {'order_id': 2, 'uid': '6ae70652c1d24ab092fd579827534fce', 'price': 1999, 'status': 0, 'created_at': 1700750273542, 'updated_at': 1700750273542}...]}
+return: {'my_order_list': [{'order_id': 4, 'uid': '2ff6d5cd01254249bb883b0070694e2c', 'price': 0, 'status': 0, 'created_at': 1702572351326, 'updated_at': 1702572351326, 'ticket_name': '012', 'ticket_image': 'f40888ec-04e0-42da-b695-b1e99ad16649.jpg'}...]}
 my_ticket_list(req)
 读我的票列表（分页）（已购买）
 params: {"token": "token", "limit": 100, "offset": 0}
@@ -289,7 +289,7 @@ return: {}
 order_detail(req)
 读订单详情
 params: {"token": "token", "order_id": "order_id"}
-return: {'order_detail': {'order_id': 1, 'uid': '6ae70652c1d24ab092fd579827534fce', 'price': 1999, 'status': 2, 'created_at': 1700750273542, 'updated_at': 1700750817533, 'order_item_list': [{'ticket_id': 1, 'price': 1999, 'created_at': 1700750273543, 'updated_at': 1700750273543}]}, 'code': 0}
+return: {'order_detail': {'order_id': 2, 'uid': '2ff6d5cd01254249bb883b0070694e2c', 'price': 0, 'status': 0, 'created_at': 1702569708483, 'updated_at': 1702569708483, 'order_item_list': [{'ticket_id': 24, 'ticket_name': '012', 'ticket_image': 'ee90be1e-61b1-4bd9-9813-b237684b9f13.jpg', 'price': 0, 'created_at': 1702569708484, 'updated_at': 1702569708484}]}, 'code': 0}
 order_pay(req)
 订单支付
 project_detail(req)
@@ -367,7 +367,7 @@ return: {ticket_list': [{'ticket_id': 1, 'name': '票名称0', 'image': '
 ticket_recommend_list(req)
 系统推荐的票列表（分页）(商品，未出售)
 params: {"token": "token", "limit": 100, "offset": 0}
-return: {ticket_recommend_list': [{'ticket_id': 1, 'name': '票名称0', 'image': 'f2bf36d8-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '票简介0', 'price': 1999, 'created_at': 1700748733468}...]}
+return: {ticket_recommend_list': [{'ticket_id': 1, 'name': '票名称0', 'image': 'f2bf36d8-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '票简介0', 'price': 1999, 'created_at': 1700748733468, 'master': {'master_id': 'd3543025dc7644f1b78a3dafc3e1ad1c', 'name': '达人0', 'avatar': 'e5df9160-855a-11ee-bcb6-5785abdd6148.jpeg', 'intro': '达人简介0', 'address': '北京市海淀区中关村0号', 'birthday': '1990-01-01', 'is_follow': False, 'created_at': 1701839013467}}...]}
 user_follow(req)
 关注用户
 params: {"token": "token", "to_uid": "to_uid"}
@@ -396,3 +396,4 @@ user_unfollow(req)
 取消关注用户
 params: {"token": "token", "to_uid": "to_uid"}
 return: {}
+
