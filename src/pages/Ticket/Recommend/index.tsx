@@ -311,6 +311,7 @@ function TopCarousel({navigation,jumpTo,tabState}:any){
       onSnapToItem={(index) => {setCurrentIndex(index)}}
       renderItem={({ item,index }:any) => (
         <ExpoImage
+          key={item.image}
           style={styles.topBanner}
           source={HTTPS.getImageUrl(item.image)}
           placeholder={BLUR_HASH}

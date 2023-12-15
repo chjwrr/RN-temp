@@ -16,7 +16,7 @@ const HTTP_URL = 'https://cverselink.com/'
 const BASE_URL = HTTP_URL + 'yuanyiapi/'
 const UPLOAD_URL = BASE_URL + "upload"
 
-const MEDIA_URL = "http://cdn.cverselink.com/"
+const MEDIA_URL = "https://cdn.cverselink.com/"
 const IMAGE_URL = MEDIA_URL + 'yuanyi-media/'
 
 

@@ -358,6 +358,7 @@ const SwiperView = memo(({images,name}:{images:any[],name:any})=>{
         //   }}
         // />
         <CachedImage
+        key={item}
         sourceAnimationDuration={100}
         thumbnailAnimationDuration={100}
         resizeMode='cover'

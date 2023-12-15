@@ -535,6 +535,7 @@ const SwiperView = memo(({images}:any)=>{
       // }}
       renderItem={({ item,index }:any) => (
         <ExpoImage
+          key={item}
           style={styles.swiperTopView}
           source={HTTPS.getImageUrl(item)}
           placeholder={BLUR_HASH}

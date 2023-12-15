@@ -122,7 +122,7 @@ function Design({navigation,jumpTo}:any): JSX.Element {
               transition={200}
             />
             <Text style={styles.modalName} numberOfLines={1} ellipsizeMode='tail'>{item.name}</Text>
-            <Text style={styles.modalDes} numberOfLines={4} ellipsizeMode='tail'>{item.intro}</Text>
+            {/* <Text style={styles.modalDes} numberOfLines={4} ellipsizeMode='tail'>{item.intro}</Text> */}
           </TouchableOpacity>
         }}
         style={{ flex: 1 }}
@@ -165,6 +165,8 @@ function Banner({navigation}:any){
 
     })
   },[])
+  // height={(SCREEN_WIDTH - 32)*256/343}
+
   return <View style={{flex:1}}>
     <Carousel
     loop
@@ -180,7 +182,7 @@ function Banner({navigation}:any){
       parallaxScrollingOffset: 40,
     }}
     renderItem={({ item,index }) => (
-      <TouchableOpacity onPress={()=>{
+      <TouchableOpacity key={item.image} onPress={()=>{
         navigation.navigate('DesignDetail',{
           id:item.banner_id
         })
@@ -195,9 +197,9 @@ function Banner({navigation}:any){
       </TouchableOpacity>
     )}
     />
-    <Text style={styles.topTitle}>成为初代设计师</Text>
+    {/* <Text style={styles.topTitle}>成为初代设计师</Text>
     <View style={styles.topItem}>
-    </View>
+    </View> */}
   </View>
 }
 export default Design;

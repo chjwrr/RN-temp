@@ -284,7 +284,7 @@ function TopCarousel({navigation}:any){
       scrollAnimationDuration={3000}
       onSnapToItem={(index) => {setCurrentIndex(index)}}
       renderItem={({ item,index }) => (
-        <Image style={{width:'100%',height:'100%'}} source={topbanner}/>
+        <Image key={index + 'superperson'} style={{width:'100%',height:'100%'}} source={topbanner}/>
       )}
       />
     <View style={styles.pointView}>

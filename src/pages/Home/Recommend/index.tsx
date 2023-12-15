@@ -239,7 +239,7 @@ function HomeBanner({navigation}:any){
       parallaxScrollingOffset: 40,
     }}
     renderItem={({ item,index }:any) => (
-      <TouchableOpacity onPress={()=>{
+      <TouchableOpacity key={item.image} onPress={()=>{
         navigation.navigate('RecommendDetail',{
           id:item.banner_id
         })

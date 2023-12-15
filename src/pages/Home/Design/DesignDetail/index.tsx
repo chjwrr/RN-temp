@@ -20,7 +20,7 @@ import { DESIGN_CIRCLE_CLOTH_DETAIL,DESIGN_CIRCLE_CLOTH_COLLECT,DESIGN_CIRCLE_CL
 import { useUserInfo } from '@/redux/userInfo';
 import { Image as ExpoImage } from 'expo-image';
 import { BLUR_HASH, SCREEN_WIDTH } from '@/utils';
-import { savePicture } from '@/utils/common';
+import { isImage, savePicture } from '@/utils/common';
 import {CacheManager, CachedImage} from '@georstat/react-native-image-cache'
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import Carousel from 'react-native-reanimated-carousel';
@@ -92,7 +92,7 @@ function DesignDetail(props:any): JSX.Element {
 
   function onShowDown(){
     console.log('----')
-    show(<DownImage image={clothDetail.image}/>)
+    show(<DownImage imageSource={clothDetail.images}/>)
   }
 
   return (
@@ -126,11 +126,8 @@ function DesignDetail(props:any): JSX.Element {
             useNativeDriver:false
           })}
           >
-          
           <SwiperView images={clothDetail.images} name={clothDetail.name}/>
-
-
-          <DetailInfo/>
+          <DetailInfo intro={clothDetail.intro}/>
         </ScrollView>
         <View style={styles.downView}>
           <TouchableOpacity style={[styles.downViewItem,showBuy && styles.downViewItemSel]} onPressIn={onShowDown}>
@@ -147,7 +144,7 @@ function DesignDetail(props:any): JSX.Element {
   );
 }
 
-function DetailInfo(){
+function DetailInfo({intro}:any){
   // model_right_bgIcon model_left_bgIcon
   const [selectIndex,setSelectIndex] = useState(0)
   return <View style={styles.detailInfo}>
@@ -159,21 +156,42 @@ function DetailInfo(){
         <Text style={selectIndex != 0 ? styles.detailTopTitle : styles.detailTopTitledis}>制作公司介绍</Text>
       </TouchableOpacity>
     </ImageBackground>
-    <WebView
-      source={{ uri: 'https://www.baidu.com' }}
-      style={styles.webDetailView}
-    />
+    {
+      intro && JSON.parse(intro).map((item:string,index:number)=>{
+        if (isImage(item)){
+          return <DetailImage key={item} imageName={item}/>
+        }
+        return <Text key={item} style={styles.detailName}>{item}</Text>
+      })
+    }
   </View>
 }
-function DownImage({image}:any){
+function DetailImage({imageName}:any){
+  const [imageHeight,setImageHeight] = useState(500)
+  return <ExpoImage
+    style={[styles.detailImage,{
+      height:imageHeight
+    }]}
+    source={HTTPS.getImageUrl(imageName)}
+    placeholder={BLUR_HASH}
+    contentFit="cover"
+    transition={200}
+    onLoad={(e:any)=>{
+      setImageHeight((SCREEN_WIDTH - 32) * e.source.height / e.source.width)
+    }}
+  />
+}
+function DownImage({imageSource}:any){
+  const [currentIndex,setCurrentIndex] = useState(0)
+
   function onDownload(){
-    if (image){
-      savePicture(HTTPS.getImageUrl(image))
+    if (imageSource){
+      savePicture(HTTPS.getImageUrl(imageSource[currentIndex]))
     }
     hidden()
   }
   function onShare(){
-    const url = HTTPS.getImageUrl(image)
+    const url = HTTPS.getImageUrl(imageSource[currentIndex])
     const title = 'Cverselink';
     const message = '';
     const options = Platform.select({
@@ -187,22 +205,28 @@ function DownImage({image}:any){
     hidden()
   }
   return <View style={styles.downImageView}>
-    {/* <ExpoImage
-      style={styles.downImageContent}
-      source={HTTPS.getImageUrl(image)}
-      placeholder={BLUR_HASH}
-      contentFit="cover"
-      transition={200}
-    /> */}
-    <CachedImage
-        sourceAnimationDuration={100}
-        thumbnailAnimationDuration={100}
-        resizeMode='cover'
-        source={HTTPS.getImageUrl(image)}
-        style={styles.downImageContent}
-        blurRadius={30}
-        loadingImageComponent={ImagePlaceholder}
-        />
+    <Carousel
+      loop
+      width={274}
+      height={320}
+      data={imageSource}
+      onSnapToItem={(index:number) => setCurrentIndex(index)}
+      renderItem={({ item,index }:any) => (
+        <CachedImage
+          key={item}
+          sourceAnimationDuration={100}
+          thumbnailAnimationDuration={100}
+          resizeMode='cover'
+          source={HTTPS.getImageUrl(item)}
+          style={styles.downImageContent}
+          blurRadius={30}
+          loadingImageComponent={ImagePlaceholder}
+          />
+          )}
+      />
+    <View style={styles.sliderView}>
+      <Text style={styles.sliderTitle}>{currentIndex + 1}/{imageSource.length}</Text>
+    </View>
     <View style={styles.downImageLineView}>
       <View style={styles.downlinecir}/>
       <Image style={styles.downImageLine} source={spebgIcon}/>
@@ -257,6 +281,7 @@ const SwiperView = memo(({images,name}:{images:any[],name:any})=>{
         //   }}
         // />
         <CachedImage
+        key={item}
         sourceAnimationDuration={100}
         thumbnailAnimationDuration={100}
         resizeMode='cover'

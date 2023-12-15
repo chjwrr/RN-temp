@@ -22,7 +22,8 @@ export const styles = StyleSheet.create({
     alignItems:'center'
   },
   contentContainerStyle:{
-    marginTop:Platform.OS === 'ios' ? NAVIGATION_HEIGHT : STATUSBAR_HEIGHT + NAVIGATION_HEIGHT
+    marginTop:Platform.OS === 'ios' ? NAVIGATION_HEIGHT : STATUSBAR_HEIGHT + NAVIGATION_HEIGHT,
+    paddingBottom:88+BOTTOM_HEIGHT,
   },
   backButton:{
     width:30,
@@ -369,5 +370,15 @@ export const styles = StyleSheet.create({
     justifyContent:'center',
     marginTop:20,
     marginBottom:12
+  },
+  detailImage:{
+    width:'100%',
+    marginVertical:5,
+    height:500
+  },
+  detailName:{
+    fontSize:14,
+    color:Colors.title,
+    marginVertical:2
   }
 });

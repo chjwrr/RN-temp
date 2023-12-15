@@ -1,3 +1,4 @@
+import { SCREEN_WIDTH } from '@/utils';
 import Colors from '@/utils/colors';
 import {
     StyleSheet,
@@ -7,6 +8,7 @@ export const styles = StyleSheet.create({
     swiperView:{
         width:'100%',
         height:180,
+        // height:(SCREEN_WIDTH - 32)*256/343,
         borderRadius:8,
     },
     flowView:{
