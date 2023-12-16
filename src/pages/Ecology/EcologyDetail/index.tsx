@@ -25,6 +25,7 @@ import * as HTTPS from '@/api/axios'
 import { GAME_COLLECT, GAME_DETAIL, GAME_UNCOLLECT, TICKET_LIST } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import { Image as ExpoImage } from 'expo-image';
+import { isImage } from '@/utils/common';
 
 const BackIcon = require('@/assets/images/back_w.png')
 const CollectIcon = require('@/assets/images/unlike.png')
@@ -110,11 +111,15 @@ function Ticket(props:any): JSX.Element {
             <View style={styles.downView}>
               <Text style={styles.title}>{gameDetail.name}</Text>
             </View>
+            {
+              gameDetail.intro && JSON.parse(gameDetail.intro).map((item:string,index:number)=>{
+                if (isImage(item)){
+                  return <DetailImage key={item} imageName={item}/>
+                }
+                return <Text key={item} style={styles.detailName}>{item}</Text>
+              })
+            }
           </View>
-          <WebView
-          source={{uri:'https://www.baidu.com'}}
-          style={styles.webView}
-        />
         </ScrollView>
         <TouchableOpacity onPressIn={onBuy}>
           <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.buyBtn}>
@@ -124,5 +129,19 @@ function Ticket(props:any): JSX.Element {
     </View>
   );
 }
-
+function DetailImage({imageName}:any){
+  const [imageHeight,setImageHeight] = useState(500)
+  return <ExpoImage
+    style={[styles.detailImage,{
+      height:imageHeight
+    }]}
+    source={HTTPS.getImageUrl(imageName)}
+    placeholder={BLUR_HASH}
+    contentFit="cover"
+    transition={200}
+    onLoad={(e:any)=>{
+      setImageHeight((SCREEN_WIDTH - 32) * e.source.height / e.source.width)
+    }}
+  />
+}
 export default Ticket;
