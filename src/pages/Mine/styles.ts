@@ -108,8 +108,11 @@ export const styles = StyleSheet.create({
       marginTop:10
     },
     inviteView:{
-      paddingHorizontal:24,
-      paddingVertical:12
+      marginTop:10
+    },
+    inviteBgView:{
+      width:SCREEN_WIDTH - 32,
+      height:(SCREEN_WIDTH - 32) * 82 / 343,
     },
     inviteName:{
       fontSize:24,
@@ -117,8 +120,8 @@ export const styles = StyleSheet.create({
       fontWeight:'600'
     },
     orderView:{
-      paddingHorizontal:24,
-      paddingVertical:12,
+      paddingVertical:24,
+      paddingHorizontal:32,
       flexDirection:'row',
       justifyContent:'space-between'
     },

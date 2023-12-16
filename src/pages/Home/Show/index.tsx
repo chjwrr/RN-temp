@@ -13,7 +13,6 @@ import {styles} from './styles'
 import Carousel from 'react-native-reanimated-carousel';
 import { BLUR_HASH, PAGE_SIZE, SCREEN_WIDTH } from '@/utils';
 import { FadeLoading } from 'react-native-fade-loading';
-import WaterfallFlow from 'react-native-waterfall-flow'
 import Colors from '@/utils/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useUserInfo } from '@/redux/userInfo';

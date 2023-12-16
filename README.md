@@ -32,7 +32,7 @@ https://github.com/zoontek/react-native-permissions
 # 视频压缩
 https://github.com/shahen94/react-native-video-processing
 # 视频播放
-https://github.com/react-native-video/react-native-video
+expo-av
 # actionsheet
 # 下拉选择
 # 毛玻璃
@@ -623,9 +623,3 @@ https://github.com/Hector-Chong/native-wechat
 https://github.com/uiwjs/react-native-alipay
 
 
-
-
-
-
-# TODO 
-## 1.登录等输入框，点击输入框的时候，可以动画向上渐变出一个标题

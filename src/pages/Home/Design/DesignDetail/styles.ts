@@ -70,7 +70,8 @@ export const styles = StyleSheet.create({
     marginHorizontal:2,
     height:'100%',
     borderRadius:8,
-    overflow:'hidden'
+    overflow:'hidden',
+    // backgroundColor:'#fff'
   },
   sliderView:{
     backgroundColor:'rgba(109,105,250,0.2)',
@@ -268,22 +269,24 @@ export const styles = StyleSheet.create({
   },
   detailInfo:{
     width:'100%',
-    marginTop:16
+    marginTop:16,
+    paddingVertical:16,
+    alignItems:'center'
   },
   detailTopBg:{
-    width:SCREEN_WIDTH,
-    height:SCREEN_WIDTH * 226 / 1377,
+    width:SCREEN_WIDTH - 32,
+    height:(SCREEN_WIDTH - 32) * 226 / 1377,
     flexDirection:'row',
     alignItems:'center',
   },
   detailLeftButton:{
-    width:SCREEN_WIDTH / 5 * 3,
+    width:(SCREEN_WIDTH - 32) / 5 * 3,
     height:'100%',
     alignItems:'center',
     justifyContent:'center'
   },
   detailRightButton:{
-    width:SCREEN_WIDTH / 5 * 2,
+    width:(SCREEN_WIDTH - 32) / 5 * 2,
     height:'100%',
     alignItems:'center',
     justifyContent:'center'
@@ -372,13 +375,17 @@ export const styles = StyleSheet.create({
     marginBottom:12
   },
   detailImage:{
-    width:'100%',
-    marginVertical:5,
+    width:SCREEN_WIDTH - 32,
     height:500
   },
   detailName:{
     fontSize:14,
     color:Colors.title,
     marginVertical:2
-  }
+  },
+  transImage:{
+    width:320,
+    height:70,
+    marginTop:-30
+  },
 });

@@ -113,3 +113,8 @@ export function isImage(str:string){
     str.endsWith('.jpeg') ||
     str.endsWith('.JPEG')
 }
+export function isVideo(str:string){
+  if (!str) return false
+  return str.endsWith('.mp4') ||
+    str.endsWith('.MP4')
+}

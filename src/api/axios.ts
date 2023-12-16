@@ -30,6 +30,12 @@ export function getImageUrl(media_id:string){
   }
   return `${IMAGE_URL}${media_id}.jpg`
 }
+export function getVideoUrl(media_id:string){
+  if(!media_id){
+    return ''
+  }
+  return `${IMAGE_URL}${media_id}`
+}
 
 instance.defaults.headers.post['Content-Type'] = 'application/json'
 

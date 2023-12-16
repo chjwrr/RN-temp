@@ -22,7 +22,13 @@ import LinearGradient from 'react-native-linear-gradient';
 const BGImage = require('@/assets/images/homebg.png')
 const setting = require('@/assets/images/setting.png')
 const lvbg = require('@/assets/images/lvbg.png')
-const mineitem = require('@/assets/images/mineitem.png')
+const inviteBgImg = require('@/assets/images/inviteBgImg.png')
+const mine_allorder = require('@/assets/images/mine_allorder.png')
+const mine_mycollect = require('@/assets/images/mine_mycollect.png')
+const mine_myfocus = require('@/assets/images/mine_myfocus.png')
+const mine_messagecenter = require('@/assets/images/mine_messagecenter.png')
+const mine_customer = require('@/assets/images/mine_customer.png')
+const mine_mypost = require('@/assets/images/mine_mypost.png')
 
 
 function Mine(props:any): JSX.Element {
@@ -116,30 +122,30 @@ function Mine(props:any): JSX.Element {
             <Text style={styles.lvnumcen}>积分中心</Text>
           </TouchableOpacity>
         </ImageBackground>
-        <TouchableOpacity style={[styles.inviteView,styles.bg]} onPressIn={onInvite}>
-          <Text style={styles.inviteName}>邀请好友</Text>
+        <TouchableOpacity style={[styles.inviteView]} onPressIn={onInvite}>
+          <ImageBackground style={styles.inviteBgView} source={inviteBgImg}/>
         </TouchableOpacity>
         <View style={[styles.orderView,styles.bg]}>
           <TouchableOpacity style={{alignItems:'center'}} onPressIn={onMyOrder}>
-            <Image style={styles.orderIcon} source={mineitem}/>
+            <Image style={styles.orderIcon} source={mine_allorder}/>
             <Text style={styles.ovdername}>全部订单</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{alignItems:'center'}} onPressIn={onMyCollect}>
-            <Image style={styles.orderIcon} source={mineitem}/>
+            <Image style={styles.orderIcon} source={mine_mycollect}/>
             <Text style={styles.ovdername}>我的收藏</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{alignItems:'center'}} onPressIn={onMyFocus}>
-            <Image style={styles.orderIcon} source={mineitem}/>
+            <Image style={styles.orderIcon} source={mine_myfocus}/>
             <Text style={styles.ovdername}>我的关注</Text>
           </TouchableOpacity>
         </View>
         <View style={[styles.orderView,styles.bg]}>
           <TouchableOpacity style={{alignItems:'center'}} onPressIn={onMyPost}>
-            <Image style={styles.orderIcon} source={mineitem}/>
+            <Image style={styles.orderIcon} source={mine_mypost}/>
             <Text style={styles.ovdername}>我的笔记</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{alignItems:'center'}} onPressIn={onMessageCenter}>
-            <Image style={styles.orderIcon} source={mineitem}/>
+            <Image style={styles.orderIcon} source={mine_messagecenter}/>
             <Text style={styles.ovdername}>消息中心</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{alignItems:'center'}} onPressIn={()=>{
@@ -150,7 +156,7 @@ function Mine(props:any): JSX.Element {
               customer:true
             })
           }}>
-            <Image style={styles.orderIcon} source={mineitem}/>
+            <Image style={styles.orderIcon} source={mine_customer}/>
             <Text style={styles.ovdername}>客服中心</Text>
           </TouchableOpacity>
         </View>

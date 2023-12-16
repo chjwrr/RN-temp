@@ -20,10 +20,11 @@ import { DESIGN_CIRCLE_CLOTH_DETAIL,DESIGN_CIRCLE_CLOTH_COLLECT,DESIGN_CIRCLE_CL
 import { useUserInfo } from '@/redux/userInfo';
 import { Image as ExpoImage } from 'expo-image';
 import { BLUR_HASH, SCREEN_WIDTH } from '@/utils';
-import { isImage, savePicture } from '@/utils/common';
+import { isImage, isVideo, savePicture } from '@/utils/common';
 import {CacheManager, CachedImage} from '@georstat/react-native-image-cache'
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import Carousel from 'react-native-reanimated-carousel';
+import { Video, ResizeMode } from 'expo-av';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -38,6 +39,7 @@ const model_right_bgIcon = require('@/assets/images/model_right_bg.png')
 const spebgIcon = require('@/assets/images/spebg.png')
 const download_nIcon = require('@/assets/images/download_n.png')
 const share_nIcon = require('@/assets/images/share_n.png')
+const home_des_tran = require('@/assets/images/home_des_tran.png')
 
 
 function DesignDetail(props:any): JSX.Element {
@@ -260,38 +262,26 @@ const SwiperView = memo(({images,name}:{images:any[],name:any})=>{
       loop
       width={SCREEN_WIDTH - 32}
       height={SCREEN_WIDTH + 20}
-      // autoPlay={true}
       data={imageSource}
-      // scrollAnimationDuration={3000}
       onSnapToItem={(index:number) => setCurrentIndex(index)}
-      // mode="parallax"
-      // modeConfig={{
-      //   parallaxScrollingScale: 0.9,
-      //   parallaxScrollingOffset: 40,
-      // }}
-      renderItem={({ item,index }:any) => (
-        // <ExpoImage
-        //   style={styles.swiperTopView}
-        //   source={HTTPS.getImageUrl(item)}
-        //   placeholder={BLUR_HASH}
-        //   contentFit="cover"
-        //   transition={200}
-        //   onLoad={(e:any)=>{
-        //     console.log('eeee==',e)
-        //   }}
-        // />
-        <CachedImage
-        key={item}
-        sourceAnimationDuration={100}
-        thumbnailAnimationDuration={100}
-        resizeMode='cover'
-        source={HTTPS.getImageUrl(item)}
-        style={styles.swiperTopView}
-        blurRadius={30}
-        loadingImageComponent={ImagePlaceholder}
-        />
-      )}
+      renderItem={({ item,index }:any) => {
+        if (isVideo(item)){
+          return <VideoView url={item} key={item}/>
+        }else {
+          return <CachedImage
+          key={item}
+          sourceAnimationDuration={100}
+          thumbnailAnimationDuration={100}
+          resizeMode='cover'
+          source={HTTPS.getImageUrl(item)}
+          style={styles.swiperTopView}
+          blurRadius={30}
+          loadingImageComponent={ImagePlaceholder}
+          />
+        }
+      }}
       />
+    <Image style={styles.transImage} source={home_des_tran}/>
     <View style={styles.sliderView}>
       <Text style={styles.sliderTitle}>{currentIndex + 1}/{imageSource.length}</Text>
     </View>
@@ -299,6 +289,20 @@ const SwiperView = memo(({images,name}:{images:any[],name:any})=>{
   </View>
 },(pre:any,next:any)=>pre.images == next.images)
 
+function VideoView({url}:any){
+  const videoRef = React.useRef<any>(null);
+  const videoUrl = HTTPS.getVideoUrl(url)
+
+  return <Video 
+    // controls
+    shouldPlay
+    isLooping
+    resizeMode={ResizeMode.CONTAIN}
+    source={{uri:videoUrl}}
+    ref={videoRef}              
+    style={styles.swiperTopView}
+  />
+}
 //clothDetail.name
 function TDModalView(name:string){
   return <View style={styles.modalView}>
