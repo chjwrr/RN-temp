@@ -117,7 +117,7 @@ function RecommendDetail(props:any): JSX.Element {
         setLoading(false)
       })
     }
-   
+
   }
 
   useEffect(()=>{

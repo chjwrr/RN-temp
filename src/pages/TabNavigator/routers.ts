@@ -29,6 +29,7 @@ import SendMessageScreen from '@/pages/Ticket/SuperPerson/SendMessage'
 import MyMessageCenterScreen from '@/pages/Mine/MyMessage'
 import UserIntroScreen from '@/pages/Mine/EditInfo/UserIntro'
 import UserAddressScreen from '@/pages/Mine/EditInfo/UserAddress'
+import EcologySendMessageScreen from '@/pages/Ecology/EcologyDetail/EcologySendMessage'
 
 
 export const routers:any[] = [
@@ -156,5 +157,11 @@ export const routers:any[] = [
       name:'UserAddress',
       component:UserAddressScreen
     },
+    {
+      name:'EcologySendMessage',
+      component:EcologySendMessageScreen
+
+    },
+
 ]
 

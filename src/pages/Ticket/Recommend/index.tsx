@@ -1,7 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  TouchableOpacity,
   View,
   ActivityIndicator,
   ScrollView,
@@ -26,6 +25,8 @@ import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { formatID } from '@/utils/common';
 
 const centerBg = require('@/assets/images/ticket_downbg.png')
 const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
@@ -237,7 +238,7 @@ function RemmenntRenderItem({item,columnIndex,navigation}:any){
           <Image style={styles.flowFocus} source={focus_n}/>
         </TouchableOpacity> */}
       </View>
-      <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowNameid}>id:{item.ticket_id}</Text>
+      <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowNameid}>ID:{formatID(item.project_id)}{formatID(item.ticket_id)}</Text>
       <View style={styles.flowViewSubView}>
         <View style={{flexDirection:'row',alignItems:'center'}}>
             <ExpoImage

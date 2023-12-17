@@ -39,7 +39,9 @@ export const styles = StyleSheet.create({
     },
     topBanner:{
       width:SCREEN_WIDTH,
-      height:SCREEN_WIDTH
+      height:SCREEN_WIDTH,
+      borderRadius:20,
+      overflow:'hidden'
     },
     bannerView:{
         paddingHorizontal:16,
@@ -59,7 +61,7 @@ export const styles = StyleSheet.create({
     },
     banner:{
         width:SCREEN_WIDTH - 32,
-        height:(SCREEN_WIDTH - 32) * 300 / 686,
+        height:(SCREEN_WIDTH - 32) * 380 / 686,
         borderRadius:8
     },
     bannerTitleView:{
@@ -142,14 +144,6 @@ export const styles = StyleSheet.create({
         height:(SCREEN_WIDTH - 32) * 380 / 686 + 30,
         borderRadius:8,
         marginHorizontal:16
-    },
-    flowView2:{
-        // width:'100%',
-        flex:1,
-        height:180,
-        // backgroundColor:Colors.white,
-        borderRadius:5,
-        // padding:8
     },
     typeItem:{
         width:'100%',

@@ -26,6 +26,7 @@ import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import FlashMessage from 'react-native-flash-message';
 
 const centerBg = require('@/assets/images/ticket_downbg.png')
 const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
@@ -185,7 +186,7 @@ function TopCarousel({navigation,jumpTo,tabState}:any){
       data={bannerList}
       mode="parallax"
       modeConfig={{
-        parallaxScrollingScale: 1,
+        parallaxScrollingScale: 0.9,
         parallaxScrollingOffset: 0,
       }}
       scrollAnimationDuration={3000}

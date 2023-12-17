@@ -118,3 +118,7 @@ export function isVideo(str:string){
   return str.endsWith('.mp4') ||
     str.endsWith('.MP4')
 }
+export function formatID(id:any){
+  if (!id) return ''
+  return String(id).padStart(3, '0');
+}

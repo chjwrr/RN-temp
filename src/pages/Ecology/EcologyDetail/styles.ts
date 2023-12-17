@@ -61,17 +61,15 @@ export const styles = StyleSheet.create({
     marginTop:240,
     // height:500,
   },
-  avatatView:{
-    flexDirection:'row',
-    justifyContent:'center',
-    zIndex:10,
-    position:'absolute',
-    left:0,
-    right:0
-  },
   avatar:{
     width:58,
     height:58,
+    borderRadius:29,
+    borderWidth:1,
+    borderColor:'#6067FE',
+    zIndex:10,
+    position:'absolute',
+    top:-29,
   },
   downView:{
     width:'100%',
@@ -80,16 +78,19 @@ export const styles = StyleSheet.create({
     borderColor:'#6067FE',
     borderTopLeftRadius:20,
     borderTopRightRadius:20,
-    padding:16,
     zIndex:2,
-    marginTop:29,
+    marginVertical:29,
+    borderBottomWidth:0,
+    flexDirection:'column',
+    alignItems:'center'
   },
   title:{
     fontSize:24,
     color:Colors.white,
     textAlign:'center',
     width:'100%',
-    marginTop:20
+    marginVertical:20,
+    marginTop:40
   },
   by:{
     fontSize:12,
@@ -166,7 +167,8 @@ export const styles = StyleSheet.create({
     marginLeft:16,
     marginBottom:BOTTOM_HEIGHT + 16,
     height:42,
-    borderRadius:5
+    borderRadius:5,
+    position:'relative'
   },
   webView:{
     width:SCREEN_WIDTH - 32,
@@ -175,12 +177,18 @@ export const styles = StyleSheet.create({
   },
   detailImage:{
     width:'100%',
-    marginVertical:5,
+    marginTop:5,
     height:500
   },
   detailName:{
     fontSize:14,
     color:Colors.title,
     marginVertical:2
-  }
+  },
+  downIcon:{
+    width:38,
+    height:38,
+    position:'absolute',
+    left:16
+  },
 });

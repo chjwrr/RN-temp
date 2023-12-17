@@ -195,7 +195,6 @@ function RecommendDetail(props:any): JSX.Element {
                 return <Text key={item} style={styles.detailName}>{item}</Text>
               })
             }
-
           </View>
         </ScrollView>
         <View style={styles.downView}>

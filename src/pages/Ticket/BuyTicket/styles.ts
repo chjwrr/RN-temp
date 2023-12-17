@@ -170,8 +170,13 @@ export const styles = StyleSheet.create({
   buyBtn:{
     flexDirection:'row',
     justifyContent:'center',
-    width:'100%',
-    marginBottom:BOTTOM_HEIGHT + 16
+    alignItems:'center',
+    width:SCREEN_WIDTH - 32,
+    marginLeft:16,
+    marginBottom:BOTTOM_HEIGHT + 16,
+    height:42,
+    borderRadius:5,
+    position:'relative',
   },
   webView:{
     width:SCREEN_WIDTH - 32,
@@ -240,7 +245,9 @@ export const styles = StyleSheet.create({
     backgroundColor: 'rgba(109, 105, 250, 0.2)',
     borderWidth: 1,
     borderColor:'rgba(204, 204, 204, 1)',
-    marginTop:24 
+    // marginTop:24,
+    marginTop:9,
+    zIndex:2
   },
   name:{
     fontSize:18,
@@ -259,14 +266,20 @@ export const styles = StyleSheet.create({
     fontSize:10,
     color:Colors.white,
   },
+  limitView:{
+    width:'100%',
+    // paddingHorizontal:16,
+    zIndex:3,
+    position:'absolute'
+  },
   limmitbg:{
     width:81,
     height:18,
     justifyContent:'center',
     alignItems:'center',
-    position:'absolute',
-    left:-1,
-    top:-9
+    // position:'absolute',
+    // left:-1,
+    // top:-9,
   },
   limmittitle:{
     fontSize:10,
@@ -331,6 +344,21 @@ export const styles = StyleSheet.create({
     marginTop:50,
     width:SCREEN_WIDTH,
     marginLeft:-16
+  },
+  detailView:{
+    marginBottom: 32,
+  },
+  detailImage:{
+    width:SCREEN_WIDTH - 32,
+    marginVertical:20,
+    height:500,
+    marginBottom:0,
+    borderRadius:8
+  },
+  detailName:{
+    fontSize:14,
+    color:Colors.title,
+    marginVertical:2
   }
 
 });

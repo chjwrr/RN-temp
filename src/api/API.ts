@@ -262,3 +262,9 @@ export const MY_MESSAGE_WITH_CUSTOMER = 'my_message_with_customer_service'
 // 给客服发私信
 export const SEND_MESSAGE_TO_CUSTOMER = 'send_message_to_customer_service'
 
+// 游戏评论列表（分页）
+export const GAME_COMMENT_LIST = 'game_comment_list'
+
+// 游戏评论发表
+export const GAME_COMMENT_PUBLISH = 'game_comment_publish'
+

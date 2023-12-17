@@ -171,10 +171,10 @@ function Ticket(props:any): JSX.Element {
           </View>
         </ScrollView>
         <TouchableOpacity style={styles.buyBtn} onPressIn={onBuy}>
-          <ImageBackground style={styles.tabButtonBg} source={tabButtonBg}>
+          <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={[styles.buyBtn,{marginLeft:0}]}>
             <Text style={styles.buy}>点击购买</Text>
             <Image source={downbg} style={styles.buyicon}/>
-          </ImageBackground>
+          </LinearGradient>
         </TouchableOpacity>
       {/* </SafeAreaView> */}
     </View>

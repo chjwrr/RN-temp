@@ -29,6 +29,7 @@ import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
+import { formatID } from '@/utils/common';
 
 
 const BGImage = require('@/assets/images/homebg.png')
@@ -178,6 +179,7 @@ function Ticket(props:any): JSX.Element {
           name={props.route.params.name}
           avatar={props.route.params.avatar}
           navigation={props.navigation}
+          project_id={props.route.params.project_id}
         />
         }}
         style={{ flex: 1, paddingHorizontal:16}}
@@ -220,7 +222,7 @@ function Ticket(props:any): JSX.Element {
   );
 }
 
-function RemmenntRenderItem({item,columnIndex,name,avatar,navigation}:any){
+function RemmenntRenderItem({item,columnIndex,name,avatar,navigation,project_id}:any){
   function onPress(index:any){
     navigation.navigate('BuyTicket',{
       ticket_id:item.ticket_id,
@@ -254,7 +256,7 @@ function RemmenntRenderItem({item,columnIndex,name,avatar,navigation}:any){
           <Image style={styles.flowFocus} source={focus_n}/>
         </TouchableOpacity> */}
       </View>
-      <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowNameid}>id:{item.ticket_id}</Text>
+      <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowNameid}>ID:{formatID(project_id)}{formatID(item.ticket_id)}</Text>
       <View style={styles.flowViewSubView}>
         <View style={{flexDirection:'row',alignItems:'center'}}>
             <ExpoImage

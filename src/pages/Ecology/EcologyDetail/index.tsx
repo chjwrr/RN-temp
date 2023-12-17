@@ -30,6 +30,7 @@ import { isImage } from '@/utils/common';
 const BackIcon = require('@/assets/images/back_w.png')
 const CollectIcon = require('@/assets/images/unlike.png')
 const Collect_SIcon = require('@/assets/images/like.png')
+const downBg = require('@/assets/images/downbg.png')
 
 function Ticket(props:any): JSX.Element {
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -50,8 +51,10 @@ function Ticket(props:any): JSX.Element {
   function onBack(){
     props.navigation.goBack()
   }
-  function onBuy(){
-    
+  function onGotoGame(){
+    props.navigation.navigate('EcologySendMessage',{
+      detailInfo:gameDetail
+    })
   }
   function onCollect(){
     HTTPS.post(isCollect ? GAME_UNCOLLECT : GAME_COLLECT,{
@@ -109,20 +112,28 @@ function Ticket(props:any): JSX.Element {
         <ScrollView contentContainerStyle={{flexGrow:1}}>
           <View style={styles.downContent}>
             <View style={styles.downView}>
+              <ExpoImage
+                style={styles.avatar}
+                source={HTTPS.getImageUrl(gameDetail.avatar)}
+                placeholder={BLUR_HASH}
+                contentFit="cover"
+                transition={200}
+              />
               <Text style={styles.title}>{gameDetail.name}</Text>
+              {
+                gameDetail.intro && JSON.parse(gameDetail.intro).map((item:string,index:number)=>{
+                  if (isImage(item)){
+                    return <DetailImage key={item} imageName={item}/>
+                  }
+                  return <Text key={item} style={styles.detailName}>{item}</Text>
+                })
+              }
             </View>
-            {
-              gameDetail.intro && JSON.parse(gameDetail.intro).map((item:string,index:number)=>{
-                if (isImage(item)){
-                  return <DetailImage key={item} imageName={item}/>
-                }
-                return <Text key={item} style={styles.detailName}>{item}</Text>
-              })
-            }
           </View>
         </ScrollView>
-        <TouchableOpacity onPressIn={onBuy}>
+        <TouchableOpacity onPressIn={onGotoGame}>
           <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.buyBtn}>
+            <Image style={styles.downIcon} source={downBg}/>
             <Text style={styles.buy}>进入游戏</Text>
           </LinearGradient>
         </TouchableOpacity>

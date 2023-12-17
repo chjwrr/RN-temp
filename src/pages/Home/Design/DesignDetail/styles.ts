@@ -93,7 +93,8 @@ export const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 1)',
     boxShadow: '0 -2 15 2 rgba(51, 51, 51, 0.05)',
     padding:16,
-    marginTop:20
+    marginTop:20,
+    marginBottom:Platform.OS == 'ios'?0:66 + BOTTOM_HEIGHT,
   },
   shopView:{
     flexDirection:'row',
@@ -271,7 +272,8 @@ export const styles = StyleSheet.create({
     width:'100%',
     marginTop:16,
     paddingVertical:16,
-    alignItems:'center'
+    alignItems:'center',
+    marginBottom:Platform.OS == 'ios'?0:66 + BOTTOM_HEIGHT,
   },
   detailTopBg:{
     width:SCREEN_WIDTH - 32,

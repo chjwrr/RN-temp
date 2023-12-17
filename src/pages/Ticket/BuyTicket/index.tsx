@@ -27,6 +27,7 @@ import { useUserInfo } from '@/redux/userInfo';
 import { Image as ExpoImage } from 'expo-image';
 import LoadingButton from '@/components/LoadingButton';
 import { showMessage } from 'react-native-flash-message';
+import { formatID, isImage } from '@/utils/common';
 
 
 
@@ -60,12 +61,15 @@ function Ticket(props:any): JSX.Element {
   const [isAnimated,setIsAnimated] = useState(false)
   const userInfo = useUserInfo()
   const [detailInfo,setDetailInfo] = useState<any>({})
+  const [project_ticket_count,setProject_ticket_count] = useState(0)
+
   useEffect(()=>{
     HTTPS.post(TICKET_LIST_DETAIL,{
       "token":userInfo.token,
       ticket_id:props.route.params.ticket_id
     }).then((result:any)=>{
       setDetailInfo(result.ticket_detail)
+      setProject_ticket_count(result.project_ticket_count)
     }).finally(()=>{
     })
   },[])
@@ -191,35 +195,46 @@ function Ticket(props:any): JSX.Element {
             <Text style={styles.price}>{detailInfo.price}</Text>
           </View>
         </ImageBackground>
-        <View style={styles.infoView}>
-          {/* <ImageBackground style={styles.limmitbg} source={limmitBg}>
-            <Text style={styles.limmittitle}>限量:{detailInfo.remain}份</Text>
-          </ImageBackground> */}
-          <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-            <Text style={styles.name}>{detailInfo.name}</Text>
-            <Text style={styles.name}>ID:{detailInfo.ticket_id}</Text>
+        {/* <View style={styles.infoView}> */}
+        <View style={{position:'relative'}}>
+          <View style={styles.limitView}>
+            <ImageBackground style={styles.limmitbg} source={limmitBg}>
+              <Text style={styles.limmittitle}>限量:{project_ticket_count}份</Text>
+            </ImageBackground>
           </View>
-          <View style={{flexDirection:'row',alignItems:'center'}}>
-            <ExpoImage
-              style={styles.avatarsmal}
-              source={{uri:HTTPS.getImageUrl(props.route.params.avatar)}} 
-              placeholder={BLUR_HASH}
-              contentFit="cover"
-              transition={200}
-            />
-            <Text style={styles.avatarName}>{props.route.params.name}</Text>
-          </View>
+          <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgba(140,105,255,0.2)', 'rgba(0,102,255,0.2)']} style={styles.infoView}>
+            <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+              <Text style={styles.name}>{detailInfo.project_name}</Text>
+              <Text style={styles.name}>ID:{formatID(detailInfo.project_id)}{formatID(detailInfo.ticket_id)}</Text>
+            </View>
+            <View style={{flexDirection:'row',alignItems:'center'}}>
+              <ExpoImage
+                style={styles.avatarsmal}
+                source={{uri:HTTPS.getImageUrl(props.route.params.avatar)}} 
+                placeholder={BLUR_HASH}
+                contentFit="cover"
+                transition={200}
+              />
+              <Text style={styles.avatarName}>{props.route.params.name}</Text>
+            </View>
+          </LinearGradient>
         </View>
-        {/* <WebView
-          source={{uri:'https://www.baidu.com'}}
-          style={styles.webView}
-        /> */}
+       <View style={styles.detailView}>
+        {
+          detailInfo.intro && JSON.parse(detailInfo.intro).map((item:string,index:number)=>{
+            if (isImage(item)){
+              return <DetailImage key={item} imageName={item}/>
+            }
+            return <Text key={item} style={styles.detailName}>{item}</Text>
+          })
+        }
+       </View>
       </ScrollView>
       <TouchableOpacity style={styles.buyBtn} onPressIn={onShowBuy}>
-        <ImageBackground style={styles.tabButtonBg} source={tabButtonBg}>
+        <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.buyBtn}>
           <Text style={styles.buy}>立即购买</Text>
           <Image source={downbg} style={styles.buyicon}/>
-        </ImageBackground>
+          </LinearGradient>
       </TouchableOpacity>
 
       <Animated.View style={[styles.showBuyView,{
@@ -273,5 +288,19 @@ function Ticket(props:any): JSX.Element {
     </View>
   );
 }
-
+function DetailImage({imageName}:any){
+  const [imageHeight,setImageHeight] = useState(500)
+  return <ExpoImage
+    style={[styles.detailImage,{
+      height:imageHeight
+    }]}
+    source={HTTPS.getImageUrl(imageName)}
+    placeholder={BLUR_HASH}
+    contentFit="cover"
+    transition={200}
+    onLoad={(e:any)=>{
+      setImageHeight((SCREEN_WIDTH - 32) * e.source.height / e.source.width)
+    }}
+  />
+}
 export default Ticket;

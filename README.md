@@ -17,6 +17,12 @@ cd android && ./gradlew clean && cd ..
 npx react-native start --reset-cache
 npx react-native run-android     npx react-native run-ios
 
+# 票-达人聊天和我的-客服聊天公用一个聊天页面
+# 票-玩圈聊天单独一个
+# 生态聊天单独一个
+
+
+
 # 图标、启动图一键生成
 https://apetools.webprofusion.com/?ref=hackernoon.com#/tools/imagegorilla
 https://icon.wuruihong.com/splash

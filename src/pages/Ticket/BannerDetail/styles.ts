@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
     width:'100%',
     paddingHorizontal:16,
     marginTop:240,
-    // height:500,
+    marginBottom:BOTTOM_HEIGHT
   },
   avatatView:{
     flexDirection:'row',
@@ -82,9 +82,11 @@ export const styles = StyleSheet.create({
     borderColor:'#6067FE',
     borderTopLeftRadius:20,
     borderTopRightRadius:20,
-    padding:16,
+    paddingVertical:16,
+    paddingBottom:0,
     zIndex:2,
     marginTop:29,
+    marginBottom:10
   },
   title:{
     fontSize:24,
@@ -95,7 +97,8 @@ export const styles = StyleSheet.create({
   },
   by:{
     fontSize:12,
-    color:'#0AE7C9'
+    color:'#0AE7C9',
+    marginLeft:16
   },
   byath:{
     fontSize:12,
@@ -110,6 +113,7 @@ export const styles = StyleSheet.create({
     height:52,
     paddingLeft:26,
     marginTop:6,
+    marginHorizontal:16
   },
   numTitle:{
     fontSize:16,
@@ -163,13 +167,19 @@ export const styles = StyleSheet.create({
   buyBtn:{
     flexDirection:'row',
     justifyContent:'center',
-    width:'100%',
-    marginBottom:BOTTOM_HEIGHT + 16
+    alignItems:'center',
+    width:SCREEN_WIDTH - 32,
+    marginLeft:16,
+    marginBottom:BOTTOM_HEIGHT + 10,
+    height:42,
+    borderRadius:5,
+    position:'relative',
   },
   detailImage:{
     width:'100%',
     marginVertical:20,
-    height:500
+    height:500,
+    marginBottom:0
   },
   detailName:{
     fontSize:14,

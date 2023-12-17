@@ -121,7 +121,6 @@ function Design({navigation,jumpTo}:any): JSX.Element {
               transition={200}
             />
             <Text style={styles.modalName} numberOfLines={1} ellipsizeMode='tail'>{item.name}</Text>
-            {/* <Text style={styles.modalDes} numberOfLines={4} ellipsizeMode='tail'>{item.intro}</Text> */}
           </TouchableOpacity>
         }}
         style={{ flex: 1 }}

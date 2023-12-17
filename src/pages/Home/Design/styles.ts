@@ -13,21 +13,18 @@ export const styles = StyleSheet.create({
     },
     flowView:{
         width:'100%',
-        height:160,
+        height:200,
         borderRadius:5,
         padding:8,
         overflow:'hidden',
     },
     itemImage:{
-      position:'absolute',
-      left:0,
-      right:0,
-      top:0,
-      bottom:0
+      width:'100%',
+      height:160
     },
     flowLoadingView:{
       width:'100%',
-      height:160,
+      height:200,
       borderRadius:5,
       padding:8
     },
@@ -69,7 +66,8 @@ export const styles = StyleSheet.create({
     modalName:{
       fontSize:16,
       color:Colors.title,
-      fontWeight:'600'
+      fontWeight:'600',
+      marginTop:10
     },
     modalDes:{
       fontSize:12,
