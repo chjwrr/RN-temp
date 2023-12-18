@@ -134,7 +134,7 @@ function RecommendDetail(props:any): JSX.Element {
         contentFit="cover"
         transition={200}
       />
-      <KeyboardAvoidingView style={{ flex: 1 }}
+      <KeyboardAvoidingView style={{ flex: 1,position:'absolute',zIndex:3,width:'100%',height:'100%' }}
         behavior={Platform.select({ ios: "padding", default: undefined })}
         keyboardVerticalOffset={0}
         >
@@ -227,7 +227,7 @@ function DownInfo({game_id,onCommonChange}:any){
     <CustomTextInput
       ref={inputRef}
       style={[styles.input,{
-        backgroundColor:'rgba(0,0,0,0.3)'
+        backgroundColor:'rgba(0,0,0,0.5)'
       }]}
       inputProps={{
         multiline:false,

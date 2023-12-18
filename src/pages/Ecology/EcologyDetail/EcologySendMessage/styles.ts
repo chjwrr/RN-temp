@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   },
   bgView:{
     position:'absolute',
-    zIndex:-1,
+    zIndex:1,
     width:SCREEN_WIDTH,
     height:SCREEN_HEIGHT,
     top:0,
