@@ -66,9 +66,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal:16,
   },
   swiperTopView:{
-    width:SCREEN_WIDTH - 32 - 4,
-    marginHorizontal:2,
-    height:'100%',
+    width:SCREEN_WIDTH - 32,
+    height:(SCREEN_WIDTH - 32) * 3508 / 2480,
     borderRadius:8,
     overflow:'hidden',
     // backgroundColor:'#fff'

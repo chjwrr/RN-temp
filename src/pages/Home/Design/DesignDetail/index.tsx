@@ -261,7 +261,7 @@ const SwiperView = memo(({images,name}:{images:any[],name:any})=>{
     <Carousel
       loop
       width={SCREEN_WIDTH - 32}
-      height={SCREEN_WIDTH + 20}
+      height={(SCREEN_WIDTH - 32) * 3508 / 2480}
       data={imageSource}
       onSnapToItem={(index:number) => setCurrentIndex(index)}
       renderItem={({ item,index }:any) => {
