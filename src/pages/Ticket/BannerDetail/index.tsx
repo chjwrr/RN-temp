@@ -26,6 +26,7 @@ import { PROJECT_DETAIL, MASTER_UNFOLLOW, MASTER_FOLLOW } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import { Image as ExpoImage } from 'expo-image';
 import { formatTime, isImage } from '@/utils/common';
+import DetailImage from '@/components/DetailImage';
 
 
 
@@ -179,21 +180,6 @@ function Ticket(props:any): JSX.Element {
       {/* </SafeAreaView> */}
     </View>
   );
-}
-function DetailImage({imageName}:any){
-  const [imageHeight,setImageHeight] = useState(500)
-  return <ExpoImage
-    style={[styles.detailImage,{
-      height:imageHeight
-    }]}
-    source={HTTPS.getImageUrl(imageName)}
-    placeholder={BLUR_HASH}
-    contentFit="cover"
-    transition={200}
-    onLoad={(e:any)=>{
-      setImageHeight((SCREEN_WIDTH - 64) * e.source.height / e.source.width)
-    }}
-  />
 }
 
 export default Ticket;

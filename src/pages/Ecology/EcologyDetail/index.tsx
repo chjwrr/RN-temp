@@ -26,6 +26,7 @@ import { GAME_COLLECT, GAME_DETAIL, GAME_UNCOLLECT, TICKET_LIST } from '@/api/AP
 import { useUserInfo } from '@/redux/userInfo';
 import { Image as ExpoImage } from 'expo-image';
 import { isImage } from '@/utils/common';
+import DetailImage from '@/components/DetailImage';
 
 const BackIcon = require('@/assets/images/back_w.png')
 const CollectIcon = require('@/assets/images/unlike.png')
@@ -140,19 +141,5 @@ function Ticket(props:any): JSX.Element {
     </View>
   );
 }
-function DetailImage({imageName}:any){
-  const [imageHeight,setImageHeight] = useState(500)
-  return <ExpoImage
-    style={[styles.detailImage,{
-      height:imageHeight
-    }]}
-    source={HTTPS.getImageUrl(imageName)}
-    placeholder={BLUR_HASH}
-    contentFit="cover"
-    transition={200}
-    onLoad={(e:any)=>{
-      setImageHeight((SCREEN_WIDTH - 32) * e.source.height / e.source.width)
-    }}
-  />
-}
+
 export default Ticket;

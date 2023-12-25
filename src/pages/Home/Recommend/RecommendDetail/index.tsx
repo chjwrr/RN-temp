@@ -26,6 +26,7 @@ import { Image as ExpoImage } from 'expo-image';
 import { MERCHANT_CLOTH_DETAIL, MERCHANT_FOLLOW, MERCHANT_UNFOLLOW,  MERCHANT_CLOTH_UNCOLLECT , MERCHANT_CLOTH_COLLECT } from '@/api/API';
 import { useUserInfo } from '@/redux/userInfo';
 import { isImage, savePicture } from '@/utils/common';
+import DetailImage from '@/components/DetailImage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -236,21 +237,6 @@ function RecommendDetail(props:any): JSX.Element {
       </SafeAreaView>
     </ImageBackground>
   );
-}
-function DetailImage({imageName}:any){
-  const [imageHeight,setImageHeight] = useState(500)
-  return <ExpoImage
-    style={[styles.detailImage,{
-      height:imageHeight
-    }]}
-    source={HTTPS.getImageUrl(imageName)}
-    placeholder={BLUR_HASH}
-    contentFit="cover"
-    transition={200}
-    onLoad={(e:any)=>{
-      setImageHeight((SCREEN_WIDTH - 32) * e.source.height / e.source.width)
-    }}
-  />
 }
 function BuyModalRight({info,onChange}:any){
   const [focus,setFocus] = useState(false)
