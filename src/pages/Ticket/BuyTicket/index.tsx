@@ -28,6 +28,7 @@ import { Image as ExpoImage } from 'expo-image';
 import LoadingButton from '@/components/LoadingButton';
 import { showMessage } from 'react-native-flash-message';
 import { formatID, isImage } from '@/utils/common';
+import DetailImage from '@/components/DetailImage';
 
 
 
@@ -219,16 +220,16 @@ function Ticket(props:any): JSX.Element {
             </View>
           </LinearGradient>
         </View>
-       <View style={styles.detailView}>
-        {
-          detailInfo.intro && JSON.parse(detailInfo.intro).map((item:string,index:number)=>{
-            if (isImage(item)){
-              return <DetailImage key={item} imageName={item}/>
-            }
-            return <Text key={item} style={styles.detailName}>{item}</Text>
-          })
-        }
-       </View>
+        <View style={styles.detailView}>
+          {
+            detailInfo.intro && JSON.parse(detailInfo.intro).map((item:string,index:number)=>{
+              if (isImage(item)){
+                return <DetailImage key={item} imageName={item}/>
+              }
+              return <Text key={item} style={styles.detailName}>{item}</Text>
+            })
+          }
+        </View>
       </ScrollView>
       <TouchableOpacity style={styles.buyBtn} onPressIn={onShowBuy}>
         <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.buyBtn}>
@@ -287,20 +288,5 @@ function Ticket(props:any): JSX.Element {
       }]} onTouchStart={onShowBuy}/>
     </View>
   );
-}
-function DetailImage({imageName}:any){
-  const [imageHeight,setImageHeight] = useState(500)
-  return <ExpoImage
-    style={[styles.detailImage,{
-      height:imageHeight
-    }]}
-    source={HTTPS.getImageUrl(imageName)}
-    placeholder={BLUR_HASH}
-    contentFit="cover"
-    transition={200}
-    onLoad={(e:any)=>{
-      setImageHeight((SCREEN_WIDTH - 32) * e.source.height / e.source.width)
-    }}
-  />
 }
 export default Ticket;

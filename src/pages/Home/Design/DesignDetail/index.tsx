@@ -25,6 +25,7 @@ import {CacheManager, CachedImage} from '@georstat/react-native-image-cache'
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import Carousel from 'react-native-reanimated-carousel';
 import { Video, ResizeMode } from 'expo-av';
+import DetailImage from '@/components/DetailImage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -168,21 +169,7 @@ function DetailInfo({intro}:any){
     }
   </View>
 }
-function DetailImage({imageName}:any){
-  const [imageHeight,setImageHeight] = useState(500)
-  return <ExpoImage
-    style={[styles.detailImage,{
-      height:imageHeight
-    }]}
-    source={HTTPS.getImageUrl(imageName)}
-    placeholder={BLUR_HASH}
-    contentFit="cover"
-    transition={200}
-    onLoad={(e:any)=>{
-      setImageHeight((SCREEN_WIDTH - 32) * e.source.height / e.source.width)
-    }}
-  />
-}
+
 function DownImage({imageSource}:any){
   const [currentIndex,setCurrentIndex] = useState(0)
 
