@@ -10,36 +10,38 @@ import {styles} from './styles'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import Colors from '@/utils/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const tabbars:any[] = [
   {
-    title:'衣互',
+    title:'tab_title_1',
     icon:require('@/assets/images/Home_nor.png'),
     iconSel:require('@/assets/images/Home_sel.png'),
   },
   {
-    title:'票儿',
+    title:'tab_title_2',
     icon:require('@/assets/images/Ticket_nor.png'),
     iconSel:require('@/assets/images/Ticket_sel.png')
   },
   {
-    title:'发布',
+    title:'tab_title_3',
     icon:require('@/assets/images/Post.png'),
     iconSel:require('@/assets/images/Post.png')
   },
   {
-    title:'生态',
+    title:'tab_title_4',
     icon:require('@/assets/images/Ecology_nor.png'),
     iconSel:require('@/assets/images/Ecology_sel.png')
   },
   {
-    title:'我的',
+    title:'tab_title_5',
     icon:require('@/assets/images/Mine_nor.png'),
     iconSel:require('@/assets/images/Mine_sel.png')
   },
 ]
 
 export default function CustomTabbar(props:BottomTabBarProps): JSX.Element {
+  const {t} = useTranslationLanguage()
   return (
     <View style={[styles.main,{
       backgroundColor:(props.state.index == 1 || props.state.index == 3) ? Colors.black : Colors.white
@@ -82,7 +84,7 @@ export default function CustomTabbar(props:BottomTabBarProps): JSX.Element {
           >
             <Image style={index !== 2 ? styles.tabbaricon : styles.tabbariconBig} source={isFocused ? tabbars[index].iconSel :  tabbars[index].icon}/>
             <Text style={[styles.tabbartitle,{ color: isFocused ? Colors.tabbar : Colors.light}]}>
-              {tabbars[index].title}
+              {t(tabbars[index].title)}
             </Text>
           </TouchableOpacity>
         );

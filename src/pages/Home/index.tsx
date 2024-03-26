@@ -18,6 +18,7 @@ import RecommendScreen from './Recommend'
 import DesignScreen from './Design'
 import ShowScreen from './Show'
 import FocusOnScreen from './FocusOn'
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const AccountImage = require('@/assets/images/account.png')
@@ -57,6 +58,7 @@ function Home({navigation}:any): JSX.Element {
         return <FocusOnScreen navigation={navigation} jumpTo={jumpTo} />;
     }
   },[])
+  const {t} = useTranslationLanguage() 
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <View style={{
@@ -65,7 +67,7 @@ function Home({navigation}:any): JSX.Element {
         <View style={styles.navigationView}>
           <View style={styles.searchView}>
             <TextInput style={styles.input}
-              placeholder='周末午后的闲暇时光'
+              placeholder={t('homeSearchTitle')}
               placeholderTextColor={Colors.placeholder}
               returnKeyType='search'
               value={searchValue}

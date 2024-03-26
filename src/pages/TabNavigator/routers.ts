@@ -30,6 +30,7 @@ import MyMessageCenterScreen from '@/pages/Mine/MyMessage'
 import UserIntroScreen from '@/pages/Mine/EditInfo/UserIntro'
 import UserAddressScreen from '@/pages/Mine/EditInfo/UserAddress'
 import EcologySendMessageScreen from '@/pages/Ecology/EcologyDetail/EcologySendMessage'
+import LanguageScreen from '@/pages/Mine/Setting/Language'
 
 
 export const routers:any[] = [
@@ -160,8 +161,11 @@ export const routers:any[] = [
     {
       name:'EcologySendMessage',
       component:EcologySendMessageScreen
-
     },
-
+    {
+      name:'Language',
+      component:LanguageScreen
+    },
+    
 ]
 
