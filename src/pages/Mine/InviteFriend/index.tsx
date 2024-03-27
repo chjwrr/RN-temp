@@ -27,6 +27,7 @@ import { MERCHANT_CLOTH_DETAIL, MERCHANT_FOLLOW, MERCHANT_UNFOLLOW,  MERCHANT_CL
 import { useUserInfo } from '@/redux/userInfo';
 import { savePicture } from '@/utils/common';
 import {QRCode, Canvas} from 'easyqrcode-react-native';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -61,7 +62,7 @@ function RecommendDetail(props:any): JSX.Element {
       var qrCode = new QRCode(canvas, options);
     }
   }
-
+  const {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -71,7 +72,7 @@ function RecommendDetail(props:any): JSX.Element {
             <Image style={styles.backIcon} source={BackIcon}/>
           </TouchableOpacity>
           <View style={styles.titleView}>
-            <Text style={styles.title}>邀请好友</Text>
+            <Text style={styles.title}>{t('invite friends')}</Text>
           </View>
           <TouchableOpacity style={[styles.backButton,{alignItems:'flex-end'}]} onPressIn={onShare}>
             <Image style={styles.backIcon} source={share}/>
@@ -79,12 +80,12 @@ function RecommendDetail(props:any): JSX.Element {
         </View>
         <View style={{alignItems:'center'}}>
           <ImageBackground style={styles.downView} source={downbg}>
-            <Text style={styles.downTitle}>我的邀请码</Text>
+            <Text style={styles.downTitle}>{t('my invitation code')}</Text>
             <View style={{alignItems:'center'}}>
               <View style={styles.code}>
                 <Canvas ref={generateQRCode}/>
               </View>
-              <Text style={styles.downDes}>扫码下载我们的APP</Text>
+              <Text style={styles.downDes}>{t('Scan the QR code to download our APP')}</Text>
             </View>
           </ImageBackground>
         </View>

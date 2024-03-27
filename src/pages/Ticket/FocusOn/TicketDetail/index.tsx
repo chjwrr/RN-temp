@@ -48,6 +48,7 @@ import { formatTime } from '@/utils/common';
 import { Image as ExpoImage } from 'expo-image';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import dayjs from 'dayjs';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 
 const BGImage = require('@/assets/images/homebg.png')
@@ -145,7 +146,7 @@ function RecommendDetail(props:any): JSX.Element {
     let temp = [item,...dataSource]
     setDataSource(temp)
   }
-
+  const {t} = useTranslationLanguage()
   return (
     <View style={styles.bgView}>
       <KeyboardAvoidingView style={{ flex: 1 }}
@@ -186,9 +187,9 @@ function RecommendDetail(props:any): JSX.Element {
               <Text style={styles.des}>{detailInfo.intro}</Text>
               <View style={styles.line}/>
               <View style={styles.commonTitleVieew}>
-                <Text style={styles.commonTitle}>共</Text>
+                <Text style={styles.commonTitle}>{t('total')}</Text>
                 <Text style={styles.commonTitleMain}>{dataSource.length}</Text>
-                <Text style={styles.commonTitle}>条评论</Text>
+                <Text style={styles.commonTitle}>{t('total')}</Text>
               </View>
             </View>}
             ListEmptyComponent={<View/>}
@@ -263,6 +264,8 @@ function DownInfo({ticket_id,onCollectChange,onCommonChange}:any){
     })
     
   }
+  const {t} = useTranslationLanguage()
+
   return <View style={[styles.downView]}>
       <Animatable.View style={[styles.comInputView]}>
         <Image style={styles.downComIcon} source={comicontIcon}/>
@@ -275,10 +278,10 @@ function DownInfo({ticket_id,onCollectChange,onCommonChange}:any){
             style:{color:Colors.white},
             onFocus:onFocus,
             onBlur:onBlur,
-            returnKeyLabel:'发送',
+            returnKeyLabel:t('send'),
             returnKeyType:'send',
             onSubmitEditing:onSubmitEditing,
-            placeholder:'说点什么...',
+            placeholder:t('say something'),
             placeholderTextColor:Colors.white
           }}
         />

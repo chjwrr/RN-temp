@@ -29,6 +29,7 @@ import LoadingButton from '@/components/LoadingButton';
 import { showMessage } from 'react-native-flash-message';
 import { formatID, isImage } from '@/utils/common';
 import DetailImage from '@/components/DetailImage';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 
 
@@ -145,6 +146,7 @@ function Ticket(props:any): JSX.Element {
     });
     Share.open(options);
   }
+  const {t} = useTranslationLanguage()
   const [isCreat,setIsCreat] = useState(false)
   function onCreatOrder(){
     setIsCreat(true)
@@ -154,7 +156,7 @@ function Ticket(props:any): JSX.Element {
     }).then((result:any)=>{
       onBack()
       showMessage({
-        message: "订单创建成功，请在我的订单中查看",
+        message:t('The order was created successfully, please check it in My Orders'),
         type: "success",
       });
     }).finally(()=>{
@@ -200,7 +202,7 @@ function Ticket(props:any): JSX.Element {
         <View style={{position:'relative'}}>
           <View style={styles.limitView}>
             <ImageBackground style={styles.limmitbg} source={limmitBg}>
-              <Text style={styles.limmittitle}>限量:{project_ticket_count}份</Text>
+              <Text style={styles.limmittitle}>{t('limited edition')}:{project_ticket_count}份</Text>
             </ImageBackground>
           </View>
           <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgba(140,105,255,0.2)', 'rgba(0,102,255,0.2)']} style={styles.infoView}>
@@ -233,7 +235,7 @@ function Ticket(props:any): JSX.Element {
       </ScrollView>
       <TouchableOpacity style={styles.buyBtn} onPressIn={onShowBuy}>
         <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.buyBtn}>
-          <Text style={styles.buy}>立即购买</Text>
+          <Text style={styles.buy}>{t('Buy it now')}</Text>
           <Image source={downbg} style={styles.buyicon}/>
           </LinearGradient>
       </TouchableOpacity>
@@ -245,14 +247,14 @@ function Ticket(props:any): JSX.Element {
         <TouchableOpacity onPressIn={onHiddenBuy} style={styles.back1Icon}>
           <Image style={styles.backIcon} source={back_b}/>
         </TouchableOpacity>
-        <Text style={styles.buytitle}>确认订单</Text>
+        <Text style={styles.buytitle}>{t('Confirm Order')}</Text>
         <View style={styles.line}/>
         
         <View style={styles.payView}>
           <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
             <View style={{flexDirection:'row',alignItems:'center'}}>
               <View style={styles.payImage}/>
-              <Text style={styles.payName}>支付宝</Text>
+              <Text style={styles.payName}>{t('Alipay')}</Text>
             </View>
             <TouchableOpacity onPressIn={()=>onChoosePay(0)}>
               <Image style={styles.checkicon} source={payType==0?check:uncheck}/>
@@ -261,7 +263,7 @@ function Ticket(props:any): JSX.Element {
           <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',marginTop:12}}>
             <View style={{flexDirection:'row',alignItems:'center'}}>
               <View style={styles.payImage}/>
-              <Text style={styles.payName}>微信</Text>
+              <Text style={styles.payName}>{t('WeChat')}</Text>
             </View>
             <TouchableOpacity onPressIn={()=>onChoosePay(1)}>
             <Image style={styles.checkicon} source={payType==1?check:uncheck}/>
@@ -276,7 +278,7 @@ function Ticket(props:any): JSX.Element {
           </View>
           <LoadingButton isLoading={isCreat} onPressIn={onCreatOrder}>
             <ImageBackground style={styles.payButton} source={paybtnbg}>
-              <Text style={styles.payButtonTitle}>提交订单</Text>
+              <Text style={styles.payButtonTitle}>{t('Submit Order')}</Text>
             </ImageBackground>
           </LoadingButton>
         </View>

@@ -22,6 +22,7 @@ import { HOME_BANNER, RECOMMEND_MERCHANT_CLOTH_LIST,MERCHANT_CLOTH_COLLECT,MERCH
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 
 const focus_n = require('@/assets/images/unlike.png')
@@ -110,7 +111,7 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
     }).finally(()=>{
     })
   }
-
+  const {t} = useTranslationLanguage()
   return (
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -183,7 +184,7 @@ function Recommend({navigation,jumpTo}:any): JSX.Element {
         style={{ flex: 1,width:SCREEN_WIDTH - 32 }}
         ListHeaderComponent={<HomeBanner navigation={navigation}/>}
         ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
-          <Text style={styles.loadMoreTitle}>加载更多...</Text>
+          <Text style={styles.loadMoreTitle}>{t('load more')}</Text>
           <ActivityIndicator size="small" color={Colors.main} />
         </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}
@@ -222,6 +223,7 @@ function HomeBanner({navigation}:any){
 
     })
   },[])
+  const {t} = useTranslationLanguage()
 
   return <View style={{flex:1}}>
     <Carousel
@@ -269,7 +271,7 @@ function HomeBanner({navigation}:any){
         })
       }
     </View>
-    <Text style={styles.topTitle}>穿越不同朝代</Text>
+    <Text style={styles.topTitle}>{t('Travel through different dynasties')}</Text>
     <View style={styles.topItem}>
       <TouchableOpacity containerStyle={styles.topItemSub}>
         <ImageBackground style={styles.topItemSub} source={home_item_t} resizeMode='cover'/>

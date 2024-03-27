@@ -27,6 +27,7 @@ import { MERCHANT_CLOTH_DETAIL, MERCHANT_FOLLOW, MERCHANT_UNFOLLOW,  MERCHANT_CL
 import { useUserInfo } from '@/redux/userInfo';
 import { savePicture } from '@/utils/common';
 import dayjs from 'dayjs';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -57,7 +58,7 @@ function RecommendDetail(props:any): JSX.Element {
   function onUserAddress(){
     props.navigation.navigate('UserAddress')
   }
-  
+  const {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -67,12 +68,12 @@ function RecommendDetail(props:any): JSX.Element {
             <Image style={styles.backIcon} source={BackIcon}/>
           </TouchableOpacity>
           <View style={styles.titleView}>
-            <Text style={styles.title}>编辑资料</Text>
+            <Text style={styles.title}>{t('edit information')}</Text>
           </View>
         </View>
         <ScrollView style={styles.scrollView} keyboardDismissMode='on-drag'>
           <TouchableOpacity style={styles.itemView} onPressIn={onChangeAvatar}>
-            <Text style={styles.title}>头像</Text>
+            <Text style={styles.title}>{t('avatar')}</Text>
             <View style={{flexDirection:'row',alignItems:'center'}}>
               <ExpoImage
                 style={styles.avatar}
@@ -85,25 +86,25 @@ function RecommendDetail(props:any): JSX.Element {
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={styles.itemView} onPressIn={onChangeName}>
-            <Text style={styles.title}>用户名CN</Text>
+            <Text style={styles.title}>{t('UsernameCN')}</Text>
             <View style={{flexDirection:'row',alignItems:'center'}}>
               <Text style={styles.value}>{userInfo.nickname}</Text>
               <Image style={styles.arrow} source={arrowr}/>
             </View>
           </TouchableOpacity>
           <View style={styles.itemView}>
-            <Text style={styles.title}>玩家时间</Text>
-            <Text style={styles.value}>{day}天</Text>
+            <Text style={styles.title}>{t('player time')}</Text>
+            <Text style={styles.value}>{day}{t('day')}</Text>
           </View>
           <TouchableOpacity style={styles.itemView} onPressIn={onChangeName}>
-            <Text style={styles.title}>性别</Text>
+            <Text style={styles.title}>{t('gender')}</Text>
             <View style={{flexDirection:'row',alignItems:'center'}}>
               <Text style={styles.value}>{userInfo.gender == 0 ? '女' : '男'}</Text>
               <Image style={styles.arrow} source={arrowr}/>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={styles.itemView} onPressIn={onUserAddress}>
-            <Text style={styles.title}>现居</Text>
+            <Text style={styles.title}>{t('Currently living')}</Text>
             <View style={{flexDirection:'row',alignItems:'center'}}>
               <Text style={styles.value}>{userInfo.province} {userInfo.city}</Text>
               <Image style={styles.arrow} source={arrowr}/>
@@ -117,7 +118,7 @@ function RecommendDetail(props:any): JSX.Element {
             </View>
           </TouchableOpacity> */}
           <TouchableOpacity style={styles.itemView} onPressIn={onUserIntro}>
-            <Text style={styles.title}>签名</Text>
+            <Text style={styles.title}>{t('sign')}</Text>
             <View style={{flexDirection:'row',alignItems:'center'}}>
               <Text style={styles.value}>{userInfo.intro}</Text>
               <Image style={styles.arrow} source={arrowr}/>

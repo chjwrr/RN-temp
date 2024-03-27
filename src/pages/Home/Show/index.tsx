@@ -21,6 +21,7 @@ import * as HTTPS from '@/api/axios'
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 
 const unlike = require('@/assets/images/unlike.png')
@@ -112,6 +113,8 @@ function Show({navigation,jumpTo}:any): JSX.Element {
       }
     })
   }
+  const {t} = useTranslationLanguage()
+
   return (
     <View style={{flex:1}}>
 
@@ -139,7 +142,7 @@ function Show({navigation,jumpTo}:any): JSX.Element {
       }}
       style={{ flex: 1, width:SCREEN_WIDTH - 32 }}
       ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
-        <Text style={styles.loadMoreTitle}>加载更多...</Text>
+        <Text style={styles.loadMoreTitle}>{t('load more')}</Text>
         <ActivityIndicator size="small" color={Colors.main} />
       </View> : <View style={styles.loadMoreView}/>}
       ListEmptyComponent={<View/>}

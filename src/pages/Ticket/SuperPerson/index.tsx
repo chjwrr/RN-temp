@@ -26,6 +26,7 @@ import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const centerBg = require('@/assets/images/ticket_downbg.png')
 const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
@@ -131,6 +132,7 @@ function Ticket({navigation}:any): JSX.Element {
     }).finally(()=>{
     })
   }
+  const {t} = useTranslationLanguage()
   return (
     <View style={styles.mainView}>
       <FlatList
@@ -165,7 +167,7 @@ function Ticket({navigation}:any): JSX.Element {
         style={{ flex: 1 }}
         ListHeaderComponent={
             <View style={styles.bannerView}>
-              <Text style={styles.centerTitle}>达人推荐</Text>
+              <Text style={styles.centerTitle}>{t('Recommended by experts')}</Text>
               <View style={styles.scrollView}>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 {
@@ -194,7 +196,7 @@ function Ticket({navigation}:any): JSX.Element {
             </View>
         }
         ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
-          <Text style={styles.loadMoreTitle}>加载更多...</Text>
+          <Text style={styles.loadMoreTitle}>{t('load more')}</Text>
           <ActivityIndicator size="small" color={Colors.main} />
         </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}

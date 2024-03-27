@@ -30,6 +30,7 @@ import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
 import { formatID } from '@/utils/common';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 
 const BGImage = require('@/assets/images/homebg.png')
@@ -128,6 +129,7 @@ function Ticket(props:any): JSX.Element {
     });
     Share.open(options);
   }
+  const {t} = useTranslationLanguage()
   return (
     <View style={styles.main}>
       <ExpoImage
@@ -198,7 +200,7 @@ function Ticket(props:any): JSX.Element {
           </View>
         }
         ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
-          <Text style={styles.loadMoreTitle}>加载更多...</Text>
+          <Text style={styles.loadMoreTitle}>{t('load more')}</Text>
           <ActivityIndicator size="small" color={Colors.main} />
         </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}

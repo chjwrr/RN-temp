@@ -31,6 +31,7 @@ import CustomTextInput from '@/components/CustomTextInput';
 import LinearGradient from 'react-native-linear-gradient';
 import { useDispatch } from 'react-redux';
 import LoadingButton from '@/components/LoadingButton';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -76,7 +77,7 @@ function RecommendDetail(props:any): JSX.Element {
       setIsLoading(false)
     })
   }
-
+  const {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -86,7 +87,7 @@ function RecommendDetail(props:any): JSX.Element {
             <Image style={styles.backIcon} source={BackIcon}/>
           </TouchableOpacity>
           <View style={styles.titleView}>
-            <Text style={styles.title}>编辑签名</Text>
+            <Text style={styles.title}>{t('Edit signature')}</Text>
           </View>
         </View>
         <CustomTextInput 
@@ -96,12 +97,12 @@ function RecommendDetail(props:any): JSX.Element {
             onChange:onChange,
             editable:!isLoading,
             multiline:true,
-            placeholder:'说点什么吧~',
+            placeholder:t('Say something'),
             style:{color:'#000',fontSize:16}
           }}/>
           <LoadingButton isLoading={isLoading} onPressIn={onPost}>
             <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.logoutButton}>
-              <Text style={styles.logoutTitle}>修改</Text>
+              <Text style={styles.logoutTitle}>{t('Revise')}</Text>
             </LinearGradient>
           </LoadingButton>
       </SafeAreaView>

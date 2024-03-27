@@ -27,6 +27,7 @@ import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { formatID } from '@/utils/common';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const centerBg = require('@/assets/images/ticket_downbg.png')
 const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
@@ -124,7 +125,7 @@ function Ticket({navigation,tabState,jumpTo,onBannerPress}:any): JSX.Element {
 
   }
 
-
+  const {t} = useTranslationLanguage()
   return (
     <View style={styles.mainView}>
       <FlatList
@@ -154,7 +155,7 @@ function Ticket({navigation,tabState,jumpTo,onBannerPress}:any): JSX.Element {
           <View style={styles.contentView}>
             <TopCarousel navigation={navigation} jumpTo={jumpTo} tabState={tabState}/>
             <View style={styles.bannerView}>
-              <Text style={styles.centerTitle}>来自票友推荐</Text>
+              <Text style={styles.centerTitle}>{t('Recommendations from fans')}</Text>
             </View>
             {
               recommonList.map((item:any)=>{
@@ -179,7 +180,7 @@ function Ticket({navigation,tabState,jumpTo,onBannerPress}:any): JSX.Element {
           </View>
         }
         ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
-          <Text style={styles.loadMoreTitle}>加载更多...</Text>
+          <Text style={styles.loadMoreTitle}>{t('load more')}</Text>
           <ActivityIndicator size="small" color={Colors.main} />
         </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}

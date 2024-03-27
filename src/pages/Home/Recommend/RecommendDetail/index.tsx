@@ -27,6 +27,7 @@ import { MERCHANT_CLOTH_DETAIL, MERCHANT_FOLLOW, MERCHANT_UNFOLLOW,  MERCHANT_CL
 import { useUserInfo } from '@/redux/userInfo';
 import { isImage, savePicture } from '@/utils/common';
 import DetailImage from '@/components/DetailImage';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -150,6 +151,7 @@ function RecommendDetail(props:any): JSX.Element {
     //   savePicture(HTTPS.getImageUrl(merchantClothInfo.image))
     // }
   }
+  const {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -201,11 +203,11 @@ function RecommendDetail(props:any): JSX.Element {
         <View style={styles.downView}>
           <TouchableOpacity style={[styles.downViewItem,showBuy && styles.downViewItemSel]} onPressIn={onShowBuy}>
             <Image style={styles.downIcon} source={downbgIcon}/>
-            <Text style={[styles.downTitle, showBuy && styles.downTitleSel]}>服饰购买</Text>
+            <Text style={[styles.downTitle, showBuy && styles.downTitleSel]}>{t('Clothing shopping')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.downViewItem,styles.downViewItemRight]} onPressIn={onJoin}>
             <Image style={styles.downIcon} source={hdIcon}/>
-            <Text style={styles.downTitle}>联名合作</Text>
+            <Text style={styles.downTitle}>{t('Joint cooperation')}</Text>
           </TouchableOpacity>
         </View>
         <Animated.View style={[styles.showBuyView,{
@@ -214,15 +216,15 @@ function RecommendDetail(props:any): JSX.Element {
             <View style={styles.showBuyvLeftView}>
               <View style={styles.showBuyLeftSubView}>
                 <Image style={styles.showBuyLeftIcon} source={tdIcon}/>
-                <Text style={styles.showBuyLeftName}>淘宝链接</Text>
+                <Text style={styles.showBuyLeftName}>{t('Taobao link')}</Text>
               </View>
               <View style={styles.showBuyLeftSubView}>
                 <Image style={styles.showBuyLeftIcon} source={tmIcon}/>
-                <Text style={styles.showBuyLeftName}>天猫链接</Text>
+                <Text style={styles.showBuyLeftName}>{t('Tmall link')}</Text>
               </View>
               <View style={styles.showBuyLeftSubView}>
                 <Image style={styles.showBuyLeftIcon} source={jdIcon}/>
-                <Text style={styles.showBuyLeftName}>京东链接</Text>
+                <Text style={styles.showBuyLeftName}>{t('JD link')}</Text>
               </View>
             </View>
             <Image style={styles.showBuyLine} source={buylineIcon}/>
@@ -240,6 +242,8 @@ function RecommendDetail(props:any): JSX.Element {
 }
 function BuyModalRight({info,onChange}:any){
   const [focus,setFocus] = useState(false)
+  const {t} = useTranslationLanguage()
+
   useEffect(()=>{
     setFocus(info.merchant?.is_follow)
   },[info.merchant?.is_follow])
@@ -260,7 +264,7 @@ function BuyModalRight({info,onChange}:any){
   return <View style={styles.showBuyRightView}>
     <Image style={styles.showBuyRightDownBg} source={buybgIcon}/>
     <Image style={styles.showBuyRightIcon} source={buytopiconIcon}/>
-    <Text style={styles.showBuyRightName} numberOfLines={1} ellipsizeMode='tail'>店铺名称</Text>
+    <Text style={styles.showBuyRightName} numberOfLines={1} ellipsizeMode='tail'>{t('Store Name')}</Text>
     <TouchableOpacity onPressIn={onFocus}>
       <Image style={styles.showBuyRightDownIcon} source={focus ? collectedshopIcon : collectshopIcon}/>
     </TouchableOpacity>
@@ -299,11 +303,11 @@ function ShopInfo({info,onChange}:any){
         />
       <View>
         <Text style={styles.shopName}>{info.merchant?.name}</Text>
-        <Text style={styles.shopDes}>{info.merchant?.follow_count}+关注</Text>
+        <Text style={styles.shopDes}>{info.merchant?.follow_count}+{t('focus on')}</Text>
       </View>
     </View>
     <TouchableOpacity style={[styles.focusdis,focus && styles.focusSel]} onPressIn={onFocus}>
-      <Text style={[styles.shopFocus,focus && styles.shopFocussel]}>{focus ? '已关注' : '+ 关注'}</Text>
+      <Text style={[styles.shopFocus,focus && styles.shopFocussel]}>{focus ? t('Already following') : '+ '+t('focus on')}</Text>
     </TouchableOpacity>
   </View>
 }
@@ -361,13 +365,15 @@ const SwiperView = memo(({images,name}:{images:any[],name:any})=>{
   </View>
 },(pre:any,next:any)=>pre.images == next.images)
 function TDModalView(){
+  const {t} = useTranslationLanguage()
+
   return <View style={styles.modalView}>
     <WebView
       source={{ uri: 'https://nextjs-3d-modal-j2fc-git-main-chjwrr.vercel.app/' }}
       style={styles.webView}
     />
     <Image style={styles.modalLine} source={modalLineIcon}/>
-    <Text style={styles.name}>服饰名字</Text>
+    <Text style={styles.name}>{t('Clothing name')}</Text>
   </View>
 }
 

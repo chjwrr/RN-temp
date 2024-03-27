@@ -22,6 +22,7 @@ import { SEND_SMS_CODE, USER_LOGIN, USER_SIGN_UP } from '@/api/API';
 import { useDispatch } from 'react-redux';
 import { saveUserInfo } from '@/redux/userInfo';
 import { showMessage } from 'react-native-flash-message';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/registerbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -82,17 +83,17 @@ function Register(props:any): JSX.Element {
     
   }
 
-
+    const {t} = useTranslationLanguage()
   function onGetVerifyCode(){
     if (codeTime != CODE_COUNTDOWN_TIME){
       return
     }
     if (!userAccount){
-      setTips('请输入手机号')
+      setTips(t('Please enter phone number'))
       return
     }
     if (!isPhoneNumber(userAccount)){
-      setTips('手机号无效')
+      setTips(t('Invalid mobile number'))
       return
     }
 
@@ -117,32 +118,32 @@ function Register(props:any): JSX.Element {
 
   function onRegister(){
     if (!userAccount){
-      setTips('请输入手机号')
+      setTips(t('Please enter phone number'))
       return
     }
     if (!isPhoneNumber(userAccount)){
-      setTips('手机号无效')
+      setTips(t('Invalid mobile number'))
       return
     }
     if (!userCode){
-      setTips('请输入验证码')
+      setTips(t('please enter verification code'))
       return
     }
     if (!userPsd){
-      setTips('请输入密码')
+      setTips(t('Please enter password'))
       return
     }
     if (!userAgainPsd){
-      setTips('请再次输入密码')
+      setTips(t('Please enter password again'))
       return
     }
     if (userPsd != userAgainPsd){
-      setTips('两次输入密码不一致，请重新输入')
+      setTips(t('The password you entered twice is inconsistent, please re-enter it'))
       return
     }
     if (!isAgree){
       showMessage({
-        message: "请阅读并同意衣互 用户协议 和 隐私政策",
+        message:t('Please read and agree to the 衣互 User Agreement and Privacy Policy'),
         type: "info",
       });
       return
@@ -181,13 +182,13 @@ function Register(props:any): JSX.Element {
             <View style={[styles.mainContent,{
             }]}>
               <View>
-                <Text style={styles.title}>你好！</Text>
+                <Text style={styles.title}>{t('Hello!')}</Text>
                 <View style={styles.tipReg}>
-                  <Text style={styles.tip}>欢迎来到 Cverselink，立即注册</Text>
+                  <Text style={styles.tip}>{t('Welcome to Cverselink, register now')}</Text>
                 </View>
                 <CustomTextInput style={[styles.inputView,{marginTop:10}]}
                   inputProps={{
-                    placeholder:'请输入手机号',
+                    placeholder:t('Please enter phone number'),
                     value:userAccount,
                     onChange:onUserAccountChange,
                     keyboardType:'number-pad'
@@ -196,20 +197,20 @@ function Register(props:any): JSX.Element {
                 <View style={[styles.inputView,{marginTop:10}]}>
                   <CustomTextInput style={{height:'100%',flex:1}}
                     inputProps={{
-                      placeholder:'请输入验证码',
+                      placeholder:t('please enter verification code'),
                       value:userCode,
                       onChange:onUserCodeChange,
                       keyboardType:'number-pad'
                     }}
                   />
                   <TouchableOpacity style={styles.codeButton} onPressIn={onGetVerifyCode}>
-                    <Text style={styles.codetitle}>{codeTime == CODE_COUNTDOWN_TIME ? '获取验证码' : codeTime + ' s'}</Text>
+                    <Text style={styles.codetitle}>{codeTime == CODE_COUNTDOWN_TIME ? t('get verification code') : codeTime + ' s'}</Text>
                   </TouchableOpacity>
                 </View>
                 <CustomTextInput 
                     style={[styles.inputView,{marginTop:10}]}
                     inputProps={{
-                      placeholder:'请输入密码',
+                      placeholder:t('Please enter password'),
                       value:userPsd,
                       onChange:onUserPsdChange,
                       underlineColorAndroid:'transparent',
@@ -218,7 +219,7 @@ function Register(props:any): JSX.Element {
                   />
                 <CustomTextInput style={[styles.inputView,{marginTop:10}]}
                   inputProps={{
-                    placeholder:'请再次输入密码',
+                    placeholder:t('Please enter password again'),
                     value:userAgainPsd,
                     onChange:onUserAgaimPsdChange,
                     underlineColorAndroid:'transparent',
@@ -230,7 +231,7 @@ function Register(props:any): JSX.Element {
               <View style={styles.downView}>
                 <LoadingButton isLoading={isLoading} onPressIn={onRegister} style={styles.loginButtonvieew}>
                   <ImageBackground source={ButtonImg} style={styles.loginButton} resizeMode='cover'>
-                    <Text style={styles.logintitle}>注册</Text>
+                    <Text style={styles.logintitle}>{t('register')}</Text>
                   </ImageBackground>
                 </LoadingButton>
                 <View style={styles.agreeView}>
@@ -238,13 +239,13 @@ function Register(props:any): JSX.Element {
                     <Image style={styles.agreeImg} source={isAgree ? AgreeSel : AgreeDis}/>
                   </TouchableOpacity>
                   <View style={styles.agreeTextView}>
-                    <Text style={styles.agreeText}>我已阅读并同意衣互</Text>
+                    <Text style={styles.agreeText}>{t('I have read and agree to 衣互')}</Text>
                     <TouchableOpacity style={styles.agreeSelButton} onPressIn={onUserAgreement}>
-                      <Text style={styles.agreeTextDis}>用户协议</Text>
+                      <Text style={styles.agreeTextDis}>{t('User Agreement')}</Text>
                     </TouchableOpacity>
-                    <Text style={styles.agreeText}>和</Text>
+                    <Text style={styles.agreeText}>{t('and')}</Text>
                     <TouchableOpacity style={styles.agreeSelButton} onPressIn={onUserPrivacy}>
-                      <Text style={styles.agreeTextDis}>隐私政策</Text>
+                      <Text style={styles.agreeTextDis}>{t('Privacy Policy')}</Text>
                     </TouchableOpacity>
                   </View>
                 </View>

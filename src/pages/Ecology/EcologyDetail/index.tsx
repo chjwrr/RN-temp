@@ -27,6 +27,7 @@ import { useUserInfo } from '@/redux/userInfo';
 import { Image as ExpoImage } from 'expo-image';
 import { isImage } from '@/utils/common';
 import DetailImage from '@/components/DetailImage';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BackIcon = require('@/assets/images/back_w.png')
 const CollectIcon = require('@/assets/images/unlike.png')
@@ -80,6 +81,7 @@ function Ticket(props:any): JSX.Element {
     });
     Share.open(options);
   }
+  const {t} = useTranslationLanguage()
   return (
     <View style={styles.main}>
       <ExpoImage
@@ -135,7 +137,7 @@ function Ticket(props:any): JSX.Element {
         <TouchableOpacity onPressIn={onGotoGame}>
           <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.buyBtn}>
             <Image style={styles.downIcon} source={downBg}/>
-            <Text style={styles.buy}>进入游戏</Text>
+            <Text style={styles.buy}>{t('enter game')}</Text>
           </LinearGradient>
         </TouchableOpacity>
     </View>

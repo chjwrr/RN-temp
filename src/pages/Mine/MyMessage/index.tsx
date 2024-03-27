@@ -27,6 +27,7 @@ import { Image as ExpoImage } from 'expo-image';
 import { MY_MESSAGE_CENTER } from '@/api/API';
 import { formatTime } from '@/utils/common';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -87,6 +88,7 @@ function Ticket({navigation}:any): JSX.Element {
   function onBack(){
     navigation.goBack()
   }
+  const {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.mainView}>
       <View style={[styles.navigationView,{
@@ -95,7 +97,7 @@ function Ticket({navigation}:any): JSX.Element {
           <Image style={styles.backIcon} source={BackIcon}/>
         </TouchableOpacity>
         <View style={styles.titleView}>
-          <Text style={styles.title}>消息中心</Text>
+          <Text style={styles.title}>{t('Message Center')}</Text>
         </View>
       </View>
       <FlatList
@@ -121,7 +123,7 @@ function Ticket({navigation}:any): JSX.Element {
         }}
         style={styles.flatList}
         ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
-          <Text style={styles.loadMoreTitle}>加载更多...</Text>
+          <Text style={styles.loadMoreTitle}>{t('load more')}</Text>
           <ActivityIndicator size="small" color={Colors.main} />
         </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}

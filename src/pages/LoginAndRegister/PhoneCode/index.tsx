@@ -18,6 +18,7 @@ import { USER_LOGIN } from '@/api/API';
 import { useDispatch } from 'react-redux';
 import { saveUserInfo } from '@/redux/userInfo';
 import { CommonActions } from '@react-navigation/native';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -56,18 +57,18 @@ function PhoneCode(props:any): JSX.Element {
   function onDisKeyboard(){
     Keyboard.dismiss()
   }
-
+  const {t} = useTranslationLanguage()
   function onChange(e:any){
     if (e.nativeEvent.text.length == 4){
       Keyboard.dismiss()
       // 调用接口
-      Loading.show('正在登录...')
+      Loading.show(t('logging in'))
       HTTPS.post(USER_LOGIN,{
         phone:props.route.params.phone,
         code:e.nativeEvent.text,
         country:'86'
       }).then((result:any)=>{
-        Loading.show('登录成功，正在跳转...')
+        Loading.show(t('Login successful, redirecting'))
         setTimeout(() => {
           Loading.hidden()
           dispatch(saveUserInfo(result))
@@ -112,9 +113,9 @@ function PhoneCode(props:any): JSX.Element {
           </TouchableOpacity>
           <View style={styles.mainContent}>
             <View>
-              <Text style={styles.title}>输入验证码</Text>
+              <Text style={styles.title}>{t('"please enter verification code')}</Text>
               <View style={styles.inputView}>
-                <Text style={styles.phonetip}>验证码已发送至 {props.route.params.phone}</Text>
+                <Text style={styles.phonetip}>{t('Verification code has been sent to')} {props.route.params.phone}</Text>
               </View>
               <View style={styles.CodeMianView}>
                 <TouchableOpacity activeOpacity={1} style={styles.codeView} onPressIn={onShowKeyboard}>

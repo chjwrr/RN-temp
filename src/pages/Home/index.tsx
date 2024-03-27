@@ -96,25 +96,25 @@ function Home({navigation}:any): JSX.Element {
 }
 const tabs:any[] = [
   {
-    title:'推荐',
+    title:'recommend',
     icon_n:require('@/assets/images/home_tab_1_nor.png'),
     icon_s:require('@/assets/images/home_tab_1_sel.png'),
     key:'Recommend'
   },
   {
-    title:'设计圈',
+    title:'design',
     icon_n:require('@/assets/images/home_tab_2_nor.png'),
     icon_s:require('@/assets/images/home_tab_2_sel.png'),
     key:'Design'
   },
   {
-    title:'秀场',
+    title:'Show',
     icon_n:require('@/assets/images/home_tab_3_nor.png'),
     icon_s:require('@/assets/images/home_tab_3_sel.png'),
     key:'Show'
   },
   {
-    title:'关注',
+    title:'following',
     icon_n:require('@/assets/images/home_tab_4_nor.png'),
     icon_s:require('@/assets/images/home_tab_4_sel.png'),
     key:'FocusOn'
@@ -126,6 +126,8 @@ function TopTabbar(props:any){
       props.jumpTo('Show')
     })
   },[])
+  const {t} = useTranslationLanguage()
+
   return <View style={styles.tabView}>
     {
       tabs.map((item:any,index:number)=>{
@@ -136,7 +138,7 @@ function TopTabbar(props:any){
             <Text style={[styles.tabButtonTitle,{
               fontSize:props.navigationState.index == index ? 16 : 14,
               fontWeight:props.navigationState.index == index ? '600' : '400',
-            }]}>{item.title}</Text>
+            }]}>{t(item.title)}</Text>
           </ImageBackground>
         </TouchableOpacity>
       })

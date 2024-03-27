@@ -22,6 +22,7 @@ import { useUserInfo } from '@/redux/userInfo';
 import * as Loading from '@/components/Loading'
 import LoadingButton from '@/components/LoadingButton';
 import CustomTextInput from '@/components/CustomTextInput';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const add = require('@/assets/images/addimage.png')
@@ -140,7 +141,7 @@ function Post(props:any): JSX.Element {
   function onChange(e:any){
     setInputValue(e.nativeEvent.text)
   }
-
+  const {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{
@@ -149,7 +150,7 @@ function Post(props:any): JSX.Element {
         <View style={[styles.navigationView,{
         }]}>
           <LoadingButton isLoading={isLoading} style={styles.backButton} onPressIn={onPost}>
-            <Text style={styles.title}>发布</Text>
+            <Text style={styles.title}>{t('release')}</Text>
           </LoadingButton>
         </View>
         <CustomTextInput 
@@ -159,7 +160,7 @@ function Post(props:any): JSX.Element {
             onChange:onChange,
             editable:!isLoading,
             multiline:true,
-            placeholder:'说点什么吧~',
+            placeholder:t('Say something'),
             style:{color:'#000',fontSize:16}
           }}/>
         <View style={styles.imageView}>

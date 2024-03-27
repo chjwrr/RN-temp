@@ -28,6 +28,7 @@ import { savePicture } from '@/utils/common';
 import { FadeLoading } from 'react-native-fade-loading';
 import Colors from '@/utils/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -115,6 +116,7 @@ function RecommendDetail(props:any): JSX.Element {
     }).finally(()=>{
     })
   }
+  const {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       {/* <SafeAreaView style={{flex:1}}> */}
@@ -124,7 +126,7 @@ function RecommendDetail(props:any): JSX.Element {
             <Image style={styles.backIcon} source={BackIcon}/>
           </TouchableOpacity>
           <View style={styles.titleView}>
-            <Text style={styles.title}>我的笔记</Text>
+            <Text style={styles.title}>{t('my notes')}</Text>
           </View>
         </View>
         <FlatList
@@ -183,7 +185,7 @@ function RecommendDetail(props:any): JSX.Element {
         }}
         style={styles.flatList}
         ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
-          <Text style={styles.loadMoreTitle}>加载更多...</Text>
+          <Text style={styles.loadMoreTitle}>{t('load more')}</Text>
           <ActivityIndicator size="small" color={Colors.main} />
         </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}

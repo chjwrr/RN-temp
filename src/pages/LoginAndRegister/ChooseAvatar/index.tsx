@@ -24,6 +24,7 @@ import * as HTTPS from '@/api/axios'
 import LoadingButton from '@/components/LoadingButton';
 import { GET_MEDIA_ID, MY_USER_INFO_UPDATE } from '@/api/API';
 import { useDispatch } from 'react-redux';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/registerbgi.png')
 const BackImg = require('@/assets/images/loginback.png')
@@ -97,26 +98,27 @@ function ChooseAvatar(props:any): JSX.Element {
       })
     }
   }
+  const {t} = useTranslationLanguage()
   async function onChangeAvator(){
     if (Platform.OS == 'android'){
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
           {
-            title: 'Cverselink 想要访问您的图片',
+            title: t('Cverselink wants to access your images'),
             message:
-              '从相册中选取图片设置您的头像',
-            buttonNeutral: '稍后访问',
-            buttonNegative: '取消',
-            buttonPositive: '确认',
+              t('Choose a picture from the photo album to set your avatar'),
+            buttonNeutral: t('visit later'),
+            buttonNegative: t('Cancel'),
+            buttonPositive: t('confirm'),
           },
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           readLibrary()
         } else {
           showMessage({
-            message: "暂无访问相册权限",
-            description: "请前往设置页打开 Cverselink 相册权限",
+            message: t('No access to photo album yet'),
+            description: t('Please go to the settings page to turn on Cverselink album permissions'),
             type: "warning",
             });
         }
@@ -149,9 +151,9 @@ function ChooseAvatar(props:any): JSX.Element {
         </TouchableOpacity>
         <View style={styles.mainContent}>
           <View style={styles.topNameView}>
-            <Text style={styles.title}>我的头像</Text>
+            <Text style={styles.title}>{t('My icon')}</Text>
             <View style={styles.tipReg}>
-              <Text style={styles.nametitle}>来个靓照</Text>
+              <Text style={styles.nametitle}>{t('Take a nice photo')}</Text>
             </View>
           </View>
           <View style={styles.agreeView}>
@@ -167,14 +169,16 @@ function ChooseAvatar(props:any): JSX.Element {
               {avatorFile.length > 0 ? <ImageBackground source={ButtonImg} style={styles.nextButton} resizeMode='cover'>
                 <Text style={[styles.nextTitle,{
                   color:'#fff'
-                }]}>下一步</Text>
-              </ImageBackground> : <Text style={styles.nextTitle}>从相册选取图片</Text>}
+                }]}>{t('next')}</Text>
+              </ImageBackground> : <Text style={styles.nextTitle}>{t('Select pictures from album')}</Text>}
             </LoadingButton>
           </View>
         </View>
         <View style={styles.jumpView}>
           <TouchableOpacity onPressIn={onJumpNext}>
-            <Text style={styles.agreeText}>跳过</Text>
+            <Text style={styles.agreeText}>
+              {t('skip')}
+            </Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>

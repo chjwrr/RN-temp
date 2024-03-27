@@ -19,6 +19,7 @@ import CustomTextInput from '@/components/CustomTextInput';
 import * as HTTPS from '@/api/axios'
 import { SEND_SMS_CODE, USER_PASSWORD_UPDATE } from '@/api/API';
 import LoadingButton from '@/components/LoadingButton';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const ButtonImg = require('@/assets/images/buttonbg.png')
@@ -64,28 +65,29 @@ function ForgetPsd(props:any): JSX.Element {
     props.navigation.pop()
   }
 
+  const {t} = useTranslationLanguage()
   function onGetVerifyCode(){
     if (codeTime != 60){
       return
     }
     if (!userPsd){
-      setTips('请输入密码')
+      setTips(t('Please enter password'))
       return
     }
     if (!userAgainPsd){
-      setTips('请再次输入密码')
+      setTips(t('Please enter password again'))
       return
     }
     if (userPsd != userAgainPsd){
-      setTips('两次输入密码不一致，请重新输入')
+      setTips(t('The password you entered twice is inconsistent, please re-enter it'))
       return
     }
     if (!userAccount){
-      setTips('请输入手机号')
+      setTips(t('Please enter phone number'))
       return
     }
     if (!isPhoneNumber(userAccount)){
-      setTips('手机号无效')
+      setTips(t('Invalid mobile number'))
       return
     }
 
@@ -110,27 +112,27 @@ function ForgetPsd(props:any): JSX.Element {
   }
   function onComplate(){
     if (!userPsd){
-      setTips('请输入密码')
+      setTips(t('Please enter password'))
       return
     }
     if (!userAgainPsd){
-      setTips('请再次输入密码')
+      setTips(t('Please enter password again'))
       return
     }
     if (userPsd != userAgainPsd){
-      setTips('两次输入密码不一致，请重新输入')
+      setTips(t('The password you entered twice is inconsistent, please re-enter it'))
       return
     }
     if (!userAccount){
-      setTips('请输入手机号')
+      setTips(t('Please enter phone number'))
       return
     }
     if (!isPhoneNumber(userAccount)){
-      setTips('手机号无效')
+      setTips(t('Invalid mobile number'))
       return
     }
     if (!userCode){
-      setTips('请输入验证码')
+      setTips(t('please enter verification code'))
       return
     }
     setIsLoading(true)
@@ -161,10 +163,10 @@ function ForgetPsd(props:any): JSX.Element {
             <View style={[styles.mainContent,{
             }]}>
               <View>
-                <Text style={styles.title}>忘记密码</Text>
+                <Text style={styles.title}>{t('forget the password')}</Text>
                 <CustomTextInput style={[styles.inputView]}
                    inputProps={{
-                    placeholder:'新的密码',
+                    placeholder:t('new password'),
                     value:userPsd,
                     onChange:onUserPsdChange,
                     underlineColorAndroid:'transparent',
@@ -173,7 +175,7 @@ function ForgetPsd(props:any): JSX.Element {
                   />
                 <CustomTextInput style={[styles.inputView,{marginTop:10}]}
                    inputProps={{
-                    placeholder:'再次确认密码',
+                    placeholder:t('Confirm password again'),
                     value:userAgainPsd,
                     onChange:onUserAgaimPsdChange,
                     underlineColorAndroid:'transparent',
@@ -182,7 +184,7 @@ function ForgetPsd(props:any): JSX.Element {
                   />
                 <CustomTextInput style={[styles.inputView,{marginTop:10}]}
                    inputProps={{
-                    placeholder:'手机号',
+                    placeholder:t('Phone number'),
                     value:userAccount,
                     onChange:onUserAccountChange,
                     underlineColorAndroid:'transparent',
@@ -192,7 +194,7 @@ function ForgetPsd(props:any): JSX.Element {
                 <View style={[styles.inputView,{marginTop:10}]}>
                   <CustomTextInput style={{height:'100%',flex:1}}
                    inputProps={{
-                    placeholder:'验证码',
+                    placeholder:t('Verification code'),
                     value:userCode,
                     onChange:onUserCodeChange,
                     underlineColorAndroid:'transparent',
@@ -200,14 +202,14 @@ function ForgetPsd(props:any): JSX.Element {
                    }}
                   />
                   <TouchableOpacity style={styles.codeButton} onPressIn={onGetVerifyCode}>
-                    <Text style={styles.codetitle}>{codeTime == CODE_COUNTDOWN_TIME ? '获取验证码' : codeTime + ' s'}</Text>
+                    <Text style={styles.codetitle}>{codeTime == CODE_COUNTDOWN_TIME ? t('get verification code') : codeTime + ' s'}</Text>
                   </TouchableOpacity>
                 </View>
                 <Text style={styles.tips}>{tips}</Text>
                 <View style={styles.centerView}>
                   <LoadingButton isLoading={isLoading} onPressIn={onComplate} style={styles.loginButtonvieew}>
                     <ImageBackground source={ButtonImg} style={styles.loginButton} resizeMode='cover'>
-                      <Text style={styles.logintitle}>确认</Text>
+                      <Text style={styles.logintitle}>{t('confirm')}</Text>
                     </ImageBackground>
                   </LoadingButton>
                 </View>

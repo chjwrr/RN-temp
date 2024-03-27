@@ -26,6 +26,7 @@ import ImagePlaceholder from '@/components/ImagePlaceholder';
 import Carousel from 'react-native-reanimated-carousel';
 import { Video, ResizeMode } from 'expo-av';
 import DetailImage from '@/components/DetailImage';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -98,6 +99,7 @@ function DesignDetail(props:any): JSX.Element {
     show(<DownImage imageSource={clothDetail.images}/>)
   }
 
+  const  {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -135,11 +137,11 @@ function DesignDetail(props:any): JSX.Element {
         <View style={styles.downView}>
           <TouchableOpacity style={[styles.downViewItem,showBuy && styles.downViewItemSel]} onPressIn={onShowDown}>
             <Image style={styles.downIcon} source={downbgIcon}/>
-            <Text style={[styles.downTitle, showBuy && styles.downTitleSel]}>下载图片</Text>
+            <Text style={[styles.downTitle, showBuy && styles.downTitleSel]}>{t('download image')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.downViewItem,styles.downViewItemRight]}>
             <Image style={styles.downIcon} source={hdIcon}/>
-            <Text style={styles.downTitle}>下载3D文件</Text>
+            <Text style={styles.downTitle}>{t('download 3d file')}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -148,15 +150,17 @@ function DesignDetail(props:any): JSX.Element {
 }
 
 function DetailInfo({intro}:any){
+  const  {t} = useTranslationLanguage()
+
   // model_right_bgIcon model_left_bgIcon
   const [selectIndex,setSelectIndex] = useState(0)
   return <View style={styles.detailInfo}>
     <ImageBackground resizeMode='cover' source={selectIndex == 0 ? model_right_bgIcon : model_left_bgIcon} style={styles.detailTopBg}>
       <TouchableOpacity style={selectIndex == 0 ? styles.detailLeftButton : styles.detailLeftButton} onPressIn={()=>setSelectIndex(0)}>
-        <Text style={selectIndex == 0 ? styles.detailTopTitle : styles.detailTopTitledis}>模型介绍</Text>
+        <Text style={selectIndex == 0 ? styles.detailTopTitle : styles.detailTopTitledis}>{t('Model introduction')}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={selectIndex != 0 ? styles.detailRightButton : styles.detailRightButton} onPressIn={()=>setSelectIndex(1)}>
-        <Text style={selectIndex != 0 ? styles.detailTopTitle : styles.detailTopTitledis}>制作公司介绍</Text>
+        <Text style={selectIndex != 0 ? styles.detailTopTitle : styles.detailTopTitledis}>{t('company info')}</Text>
       </TouchableOpacity>
     </ImageBackground>
     {
@@ -172,6 +176,7 @@ function DetailInfo({intro}:any){
 
 function DownImage({imageSource}:any){
   const [currentIndex,setCurrentIndex] = useState(0)
+  const  {t} = useTranslationLanguage()
 
   function onDownload(){
     if (imageSource){
@@ -224,11 +229,11 @@ function DownImage({imageSource}:any){
     <View style={styles.downButtonView}>
       <TouchableOpacity style={styles.downImagebutton} onPressIn={onDownload}>
         <Image style={styles.downImagebuttonicon} source={download_nIcon}/>
-        <Text style={styles.downImagebuttontitle}>保存图片</Text>
+        <Text style={styles.downImagebuttontitle}>{t('save image')}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={[styles.downImagebutton,styles.downImagebuttonSpa]} onPressIn={onShare}>
         <Image style={styles.downImagebuttonicon} source={share_nIcon}/>
-        <Text style={styles.downImagebuttontitle}>分享链接</Text>
+        <Text style={styles.downImagebuttontitle}>{t('share link')}</Text>
       </TouchableOpacity>
     </View>
   </View>

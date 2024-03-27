@@ -29,6 +29,7 @@ import { useUserInfo } from '@/redux/userInfo';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 
 const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_1.png')
@@ -129,6 +130,7 @@ function Ticket(props:any): JSX.Element {
     // });
     // Share.open(options);
   }
+  const {t} = useTranslationLanguage()
   return (
     <View style={styles.main}>
       <Image style={styles.topImage} source={pertopbg}/>
@@ -162,7 +164,7 @@ function Ticket(props:any): JSX.Element {
         })}>
         <TopInfo navigation={props.navigation} masterInfo={masterInfo} onFocusChange={props.route.params.onFocusChange}/>
         <View style={styles.line}/>
-        <Text style={styles.title}>系列作品</Text>
+        <Text style={styles.title}>{t('series of works')}</Text>
         {
           dataSource.map((item:any,index:number)=>{
             return <TouchableOpacity style={styles.bannerView} key={index+'spdb'} onPress={()=>{
@@ -187,7 +189,7 @@ function Ticket(props:any): JSX.Element {
             </TouchableOpacity>
           })
         }
-        <Text style={[styles.title,{marginTop:32}]}>热门推荐</Text>
+        <Text style={[styles.title,{marginTop:32}]}>{t('Popular recommendations')}</Text>
         <View style={styles.scrollView}>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           {
@@ -207,7 +209,7 @@ function Ticket(props:any): JSX.Element {
                   transition={200}
                 />
                 <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearsellView}>
-                  <Text style={styles.numberdestitle}>热卖中</Text>
+                  <Text style={styles.numberdestitle}>{t('on sale')}</Text>
                 </LinearGradient>
                 <Text numberOfLines={1} ellipsizeMode='tail' style={styles.itemName}>{item.name}</Text>
                 <Text style={styles.itemID}>ID:{item.project_id}</Text>
@@ -236,6 +238,7 @@ function TopInfo({masterInfo,onFocusChange,navigation}:any){
     }).finally(()=>{
     })
   }
+  const {t} = useTranslationLanguage()
   return <View style={styles.topView}>
     <View style={styles.infoView}>
       <ExpoImage
@@ -247,8 +250,8 @@ function TopInfo({masterInfo,onFocusChange,navigation}:any){
       />
       <View>
         <Text style={styles.name}>{masterInfo.name}</Text>
-        <Text style={[styles.des,{width:200}]} numberOfLines={1} ellipsizeMode='tail'>衣互号：{masterInfo.master_id}</Text>
-        <Text style={styles.des}>IP属地：-</Text>
+        <Text style={[styles.des,{width:200}]} numberOfLines={1} ellipsizeMode='tail'>{t('clothing number')}：{masterInfo.master_id}</Text>
+        <Text style={styles.des}>{t('IP territory')}：-</Text>
       </View>
     </View>
     {/* <View style={styles.infoView}>
@@ -262,20 +265,20 @@ function TopInfo({masterInfo,onFocusChange,navigation}:any){
     <View style={styles.numberView}>
       <View style={styles.numItem}>
         <Text style={styles.number}>{masterInfo.article_count}</Text>
-        <Text style={styles.numberdes}>动态</Text>
+        <Text style={styles.numberdes}>{t("dynamic")}</Text>
       </View>
       <View style={styles.numItem}>
         <Text style={styles.number}>{masterInfo.follow_count}</Text>
-        <Text style={styles.numberdes}>关注</Text>
+        <Text style={styles.numberdes}>{t('following')}</Text>
       </View>
       <View style={styles.numItem}>
         <Text style={styles.number}>{masterInfo.follower_count}</Text>
-        <Text style={styles.numberdes}>粉丝</Text>
+        <Text style={styles.numberdes}>{t('fan')}</Text>
       </View>
       <View style={styles.infoView}>
         <TouchableOpacity onPressIn={onFocus}>
           <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearVienumw}>
-            <Text style={styles.numberdestitle}>{isFocus ? '取消关注' : '添加关注'}</Text>
+            <Text style={styles.numberdestitle}>{isFocus ? t('unsubscribe') : t('Click to follow')}</Text>
           </LinearGradient>
         </TouchableOpacity>
         <TouchableOpacity onPressIn={()=>{
@@ -285,7 +288,7 @@ function TopInfo({masterInfo,onFocusChange,navigation}:any){
           })
         }}>
           <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.linearVienumw}>
-            <Text style={styles.numberdestitle}>发消息</Text>
+            <Text style={styles.numberdestitle}>{t('send message')}</Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>

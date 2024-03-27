@@ -19,6 +19,7 @@ import RecommendScreen from './Recommend'
 import SuperPersonScreen from './SuperPerson'
 import FocusOnScreen from './FocusOn'
 import PlayScreen from './Play'
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 
 
@@ -102,25 +103,25 @@ function Home({navigation}:any): JSX.Element {
 
 const tabs:any[] = [
   {
-    title:'推荐',
+    title:'recommend',
     icon_n:require('@/assets/images/ticket_tj.png'),
     icon_s:require('@/assets/images/ticket_tj_s.png'),
     key:'Recommend'
   },
   {
-    title:'达人',
+    title:'talent',
     icon_n:require('@/assets/images/ticket_sj.png'),
     icon_s:require('@/assets/images/ticket_sj_s.png'),
     key:'SuperPerson'
   },
   {
-    title:'关注',
+    title:'following',
     icon_n:require('@/assets/images/ticket_xc.png'),
     icon_s:require('@/assets/images/ticket_xc_s.png'),
     key:'FocusOn'
   },
   {
-    title:'玩圈',
+    title:'Play in circles',
     icon_n:require('@/assets/images/ticket_gz.png'),
     icon_s:require('@/assets/images/ticket_gz_s.png'),
     key:'Play'
@@ -138,6 +139,7 @@ function TopTabbar({onChange,current,showTab,jumpTo}:any){
       animatedView.current.transitionTo({ opacity: 0,height:0 })
     }
   },[showTab])
+  const {t} = useTranslationLanguage()
   return <Animatable.View duration={250} easing={'linear'} ref={animatedView} style={[styles.navigationView]}>
     {
       tabs.map((item:any,index:number)=>{
@@ -150,7 +152,7 @@ function TopTabbar({onChange,current,showTab,jumpTo}:any){
               fontSize:current == index ? 18 : 14,
               fontWeight:current == index ? '600' : '400',
               color:current == index ? Colors.white : Colors.light
-            }}>{item.title}</Text>
+            }}>{t(item.title)}</Text>
           </ImageBackground>
         </TouchableOpacity>
       })

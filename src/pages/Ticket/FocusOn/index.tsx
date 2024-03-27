@@ -26,35 +26,12 @@ import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
 import { MY_FOLLOWING_MASTERS,MY_FOLLOWING_MASTER_TICKET_LIST } from '@/api/API';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
-const centerBg = require('@/assets/images/ticket_downbg.png')
 const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
 const ticket_pro_ban_2 = require('@/assets/images/ticket_pro_ban_1.png')
-const topbanner = require('@/assets/images/ticket_banner.png')
-const ticket_line = require('@/assets/images/tdbg.png')
-const ticket_tj = require('@/assets/images/ticket_tj_icon.png')
-const ticket_dr = require('@/assets/images/ticket_dr_icon.png')
-const ticket_focus = require('@/assets/images/ticket_focus_icon.png')
-const ticket_play = require('@/assets/images/ticket_play_icon.png')
-const ticket_item_1 = require('@/assets/images/tick_icon_1.png')
-const ticket_item_2 = require('@/assets/images/tick_icon_2.png')
-const focus_n = require('@/assets/images/share_w.png')
-const limmitBg = require('@/assets/images/limmitBg.png')
-const downBg = require('@/assets/images/ticket_downbgperson.png')
 
 
-const bannerList:any[] = [
-  {
-    title:'破妄明心',
-    des:'·明星阵容',
-    banner:ticket_pro_ban_1
-  },
-  {
-    title:'阴阳师',
-    des:'·全民集结',
-    banner:ticket_pro_ban_2
-  }
-]
 
 function Ticket({navigation}:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
@@ -128,6 +105,7 @@ function Ticket({navigation}:any): JSX.Element {
     console.log('loading more')
     getData(page + 1)
   }
+  const {t} = useTranslationLanguage()
 
   return (
     <View style={styles.mainView}>
@@ -183,7 +161,7 @@ function Ticket({navigation}:any): JSX.Element {
             </View>
         }
         ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
-          <Text style={styles.loadMoreTitle}>加载更多...</Text>
+          <Text style={styles.loadMoreTitle}>{t('load more')}</Text>
           <ActivityIndicator size="small" color={Colors.main} />
         </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}

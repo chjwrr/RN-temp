@@ -49,6 +49,7 @@ import { Image as ExpoImage } from 'expo-image';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import dayjs from 'dayjs';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BackIcon = require('@/assets/images/back_w.png')
 
@@ -216,6 +217,7 @@ function DownInfo({ticket_id,onCommonChange}:any){
     }).finally(()=>{
     })
   }
+  const {t} = useTranslationLanguage()
 
   return <View style={[styles.downView]}>
     <CustomTextInput
@@ -227,10 +229,10 @@ function DownInfo({ticket_id,onCommonChange}:any){
         style:{color:Colors.white},
         onFocus:onFocus,
         onBlur:onBlur,
-        returnKeyLabel:'发送',
+        returnKeyLabel:t('send'),
         returnKeyType:'send',
         onSubmitEditing:onSubmitEditing,
-        placeholder:'说点什么...',
+        placeholder:t('say something'),
         placeholderTextColor:Colors.white
       }}
     />

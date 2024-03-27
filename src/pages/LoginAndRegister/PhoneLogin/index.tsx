@@ -18,6 +18,7 @@ import * as HTTPS from '@/api/axios'
 import { SEND_SMS_CODE } from '@/api/API';
 import LoadingButton from '@/components/LoadingButton';
 import { showMessage } from 'react-native-flash-message';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -49,18 +50,19 @@ function PhoneLogin(props:any): JSX.Element {
   function onUserPrivacy(){
     
   }
+  const {t} = useTranslationLanguage()
   function onGetCode(){
     if (!userAccount){
-      setTips('请输入手机号')
+      setTips(t('Please enter phone number'))
       return
     }
     if (!isPhoneNumber(userAccount)){
-      setTips('手机号无效')
+      setTips(t('Invalid mobile number'))
       return
     }
     if (!isAgree){
       showMessage({
-        message: "请阅读并同意衣互 用户协议 和 隐私政策",
+        message: t('Please read and agree to the 衣互 User Agreement and Privacy Policy'),
         type: "info",
       });
       return
@@ -93,12 +95,12 @@ function PhoneLogin(props:any): JSX.Element {
           </TouchableOpacity>
           <View style={styles.mainContent}>
             <View>
-              <Text style={styles.title}>手机号登录</Text>
+              <Text style={styles.title}>{t('Mobile phone number login')}</Text>
               <View style={styles.inputView}>
                 <Text style={styles.phoneArea}>+86</Text>
                 <CustomTextInput style={{height:'100%',flex:1}}
                   inputProps={{
-                    placeholder:'请输入手机号',
+                    placeholder:t('Please enter phone number'),
                     value:userAccount,
                     onChange:onUserAccountChange,
                     keyboardType:'number-pad'
@@ -109,7 +111,7 @@ function PhoneLogin(props:any): JSX.Element {
               <View style={styles.centerView}>
                 <LoadingButton isLoading={isLoading} onPressIn={onGetCode} style={styles.loginButtonvieew}>
                   <ImageBackground source={ButtonImg} style={styles.loginButton} resizeMode='cover'>
-                    <Text style={styles.logintitle}>获取验证码</Text>
+                    <Text style={styles.logintitle}>{t('get verification code')}</Text>
                   </ImageBackground>
                 </LoadingButton>
               </View>
@@ -121,13 +123,13 @@ function PhoneLogin(props:any): JSX.Element {
                   <Image style={styles.agreeImg} source={isAgree ? AgreeSel : AgreeDis}/>
                 </TouchableOpacity>
                 <View style={styles.agreeTextView}>
-                  <Text style={styles.agreeText}>我已阅读并同意衣互</Text>
+                  <Text style={styles.agreeText}>{t('I have read and agree to 衣互')}</Text>
                   <TouchableOpacity style={styles.agreeSelButton} onPressIn={onUserAgreement}>
-                    <Text style={styles.agreeTextDis}>用户协议</Text>
+                    <Text style={styles.agreeTextDis}>{t('User Agreement')}</Text>
                   </TouchableOpacity>
-                  <Text style={styles.agreeText}>和</Text>
+                  <Text style={styles.agreeText}>{t('and')}</Text>
                   <TouchableOpacity style={styles.agreeSelButton} onPressIn={onUserPrivacy}>
-                    <Text style={styles.agreeTextDis}>隐私政策</Text>
+                    <Text style={styles.agreeTextDis}>{t('Privacy Policy')}</Text>
                   </TouchableOpacity>
                 </View>
               </View>

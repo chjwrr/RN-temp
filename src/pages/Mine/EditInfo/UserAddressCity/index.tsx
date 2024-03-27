@@ -32,6 +32,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { useDispatch } from 'react-redux';
 import LoadingButton from '@/components/LoadingButton';
 import CitySource from '@/assets/json/pca.json'
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -77,7 +78,7 @@ function RecommendDetail(props:any): JSX.Element {
       setIsLoading(false)
     })
   }
-
+  const {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -87,10 +88,10 @@ function RecommendDetail(props:any): JSX.Element {
             <Image style={styles.backIcon} source={BackIcon}/>
           </TouchableOpacity>
           <View style={styles.titleView}>
-            <Text style={styles.title}>编辑地址</Text>
+            <Text style={styles.title}>{t('Edit address')}</Text>
           </View>
           <LoadingButton isLoading={isLoading} style={styles.backButton} onPressIn={onPost}>
-            <Text style={[styles.title,{textAlign:'right'}]}>修改</Text>
+            <Text style={[styles.title,{textAlign:'right'}]}>{t('Revise')}</Text>
           </LoadingButton>
         </View>
 

@@ -27,6 +27,7 @@ import { useUserInfo } from '@/redux/userInfo';
 import { Image as ExpoImage } from 'expo-image';
 import { formatTime, isImage } from '@/utils/common';
 import DetailImage from '@/components/DetailImage';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 
 
@@ -95,6 +96,7 @@ function Ticket(props:any): JSX.Element {
     });
     Share.open(options);
   }
+  const {t} = useTranslationLanguage()
   return (
     <View style={styles.main}>
       <ExpoImage
@@ -147,7 +149,7 @@ function Ticket(props:any): JSX.Element {
                 <View style={{flexDirection:'row',alignItems:'center'}}>
                   <View style={{alignItems:'center'}}>
                     <Text style={styles.numTitle}>{projectDetail.ticket_count}</Text>
-                    <Text style={styles.numDes}>发行总量</Text>
+                    <Text style={styles.numDes}>{t('Total issuance')}</Text>
                   </View>
                   {/* <View style={[{alignItems:'center'},{marginLeft:20}]}>
                     <Text style={styles.numTitle}>0</Text>
@@ -156,7 +158,7 @@ function Ticket(props:any): JSX.Element {
                 </View>
                 <TouchableOpacity onPressIn={onFocus}>
                   <ImageBackground source={numbg} style={styles.numbg}>
-                    <Text style={styles.focus}>{isFocus ? '取消关注' : '点击关注'}</Text>
+                    <Text style={styles.focus}>{isFocus ? t('unsubscribe') : t('Click to follow')}</Text>
                   </ImageBackground>
                 </TouchableOpacity>
               </View>             
@@ -173,7 +175,7 @@ function Ticket(props:any): JSX.Element {
         </ScrollView>
         <TouchableOpacity style={styles.buyBtn} onPressIn={onBuy}>
           <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={[styles.buyBtn,{marginLeft:0}]}>
-            <Text style={styles.buy}>点击购买</Text>
+            <Text style={styles.buy}>{t('Click to buy')}</Text>
             <Image source={downbg} style={styles.buyicon}/>
           </LinearGradient>
         </TouchableOpacity>

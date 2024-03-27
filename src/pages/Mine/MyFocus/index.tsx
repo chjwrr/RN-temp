@@ -28,6 +28,7 @@ import { savePicture } from '@/utils/common';
 import { FadeLoading } from 'react-native-fade-loading';
 import Colors from '@/utils/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -74,7 +75,7 @@ function RecommendDetail(props:any): JSX.Element {
     setRefreshing(true);
     getData()
   }
-
+  const {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       {/* <SafeAreaView style={{flex:1}}> */}
@@ -84,7 +85,7 @@ function RecommendDetail(props:any): JSX.Element {
             <Image style={styles.backIcon} source={BackIcon}/>
           </TouchableOpacity>
           <View style={styles.titleView}>
-            <Text style={styles.title}>我的关注</Text>
+            <Text style={styles.title}>{t('my focus')}</Text>
           </View>
         </View>
         <FlatList
@@ -111,7 +112,7 @@ function RecommendDetail(props:any): JSX.Element {
               transition={200}
             />
             <View>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>名字:{item.nickname}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>{t('name')}:{item.nickname}</Text>
               <Text ellipsizeMode='tail' numberOfLines={1} style={styles.flowViewTitle}>ID:{item.uid}</Text>
             </View>
           </TouchableOpacity>

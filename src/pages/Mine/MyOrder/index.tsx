@@ -20,6 +20,7 @@ import { useUserInfo } from '@/redux/userInfo';
 
 import AllOrderScreen from './AllOrder'
 import WaitPayOrderScreen from './WaitPayOrder'
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -49,7 +50,7 @@ function RecommendDetail(props:any): JSX.Element {
         return <WaitPayOrderScreen navigation={props.navigation} jumpTo={jumpTo} />;
     }
   },[])
-
+  const {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -59,7 +60,7 @@ function RecommendDetail(props:any): JSX.Element {
             <Image style={styles.backIcon} source={BackIcon}/>
           </TouchableOpacity>
           <View style={styles.titleView}>
-            <Text style={styles.title}>全部订单</Text>
+            <Text style={styles.title}>{t('All orders')}</Text>
           </View>
         </View>
         <TabView
@@ -78,15 +79,17 @@ function RecommendDetail(props:any): JSX.Element {
 
 const tabs:any[] = [
   {
-    title:'全部',
+    title:'all',
     key:'AllOrder'
   },
   {
-    title:'待支付',
+    title:'To be paid',
     key:'WaitPayOrder'
   },
 ]
 function TopTabbar(props:any){
+  const {t} = useTranslationLanguage()
+
   return <View style={styles.tabView}>
     {
       tabs.map((item:any,index:number)=>{
@@ -96,7 +99,7 @@ function TopTabbar(props:any){
           <Text style={[styles.tabButtonTitle,{
             fontSize:props.navigationState.index == index ? 16 : 14,
             fontWeight:props.navigationState.index == index ? '600' : '400',
-          }]}>{item.title}</Text>
+          }]}>{t(item.title)}</Text>
         </TouchableOpacity>
       })
     }

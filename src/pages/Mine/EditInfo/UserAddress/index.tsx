@@ -32,6 +32,7 @@ import { useDispatch } from 'react-redux';
 import LoadingButton from '@/components/LoadingButton';
 import CitySource from '@/assets/json/pca.json'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -74,7 +75,7 @@ function RecommendDetail(props:any): JSX.Element {
   const [firstIndex,setFirstIndex] = useState(0)
   const [secondIndex,setSecondIndex] = useState(-1)
   const [threeIndex,setThreeIndex] = useState(-1)
-
+  const {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -84,10 +85,10 @@ function RecommendDetail(props:any): JSX.Element {
             <Image style={styles.backIcon} source={BackIcon}/>
           </TouchableOpacity>
           <View style={styles.titleView}>
-            <Text style={styles.title}>选择地址</Text>
+            <Text style={styles.title}>{t('Select address')}</Text>
           </View>
           <LoadingButton isLoading={isLoading} style={styles.backButton} onPressIn={onPost}>
-            <Text style={[styles.title,{textAlign:'right'}]}>修改</Text>
+            <Text style={[styles.title,{textAlign:'right'}]}>{t('Revise')}</Text>
           </LoadingButton>
         </View>
         <Text style={styles.selectTitle}>

@@ -21,6 +21,7 @@ import { useUserInfo } from '@/redux/userInfo';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import { Image as ExpoImage } from 'expo-image';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 function Design({navigation,jumpTo}:any): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
@@ -89,7 +90,7 @@ function Design({navigation,jumpTo}:any): JSX.Element {
       id:cloth_id
     })
   }
-
+  const {t} = useTranslationLanguage()
   return (
     <View style={{flex:1}}>
       <FlatList
@@ -126,7 +127,7 @@ function Design({navigation,jumpTo}:any): JSX.Element {
         style={{ flex: 1 }}
         ListHeaderComponent={<Banner navigation={navigation}/>}
         ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
-          <Text style={styles.loadMoreTitle}>加载更多...</Text>
+          <Text style={styles.loadMoreTitle}>{t('load more')}</Text>
           <ActivityIndicator size="small" color={Colors.main} />
         </View> : <View style={styles.loadMoreView}>
         </View> }

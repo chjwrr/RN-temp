@@ -22,6 +22,7 @@ import { FOLLOWING_ARTICLE_LIST, MY_FOLLOWING_USER } from '@/api/API';
 import ImagePlaceholder from '@/components/ImagePlaceholder';
 import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const ShareIcon = require('@/assets/images/share.png')
 
@@ -102,6 +103,8 @@ function FocusOn({navigation,jumpTo}:any): JSX.Element {
       }
     })
   }
+  const {t} = useTranslationLanguage()
+
   return (
     <FlatList
       style={{ flex: 1 }}
@@ -142,7 +145,7 @@ function FocusOn({navigation,jumpTo}:any): JSX.Element {
       </View>}
       ListEmptyComponent={<View/>}
       ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
-      <Text style={styles.loadMoreTitle}>加载更多...</Text>
+      <Text style={styles.loadMoreTitle}>{t('load more')}</Text>
         <ActivityIndicator size="small" color={Colors.main} />
       </View> : <View style={styles.loadMoreView}></View>}
       initialNumToRender={10}
@@ -170,6 +173,8 @@ function FocusOn({navigation,jumpTo}:any): JSX.Element {
 
 // 顶部44 + 图片300 + 点20  + 标题20 + 内容30  = 414
 function RenderItem({item,index,navigation,onShowMore}:any){
+  const {t} = useTranslationLanguage()
+
   return <View style={styles.itemView}>
     <View style={styles.itemTopView}>
       <View style={{flexDirection:'row',alignItems:'center'}}>
@@ -191,7 +196,7 @@ function RenderItem({item,index,navigation,onShowMore}:any){
     <View style={styles.itemContent}>
       <Text style={styles.iteemCCont} numberOfLines={1} ellipsizeMode='tail'>{item.content}</Text>
       <TouchableOpacity onPressIn={onShowMore}>
-        <Text style={styles.itemShowMore}>查看全文</Text>
+        <Text style={styles.itemShowMore}>{t('show more')}</Text>
       </TouchableOpacity>
     </View>
   </View>

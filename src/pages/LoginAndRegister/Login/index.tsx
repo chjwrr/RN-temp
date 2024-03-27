@@ -20,6 +20,7 @@ import { saveUserInfo } from '@/redux/userInfo';
 import CustomTextInput from '@/components/CustomTextInput';
 import { USER_LOGIN } from '@/api/API';
 import { showMessage } from 'react-native-flash-message';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/loginbgi.png')
 const AgreeDis = require('@/assets/images/agreedis.png')
@@ -65,30 +66,31 @@ function Login(props:any): JSX.Element {
   function onLoginVerify(){
     props.navigation.navigate('PhoneLogin')
   }
+  const {t} = useTranslationLanguage()
   function onLogin(){
     if (!userAccount){
-      setTips('请输入手机号')
+      setTips(t('Please enter phone number'))
       return
     }
     if (!userPsd){
-      setTips('请输入密码')
+      setTips(t('Please enter password'))
       return
     }
     if (!isAgree){
       showMessage({
-        message: "请阅读并同意衣互 用户协议 和 隐私政策",
+        message: t('Please read and agree to the 衣互 User Agreement and Privacy Policy'),
         type: "info",
       });
       return
     }
 
-    Loading.show('正在登录...')
+    Loading.show(t('logging in'))
     HTTPS.post(USER_LOGIN,{
       phone:userAccount,
       password:userPsd,
       country:'86'
     }).then((result:any)=>{
-      Loading.show('登录成功，正在跳转...')
+      Loading.show(t('Login successful, redirecting'))
       setTimeout(() => {
         dispatch(saveUserInfo({
           ...result.my_user_info,
@@ -119,17 +121,17 @@ function Login(props:any): JSX.Element {
           >
             <View style={[styles.mainContent]}>
               <View>
-                <Text style={styles.title}>欢迎登录</Text>
+                <Text style={styles.title}>{t('Login please')}</Text>
                 <View style={styles.tipReg}>
-                  <Text style={styles.tip}>还没有账号</Text>
+                  <Text style={styles.tip}>{t('No account yet')}</Text>
                   <TouchableOpacity onPressIn={onRegister}>
-                    <Text style={styles.regist}>注册</Text>
+                    <Text style={styles.regist}>{t('register')}</Text>
                   </TouchableOpacity>
                 </View>
                 <CustomTextInput 
                   style={styles.inputView}
                   inputProps={{
-                    placeholder:'输入手机号',
+                    placeholder:t('Please enter phone number'),
                     value:userAccount,
                     onChange:onUserAccountChange,
                     keyboardType:'number-pad'
@@ -137,7 +139,7 @@ function Login(props:any): JSX.Element {
                 <CustomTextInput 
                     style={[styles.inputView,{marginTop:40}]}
                     inputProps={{
-                      placeholder:'输入密码',
+                      placeholder:t('Please enter password'),
                       value:userPsd,
                       onChange:onUserPsdChange,
                       returnKeyType:'done',
@@ -147,18 +149,18 @@ function Login(props:any): JSX.Element {
                 <View style={styles.forgetpsd}>
                   <Text style={styles.tips}>{tips}</Text>
                   <TouchableOpacity onPressIn={onForgetPsd}>
-                    <Text style={styles.forgetpsdtitle}>忘记密码</Text>
+                    <Text style={styles.forgetpsdtitle}>{t('forget the password')}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
               <View style={styles.downView}>
                 <TouchableOpacity onPressIn={onLogin} style={styles.loginButtonvieew}>
                   <ImageBackground source={ButtonImg} style={styles.loginButton} resizeMode='cover'>
-                    <Text style={styles.logintitle}>登录</Text>
+                    <Text style={styles.logintitle}>{t('Log in')}</Text>
                   </ImageBackground>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.verify} onPressIn={onLoginVerify}>
-                  <Text style={styles.veifytitle}>验证码登录</Text>
+                  <Text style={styles.veifytitle}>{t('Verification code login')}</Text>
                   <Image style={styles.arrow} source={ArrowRight}/>
                 </TouchableOpacity>
                 <View style={styles.agreeView}>
@@ -166,13 +168,13 @@ function Login(props:any): JSX.Element {
                     <Image style={styles.agreeImg} source={isAgree ? AgreeSel : AgreeDis}/>
                   </TouchableOpacity>
                   <View style={styles.agreeTextView}>
-                    <Text style={styles.agreeText}>我已阅读并同意衣互</Text>
+                    <Text style={styles.agreeText}>{t('I have read and agree to 衣互')}</Text>
                     <TouchableOpacity style={styles.agreeSelButton} onPressIn={onUserAgreement}>
-                      <Text style={styles.agreeTextDis}>用户协议</Text>
+                      <Text style={styles.agreeTextDis}>{t('User Agreement')}</Text>
                     </TouchableOpacity>
-                    <Text style={styles.agreeText}>和</Text>
+                    <Text style={styles.agreeText}>{t('and')}</Text>
                     <TouchableOpacity style={styles.agreeSelButton} onPressIn={onUserPrivacy}>
-                      <Text style={styles.agreeTextDis}>隐私政策</Text>
+                      <Text style={styles.agreeTextDis}>{t('Privacy Policy')}</Text>
                     </TouchableOpacity>
                   </View>
                 </View>

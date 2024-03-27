@@ -46,6 +46,7 @@ import {CachedImage} from '@georstat/react-native-image-cache'
 import { formatTime } from '@/utils/common';
 import { Image as ExpoImage } from 'expo-image';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 
 const BGImage = require('@/assets/images/homebg.png')
@@ -137,7 +138,7 @@ function RecommendDetail(props:any): JSX.Element {
   function onCommonChange(){
     getDetail()
   }
-
+  const {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <KeyboardAvoidingView style={{ flex: 1 }}
@@ -187,9 +188,9 @@ function RecommendDetail(props:any): JSX.Element {
               <Text style={styles.des}>{detailInfo.content}</Text>
               <View style={styles.line}/>
               <View style={styles.commonTitleVieew}>
-                <Text style={styles.commonTitle}>共</Text>
+                <Text style={styles.commonTitle}>{t('total')}</Text>
                 <Text style={styles.commonTitleMain}>{commentList.length}</Text>
-                <Text style={styles.commonTitle}>条评论</Text>
+                <Text style={styles.commonTitle}>{t('Comment')}</Text>
               </View>
             </View>}
             ListEmptyComponent={<View/>}
@@ -379,11 +380,13 @@ function DownInfo({is_collect,article_id,is_like,onCollectChange,onCommonChange}
       listener && listener.remove()
     }
   },[])
+  const {t} = useTranslationLanguage()
+
   return <View style={[styles.downView]}>
     <View style={styles.downViewCon}>
       <Animatable.View ref={downLeftRef} style={[styles.comInputView]}>
         <Image style={styles.downComIcon} source={comicontIcon}/>
-        <Text style={styles.replyTitle}>{replayInfo.author?.nickname ? '回复' + replayInfo.author?.nickname : ''}</Text>
+        <Text style={styles.replyTitle}>{replayInfo.author?.nickname ? t('reply') + replayInfo.author?.nickname : ''}</Text>
         <CustomTextInput
           ref={inputRef}
           style={{height:'100%',flex:1}}
@@ -393,7 +396,7 @@ function DownInfo({is_collect,article_id,is_like,onCollectChange,onCommonChange}
             style:{color:Colors.black},
             onFocus:onFocus,
             onBlur:onBlur,
-            returnKeyLabel:'发送',
+            returnKeyLabel:t('send'),
             returnKeyType:'send',
             onSubmitEditing:onSubmitEditing
           }}
@@ -402,15 +405,15 @@ function DownInfo({is_collect,article_id,is_like,onCollectChange,onCommonChange}
       <Animatable.View ref={downRightRef} style={[styles.downRight,{width:rightWidth}]}>
         <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPressIn={onLike}>
           <Image style={styles.downIcon} source={isLike ? zaniconIcon : likeiconIcon} resizeMode='contain'/>
-          <Text style={styles.downRightTitle}>点赞</Text>
+          <Text style={styles.downRightTitle}>{t('like')}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPressIn={onCollect}>
           <Image style={styles.downIcon} source={isCollect ? stariconSIcon : stariconIcon}/>
-          <Text style={styles.downRightTitle}>收藏</Text>
+          <Text style={styles.downRightTitle}>{t('collect')}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPressIn={onCommon}>
           <Image style={styles.downIcon} source={comiconIcon}/>
-          <Text style={styles.downRightTitle}>评论</Text>
+          <Text style={styles.downRightTitle}>{t('Comment')}</Text>
         </TouchableOpacity>
       </Animatable.View>
     </View>
@@ -434,6 +437,8 @@ function CommonItem({item,index,articleId,onCommonChange}:any){
   function onReplay(){
     DeviceEventEmitter.emit('replay',item)
   }
+  const {t} = useTranslationLanguage()
+
   return <View style={styles.comMain}>
     <View style={styles.comView}>
       <ExpoImage
@@ -449,7 +454,7 @@ function CommonItem({item,index,articleId,onCommonChange}:any){
         <View style={styles.comRelayButton}>
           <Text style={styles.comDay}>{formatTime(item.created_at)}</Text>
           <TouchableOpacity onPressIn={onReplay}>
-            <Text style={styles.comReplay}>回复</Text>
+            <Text style={styles.comReplay}>{t('reply')}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -466,7 +471,7 @@ function CommonItem({item,index,articleId,onCommonChange}:any){
         return <View style={styles.replayView} key={index+'replaycom'}>
           <View style={{flexDirection:'row',alignItems:'center'}}>
             <Text style={styles.collectTitleCol}>{item.reply_author.nickname}</Text>
-            <Text style={styles.collectTitle}>回复了</Text>
+            <Text style={styles.collectTitle}>{t('Replied')}</Text>
             <Text style={styles.collectTitleCol}>{item.author.nickname}： </Text>
           </View>
           <Text style={styles.collectTitle}>
@@ -475,7 +480,7 @@ function CommonItem({item,index,articleId,onCommonChange}:any){
           <View style={styles.comRelayButton}>
             <Text style={styles.comDay}>{formatTime(item.created_at)}</Text>
             <TouchableOpacity onPressIn={onReplay}>
-              <Text style={styles.comReplay}>回复</Text>
+              <Text style={styles.comReplay}>{t('reply')}</Text>
             </TouchableOpacity>
           </View>
         </View>

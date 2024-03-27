@@ -27,6 +27,7 @@ import {CachedImage} from '@georstat/react-native-image-cache'
 import { Image as ExpoImage } from 'expo-image';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import FlashMessage from 'react-native-flash-message';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const centerBg = require('@/assets/images/ticket_downbg.png')
 const ticket_pro_ban_1 = require('@/assets/images/ticket_pro_ban_2.png')
@@ -96,6 +97,7 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
     }
     getData(page + 1)
   }
+  const {t} = useTranslationLanguage()
   return (
     <View style={styles.mainView}>
       <FlatList
@@ -138,7 +140,7 @@ function Ticket({navigation,tabState,jumpTo,onItemPress,onBannerPress}:any): JSX
           </View>
         }
         ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
-          <Text style={styles.loadMoreTitle}>加载更多...</Text>
+          <Text style={styles.loadMoreTitle}>{t('load more')}</Text>
           <ActivityIndicator size="small" color={Colors.main} />
         </View> : <View style={styles.loadMoreView}/>}
         ListEmptyComponent={<View/>}
@@ -166,6 +168,7 @@ function TopCarousel({navigation,jumpTo,tabState}:any){
   const [currentIndex,setCurrentIndex] = useState(0)
   const userInfo = useUserInfo()
   const [bannerList,setBannerList] = useState<any[]>([])
+  const {t} = useTranslationLanguage()
 
   useEffect(()=>{
     HTTPS.post(GAME_BANNER,{
@@ -213,7 +216,7 @@ function TopCarousel({navigation,jumpTo,tabState}:any){
     </View>
     <ImageBackground style={styles.centerbg} source={centerBg}>
       <Image style={styles.centerLine} source={ticket_line}/>
-      <Text style={styles.centerTitle}>热门推荐</Text>
+      <Text style={styles.centerTitle}>{t('recommendations')}</Text>
     </ImageBackground>
   </View>
 }

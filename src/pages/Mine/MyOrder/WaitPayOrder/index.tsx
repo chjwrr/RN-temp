@@ -29,6 +29,7 @@ import { FadeLoading } from 'react-native-fade-loading';
 import Colors from '@/utils/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -89,6 +90,7 @@ function RecommendDetail(props:any): JSX.Element {
     console.log('loading more')
     getData(page + 1)
   }
+  const {t} = useTranslationLanguage()
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
@@ -109,7 +111,7 @@ function RecommendDetail(props:any): JSX.Element {
       }}
       style={styles.flatList}
       ListFooterComponent={!isLoadEnd ? <View style={styles.loadMoreView}>
-        <Text style={styles.loadMoreTitle}>加载更多...</Text>
+        <Text style={styles.loadMoreTitle}>{t('load more')}</Text>
         <ActivityIndicator size="small" color={Colors.main} />
       </View> : <View style={styles.loadMoreView}/>}
       ListEmptyComponent={<View/>}
@@ -136,10 +138,11 @@ function RecommendDetail(props:any): JSX.Element {
 }
 // status 0-待支付 1-已完成 2-已取消
 function OrderItem({item}:any){
+  const {t} = useTranslationLanguage()
   return <TouchableOpacity style={[styles.flowView,{
   }]}>
 
-    <Text style={styles.time}>下单时间：{formatTime(item.created_at)}</Text>
+    <Text style={styles.time}>{t('order time')}：{formatTime(item.created_at)}</Text>
     <View style={styles.line}/>
     <View style={styles.itemView}>
       <ExpoImage
@@ -151,17 +154,17 @@ function OrderItem({item}:any){
       />
       <View>
         <Text ellipsizeMode='tail' numberOfLines={1} style={styles.name}>
-        名称:{item.ticket_name}
+        {t('name')}:{item.ticket_name}
         </Text>
         <Text style={styles.name}>
         ID:{item.order_id}
         </Text>
         <Text style={styles.name}>
-        价格:￥{item.price}
+        {t('price')}:￥{item.price}
         </Text>
         <TouchableOpacity>
           <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(140,105,255)', 'rgb(0,102,255)']} style={styles.buyBtn}>
-            <Text style={styles.buytitle}>立即购买</Text>
+            <Text style={styles.buytitle}>{t('Buy it now')}</Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>

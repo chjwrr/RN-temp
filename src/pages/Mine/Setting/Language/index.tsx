@@ -30,6 +30,7 @@ import { useDispatch } from 'react-redux';
 import { CommonActions } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import { changeLanguage } from '@/redux/setting';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/homebg.png')
 const BackIcon = require('@/assets/images/back_b.png')
@@ -51,6 +52,7 @@ function RecommendDetail(props:any): JSX.Element {
     dispatch(changeLanguage('en-US'))
     onBack()
   }
+  const {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <SafeAreaView style={{flex:1}}>
@@ -60,7 +62,7 @@ function RecommendDetail(props:any): JSX.Element {
             <Image style={styles.backIcon} source={BackIcon}/>
           </TouchableOpacity>
           <View style={styles.titleView}>
-            <Text style={styles.title}>多语言</Text>
+            <Text style={styles.title}>{t('multi-language')}</Text>
           </View>
         </View>
         <ScrollView style={styles.scrollView} keyboardDismissMode='on-drag'>

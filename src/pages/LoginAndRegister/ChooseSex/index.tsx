@@ -20,6 +20,7 @@ import { MY_USER_INFO_UPDATE } from '@/api/API';
 import { saveUserInfo, useUserInfo } from '@/redux/userInfo';
 import LoadingButton from '@/components/LoadingButton';
 import { useDispatch } from 'react-redux';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 const BGImage = require('@/assets/images/registerbgi.png')
 const BackImg = require('@/assets/images/loginback.png')
@@ -87,6 +88,7 @@ function ChooseSex(props:any): JSX.Element {
       setIsLoading(false)
     })   
   }
+  const {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgImage}>
       <SafeAreaView style={{
@@ -101,7 +103,7 @@ function ChooseSex(props:any): JSX.Element {
             <View style={styles.topNameView}>
               <Text style={styles.title}>Hi~!</Text>
               <View style={styles.tipReg}>
-                <Text style={styles.nametitle}>你叫什么名字？</Text>
+                <Text style={styles.nametitle}>{t('May I have your name?')}</Text>
               </View>
               <View style={styles.nameView}>
                 <ImageBackground source={ButtonImg} resizeMode="cover" style={styles.nameBG}>
@@ -116,7 +118,7 @@ function ChooseSex(props:any): JSX.Element {
                       value:name,
                       onChange:onNameChange,
                       underlineColorAndroid:'transparent',
-                      placeholder:'请输入名字',
+                      placeholder:t('Please enter name'),
                       placeholderTextColor:Colors.white
                     }}
                   />
@@ -133,7 +135,9 @@ function ChooseSex(props:any): JSX.Element {
                     <Image style={styles.sexImg} source={sex == 0 ? WomenIcon_s : WomenIcon}/>
                     <View style={styles.sexItem}>
                       <Image style={styles.secIcon} source={sex == 0 ? girl_icon_s : girl_icon}/>
-                      <Text style={styles.sexName}>女生</Text>
+                      <Text style={styles.sexName}>
+                        {t('girl')}
+                      </Text>
                     </View>
                     <Image style={styles.girlImage} source={girl}/>
                   </TouchableOpacity>
@@ -144,7 +148,7 @@ function ChooseSex(props:any): JSX.Element {
                     <Image style={styles.sexImg} source={sex == 1 ? MenIcon_s : MenIcon}/>
                     <View style={styles.sexItem}>
                       <Image style={styles.secIcon} source={sex == 1 ? boy_icon_s : boy_icon}/>
-                      <Text style={styles.sexName}>男生</Text>
+                      <Text style={styles.sexName}>{t('boy')}</Text>
                     </View>
                     <Image style={styles.boyImage} source={boy}/>
                   </TouchableOpacity>
@@ -155,8 +159,8 @@ function ChooseSex(props:any): JSX.Element {
                   {name.length > 0 ? <ImageBackground source={ButtonImg} style={styles.nextButton} resizeMode='cover'>
                     <Text style={[styles.nextTitle,{
                       color:'#fff'
-                    }]}>下一步</Text>
-                  </ImageBackground> : <Text style={styles.nextTitle}>下一步</Text>}
+                    }]}>{t('next')}</Text>
+                  </ImageBackground> : <Text style={styles.nextTitle}>{t('next')}</Text>}
                 </LoadingButton>
                 <View style={{
                   height:'100%',
@@ -169,7 +173,7 @@ function ChooseSex(props:any): JSX.Element {
         </TouchableOpacity>
         <View style={styles.jumpView}>
           <TouchableOpacity onPressIn={onJumpNext}>
-            <Text style={styles.agreeText}>跳过</Text>
+            <Text style={styles.agreeText}>{t('skip')}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>

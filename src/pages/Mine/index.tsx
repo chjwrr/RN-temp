@@ -17,6 +17,7 @@ import { MY_USER_INFO, USER_LOGOUT } from '@/api/API';
 import { Image as ExpoImage } from 'expo-image';
 import { BLUR_HASH } from '@/utils';
 import LinearGradient from 'react-native-linear-gradient';
+import useTranslationLanguage from '@/hooks/useTranslationLanguage';
 
 
 const BGImage = require('@/assets/images/homebg.png')
@@ -69,7 +70,7 @@ function Mine(props:any): JSX.Element {
     props.navigation.navigate('MyMessageCenter')
   }
 
-  console.log('user====',userInfo)
+  const {t} = useTranslationLanguage()
   return (
     <ImageBackground source={BGImage} resizeMode="cover" style={styles.bgView}>
       <ScrollView style={{
@@ -85,23 +86,23 @@ function Mine(props:any): JSX.Element {
           />
           <View>
             <Text style={styles.name}>{userInfo.nickname}</Text>
-            <Text style={styles.uid} numberOfLines={1} ellipsizeMode='tail'>衣互号:{userInfo.uid}</Text>
-            <Text style={styles.des}>IP属地:-</Text>
+            <Text style={styles.uid} numberOfLines={1} ellipsizeMode='tail'>{t('clothing number')}:{userInfo.uid}</Text>
+            <Text style={styles.des}>{t('IP territory')}:-</Text>
           </View>
         </View>
         <View style={styles.numbeView}>
           <View style={{flexDirection:'row'}}>
             <TouchableOpacity style={styles.numberBtn}>
               <Text style={styles.number}>{userInfo.article_count}</Text>
-              <Text style={styles.numberDes}>动态</Text>
+              <Text style={styles.numberDes}>{t('dynamic')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.numberBtn}>
               <Text style={styles.number}>{userInfo.follow_count}</Text>
-              <Text style={styles.numberDes}>关注</Text>
+              <Text style={styles.numberDes}>{t('following')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.numberBtn}>
               <Text style={styles.number}>{userInfo.follower_count}</Text>
-              <Text style={styles.numberDes}>粉丝</Text>
+              <Text style={styles.numberDes}>{t('fan')}</Text>
             </TouchableOpacity>
           </View>
           <View style={{flexDirection:'row'}}>
@@ -110,16 +111,16 @@ function Mine(props:any): JSX.Element {
             </TouchableOpacity>
             <TouchableOpacity onPressIn={onEdit}>
               <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgb(232,227,255)', 'rgb(223,209,255)']} style={styles.editBtn}>
-                <Text style={styles.editinfo}>编辑资料</Text>
+                <Text style={styles.editinfo}>{t('edit information')}</Text>
               </LinearGradient>
             </TouchableOpacity>
           </View>
         </View>
         <ImageBackground style={styles.lvView} source={lvbg}>
-          <Text style={styles.lvname}>LV{userInfo.level}会员</Text>
-          <Text style={styles.lvnum}>经验值:{userInfo.exp}</Text>
+          <Text style={styles.lvname}>LV{userInfo.level}{t('member')}</Text>
+          <Text style={styles.lvnum}>{t('Experience')}:{userInfo.exp}</Text>
           <TouchableOpacity style={styles.lvnumView}>
-            <Text style={styles.lvnumcen}>积分中心</Text>
+            <Text style={styles.lvnumcen}>{t('Points Center')}</Text>
           </TouchableOpacity>
         </ImageBackground>
         <TouchableOpacity style={[styles.inviteView]} onPressIn={onInvite}>
@@ -128,36 +129,36 @@ function Mine(props:any): JSX.Element {
         <View style={[styles.orderView,styles.bg]}>
           <TouchableOpacity style={{alignItems:'center'}} onPressIn={onMyOrder}>
             <Image style={styles.orderIcon} source={mine_allorder}/>
-            <Text style={styles.ovdername}>全部订单</Text>
+            <Text style={styles.ovdername}>{t('All orders')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{alignItems:'center'}} onPressIn={onMyCollect}>
             <Image style={styles.orderIcon} source={mine_mycollect}/>
-            <Text style={styles.ovdername}>我的收藏</Text>
+            <Text style={styles.ovdername}>{t('my collection')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{alignItems:'center'}} onPressIn={onMyFocus}>
             <Image style={styles.orderIcon} source={mine_myfocus}/>
-            <Text style={styles.ovdername}>我的关注</Text>
+            <Text style={styles.ovdername}>{t('my focus')}</Text>
           </TouchableOpacity>
         </View>
         <View style={[styles.orderView,styles.bg]}>
           <TouchableOpacity style={{alignItems:'center'}} onPressIn={onMyPost}>
             <Image style={styles.orderIcon} source={mine_mypost}/>
-            <Text style={styles.ovdername}>我的笔记</Text>
+            <Text style={styles.ovdername}>{t('my notes')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{alignItems:'center'}} onPressIn={onMessageCenter}>
             <Image style={styles.orderIcon} source={mine_messagecenter}/>
-            <Text style={styles.ovdername}>消息中心</Text>
+            <Text style={styles.ovdername}>{t('Message Center')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{alignItems:'center'}} onPressIn={()=>{
              props.navigation.navigate('SendMessage',{
               info:{
-                name:'客服中心'
+                name:t('Customer Service')
               },
               customer:true
             })
           }}>
             <Image style={styles.orderIcon} source={mine_customer}/>
-            <Text style={styles.ovdername}>客服中心</Text>
+            <Text style={styles.ovdername}>{t('Customer Service')}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
